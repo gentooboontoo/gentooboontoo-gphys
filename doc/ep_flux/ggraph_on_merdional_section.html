@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../../lib/numru/ggraph_on_merdional_section.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GGraph in vector_on_merdional_section.rb</a></h1><!-- RDLabel: "module NumRu::GGraph in vector_on_merdional_section.rb" -->
+<p>This file defines additional method of NumRu::GGraph. This method is for 
+drawing vector on merdional sections.</p>
+<h2><a name="label:1" id="label:1">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li><!-- Reference, RDLabel "module NumRu::GGraph" doesn't exist --><em class="label-not-found">module NumRu::GGraph</em><!-- Reference end -->
+<ul>
+<li><a href="#label:3">vector_on_merdional_section</a>
+    Draw vector by selecting the first 2 dimensions 
+    (with GPhys#first2D) if <code>gphys</code> is more than 3D.</li>
+</ul></li>
+</ul>
+<h2><a name="label:2" id="label:2">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<dl>
+<dt><a name="label:3" id="label:3"><code>vector_on_merdional_section(<var>fx</var>, <var>fy</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></dt><!-- RDLabel: "vector_on_merdional_section" -->
+<dd>
+<p>Draw vector by selecting the first 2 dimensions 
+(with GPhys#first2D) if <code>gphys</code> is more than 3D.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx (GPhys) : a GPhys whose data is plotted x-componet.</li>
+<li>fy (GPhys) : a GPhys whose data is plotted y-componet.</li>
+<li>newframe (true/false) : if true, calls <!-- Reference, RDLabel "fig" doesn't exist --><em class="label-not-found">fig</em><!-- Reference end -->, <!-- Reference, RDLabel "axes" doesn't exist --><em class="label-not-found">axes</em><!-- Reference end -->,
+      <!-- Reference, RDLabel "title" doesn't exist --><em class="label-not-found">title</em><!-- Reference end -->, and <!-- Reference, RDLabel "annotate" doesn't exist --><em class="label-not-found">annotate</em><!-- Reference end --> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name     default value # description:
+"title"         nil           # Title of the figure(if nil, internally 
+                              # determined)
+"annotate"      true          # if false, do not put texts on the right
+                              # margin even when newframe==true
+"transpose"     false         # if true, exchange x and y axes
+"flow_vect"     true          # If true, use DCLExt::flow_vect to draw
+                              # vectors; otherwise, DCL::ugvect is used
+"xintv"         1             # (Effective only if flow_vect) interval
+                              # sampling in x of data 
+"yintv"         1             # (Effective only if flow_vect) interval
+                              # of data sampling in y 
+"factor"        1.0           # (Effective only if flow_vect) scaling 
+                              # factor to strech/reduce the arrow 
+                              # lengths.
+"use_before_scale"            #
+                false         #(Effective only unless flow_vect) If true, 
+                              # use scale factor before vector.
+"unit_vect"     false         # Show the unit vector
+"max_unit_vect" false         # (Effective only if flow_vect &amp;&amp; 
+                              # unit_vect) If true, use the maximum 
+                              # arrows to scale the unit vector; 
+                              # otherwise, normalize in V coordinate.</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

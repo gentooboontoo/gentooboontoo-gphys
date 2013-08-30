@@ -1,0 +1,1471 @@
+\batchmode
+
+
+\documentclass[a4j,12pt,openbib]{jreport}
+\RequirePackage{ifthen}
+
+
+
+\usepackage{ascmac}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{Dennou6}
+\pagestyle{Dmyheadings}
+
+\Dtitle[NumRu::GPhys::EP\_Flux]{NumRu::GPhys::EP\_Flux \\数理ドキュメント}
+\Dauthor[地球流体電脳倶楽部]{地球流体電脳倶楽部}
+\Dfile{}
+
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{page}{1}
+\setcounter{figure}{0}
+\setcounter{footnote}{0}
+
+
+
+
+
+
+
+
+
+\Dparskip
+\Dnoparindent
+
+
+
+
+
+
+
+\usepackage[dvips]{color}
+
+
+\pagecolor[gray]{.7}
+
+\usepackage[]{inputenc}
+
+
+
+\makeatletter
+
+\makeatletter
+\count@=\the\catcode`\_ \catcode`\_=8 
+\newenvironment{tex2html_wrap}{}{}%
+\catcode`\<=12\catcode`\_=\count@
+\newcommand{\providedcommand}[1]{\expandafter\providecommand\csname #1\endcsname}%
+\newcommand{\renewedcommand}[1]{\expandafter\providecommand\csname #1\endcsname{}%
+  \expandafter\renewcommand\csname #1\endcsname}%
+\newcommand{\newedenvironment}[1]{\newenvironment{#1}{}{}\renewenvironment{#1}}%
+\let\newedcommand\renewedcommand
+\let\renewedenvironment\newedenvironment
+\makeatother
+\let\mathon=$
+\let\mathoff=$
+\ifx\AtBeginDocument\undefined \newcommand{\AtBeginDocument}[1]{}\fi
+\newbox\sizebox
+\setlength{\hoffset}{0pt}\setlength{\voffset}{0pt}
+\addtolength{\textheight}{\footskip}\setlength{\footskip}{0pt}
+\addtolength{\textheight}{\topmargin}\setlength{\topmargin}{0pt}
+\addtolength{\textheight}{\headheight}\setlength{\headheight}{0pt}
+\addtolength{\textheight}{\headsep}\setlength{\headsep}{0pt}
+\setlength{\textwidth}{349pt}
+\newwrite\lthtmlwrite
+\makeatletter
+\let\realnormalsize=\normalsize
+\global\topskip=2sp
+\def\preveqno{}\let\real@float=\@float \let\realend@float=\end@float
+\def\@float{\let\@savefreelist\@freelist\real@float}
+\def\liih@math{\ifmmode$\else\bad@math\fi}
+\def\end@float{\realend@float\global\let\@freelist\@savefreelist}
+\let\real@dbflt=\@dbflt \let\end@dblfloat=\end@float
+\let\@largefloatcheck=\relax
+\let\if@boxedmulticols=\iftrue
+\def\@dbflt{\let\@savefreelist\@freelist\real@dbflt}
+\def\adjustnormalsize{\def\normalsize{\mathsurround=0pt \realnormalsize
+ \parindent=0pt\abovedisplayskip=0pt\belowdisplayskip=0pt}%
+ \def\phantompar{\csname par\endcsname}\normalsize}%
+\def\lthtmltypeout#1{{\let\protect\string \immediate\write\lthtmlwrite{#1}}}%
+\newcommand\lthtmlhboxmathA{\adjustnormalsize\setbox\sizebox=\hbox\bgroup\kern.05em }%
+\newcommand\lthtmlhboxmathB{\adjustnormalsize\setbox\sizebox=\hbox to\hsize\bgroup\hfill }%
+\newcommand\lthtmlvboxmathA{\adjustnormalsize\setbox\sizebox=\vbox\bgroup %
+ \let\ifinner=\iffalse \let\)\liih@math }%
+\newcommand\lthtmlboxmathZ{\@next\next\@currlist{}{\def\next{\voidb@x}}%
+ \expandafter\box\next\egroup}%
+\newcommand\lthtmlmathtype[1]{\gdef\lthtmlmathenv{#1}}%
+\newcommand\lthtmllogmath{\lthtmltypeout{l2hSize %
+:\lthtmlmathenv:\the\ht\sizebox::\the\dp\sizebox::\the\wd\sizebox.\preveqno}}%
+\newcommand\lthtmlfigureA[1]{\let\@savefreelist\@freelist
+       \lthtmlmathtype{#1}\lthtmlvboxmathA}%
+\newcommand\lthtmlpictureA{\bgroup\catcode`\_=8 \lthtmlpictureB}%
+\newcommand\lthtmlpictureB[1]{\lthtmlmathtype{#1}\egroup
+       \let\@savefreelist\@freelist \lthtmlhboxmathB}%
+\newcommand\lthtmlpictureZ[1]{\hfill\lthtmlfigureZ}%
+\newcommand\lthtmlfigureZ{\lthtmlboxmathZ\lthtmllogmath\copy\sizebox
+       \global\let\@freelist\@savefreelist}%
+\newcommand\lthtmldisplayA{\bgroup\catcode`\_=8 \lthtmldisplayAi}%
+\newcommand\lthtmldisplayAi[1]{\lthtmlmathtype{#1}\egroup\lthtmlvboxmathA}%
+\newcommand\lthtmldisplayB[1]{\edef\preveqno{(\theequation)}%
+  \lthtmldisplayA{#1}\let\@eqnnum\relax}%
+\newcommand\lthtmldisplayZ{\lthtmlboxmathZ\lthtmllogmath\lthtmlsetmath}%
+\newcommand\lthtmlinlinemathA{\bgroup\catcode`\_=8 \lthtmlinlinemathB}
+\newcommand\lthtmlinlinemathB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA
+  \vrule height1.5ex width0pt }%
+\newcommand\lthtmlinlineA{\bgroup\catcode`\_=8 \lthtmlinlineB}%
+\newcommand\lthtmlinlineB[1]{\lthtmlmathtype{#1}\egroup\lthtmlhboxmathA}%
+\newcommand\lthtmlinlineZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetinline}
+\newcommand\lthtmlinlinemathZ{\egroup\expandafter\ifdim\dp\sizebox>0pt %
+  \expandafter\centerinlinemath\fi\lthtmllogmath\lthtmlsetmath}
+\newcommand\lthtmlindisplaymathZ{\egroup %
+  \centerinlinemath\lthtmllogmath\lthtmlsetmath}
+\def\lthtmlsetinline{\hbox{\vrule width.1em \vtop{\vbox{%
+  \kern.1em\copy\sizebox}\ifdim\dp\sizebox>0pt\kern.1em\else\kern.3pt\fi
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\lthtmlsetmath{\hbox{\vrule width.1em\kern-.05em\vtop{\vbox{%
+  \kern.1em\kern0.8 pt\hbox{\hglue.17em\copy\sizebox\hglue0.8 pt}}\kern.3pt%
+  \ifdim\dp\sizebox>0pt\kern.1em\fi \kern0.8 pt%
+  \ifdim\hsize>\wd\sizebox \hrule depth1pt\fi}}}
+\def\centerinlinemath{%
+  \dimen1=\ifdim\ht\sizebox<\dp\sizebox \dp\sizebox\else\ht\sizebox\fi
+  \advance\dimen1by.5pt \vrule width0pt height\dimen1 depth\dimen1 
+ \dp\sizebox=\dimen1\ht\sizebox=\dimen1\relax}
+
+\def\lthtmlcheckvsize{\ifdim\ht\sizebox<\vsize 
+  \ifdim\wd\sizebox<\hsize\expandafter\hfill\fi \expandafter\vfill
+  \else\expandafter\vss\fi}%
+\providecommand{\selectlanguage}[1]{}%
+\makeatletter \tracingstats = 1 
+\providecommand{\Eta}{\textrm{H}}
+\providecommand{\Mu}{\textrm{M}}
+\providecommand{\Alpha}{\textrm{A}}
+\providecommand{\Iota}{\textrm{J}}
+\providecommand{\Nu}{\textrm{N}}
+\providecommand{\Omicron}{\textrm{O}}
+\providecommand{\omicron}{\textrm{o}}
+\providecommand{\Chi}{\textrm{X}}
+\providecommand{\Beta}{\textrm{B}}
+\providecommand{\Kappa}{\textrm{K}}
+\providecommand{\Tau}{\textrm{T}}
+\providecommand{\Epsilon}{\textrm{E}}
+\providecommand{\Zeta}{\textrm{Z}}
+\providecommand{\Rho}{\textrm{R}}
+
+
+\begin{document}
+\pagestyle{empty}\thispagestyle{empty}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hsize=\the\hsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength vsize=\the\vsize}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength hoffset=\the\hoffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength voffset=\the\voffset}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topmargin=\the\topmargin}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength topskip=\the\topskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headheight=\the\headheight}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength headsep=\the\headsep}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength parskip=\the\parskip}\lthtmltypeout{}%
+\lthtmltypeout{latex2htmlLength oddsidemargin=\the\oddsidemargin}\lthtmltypeout{}%
+\makeatletter
+\if@twoside\lthtmltypeout{latex2htmlLength evensidemargin=\the\evensidemargin}%
+\else\lthtmltypeout{latex2htmlLength evensidemargin=\the\oddsidemargin}\fi%
+\lthtmltypeout{}%
+\makeatother
+\setcounter{page}{1}
+\onecolumn
+
+% !!! IMAGES START HERE !!!
+
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{footnote}{0}
+\stepcounter{chapter}
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3164}%
+$ \lambda$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3166}%
+$ \phi$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3168}%
+$ z^*$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3171}%
+$\displaystyle z^*$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3173}%
+$\displaystyle =$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3175}%
+$\displaystyle -H \ln(p/p_s),\  \ \  \ H = \frac{R_{d} T_s}{g_0}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3177}%
+$ H$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3179}%
+$ R_{d}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3181}%
+$ R$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3183}%
+$ w$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3185}%
+$ R_{d} = R/w$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3187}%
+$ T_s$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3189}%
+$ g_0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3191}%
+$ p$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3193}%
+$ p_s$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3200}%
+$ \rho_s$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{1}
+\lthtmldisplayA{subequations3202}%
+\begin{subequations}\begin{align}       \hat{F}_\phi  &\equiv \sigma       \cos \phi \left(         \DP{\overline{u}}{z^*}         \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}       \right), \\       \hat{F}_{z^*} &\equiv \sigma        \cos \phi \left(          \left[ f - \Dinv{a\cos\phi}{\DP{\overline{u}\cos \phi}{\phi}} \right]          \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}       \right)   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3204}%
+$ \hat{F}_\phi$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3206}%
+$ \hat{F}_{z^*}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3212}%
+$ \overline{\bullet}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3214}%
+$ \bullet'$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3216}%
+$ u, v, w$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3219}%
+$\displaystyle (u, v, w)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3221}%
+$\displaystyle \equiv$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3223}%
+$\displaystyle \left(a\cos\phi\DD{\lambda}{t}, a\DD{\phi}{t}, \DD{z^*}{t}\right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3225}%
+$ \theta$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3227}%
+$ a$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3229}%
+$ \sigma$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3230}%
+$\displaystyle \sigma \equiv \frac{\rho_0}{\rho_s} = \exp\left(\frac{-z^*}{H}\right),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3232}%
+$ \rho_0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3235}%
+$\displaystyle \rho_0(z^*)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3239}%
+$\displaystyle \rho_s e^{-z^*/H}, \hspace{2em} \rho_s \equiv p_s/RT_s$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3241}%
+$ f$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3244}%
+$\displaystyle f = 2 \Omega \sin \phi = \frac{4 \pi}{T_{rot}} \sin \phi$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3246}%
+$ \Omega$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3248}%
+$ T_{rot}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{4}
+\lthtmldisplayA{subequations3252}%
+\setcounter{equation}{3}
+\begin{subequations}\begin{align}         {F_\phi} =& \rho_0 a         \cos \phi \left(\DP{\overline{u}}{\overline{z^*}}         \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}\right)\\         {F_z^*} =& \rho_0 a         \cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}\right).   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3254}%
+$ F_\phi$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3256}%
+$ F_{z^*}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3262}%
+$ F_y, F_z^*$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3264}%
+$ \hat{F_y}, \hat{F_z^*}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3265}%
+$\displaystyle (F_y, F_z^*) = a\rho_s(\hat{F_y}, \hat{F_{z^*}})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3270}%
+$ (0, \overline{v}^*, \overline{w}^*)$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{6}
+\lthtmldisplayA{subequations3272}%
+\setcounter{equation}{5}
+\begin{subequations}\begin{align}   \overline{v}^* &\equiv \overline{v}     - \Dinv{\rho_0}\DP{}{z^*}\left(\rho_0\frac{\overline{v'\theta'}}                    {\DP{\overline{\theta}}{z^*}}\right)\\                   &= \overline{v}     - \Dinv{\sigma}\DP{}{z^*}\left(\sigma\frac{\overline{v'\theta'}}                    {\DP{\overline{\theta}}{z^*}}\right)\\   \overline{w}^* &\equiv \overline{w}     + \Dinv{a \cos\phi}\DP{}{\phi}\left(\cos\phi\frac{\overline{v'\theta'}}                    {\DP{\overline{\theta}}{z^*}}\right)   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3277}%
+$ u$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3280}%
+$\displaystyle \DP{\overline{u}}{t}
++ \overline{v}^*\left[\Dinv{a\cos\phi}\DP{}{\phi}(\overline{u}\cos\phi) - f\right]
++ \overline{w}^*\DP{\overline{u}}{z^*}
+- \overline{X} =
+\Dinv{\sigma \cos\phi}\Ddiv\Dvect{\hat{F}}.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3285}%
+$ \Dvect{F}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3286}%
+$\displaystyle \Ddiv{} \Dvect{F}= \Dinv{a \cos \phi} \DP{(\cos \phi F_{\phi})}{\phi}                      + \DP{F_{z^{*}}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3291}%
+$ \Psi^*$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{9}
+\lthtmldisplayA{subequations3293}%
+\setcounter{equation}{8}
+\begin{subequations}\begin{align}     \sigma \overline{v}^* &= -g\Dinv{2\pi a \cos\phi }\DP{\Psi^*}{z^{*}}, \\      \sigma \overline{w}^* &= g\Dinv{2\pi a^2\cos\phi}\DP{\Psi^*}{\phi}   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3300}%
+$\displaystyle \DP{}{z^*}\Psi^*$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3301}%
+$\displaystyle = -\frac{p}{H}\DP{}{p}\Psi^*$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3303}%
+$ p=0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3305}%
+$ \Psi^* = 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3306}%
+$\displaystyle \Psi^*(\theta, p) = \frac{2\pi a \cos\phi}{g} \int_{0}^{p}\overline{v}^*\Dd p$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\setcounter{equation}{12}
+\lthtmldisplayA{subequations3311}%
+\setcounter{equation}{11}
+\begin{subequations}\begin{align}     z^* &= -H \log \left( \frac{p}{p_{00}} \right),\\      p &= p_{00} \exp \left( -\frac{z^*}{H} \right) \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3315}%
+$ p_{00}$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3321}%
+$ T$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3323}%
+$ \omega \equiv Dp/Dt$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3329}%
+$ w, \theta$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3330}%
+$\displaystyle w$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3331}%
+$\displaystyle = -\omega H / p$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3332}%
+$\displaystyle \theta$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3333}%
+$\displaystyle = T \left(\frac{p_{00}}{p}\right)^\kappa, \kappa = R/C_p$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3337}%
+$ C_p$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\appendix
+\stepcounter{chapter}
+\stepcounter{section}
+{\newpage\clearpage
+\setcounter{equation}{0}
+\lthtmldisplayA{subequations3343}%
+\setcounter{equation}{-1}
+\begin{subequations}\begin{align}          \DD{u}{t}       &-  \left(f + \frac{u\tan\phi}{a}\right)v                                         + \Dinv{a\cos\phi}\DP{\Phi}{\lambda} = X,\\          \DD{v}{t}       &+  \left(f + \frac{u\tan\phi}{a}\right)u                                                     + \Dinv{a}\DP{\Phi}{\phi} = Y, \end{align}  \begin{align}    \DP{\Phi}{z^*} & = \frac{R\theta e^{-\kappa z^*/H}}{H}, \end{align}  \begin{align}      \Dinv{a\cos\phi} &      \left[              \DP{u}{\lambda} + \left( \DP{v\cos\phi}{\phi} \right)      \right]                                      + \Dinv{\rho_0}\DP{}{z^*}\left(\rho_0 w\right)  =   0, \end{align}  \begin{align}          \DD{\theta}{t}  &=  Q,  \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3345}%
+$ \Phi$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3347}%
+$ X, Y$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3353}%
+$ \kappa=R_{d}/c_p$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3355}%
+$ c_p$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3357}%
+$ Q$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3360}%
+$\displaystyle Q$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3364}%
+$\displaystyle \frac{J}{C_p}e^{\kappa z^*/H}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3366}%
+$ J$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3371}%
+$ A$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3373}%
+$ \phi, z^*, t$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3376}%
+$\displaystyle \overline{A}(\phi, z^*, t) \equiv \Dinv{2\pi}\int_0^{2\pi} A(\lambda, \phi, z^*, t) \Dd \lambda$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3378}%
+$ A'$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3381}%
+$\displaystyle A' = A - \overline{A}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3383}%
+$ \overline{A'}=0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3385}%
+$ \partial \overline{A}/\partial\lambda = 0$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{3}
+\lthtmldisplayA{subequations3387}%
+\setcounter{equation}{2}
+\begin{subequations}\begin{align}    & \DP{}{t}(\overline{u} + u')            + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{u} + u')           + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{u} + u')           + (\overline{w} + w')\DP{}{z^*}(\overline{u} + u') \\     &  \qquad - \left[f + \frac{\tan\phi}{a}(\overline{u} + u')\right](\overline{v} + v')        + \Dinv{a\cos\phi}\DP{}{\lambda}(\overline{\Phi} + \Phi') = \overline{X} + X',\\   &  \DP{}{t}(\overline{v} + v')            + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{v} + v')           + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{v} + v')           + (\overline{w} + w')\DP{}{z^*}(\overline{v} + v')\notag\\    &  \qquad  + \left[f + \frac{\tan\phi}{a}(\overline{u} + u')\right](\overline{u} + u')        + \Dinv{a}\DP{}{\phi}(\overline{\Phi} + \Phi') = \overline{Y} +    Y',    \\   &  \DP{}{z^*}(\overline{\Phi} + \Phi')         =  \frac{Re^{-\kappa z^*/H}}{H}(\overline{\theta} + \theta'),\\   & \Dinv{a\cos\phi} \left[\DP{}{\lambda}(\overline{u} + u')        + \DP{}{\phi}\{(\overline{v} + v')\cos\phi\}\right]        + \Dinv{\rho_0}\DP{}{z^*}[\rho_0 (\overline{w} + w')] = 0,\\    & \DP{}{t}(\overline{\theta} + \theta')            + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{\theta} + \theta')           + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{\theta} + \theta')           + (\overline{w} + w')\DP{}{z^*}(\overline{\theta} + \theta')\notag\\     &  \qquad = \overline{Q} + Q'   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{4}
+\lthtmldisplayA{subequations3389}%
+\setcounter{equation}{3}
+\begin{subequations}\begin{align}   &  \DP{\overline{u}}{t}         + \frac{\overline{u}}{a\cos\phi}\DP{\overline{u}}{\lambda}         + \frac{\overline{v}}{a}\DP{\overline{u}}{\phi}         + \overline{w}\DP{\overline{u}}{z^*}         - f\overline{v}          - \frac{\tan\phi}{a} \overline{u} \  \overline{v}         + \Dinv{a\cos\phi}\DP{\overline{\Phi}}{\lambda}         - \overline{X}   \\    & \qquad       =    - \DP{u'}{t}           - \frac{\overline{u}}{a\cos\phi}\DP{u'}{\lambda}           - \frac{u'}{a\cos\phi}\DP{\overline{u}}{\lambda}           - \frac{u'}{a\cos\phi}\DP{u'}{\lambda} \notag\\      & \qquad \qquad           - \frac{\overline{v}}{a}\DP{u'}{\phi}           - \frac{v'}{a}\DP{\overline{u}}{\phi}           - \frac{v'}{a}\DP{u'}{\phi}           - \overline{w}\DP{u'}{z^*}           - w'\DP{\overline{u}}{z^*}           - w'\DP{u'}{z^*}           + fv'\notag\\     & \qquad \qquad           + \frac{\tan\phi}{a} \overline{u} v'           + \frac{\tan\phi}{a} u' \overline{v}           + \frac{\tan\phi}{a} u'v' - \Dinv{a\cos\phi}\DP{\Phi'}{\lambda}           + X',\\   &  \DP{\overline{v}}{t}          + \frac{\overline{u}}{a\cos\phi}\DP{\overline{v}}{\lambda}         + \frac{\overline{v}}{a}\DP{\overline{v}}{\phi}         + \overline{w}\DP{\overline{v}}{z^*}         + f\overline{u}         + \frac{\tan\phi}{a}(\overline{u})^2         + \Dinv{a}\DP{\overline{\Phi}}{\phi}         - \overline{Y}      \notag\\    & \qquad         =   - \DP{v'}{t}           - \frac{\overline{u}}{a\cos\phi}\DP{v'}{\lambda}           - \frac{u'}{a\cos\phi}\DP{\overline{v}}{\lambda}           - \frac{u'}{a\cos\phi}\DP{v'}{\lambda}\notag\\    & \qquad \qquad           - \frac{\overline{v}}{a}\DP{v'}{\phi}           - \frac{v'}{a}\DP{\overline{v}}{\phi}           - \frac{v'}{a}\DP{v'}{\phi} - \overline{w}\DP{v'}{z^*}           - w'\DP{\overline{v}}{z^*}           - w'\DP{v'}{z^*} - fu'\notag\\    & \qquad \qquad           - 2\frac{\tan\phi}{a}\overline{u}u'           - \frac{\tan\phi}{a}(u')^2 - \Dinv{a\cos\phi}\DP{\Phi'}{\phi}           + Y',\\   &  \DP{\overline{\Phi}}{z^*} - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta}        = - \DP{\Phi'}{z^*} + \frac{Re^{-\kappa z^*/H}}{H}\theta',\\   &  \Dinv{a\cos\phi} \left[\DP{\overline{u}}{\lambda}        + \DP{}{\phi}(\overline{v}\cos\phi)\right]        + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w})        \notag\\    & \qquad      =  - \Dinv{a\cos\phi}\left[            \DP{u'}{\lambda}          + \DP{}{\phi}(v'\cos\phi)        \right]        - \Dinv{\rho_0}\DP{}{z^*}(\rho_0 w') ,\\   &  \DP{\overline{\theta}}{t}    + \frac{\overline{u}}{a\cos\phi}\DP{\overline{\theta}}{\lambda}    + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}    + \overline{w}\DP{\overline{\theta}}{z^*}   - \overline{Q}   \notag\\   & \qquad    =  - \DP{\theta'}{t}       - \frac{\overline{u}}{a\cos\phi}\DP{\theta'}{\lambda}       - \frac{u'}{a\cos\phi}\DP{\overline{\theta}}{\lambda}       - \frac{u'}{a\cos\phi}\DP{\theta'}{\lambda}  \notag \\   & \qquad \qquad           - \frac{\overline{v}}{a}\DP{\theta'}{\phi}           - \frac{v'}{a}\DP{\overline{\theta}}{\phi}           - \frac{v'}{a}\DP{\theta'}{\phi}           - \overline{w}\DP{\theta'}{z^*}           - w'\DP{\overline{\theta}}{z^*}           - w'\DP{\theta'}{z^*}           + Q'   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{5}
+\lthtmldisplayA{subequations3391}%
+\setcounter{equation}{4}
+\begin{subequations}\begin{align}   &  \DP{\overline{u}}{t}         + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}         + \overline{w}\DP{\overline{u}}{z^*}         - f\overline{v}          - \frac{\tan\phi}{a} \overline{u} \  \overline{v}         - \overline{X}        \\    & \qquad     =    - \Dinv{a\cos\phi}\overline{u'\DP{u'}{\lambda}}           - \Dinv{a}\overline{v'\DP{u'}{\phi}}           - \overline{w'\DP{u'}{z^*}}           + \frac{\tan\phi}{a}\overline{u'v'},\\   &   \DP{\overline{v}}{t}     + \frac{\overline{v}}{a}\DP{\overline{v}}{\phi}     + \overline{w} \DP{\overline{v}}{z^*}     + f \overline{u}     + \frac{\tan \phi}{a} (\overline{u})^2     + \Dinv{a}\DP{\overline{\Phi}}{\phi}     - \overline{Y}      \notag\\    & \qquad   = - \Dinv{a \cos \phi} \overline{ u' \DP{v'}{\lambda} }     - \Dinv{a} \overline{{v'}\DP{v'}{\phi}}     - \overline{w'\DP{v'}{z^*}}     - \frac{\tan \phi}{a} \overline{u'^2},\\   &  \DP{\overline{\Phi}}{z^*}       - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta} = 0,\\   &  \Dinv{a\cos\phi}      \left[        \DP{}{\phi}(\overline{v}\cos\phi)      \right]        + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w})         = 0,\\   &  \DP{\overline{\theta}}{t}         + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}         + \overline{w}\DP{\overline{\theta}}{z^*}         - \overline{Q} =           - \Dinv{a\cos\phi}\overline{u'\DP{\theta'}{\lambda}}           - \Dinv{a}\overline{v'\DP{\theta'}{\phi}}           - \overline{w'\DP{\theta'}{z^*}}   \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3394}%
+$\displaystyle \Dinv{a\cos\phi}\left[\DP{u'}{\lambda}
++ \DP{}{\phi}(v'\cos\phi)\right]
++ \Dinv{\rho_0}\DP{}{z^*}(\rho_0 w')
+= 0$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3396}%
+$ u'$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3399}%
+$\displaystyle \Dinv{a \cos \phi} \overline{u'  \DP{u'}{\lambda}}
++ \Dinv{a} \overline{ u'  \DP{v'}{\phi} }
+- \frac{\tan \phi}{a} \overline{ u'  v' }
++ \overline{ u'  \DP{w'}{z^*} }
++ \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ u' w' }
+= 0$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3400}%
+$\displaystyle \DP{\overline{u}}{t}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3401}%
+$\displaystyle + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}         + \overline{w}\DP{\overline{u}}{z^*}         - f\overline{v}          - \frac{\tan\phi}{a}\overline{u}\overline{v}         - \overline{X} \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3402}%
+$\displaystyle =     - \frac{2}{a\cos\phi} \overline{u'\DP{u'}{\lambda}}         - \Dinv{a}\overline{v'\DP{u'}{\phi}}         - \overline{w'\DP{u'}{z^*}} - \Dinv{a}\overline{u'\DP{v'}{\phi}}         + \frac{2\tan\phi}{a}\overline{u'v'}         - \overline{u'\DP{w'}{z^*}}         - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{u'w'}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3403}%
+$\displaystyle - \frac{2}{a\cos\phi} \overline{ u' \DP{u'}{\lambda} }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3404}%
+$\displaystyle = - \Dinv{a\cos\phi}\overline{\DP{(u')^2}{\lambda}}    = 0,$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3405}%
+$\displaystyle - \Dinv{a}\overline{v'\DP{u'}{\phi}}      - \Dinv{a}\overline{u'\DP{v'}{\phi}}      + \frac{2\tan\phi}{a}\overline{u'v'}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3406}%
+$\displaystyle = - \Dinv{a\cos^2\phi}\DP{}{\phi}(\overline{v'u'}\cos^2\phi),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3407}%
+$\displaystyle - \overline{w'\DP{u'}{z^*}}      - \overline{u'\DP{w'}{z^*}}      - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{u'w'}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3408}%
+$\displaystyle = - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'u'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3409}%
+$\displaystyle \DP{\overline{u}}{t}    + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}    + \overline{w}\DP{\overline{u}}{z^*}    - f\overline{v}     - \frac{\tan\phi}{a} \overline{u} \  \overline{v}    - \overline{X}       \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3410}%
+$\displaystyle \qquad   =  - \Dinv{a\cos^2\phi}\DP{}{\phi}(\overline{v'u'}\cos^2\phi)    - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'u'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3412}%
+$ v'$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3415}%
+$\displaystyle \Dinv{a \cos \phi} \overline{ v' \DP{u'}{\lambda} }
++ \Dinv{a} \overline{ v' \DP{v'}{\phi} }
++ \frac{\tan \phi}{a} \overline{ v'^2 }
++ \overline{ v'  \DP{w'}{z^*} }
++ \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' }
+=   0$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3416}%
+$\displaystyle \DP{\overline{v}}{t}      + \frac{\overline{v}}{a} \DP{\overline{v}}{\phi}      + \overline{w} \DP{\overline{v}}{z^*}      + f \overline{u}      + \frac{\tan\phi}{a} (\overline{u})^2      + \Dinv{a} \DP{\overline{\Phi}}{\phi}      - \overline{Y}      \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3417}%
+$\displaystyle \qquad    = - \Dinv{a\cos\phi}\overline{u'\DP{v'}{\lambda}}      - \Dinv{a}\overline{{v'}\DP{v'}{\phi}}      - \overline{w'\DP{v'}{z^*}}      - \frac{\tan\phi}{a} \overline{u'^2}      \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3418}%
+$\displaystyle \qquad \qquad      -  \Dinv{a \cos \phi} \overline{v'  \DP{u'}{\lambda}}      - \Dinv{a} \overline{ v'  \DP{v'}{\phi} }      + \frac{\tan \phi}{a} \overline{ v'^2 }      - \overline{ v'  \DP{w'}{z^*} }      - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3421}%
+$\displaystyle - \Dinv{a\cos\phi}\overline{u'\DP{v'}{\lambda}}
+- \Dinv{a \cos \phi} \overline{v'  \DP{u'}{\lambda}}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3425}%
+$\displaystyle - \Dinv{a\cos\phi}\overline{\DP{(u' v')}{\lambda}}
+= 0,$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3427}%
+$\displaystyle - \Dinv{a} \overline{ v' \DP{v'}{\phi} }
+- \Dinv{a} \overline{ v' \DP{v'}{\phi} }
++ \frac{\tan \phi}{a} \overline{ v'^2 }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3431}%
+$\displaystyle - \Dinv{a \cos \phi}
+\DP{}{\phi} \left( \cos \phi \overline{v'^2} \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3433}%
+$\displaystyle - \overline{w'\DP{v'}{z^*}}
+- \overline{ v'  \DP{w'}{z^*} }
+- \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3437}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ v' w' } \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3439}%
+$\displaystyle \qquad     =  - \Dinv{a \cos \phi}          \DP{}{\phi} \left( \cos \phi \overline{v'^2} \right)       - \frac{\tan\phi}{a} \overline{u'^2}       - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ v' w' } \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3441}%
+$ \theta'$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3444}%
+$\displaystyle \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}
++ \Dinv{a} \overline{ \theta'  \DP{v'}{\phi} }
+- \frac{\tan \phi}{a} \overline{ \theta' v' }
++ \overline{ \theta'  \DP{w'}{z^*} }
++ \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ \theta' w' }
+= 0$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3445}%
+$\displaystyle \DP{\overline{\theta}}{t}         + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}         + \overline{w}\DP{\overline{\theta}}{z^*}         - \overline{Q}       \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3446}%
+$\displaystyle \qquad =            - \Dinv{a\cos\phi}\overline{u'\DP{\theta'}{\lambda}}           - \Dinv{a}\overline{v'\DP{\theta'}{\phi}}           - \overline{w'\DP{\theta'}{z^*}}      \notag$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3447}%
+$\displaystyle \qquad \qquad    -  \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}    - \Dinv{a} \overline{ \theta'  \DP{v'}{\phi} }    + \frac{\tan \phi}{a} \overline{ \theta' v' }    - \overline{ \theta'  \DP{w'}{z^*} }    - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ \theta' w' }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3450}%
+$\displaystyle - \Dinv{a \cos \phi}\overline{u' \DP{\theta'}{\lambda}}
+- \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3454}%
+$\displaystyle - \Dinv{a\cos\phi}\overline{\DP{(u' \theta')}{\lambda}}
+= 0,$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3456}%
+$\displaystyle - \Dinv{a} \overline{ v' \DP{\theta'}{\phi} }
+- \Dinv{a} \overline{ \theta' \DP{v'}{\phi} }
++ \frac{\tan \phi}{a} \overline{ \theta' v' }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3460}%
+$\displaystyle - \Dinv{a \cos \phi}
+\DP{}{\phi} \left( \cos \phi \overline{v' \theta'} \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3462}%
+$\displaystyle - \overline{w'\DP{\theta'}{z^*}}
+- \overline{ \theta'  \DP{w'}{z^*} }
+- \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{  \theta' w'  }$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3466}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ w' \theta' } \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3467}%
+$\displaystyle \DP{\overline{\theta}}{t}         + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}         + \overline{w}\DP{\overline{\theta}}{z^*}         - \overline{Q}   =     - \Dinv{a \cos \phi}          \DP{}{\phi} \left( \cos \phi \overline{v' \theta'} \right)       - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ w' \theta' } \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{11}
+\lthtmldisplayA{subequations3469}%
+\setcounter{equation}{10}
+\begin{subequations}\begin{align}        \DP{\overline{u}}{t}  &   + \Dinv{a}\overline{v} \DP{\overline{u}}{\phi}      + \overline{w} \DP{\overline{u}}{z^*}      - f\overline{v}       - \frac{\tan\phi}{a} \overline{u} \  \overline{v}      - \overline{X}               \\    & \qquad    = - \Dinv{a\cos^2\phi}         \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)      - \Dinv{\rho_0} \DP{}{z^*}(\rho_0\overline{w'u'}),\\        \DP{\overline{v}}{t}  &   + \frac{\overline{v}}{a} \DP{\overline{v}}{\phi}      + \overline{w} \DP{\overline{v}}{z^*}      + f \overline{u}      + \frac{\tan\phi}{a} (\overline{u})^2      + \Dinv{a} \DP{\overline{\Phi}}{\phi}      - \overline{Y}       \notag\\   & \qquad    = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'^2} \cos\phi)      - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{v' w'})      - \overline{u'^2}\frac{\tan\phi}{a}, \end{align} \begin{align}         \DP{\overline{\Phi}}{z^*} - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta} = 0,     \end{align} \begin{align}         \Dinv{a\cos\phi}&        \DP{}{\phi}(\overline{v}\cos\phi)        + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w})         = 0, \end{align} \begin{align}        \DP{\overline{\theta}}{t}         + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}         + \overline{w}\DP{\overline{\theta}}{z^*}         - \overline{Q} = 		- \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi) 		- \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}). \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+\stepcounter{section}
+{\newpage\clearpage
+\setcounter{equation}{12}
+\lthtmldisplayA{subequations3474}%
+\setcounter{equation}{11}
+\begin{subequations}\begin{align} 	\overline{v}^*  	& =      \overline{v}  	- \Dinv{\rho_0} \DP{}{z^*} 	\left( \rho_0  	 \frac{\overline{v'\theta'}} 	 {\overline{\DP{\theta}{z^*}}} 	\right) 	\\                   \overline{w}^*       & =    \overline{w}                  + \Dinv{a \cos\phi}                    \DP{}{\phi}                   \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}                   \right)     \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3477}%
+$\displaystyle {F_\phi}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3481}%
+$\displaystyle \rho_0 a
+\cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+\frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+\overline{u'v'}\right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3483}%
+$\displaystyle {F_z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3487}%
+$\displaystyle \rho_0 a
+\cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]
+\frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+\overline{u'w'}\right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3488}%
+$\displaystyle \Dinv{a \cos \phi}      \DP{}{\phi}\left[      \left\{               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)      \right\}      \cos\phi \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3489}%
+$\displaystyle \qquad    + \Dinv{\rho_0}      \DP{}{z^*}       \left[ \rho_0           \left\{               \overline{w}^*              - \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)        \right\}      \right]        = 0,$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3490}%
+$\displaystyle \Dinv{a \cos \phi}      \DP{}{\phi}      \left(              \overline{v}^* \cos\phi      \right)    + \Dinv{\rho_0}      \DP{}{z^*}       \left( \rho_0  \overline{w}^*  \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3491}%
+$\displaystyle \qquad    + \Dinv{a \cos \phi}      \DP{}{\phi}      \left\{              \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right) \cos\phi      \right\}    - \Dinv{\rho_0}      \DP{}{z^*}       \left\{              \rho_0  \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)        \right\}        = 0.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3492}%
+$\displaystyle \qquad       \Dinv{a \cos \phi}      \DP{}{\phi}      \left\{              \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right) \cos\phi      \right\}    - \Dinv{\rho_0}      \DP{}{z^*}       \left\{              \rho_0  \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)        \right\}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3493}%
+$\displaystyle =       \Dinv{a \cos \phi}      \left[         \DP{}{\phi}         \left\{              \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}               \right) \cos\phi          \right\}        - \Dinv{\rho_0}          \DP{}{z^*}           \left\{              \rho_0                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)          \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3494}%
+$\displaystyle =       \Dinv{a \cos \phi}      \left[         \Dinv{\rho_0}         \DP{}{\phi}         \left\{               \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}                     \cos\phi               \right)           \right\}        - \Dinv{\rho_0}          \DP{}{z^*}           \left\{               \DP{}{\phi}               \left(\rho_0  \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)          \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3495}%
+$\displaystyle = 0.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3498}%
+$\displaystyle \Dinv{a \cos \phi}
+\DP{}{\phi}
+\left(
+\overline{v}^* \cos\phi
+\right)
++ \Dinv{\rho_0}
+\DP{}{z^*}
+\left( \rho_0  \overline{w}^*  \right) = 0.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3502}%
+$\displaystyle + \Dinv{a}      \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)      \right]      \DP{\overline{u}}{\phi}    + \left[               \overline{w}^*              - \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)      \right]      \DP{\overline{u}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3503}%
+$\displaystyle \qquad \qquad    - f            \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)      \right]    - \frac{\tan \phi}{a} \overline{u}       \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)      \right]    - \overline{X}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3504}%
+$\displaystyle \qquad  = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)    - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'}),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3506}%
+$\displaystyle + \frac{\overline{v}^*}{a} \DP{\overline{u}}{\phi}    + \overline{w}^* \DP{\overline{u}}{z^*}    - f \overline{v}^*     - \frac{\tan \phi}{a} \overline{u} \   \overline{v}^*     - \overline{X}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3507}%
+$\displaystyle \qquad  = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)    + \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right) \DP{\overline{u}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3508}%
+$\displaystyle \qquad \qquad    + f \Dinv{\rho_0} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}      \right)    - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3509}%
+$\displaystyle \qquad \qquad    - \Dinv{\rho_0 a} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}      \right)      \DP{\overline{u}}{\phi}    + \frac{\tan \phi}{a} \overline{u}  \Dinv{\rho_0} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}      \right),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3511}%
+$\displaystyle + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi}       \left(  \overline{u} \cos \phi \right)    + \overline{w}^* \DP{\overline{u}}{z^*}    - f \overline{v}^*     - \overline{X}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3512}%
+$\displaystyle \qquad  = - \Dinv{\rho_0 a^2 \cos^2 \phi}       \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)    + \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right) \DP{\overline{u}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3513}%
+$\displaystyle \qquad \qquad    + \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left( f \rho_0  a \cos \phi              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}      \right)    - \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*} (\rho_0 a \cos \phi  \overline{w'u'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3514}%
+$\displaystyle \qquad \qquad    - \Dinv{\rho_0 a} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}      \right)      \DP{\overline{u}}{\phi}    + \frac{\tan \phi}{a} \overline{u}  \Dinv{\rho_0} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}      \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3515}%
+$\displaystyle - \Dinv{\rho_0 a^2 \cos^2 \phi}       \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)    + \Dinv{\rho_0 a^2 \cos^2 \phi}       \rho_0 a \cos \phi      \DP{\overline{u}}{z^*}      \DP{}{\phi}      \left( \cos \phi              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}      \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3517}%
+$\displaystyle \qquad \qquad    - \Dinv{\rho_0 a} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}             \DP{\overline{u}}{\phi}           \right)    + \Dinv{\rho_0 a}       \rho_0       \frac{\overline{v'\theta'}}           {\overline{\DP{\theta}{z^*}}}      \DP{}{z^*}      \left(              \DP{\overline{u}}{\phi}      \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3518}%
+$\displaystyle \qquad \qquad    + \frac{\tan \phi}{\rho_0 a}      \DP{}{z^*}      \left( \overline{u} \rho_0              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}      \right)    - \frac{\tan \phi}{\rho_0 a}      \rho_0       \frac{\overline{v'\theta'}}           {\overline{\DP{\theta}{z^*}}}      \DP{}{z^*}      \left( \overline{u}      \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3519}%
+$\displaystyle =      \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[       -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)       +  \rho_0 a \cos \phi      \DP{\overline{u}}{z^*}      \DP{}{\phi}      \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}           \right)       \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3520}%
+$\displaystyle \qquad    + \Dinv{\rho_0 a}       \rho_0       \frac{\overline{v'\theta'}}           {\overline{\DP{\theta}{z^*}}}      \DP{}{z^*}      \left(              \DP{\overline{u}}{\phi}      \right)     - \frac{\tan \phi}{\rho_0 a}      \rho_0       \frac{\overline{v'\theta'}}           {\overline{\DP{\theta}{z^*}}}      \DP{\overline{u}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3521}%
+$\displaystyle \qquad    + \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[          \left( f \rho_0  a \cos \phi              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}          \right)        - \rho_0 a \cos \phi  \overline{w'u'}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3522}%
+$\displaystyle \qquad    - \Dinv{\rho_0 a} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}             \DP{\overline{u}}{\phi}           \right)    + \frac{\tan \phi}{\rho_0 a}      \DP{}{z^*}      \left( \overline{u} \rho_0              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}      \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3524}%
+$\displaystyle \qquad    + \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[         \rho_0 a \cos^2 \phi         \frac{\overline{v'\theta'}}              {\overline{\DP{\theta}{z^*}}}         \DP{}{z^*}         \left(               \DP{\overline{u}}{\phi}         \right)        - \rho_0 a \cos^2 \phi \tan \phi         \frac{\overline{v'\theta'}}           {\overline{\DP{\theta}{z^*}}}         \DP{\overline{u}}{z^*}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3526}%
+$\displaystyle \qquad    + \Dinv{\rho_0 a \cos \phi}       \left[        - \cos \phi          \DP{}{z^*}          \left( \rho_0                  \frac{\overline{v'\theta'}}                      {\overline{\DP{\theta}{z^*}}}                 \DP{\overline{u}}{\phi}                \right)        + \cos \phi \tan \phi          \DP{}{z^*}          \left( \overline{u} \rho_0              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}          \right)      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3529}%
+$\displaystyle \qquad    + \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[          f \rho_0  a \cos \phi              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}        - \rho_0 a \cos \phi  \overline{w'u'}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3530}%
+$\displaystyle \qquad    + \Dinv{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[        - \rho_0 \cos \phi          \frac{\overline{v'\theta'}}               {\overline{\DP{\theta}{z^*}}}          \DP{\overline{u}}{\phi}             + \sin \phi \overline{u} \rho_0           \frac{\overline{v'\theta'}}               {\overline{\DP{\theta}{z^*}}}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3531}%
+$\displaystyle \Dinv{\rho_0 a^2 \cos^2 \phi}      \left[       -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)       +  \rho_0 a \cos \phi      \DP{\overline{u}}{z^*}      \DP{}{\phi}      \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}           \right)       \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3533}%
+$\displaystyle =      \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[       -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3534}%
+$\displaystyle \qquad    + \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[         \rho_0 a \cos^2 \phi         \frac{\overline{v'\theta'}}              {\overline{\DP{\theta}{z^*}}}         \DP{}{\phi}         \left(               \DP{\overline{u}}{z^*}         \right)        +  \DP{\overline{u}}{z^*}          \DP{}{\phi}          \left(\rho_0 a \cos^2 \phi                          \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}           \right)       \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3535}%
+$\displaystyle =      \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[       -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)      \right]     + \Dinv{\rho_0 a^2 \cos^2 \phi}       \left[          \DP{}{\phi}          \left(\rho_0 a \cos^2 \phi                          \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}                \DP{\overline{u}}{z^*}           \right)       \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3536}%
+$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}      \DP{}{\phi}     \left[          -  \rho_0 a \overline{v'u'} \cos^2 \phi          +  \rho_0 a \cos^2 \phi                          \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}                \DP{\overline{u}}{z^*}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3537}%
+$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}      \DP{}{\phi}     \left[            \rho_0 a \cos^2 \phi             \left\{                  \DP{\overline{u}}{z^*}                  \frac{\overline{v'\theta'}}                       {\overline{\DP{\theta}{z^*}}}               -  \overline{v'u'}             \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3538}%
+$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}      \DP{}{\phi}     \left(            \cos \phi F^{*}_{\phi}     \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3539}%
+$\displaystyle \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[          f \rho_0  a \cos \phi              \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}        - \rho_0 a \cos \phi  \overline{w'u'}      \right] + \Dinv{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[        - \rho_0 \cos \phi          \frac{\overline{v'\theta'}}               {\overline{\DP{\theta}{z^*}}}          \DP{\overline{u}}{\phi}             + \sin \phi \overline{u} \rho_0           \frac{\overline{v'\theta'}}               {\overline{\DP{\theta}{z^*}}}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3540}%
+$\displaystyle =      \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[         \rho_0  a \cos \phi          \left\{              f \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}           -  \overline{w'u'}           -  \frac{\overline{v'\theta'}}               {a \overline{\DP{\theta}{z^*}}}              \DP{\overline{u}}{\phi}                + \sin \phi \overline{u}              \frac{\overline{v'\theta'}}               {a \cos \phi \overline{\DP{\theta}{z^*}}}         \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3541}%
+$\displaystyle =      \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[         \rho_0  a \cos \phi          \left\{              f \frac{\overline{v'\theta'}}                  {\overline{\DP{\theta}{z^*}}}           - \left(                  \cos \phi                 \DP{\overline{u}}{\phi}                    - \sin \phi \overline{u}              \right)              \frac{\overline{v'\theta'}}                  {a  \cos \phi \overline{\DP{\theta}{z^*}}}           -  \overline{w'u'}         \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3543}%
+$\displaystyle =      \frac{1}{\rho_0 a \cos \phi}       \DP{}{z^*}      \left[         \rho_0  a \cos \phi          \left\{              \left(     f                       -  \frac{\DP{(\overline{u} \cos \phi)}{\phi}}                              {a  \cos \phi}              \right)              \frac{\overline{v'\theta'}}                   {\overline{\DP{\theta}{z^*}}}           -  \overline{w'u'}         \right\}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3544}%
+$\displaystyle =  \frac{1}{\rho_0 a \cos \phi}       \DP{F^{*}_{z}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3545}%
+$\displaystyle \DP{\overline{u}}{t}    + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi}       \left(  \overline{u} \cos \phi \right)    + \overline{w}^* \DP{\overline{u}}{z^*}    - f \overline{v}^*     - \overline{X}   =  \Dinv{\rho_0 a^2 \cos^2 \phi}      \DP{}{\phi}     \left(            \cos \phi F^{*}_{\phi}     \right)    + \frac{1}{\rho_0 a \cos \phi}       \DP{F^{*}_{z}}{z^*},    \nonumber$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3546}%
+$\displaystyle \DP{\overline{u}}{t}    + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi}       \left(  \overline{u} \cos \phi \right)    + \overline{w}^* \DP{\overline{u}}{z^*}    - f \overline{v}^*     - \overline{X}   =  \Dinv{\rho_0 a \cos \phi} \Ddiv{\Dvect{F}}.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3547}%
+$\displaystyle \Ddiv{\Dvect{F}}      = \Dinv{a \cos \phi } \DP{(\cos \phi F_{\phi})}{\phi} + \DP{F_{z^{*}}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3548}%
+$\displaystyle \DP{\overline{\theta}}{t}    + \frac{1}{a}       \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)      \right]      \DP{\overline{\theta}}{\phi}    + \left[               \overline{w}^*              - \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)      \right]      \DP{\overline{\theta}}{z^*}    - \overline{Q}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3549}%
+$\displaystyle \qquad    =    - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)    - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}),$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3550}%
+$\displaystyle \DP{\overline{\theta}}{t}    + \frac{\overline{v}^*}{a}  \DP{\overline{\theta}}{\phi}    + \overline{w}^* \DP{\overline{\theta}}{z^*}    - \overline{Q}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3551}%
+$\displaystyle \qquad    = - \Dinv{\rho_0 a} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right) \DP{\overline{\theta}}{\phi}    + \Dinv{a \cos\phi}       \DP{}{\phi}      \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}      \right) \DP{\overline{\theta}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3552}%
+$\displaystyle \qquad \qquad    - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)    - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3553}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}      \left( \rho_0                      \frac{\overline{v'\theta'}}                          {a \overline{\DP{\theta}{z^*}}}              \right) \DP{\overline{\theta}}{\phi}    + \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right) \DP{\overline{\theta}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3554}%
+$\displaystyle \qquad    - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)    - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3556}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}      \left(  \rho_0               \frac{\overline{v'\theta'}}                   {a \overline{\DP{\theta}{z^*}}}              \DP{\overline{\theta}}{\phi}      \right)    +  \frac{\overline{v'\theta'}}           {a \overline{\DP{\theta}{z^*}}}      \DP{}{z^*}\DP{\overline{\theta}}{\phi}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3557}%
+$\displaystyle \qquad     + \Dinv{a \cos\phi}       \left[                   \DP{}{\phi} \left( \cos \phi  \overline{v'\theta'} \right)                   \frac{1}{\overline{\DP{\theta}{z^*}}}             +  \cos \phi \overline{v'\theta'}                \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}      \right] \DP{\overline{\theta}}{z^*}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3560}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}      \left(  \rho_0               \frac{\overline{v'\theta'}}                   {a \overline{\DP{\theta}{z^*}}}              \DP{\overline{\theta}}{\phi}      \right)    +  \frac{\overline{v'\theta'}}           {a \overline{\DP{\theta}{z^*}}}      \DP{}{z^*}\DP{\overline{\theta}}{\phi}   +  \Dinv{a}        \overline{v'\theta'}      \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}      \DP{\overline{\theta}}{z^*}    - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3562}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}     \left[ \rho_0               \frac{\overline{v'\theta'}}                   {a \overline{\DP{\theta}{z^*}}}              \DP{\overline{\theta}}{\phi}             + \rho_0\overline{w'\theta'}     \right]   + \frac{\overline{v'\theta'}}{a}     \left[              \frac{1}                   {\overline{\DP{\theta}{z^*}}}              \DP{}{z^*}\DP{\overline{\theta}}{\phi}         +    \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}              \DP{\overline{\theta}}{z^*}      \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3564}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}     \left[ \rho_0             \left(                 \frac{\overline{v'\theta'}}                      {a \overline{\DP{\theta}{z^*}}}                 \DP{\overline{\theta}}{\phi}               + \overline{w'\theta'}            \right)       \right]   + \frac{\overline{v'\theta'}}{a}     \DP{}{\phi}     \left(          \frac{ \DP{\overline{\theta}}{z^*} }                   { \overline{\DP{\theta}{z^*}} }     \right)$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3566}%
+$\displaystyle - \Dinv{\rho_0} \DP{}{z^*}     \left[ \rho_0             \left(                 \frac{\overline{v'\theta'}}                      {a \overline{\DP{\theta}{z^*}}}                 \DP{\overline{\theta}}{\phi}               + \overline{w'\theta'}            \right)       \right].$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3567}%
+$\displaystyle \DP{\overline{\theta}}{t}    + \frac{\overline{v}^*}{a}  \DP{\overline{\theta}}{\phi}    + \overline{w}^* \DP{\overline{\theta}}{z^*}    - \overline{Q}  =    - \Dinv{\rho_0} \DP{}{z^*}     \left[ \rho_0             \left(                 \frac{\overline{v'\theta'}}                      {a \overline{\DP{\theta}{z^*}}}                 \DP{\overline{\theta}}{\phi}               + \overline{w'\theta'}            \right)       \right].$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3569}%
+$ v$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3570}%
+$\displaystyle \DP{}{t}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]      + \frac{1}{a}         \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]        \DP{}{\phi}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3571}%
+$\displaystyle \qquad    \qquad      + \left[               \overline{w}^*              - \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)        \right]        \DP{}{z^*}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3572}%
+$\displaystyle \qquad       \qquad      + f \overline{u}      + \frac{\tan\phi}{a} (\overline{u})^2      + \Dinv{a} \DP{\overline{\Phi}}{\phi}      - \overline{Y}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3573}%
+$\displaystyle \qquad    = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'^2} \cos\phi)      - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{v' w'})      - \overline{u'^2}\frac{\tan\phi}{a},$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3574}%
+$\displaystyle f \overline{u}      + \frac{\tan\phi}{a} (\overline{u})^2      + \Dinv{a} \DP{\overline{\Phi}}{\phi}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3575}%
+$\displaystyle \qquad    = -  \DP{}{t}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]      - \frac{1}{a}         \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]        \DP{}{\phi}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3576}%
+$\displaystyle \qquad    \qquad      - \left[               \overline{w}^*              - \Dinv{a \cos\phi}                \DP{}{\phi}               \left( \cos \phi                           \frac{\overline{v'\theta'}}                               {\overline{\DP{\theta}{z^*}}}               \right)        \right]        \DP{}{z^*}        \left[               \overline{v}^*             + \Dinv{\rho_0} \DP{}{z^*}              \left( \rho_0                      \frac{\overline{v'\theta'}}                          {\overline{\DP{\theta}{z^*}}}              \right)        \right]$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3577}%
+$\displaystyle \qquad       \qquad    - \Dinv{a\cos\phi} \DP{}{\phi}(\overline{v'^2} \cos \phi)    - \Dinv{\rho_0} \DP{}{z^*}(\rho_0\overline{v' w'})    - \overline{u'^2} \frac{\tan\phi}{a}    + \overline{Y}$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_inline3579}%
+$ G$%
+\lthtmlinlinemathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\lthtmlinlinemathA{tex2html_wrap_indisplay3582}%
+$\displaystyle \overline{u}       \left( f + \frac{\tan\phi}{a} \overline{u} \right)     + \Dinv{a} \DP{\overline{\Phi}}{\phi}  =   G.$%
+\lthtmlindisplaymathZ
+\lthtmlcheckvsize\clearpage}
+
+{\newpage\clearpage
+\setcounter{equation}{17}
+\lthtmldisplayA{subequations3584}%
+\setcounter{equation}{16}
+\begin{subequations}\begin{align}&       \DP{\overline{u}}{t}     + \overline{v}^*       \left[              \Dinv{a\cos\phi}\DP{}{\phi}(\overline{u}\cos\phi) - f       \right]     + \overline{w}^*\DP{\overline{u}}{z^*}     - \overline{X}   =    \Dinv{\rho_0 a \cos\phi}\Ddiv\Dvect{F},    \\&       \overline{u}       \left( f + \overline{u}\frac{\tan\phi}{a} \right)      + \Dinv{a}\DP{\overline{\Phi}}{\phi}  = G. \end{align} \begin{align}      \DP{\overline{\Phi}}{z^*}     - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta}  =   0. \end{align} \begin{align}         \Dinv{a\cos\phi}&\left[        \DP{}{\phi}(\overline{v}^*\cos\phi)\right]        + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}^*)         = 0. \end{align} \begin{align}        \DP{\overline{\theta}}{t}         + \frac{\overline{v}^*}{a}\DP{\overline{\theta}}{\phi}         + \overline{w}^*\DP{\overline{\theta}}{z^*}         - \overline{Q} = 		- \Dinv{\rho_0}\DP{}{z^*}                 \left[\rho_0                       \left(                         \overline{v'\theta'}\frac{\DP{\overline{\theta}}{\phi}}                                  {a\DP{\overline{\theta}}{z^*}} + \overline{w'\theta'}                       \right)                 \right]. \end{align}\end{subequations}%
+\lthtmldisplayZ
+\lthtmlcheckvsize\clearpage}
+
+
+\end{document}

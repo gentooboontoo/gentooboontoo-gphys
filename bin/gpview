@@ -1,0 +1,758 @@
+#!/usr/bin/env ruby
+##################################################
+=begin
+= NAME
+
+gpview - quick viewer for the values of a variable specified by a gtool4-type URL. 
+
+
+(1) for 1-dimensional variable, make line plot.
+(2) for 2-dimensional variable, make contour/tone plot.
+(3) for 3/more-dimensional variable, make contour/tone plot, 
+    select first 2D. possible to make animation.
+    
+= USAGE
+
+The first command form is 
+
+    % gpview [options] gturl1 gturl2 gturl3 ...
+
+where the format of the gturl is
+
+    path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+The second commnad form is 
+
+    % gpview --var url [options] gtfile1 gtfile2 ...
+
+where the format of the url is 
+
+    varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+= OPTIONS
+
+if you want to know more description, please read
+
+  http://ruby.gfd-dennou.org/products/gphys/doc/gpview.html
+
+== GLOBAL OPTIONS
+
+:--help: 
+  print this message. 
+
+:--var url:
+  set the variable name and slicing parameters.
+
+:--wsn [1-4]:
+  set work staion number. each number represent output device:
+  1 : X window.
+  2 : PS file. (named dcl.ps) 
+  3 : Tcl/Tk file.
+  4 : GTK Windows (depend on dcl-5.3)
+
+:--clrmap [1-]:
+  set colormap to draw tone/contour.
+
+:--itr [1-4,5-7,10-15,20-23,30-33]:
+  set axis scale. default is 1.
+  1 : linear scale for x/y axis 
+  2 : linear scale for x , log scale for y axis
+  3 : log scale for x , linear scale for y axis
+  4 : log scale for x/y axis
+
+:--similar [simfac,vxoff,vyoff]:
+  (for 5<=itr<=7) set similarity parameters which are fed in DCL.grssim. 
+
+:--map_axis [uxc,uyc,rot]:
+  (for 10<=itr<=33) set mapping parameters which are fed in DCL.umpcnt. 
+
+:--title:
+  set title of figure
+
+:--aspect <aspect>:
+  set aspect ratio of Viewport. default is 2.0.
+
+:--noannotate:
+  not draw annotations. 
+
+:--animate/anim <dim>:
+  plot animation along <dim>. <dim> must be name of dimension. 
+
+:--alternate, --Ga: 
+  enable to backing store.
+
+:--nowait, --Gw:
+  not wait for any actions if animate 
+
+:--reverse, --Gr:
+  plot animation reversible if animate
+
+:--smooth, --Gaw:
+  equal to --anlternate && --nowait
+
+:--exch:
+  exchange(transpose) x/y axis.
+
+:--mean <dim>:
+  mean along axis <dim>. 
+
+:--eddy <dim>:
+  deviation from mean along axis <dim>. 
+
+:--m, --map <map_type>: 
+  plot map. itr number must be set.  this option is neglect if itr
+  number is 1-4.  abailable map type is coast_world, border_world,
+  plate_world, state_usa, coast_japan, pref_japan
+
+:--operation <math_func>: 
+  operation of the specified math function on the data.
+  <math_func> should be a math function with one argument 
+  such as log10, sqrt, sin, etc.
+
+:--time_ax [nil|false|h|ymd]: 
+  specify type of calendar-type time axis: 
+    nil   (=> auto slection)
+    false (=> do not use the time axis even if 
+              the units of the axis is a time one with since field)
+    "h"   (=> like nil, but always use the hour-resolving datetime_ax method
+              in dclext_datetime_ax.rb)
+    "ymd" (=> like "h" but for y-m-d type using DCL.uc[xy]acl)
+
+
+== LINE/MARK OPTIONS
+
+:--line:
+  make line plot forced. (about first 1D)
+
+:--mark:
+  make mark plot forced. (about first 1D)
+
+:--index:
+  set DCL line index, which set the color/thickness of the line
+  primitive. please see DCL documents.
+
+:--type:
+  set line type.
+
+:--range [min:max]
+  set min/max value for line plot. min or max must be set.
+
+:--overplot
+  set number of lines on each figure
+
+== CONTOUR/TONE OPTIONS
+
+:--shade:
+  make contour and tone plot.
+
+:--noshade:
+  make contour plot, without tone.
+
+:--nocont:
+  make tone plot, without contour.
+
+:--range [min:max]:
+  set min/max value for contour/tone plot. min or max must be set.
+
+:--crange:
+  set min/max value for contour plot. this is more dominant than --range
+
+:--srange:
+  set min/max value for tone plot. this is more dominant than --interval/int
+
+:--interval,--int [num]: 
+  set interval value for contour/tone plot. set the number of lines if
+  you set negative value.
+
+:--cint:
+  set interval value for contour plot. this is more dominant 
+  than --interval/int
+
+:--sint:               
+  set interval value for tone plot. this is more dominant than --interval/int.
+                           
+:--levels:             
+  set values of contour/tone levels. 
+
+:--clevels:            
+  set values of contour levels. 
+
+:--slevels:           
+  set tone of contour levels. 
+
+:--patterns:           
+  set each patterns for tone plot. 
+
+:--tonf:
+  use tonf instead of tone.
+
+:--nocolorbar:         
+  do not draw color bar
+
+:--nozero:             
+  do not draw zero contour
+
+== EXAMPLES
+
+For a single GPhys variable, 
+
+    % gpview data.nc@temp
+    % gpview data.nc@temp,lon=130:150,lat=0:90:2
+    % gpview --nocont data.nc@temp,lon=130:150,lat=0    
+    % gpview --noshade data.nc@temp,lon=130:150,lat=0    
+    % gpview --mean lon data.nc@temp,lon=130:150,lat=0
+    % gpview --exch data.nc@temp,lon=130:150,lat=0
+    % gpview --animate lon data.nc@temp,lon=130:150
+    % gpview --animate lon --alternate data.nc@temp
+    % gpview --smooth lon data.nc@temp,lon=130:150
+    % gpview --levels 0,10,20,30 --pattern 30999,40999,50999,60999,70999 data.nc@temp
+    % gpview --overplot=3 --anim t data.nc@temp,lon=0
+    % gpview --mark data.nc@temp,lon=0,lat=0
+    % gpview --operation log10 data.nc@temp,lon=0
+    % gpview --time_ax false data.nc@temp,lon=0,lat=0
+
+For multiple GPhys variables, 
+    % gpview data1.nc@temp data2.nc@temp
+    % gpview data1.nc@temp,lon=130:150 data2.nc@temp,lon=150:170
+    % gpview --overplot=3 --anim t data.nc@temp,lon=0 data.nc@temp,lon=10
+    % gpview --var temp,lon=130:150 data?.nc 
+    % gpview --anim t --var temp,lon=130:150 data*.nc 
+
+
+== HISTORY
+
+  2004/12/14  D Tsukahara && T Horinouti(parse_gturl)
+  2005/01/08  D Tsukahara (add option --exch and able to invalid value)
+  2005/01/09  D Tsukahara (add option --animate, smooth, alternate, index )
+  2005/01/10  D Tsukahara (transpose axis with attr "positive:down" ,
+                           abailable loopsense_flag. )
+  2005/01/10  D Tsukahara (implement GGraph::color_bar, and margin_info, 
+                           which file name, date, and toolname. )
+  2005/01/11  D Tsukahara ( 1. write document about OPTIONS. 
+                            2. add many options. more info please see document. )
+  2005/01/23  S Takehiro  (add option --similar, map_axis)
+  2005/02/09  D Tsukahara && M Nakano (add option --reverse, --Gr, --map)
+  2005/02/10  D Tsukahara (change option parser (getopts => getoptlong))
+  2005/02/24  D Tsukahara (apply --range for line plot)
+  2005/06/15  S Takehiro (add option --levels, --clevels, --slevels, --patterns)
+  2005/06/17  S Takehiro (missing_value attribute setting removed)
+  2005/06/22  S Takehiro (debug, clipping control added to GGraph::annotate)
+  2005/06/23  S Takehiro (debug, option --title implemented)
+  2005/07/15  S Takehiro (option --noannotate implemented)
+  2005/08/07  S Takehiro (option --overplot implemented)
+  2005/08/09  S Takehiro && T Horinouchi (add option --help and help function.
+                                            URL information corrected. )
+  2005/08/23  S Takehiro (multiple Gphys variables plotting 
+                           and option --var implemented)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+  2005/10/30  S Takehiro (option --animate recoverd)
+  2005/10/31  S Takehiro (option --smooth bug fixed)
+  2006/03/07  M Nakano (option --int bug fixed)
+  2007/10/03  S Takehiro (option --nocolorbar implemented)
+  2008/04/03  S Takehiro (option --nozero implemented)
+  2008/12/14  S Takehiro (option --mark implemented)
+  2010/03/10  Y SASAKI (change help block into RD format)
+  2011/01/14  T Tanigawa && S Takehiro (option --operation implemented)
+  2011/11/04  S Takehiro (option --time_ax implemented)
+  2011/11/20  S Takehiro (option --eddy implemented)
+  2012/02/19  S Takehiro (description for gturl format updated)
+  2013/01/29  T Tanigawa && S Takehiro (calculation of aspect ratio 
+                                        of viewport improved)
+  2013/01/29  S Nishizawa && S Takehiro (sequential operation implemented)
+
+=end
+#################################################
+require "getoptlong"        # for option_parse
+require "numru/ggraph"      # ggraph library
+require "numru/gphys/gpcommon"
+
+include NumRu
+
+#####################################################
+## Default param.
+
+VIEWPORT = [0.15,0.85,0.2,0.55]
+URLfmt = "path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+
+#####################################################
+def GGraph::annotate(str_ary)
+  lclip = DCL.sgpget('lclip')
+  DCL.sgpset('lclip',nil)
+  lnum = 0
+  str_ary.each{ |str|lnum += 1 }
+    charsize = 0.7 * DCL.uzpget('rsizec1')
+  dvx = 0.01
+  dvy = charsize*1.5
+  raise TypeError,"Array expected" if ! str_ary.is_a?(Array)
+  vxmin,vxmax,vymin,vymax = DCL.sgqvpt
+  vx = 0.70
+  vy = 0.045 + (lnum-1)*dvy
+  str_ary.each{|str|
+    DCL::sgtxzv(vx,vy,str,charsize,0,-1,1)
+    vy -= dvy
+  }
+  DCL.sgpset('lclip',lclip)
+  nil
+end
+
+def each_along_dims(gphys, loopdim)
+
+  raise ArgumentError,"1st argument must be an GPhys." if !gphys.is_a?(GPhys)
+  if loopdim.is_a?(String)
+    dimname = loopdim
+  elsif
+    if loopdim < 0 
+      dimname = gphys.coord(gphys.rank + loopdim).name
+    else
+      dimname = gphys.coord(loopdim).name
+    end
+  else
+    raise ArgumentError,"loopdims must consist of Integer and/or String"
+  end
+
+  loopdim_na = gphys.coord(dimname).val                      # get coord ary
+  loopdim_na = loopdim_na[-1..0] if $OPT_reverse || $OPT_Gr  # reverse  
+  loopdim_na.each { |x|
+    yield( gphys.cut(dimname=>x) )
+  }
+end
+
+
+def draw_setup
+
+  # set missing value
+  DCLExt.gl_set_params('lmiss'=>true)
+
+  # fontsize
+  DCL.sgpset('lcntl', false)
+#  DCL.uzfact(0.7)
+  DCL.sgpset('lfull', true)               # use full area in the window
+  DCL.sgpset('lfprop',true)               # use proportional font
+  DCL.uscset('cyspos', 'B' )              # move unit y axis
+  
+  # viewport size
+  GGraph.set_fig('viewport'=>$VIEWPORT)
+  GGraph.set_fig( 'itr'=>($OPT_itr == nil) ? 1 : $OPT_itr.to_i )
+  GGraph.set_fig("xrev"=>"units:mb,units:hPa,units:millibar,positive:down",  
+                 "yrev"=>"units:mb,units:hPa,units:millibar,positive:down") 
+
+  # set options
+  min_range,  max_range  = __split_range($OPT_range)
+  min_crange, max_crange = __split_range($OPT_crange)
+  min_srange, max_srange = __split_range($OPT_srange)
+  GGraph.set_linear_contour_options(
+                                    'int' => ( $OPT_cint   || $OPT_interval || $OPT_int ),
+                                    'min' => ( min_crange  || min_range ),
+                                    'max' => ( max_crange  || max_range )
+                                    )
+  GGraph.set_linear_tone_options(
+                                    'int' => ( $OPT_sint   || $OPT_interval || $OPT_int ),
+                                    'min' => ( min_srange  || min_range ),
+                                    'max' => ( max_srange  || max_range )
+                                 )
+  if ( $OPT_clevels || $OPT_levels )
+    $OPT_clevels=($OPT_clevels || $OPT_levels).split(',').map!{|v| v.to_f }
+  end
+
+  if ( $OPT_slevels || $OPT_levels )
+    $OPT_slevels=($OPT_slevels||$OPT_levels).split(',').map!{|v| v.to_f }
+    p $OPT_slevels
+  end
+
+  if ( $OPT_patterns )
+    $OPT_patterns=$OPT_patterns.split(',').map!{|v| v.to_f }
+  end
+
+  # similar projection
+  if ($OPT_similar)
+    if /([\d\-.]*),([\d\-.]*),([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,$2.to_f,$3.to_f]
+    elsif /([\d\-.]*),([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,$2.to_f,0]
+    elsif /([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,0,0]
+    end
+    GGraph.set_fig('similar'=>similar)
+  end
+
+  # similar projection
+  if ($OPT_map_axis)
+    if /([\d\-.]*),([\d\-.]*),([\d\-.]*)/ =~ $OPT_map_axis
+      map_axis=[$1.to_f,$2.to_f,$3.to_f]
+    elsif /([\d\-.]*),([\d\-.]*)/ =~ $OPT_map_axis
+      map_axis=[$1.to_f,$2.to_f,0]
+    elsif /([\d\-.]*)/ =~ $OPT_similar
+      map_axis=[$1.to_f,0,0]
+    end
+    GGraph.set_fig('map_axis'=>map_axis)
+  end
+
+
+  # map
+  if ( $OPT_m || $OPT_map)
+    map_type = "coast_world"     if $OPT_m
+    map_type = $OPT_map          if $OPT_map
+    GGraph::set_map(map_type=>true)
+  end
+
+  # time axis 
+  if ($OPT_time_ax)
+    $OPT_time_ax = false if $OPT_time_ax == "false"
+    GGraph.set_axes('time_ax'=>$OPT_time_ax)
+  end
+
+end
+
+def draw(gp, draw_flag)
+
+  # draw hontai
+  case draw_flag
+  when "line"
+    if ( $Overplot == 1 ) 
+      GGraph.line(gp, 
+                  true,
+                  "title"=>$OPT_title,
+                  "index"=>($OPT_index||1),
+                  "type" =>($OPT_type ||1),
+                  "exchange"=>$OPT_exch,
+                  "annotate"=>$annotate,
+                  "min" => __split_range($OPT_range)[0],
+                  "max" => __split_range($OPT_range)[1]
+                  )
+    else
+      GGraph.line(gp, 
+                  false,
+                  "title"=>$OPT_title,
+                  "index"=>($OPT_index||1),
+                  "type" =>($OPT_type ||$Overplot),
+                  "exchange"=>$OPT_exch,
+                  "annotate"=>$annotate,
+                  "min" => __split_range($OPT_range)[0],
+                  "max" => __split_range($OPT_range)[1]
+                  )
+    end
+    if ( $Overplot < $Overplot_max )
+      $Overplot += 1
+    else
+      $Overplot = 1 
+    end
+
+  when "mark"
+    if ( $Overplot == 1 ) 
+      GGraph.mark(gp, 
+                  true,
+                  "title"=>$OPT_title,
+                  "index"=>($OPT_index||1),
+                  "type" =>($OPT_type ||1),
+                  "exchange"=>$OPT_exch,
+                  "annotate"=>$annotate,
+                  "min" => __split_range($OPT_range)[0],
+                  "max" => __split_range($OPT_range)[1]
+                  )
+    else
+      GGraph.mark(gp, 
+                  false,
+                  "title"=>$OPT_title,
+                  "index"=>($OPT_index||1),
+                  "type" =>($OPT_type ||$Overplot),
+                  "exchange"=>$OPT_exch,
+                  "annotate"=>$annotate,
+                  "min" => __split_range($OPT_range)[0],
+                  "max" => __split_range($OPT_range)[1]
+                  )
+    end
+    if ( $Overplot < $Overplot_max )
+      $Overplot += 1
+    else
+      $Overplot = 1 
+    end
+
+  when "full"
+    GGraph.tone(gp,
+                true, 
+                "title"=>$OPT_title,
+                "annotate"=>$annotate,
+                "transpose"=>$OPT_exch,
+                "levels"=>$OPT_slevels,
+                "patterns"=>$OPT_patterns,
+                "tonf"=>$OPT_tonf
+                )
+    GGraph.contour(gp, 
+		   false,
+		   "transpose"=>$OPT_exch,
+		   "levels"=>$OPT_clevels,
+		   "nozero"=>$OPT_nozero
+		   )
+  when "nocont"
+    GGraph.tone(gp,
+                true, 
+                "title"=>$OPT_title,
+                "annotate"=>$annotate,
+                "transpose"=>$OPT_exch,
+                "levels"=>$OPT_slevels,
+                "patterns"=>$OPT_patterns,
+                "tonf"=>$OPT_tonf
+                )
+  when "noshade"
+    mj = DCL.udpget('indxmj')
+    mn = DCL.udpget('indxmn')
+    GGraph.contour(gp, 
+                   true, 
+                   "title"    =>$OPT_title,
+                   "label"    =>true,
+                   "annotate"=>$annotate,
+		   "transpose"=>$OPT_exch,
+                   "levels"=>$OPT_clevels, 
+                   "nozero"=>$OPT_nozero
+                   )
+  end
+
+  # color bar
+  if ( ( draw_flag == "full") || ( draw_flag == "nocont") ) && $colorbar
+    GGraph::color_bar(
+                      "left"      => true,
+                      "landscape" => true
+                      )
+  end
+
+
+
+end
+
+
+def set_vpsize( default_vp, aspect=2.0 )
+
+  raise "#{aspect} must be a positive Numeric" if (aspect.to_f <= 0.0)
+  aspect = aspect.to_f
+
+  # default viewport
+  x0 = default_vp[0]; x1 = default_vp[1]
+  y0 = default_vp[2]; y1 = default_vp[3]
+  # viewport size
+  hlength =   x1 - x0
+  vlength =   y1 - y0
+  # center grid of viewport
+  cen_of_vp = [ x0 + hlength/2.0, y0 + vlength/2.0  ] 
+
+  if aspect <= hlength / vlength
+    hlength = vlength * aspect
+    x0 = cen_of_vp[0] - hlength/2.0
+    x1 = cen_of_vp[0] + hlength/2.0
+  else
+    vlength = hlength / aspect     
+    y0 = cen_of_vp[1] - vlength/2.0
+    y1 = cen_of_vp[1] + vlength/2.0
+  end  
+
+  return [ x0, x1, y0, y1 ]
+
+end
+
+def __split_range(range)
+
+  if /(.*):(.*)/ =~ range
+    if $1 == ""
+      min = nil
+    else
+      min = $1.to_f
+    end
+    if $2 == ""
+      max = nil
+    else
+      max = $2.to_f
+    end
+  elsif range == nil
+    min = max = nil
+  else
+    raise "invalid range: variable subset specification error. split range with ':'\n\n"
+  end
+  
+  return min, max
+end
+
+
+#####################################################
+###++++++           Main Routine            ++++++###
+
+## parse options
+parser = GetoptLong.new
+parser.set_options(
+                   ###    global option   ###
+                   ['--var',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--wsn',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--clrmap',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--itr',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--similar',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--map_axis',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ['--title',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--aspect',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--anim',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--animate',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--noannotate',               GetoptLong::NO_ARGUMENT],
+                   ['--alternate',                GetoptLong::NO_ARGUMENT],
+                   ['--Ga',                       GetoptLong::NO_ARGUMENT],
+                   ['--nowait',                   GetoptLong::NO_ARGUMENT],
+                   ['--Gw',                       GetoptLong::NO_ARGUMENT],
+                   ['--smooth',                   GetoptLong::NO_ARGUMENT],
+                   ['--Gaw',                      GetoptLong::NO_ARGUMENT],
+                   ['--exch',                     GetoptLong::NO_ARGUMENT],
+                   ['--reverse',                  GetoptLong::NO_ARGUMENT],
+                   ['--Gr',                       GetoptLong::NO_ARGUMENT],
+                   ['--mean',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--eddy',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--map',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--m',                        GetoptLong::NO_ARGUMENT],
+                   ['--operation',                GetoptLong::REQUIRED_ARGUMENT],
+                   ['--time_ax',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ###     line/mark option    ###
+                   ['--line',                     GetoptLong::NO_ARGUMENT],
+                   ['--mark',                     GetoptLong::NO_ARGUMENT],
+                   ['--index',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--type',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--overplot',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ### tone or cont option ###
+                   ['--nocont',                   GetoptLong::NO_ARGUMENT],
+                   ['--noshade',                  GetoptLong::NO_ARGUMENT],
+                   ['--range',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--crange',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--srange',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--interval',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ['--int',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--cint',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--sint',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--levels',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--clevels',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--slevels',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--patterns',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ['--tonf',                     GetoptLong::NO_ARGUMENT],
+                   ['--nocolorbar',               GetoptLong::NO_ARGUMENT],
+                   ['--nozero',                   GetoptLong::NO_ARGUMENT],
+                   ['--help',                     GetoptLong::NO_ARGUMENT]
+#                   ['--version',                  GetoptLong::NO_ARGUMENT]  # to be defined
+                   )
+begin
+  parser.each_option do |name, arg|
+    eval "$OPT_#{name.sub(/^--/, '').gsub(/-/, '_')} = '#{arg}'"  # strage option value to $OPT_val
+  end
+rescue
+  help
+  raise
+end
+
+## Print out help message
+if ($OPT_help)
+  help 
+  exit(1)
+end
+
+## set some figure option
+DCL::swlset('lwait', false) if ($OPT_nowait    || $OPT_Gw || $OPT_smooth || $OPT_Gaw)
+                                           # set wait or nowait
+DCL::swlset('lalt',  true)  if ($OPT_alternate || $OPT_Ga || $OPT_smooth || $OPT_Gaw)
+                                           # set backing store option
+if ($OPT_noannotate)
+  $annotate = false 
+else
+  $annotate = true
+end
+$Overplot_max = ( $OPT_overplot.to_i || 1 )
+$Overplot = 1
+
+if ($OPT_nocolorbar)
+  $colorbar = false 
+else
+  $colorbar = true
+end
+
+## decide VIEWPORT
+$VIEWPORT = set_vpsize( VIEWPORT, ($OPT_aspect||2.0) )
+
+## tune the size of axis parameters.
+DCL.uzfact(0.7)
+
+## draw figure
+loopdim   = ( $OPT_animate || $OPT_anim ) 
+loopdim = loopdim.to_i if loopdim.to_i.to_s == loopdim
+
+### set colormap
+DCL.sgscmn($OPT_clrmap||1)
+## open work station
+DCL.gropn($OPT_wsn||4)
+
+## open netcdf variables
+
+while ARGV[0] do
+  gturl = ARGV[0]
+  gturl = gturl+'@'+$OPT_var if $OPT_var
+
+  gp = GPhys::IO.open_gturl(gturl)
+  print "  Reading #{gturl}\n"
+  ARGV.shift 
+
+  ## mean along any axis
+  if ($OPT_mean)
+    dims_mean = ($OPT_mean).split(/\s*,\s*/)
+    dims_mean = dims_mean.map{|dim| dim.to_i.to_s == dim ? dim.to_i : dim}
+  end
+
+  ## deviation from mean along any axis
+  if ($OPT_eddy)
+    dims_eddy = ($OPT_eddy).split(/\s*,\s*/)
+    dims_eddy = dims_eddy.map{|dim| dim.to_i.to_s == dim ? dim.to_i : dim}
+  end
+
+  GGraph.margin_info($0, gturl) if $annotate  # draw margin infomation
+  draw_setup                                  # determine figure kind
+
+
+  kind_of_fig = nil
+  proc = Proc.new do |g|
+      ## mean along any axis
+      if ($OPT_mean)
+        dims_mean.each{|dim|
+          g = g.mean(dim)
+        }
+      end
+
+      ## deviation from mean along any axis
+      if ($OPT_eddy)
+        dims_eddy.each{|dim|
+          g = g.eddy(dim)
+        }
+      end
+
+      ## operation of a mathematical function
+      if ($OPT_operation)
+        eval "g = g.#{$OPT_operation}"
+      end
+
+      # judge draw kind
+      unless kind_of_fig
+        gp_rank = g.rank
+        if ($OPT_mark)
+          kind_of_fig = "mark"
+        elsif ($OPT_line || gp_rank == 1)
+          kind_of_fig = "line"
+        elsif (!$OPT_line && gp_rank >= 2) && !$OPT_noshade && $OPT_nocont 
+          kind_of_fig = "nocont"
+        elsif (!$OPT_line && gp_rank >= 2) && $OPT_noshade && !$OPT_nocont 
+          kind_of_fig = "noshade"
+        elsif (!$OPT_line && gp_rank >= 2) && !$OPT_noshade && !$OPT_nocont
+          kind_of_fig = "full"
+        end
+      end  
+
+      draw(g, kind_of_fig)
+  end
+
+  if loopdim           # animation
+    each_along_dims(gp, loopdim){|gp_subset|
+      proc.call(gp_subset)
+    }
+  else
+    proc.call(gp)
+  end
+
+end
+
+DCL.grcls

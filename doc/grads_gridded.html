@@ -1,0 +1,307 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/grads_gridded.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">NumRu::GrADS_Gridded  -- a class for GrADS gridded datasets</a></h1><!-- RDLabel: "NumRu::GrADS_Gridded  &shy;&shy; a class for GrADS gridded datasets" -->
+<p>by T Horinouchi and R Mizuta</p>
+<h2><a name="label-1" id="label-1">Overview</a></h2><!-- RDLabel: "Overview" -->
+<p>a GrADS_Gridded object corresponds to a GrADS control file,
+through which the users can also access its binary data file(s).</p>
+<h2><a name="label-2" id="label-2">Current Limitations</a></h2><!-- RDLabel: "Current Limitations" -->
+<ul>
+<li>option 365_day_calendar is not interpreted</li>
+<li>Partial support of the "template" option 
+  (only %y2,%y4,%m1,%m2,%d1,%d2,%h1,%h2,%n2) 
+  (Time is assumed to be increasing monotonically).</li>
+</ul>
+<h2><a name="label-3" id="label-3">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-4" id="label-4"><code>GrADS_Gridded.new(<var>ctlfilename</var>, <var>mode</var>="<var>r</var>")</code></a></h4></dt><!-- RDLabel: "GrADS_Gridded.new" -->
+<dd>
+same as GrADS_Gridded.open</dd>
+<dt><h4><a name="label-5" id="label-5"><code>GrADS_Gridded.open(<var>ctlfilename</var>, <var>mode</var>="<var>r</var>")</code></a></h4></dt><!-- RDLabel: "GrADS_Gridded.open" -->
+<dd>
+<p>make a new GrADS_Gridded object. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ctlfilename (String): name of the control file to open</li>
+<li>mode (String): IO mode. "r" (read only) or "w" (write only).</li>
+</ul>
+<p>REMARK</p>
+<ul>
+<li>You can modify the object through instance methods even if mode=="r".
+     In that case, the modification will not be written in the original
+     control file.</li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>GrADS_Gridded.create(<var>ctlfilename</var>, <var>noclobber</var>=<var>false</var>, <var>share</var>=<var>false</var>)</code></a></h4></dt><!-- RDLabel: "GrADS_Gridded.create" -->
+<dd>
+<p>make a new GrADS_Gridded object with creating a new control file</p>
+<p>REMARK</p>
+<ul>
+<li>It is used with writing methods, but currently writing methods 
+     does not work. </li>
+</ul></dd>
+</dl>
+<h2><a name="label-7" id="label-7">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label-8" id="label-8"><code>ndims</code></a></h4></dt><!-- RDLabel: "ndims" -->
+<dd>
+returns the number of dimensions in the file (always 4). </dd>
+<dt><h4><a name="label-9" id="label-9"><code>nvars</code></a></h4></dt><!-- RDLabel: "nvars" -->
+<dd>
+returns the number of variables in the file. </dd>
+<dt><h4><a name="label-10" id="label-10"><code>natts</code></a></h4></dt><!-- RDLabel: "natts" -->
+<dd>
+returns the number of attributes of the variable.</dd>
+<dt><h4><a name="label-11" id="label-11"><code>path</code></a></h4></dt><!-- RDLabel: "path" -->
+<dd>
+returns the path of the control file.</dd>
+<dt><h4><a name="label-12" id="label-12"><code>put_att( <var>attname</var>, <var>value</var> )</code></a></h4></dt><!-- RDLabel: "put_att" -->
+<dd>
+<p>set global attribute</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>attrname (String): name of an attribute</li>
+<li>value (String): value of an attribute</li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>def_var(<var>name</var>="<var>noname</var>",<var>nlev</var>=<var>0</var>,<var>option</var>="<var>99</var>",<var>description</var>="")</code></a></h4></dt><!-- RDLabel: "def_var" -->
+<dd>
+<p>define a variable</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String): name of the variable</li>
+<li>nlev (Integer): number of vertical levels</li>
+<li>option (String): variable placement option 
+     ("99": normal, "-1,30": transpose lon and lat)</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>var( <var>varname</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "var" -->
+<dd>
+<p>opens an existing variable in the file. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>varname (String): name of the variable to open</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GrADSVar object. </li>
+</ul></dd>
+<dt><h4><a name="label-15" id="label-15"><code>vars( <var>names</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "vars" -->
+<dd>
+<p>opens existing variables in the file. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>names (Array): names(String) of the variable to open</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>Array of GrADSVar objects. 
+     returns all variables if names==nil</li>
+</ul></dd>
+<dt><h4><a name="label-16" id="label-16"><code>get_att( <var>key</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "get_att" -->
+<dd>
+returns tha value of the global attribute</dd>
+<dt><h4><a name="label-17" id="label-17"><code>dim_names</code></a></h4></dt><!-- RDLabel: "dim_names" -->
+<dd>
+returns the names of all dimensions in the control file.</dd>
+<dt><h4><a name="label-18" id="label-18"><code>var_names</code></a></h4></dt><!-- RDLabel: "var_names" -->
+<dd>
+returns the names of all variables in the control file.</dd>
+<dt><h4><a name="label-19" id="label-19"><code>att_names</code></a></h4></dt><!-- RDLabel: "att_names" -->
+<dd>
+returns the names of all the global attributes.</dd>
+<dt><h4><a name="label-20" id="label-20"><code>to_ctl</code></a></h4></dt><!-- RDLabel: "to_ctl" -->
+<dd>
+<p>returns the contents of the corresponding control file as a String.</p>
+<p>REMARK</p>
+<ul>
+<li>The contents is reconstructed from the internal data of the object.
+     Therefore, even when the object is based on a read-only control file,
+     it is not necessarily the same as the original one. It is especially
+     true when the object was modified after it is opened.</li>
+</ul></dd>
+<dt><h4><a name="label-21" id="label-21"><code>get(<var>name</var>, <var>z</var>, <var>t</var>)</code></a></h4></dt><!-- RDLabel: "get" -->
+<dd>
+<p>reads the binary data and returns as a NArray.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String): name of the variable to read</li>
+<li>z (Integer, currently): vertical level to read (0,1,2,...; starting 
+     from 0). Currently only one vertical levels must be chosen, but in the
+     future, it is planned to support multiple levels.</li>
+<li>t (Integer, currently): time to read (0,1,2,...;  starting 
+     from 0). Currently only one time must be chosen, but in the
+     future, it is planned to support multiple times.</li>
+</ul></dd>
+<dt><h4><a name="label-22" id="label-22"><code>put(<var>ary</var>)</code></a></h4></dt><!-- RDLabel: "put" -->
+<dd>
+<p>writes the NArray on the binary data file. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ary (NArray): data to write. </li>
+</ul></dd>
+<dt><h4><a name="label-23" id="label-23"><code>varnames</code></a></h4></dt><!-- RDLabel: "varnames" -->
+<dd>
+Returns names of the variable in the GrADS file as an Array in the order
+placed.</dd>
+<dt><h4><a name="label-24" id="label-24"><code>dimensions</code></a></h4></dt><!-- RDLabel: "dimensions" -->
+<dd>
+<p>Returns info on the four dimensions.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li><p>an Array of 4 elements: dimension[0] for x, dimension[1] for y,
+     dimension[2] for z, and dimension[3] for t. Each of them is a
+     Hash like the following:</p>
+<pre>{:name=&gt;"x", 
+:len=&gt;132, 
+:flag=&gt;"LINEAR",
+:spec=&gt;"-0.7500         1.5000",
+:start=&gt;-0.75, :increment=&gt;1.5,
+:description=&gt;"longitude", 
+:units=&gt;"degrees_east"}</pre>
+<p>Here, :len, :flag, and :spec are directly from the control file, while
+others are derived properties for internal use. </p></li>
+</ul>
+<p>WARNING</p>
+<ul>
+<li>Each elements of the return value is not a clone but is a direct 
+     association to an internal object of the object. Therefore, to 
+     modify it is to modify the object. That is, dimensions[0][:len]=10
+     would actually change the internal variable, while dimensions[0]=nil
+     has no effect (the former is a substitution IN a Hash, while the latter
+     is a substitution OF the Hash).</li>
+</ul></dd>
+<dt><h4><a name="label-25" id="label-25"><code>get_dim(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "get_dim" -->
+<dd>
+<p>returns positions of a dimension as an NArray.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim (String): a dimension name</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an NArray</li>
+</ul></dd>
+<dt><h4><a name="label-26" id="label-26"><code>title</code></a></h4></dt><!-- RDLabel: "title" -->
+<dt><h4><a name="label-27" id="label-27"><code>title=</code></a></h4></dt><!-- RDLabel: "title=" -->
+<dd>
+get/set the title</dd>
+<dt><h4><a name="label-28" id="label-28"><code>undef</code></a></h4></dt><!-- RDLabel: "undef" -->
+<dt><h4><a name="label-29" id="label-29"><code>undef=</code></a></h4></dt><!-- RDLabel: "undef=" -->
+<dd>
+get/set the undef value</dd>
+<dt><h4><a name="label-30" id="label-30"><code>dset</code></a></h4></dt><!-- RDLabel: "dset" -->
+<dt><h4><a name="label-31" id="label-31"><code>dset=</code></a></h4></dt><!-- RDLabel: "dset=" -->
+<dd>
+get/set the dset string</dd>
+</dl>
+<h1><a name="label-32" id="label-32">GrADSVar  -- a class for a variable of GrADS gridded datasets</a></h1><!-- RDLabel: "GrADSVar  &shy;&shy; a class for a variable of GrADS gridded datasets" -->
+<p>by R Mizuta</p>
+<h2><a name="label-33" id="label-33">Overview</a></h2><!-- RDLabel: "Overview" -->
+<p>a GrADSVar object corresponds to one variable in a GrADS control file. 
+It is intended to behave as a correspondent of a NetCDFVar object. </p>
+<h2><a name="label-34" id="label-34">Current Limitations</a></h2><!-- RDLabel: "Current Limitations" -->
+<ul>
+<li>Only a part of the methods can work. </li>
+<li>Writing methods are not supported. </li>
+</ul>
+<h2><a name="label-35" id="label-35">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-36" id="label-36"><code>GrADSVar.new(<var>file</var>, <var>varname</var>)</code></a></h4></dt><!-- RDLabel: "GrADSVar.new" -->
+<dd>
+<p>make a new GrADSVar object. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (GrADS_Gridded or String): a GrADS_Gridded object or 
+     a name of the control file to open</li>
+<li>varname (String): name of the variable to open</li>
+</ul></dd>
+</dl>
+<h2><a name="label-37" id="label-37">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label-38" id="label-38"><code>shape_ul0</code></a></h4></dt><!-- RDLabel: "shape_ul0" -->
+<dd>
+<p>returns the shape of the variable, but the length of the unlimited 
+dimension is set to zero.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>Array. [length of 0th dim, length of 1st dim,.. ]</li>
+</ul></dd>
+<dt><h4><a name="label-39" id="label-39"><code>shape_current</code></a></h4></dt><!-- RDLabel: "shape_current" -->
+<dd>
+<p>returns the current shape of the variable.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>Array. [length of 0th dim, length of 1st dim,.. ]</li>
+</ul></dd>
+<dt><h4><a name="label-40" id="label-40"><code>dim_names</code></a></h4></dt><!-- RDLabel: "dim_names" -->
+<dd>
+returns the names of all dimensions of the variable.</dd>
+<dt><h4><a name="label-41" id="label-41"><code>att_names</code></a></h4></dt><!-- RDLabel: "att_names" -->
+<dd>
+returns the names of all attributes of the variable.</dd>
+<dt><h4><a name="label-42" id="label-42"><code>name</code></a></h4></dt><!-- RDLabel: "name" -->
+<dd>
+returns the name of the variable. </dd>
+<dt><h4><a name="label-43" id="label-43"><code>ndims</code></a></h4></dt><!-- RDLabel: "ndims" -->
+<dd>
+returns the number of dimensions in the file (always 4). </dd>
+<dt><h4><a name="label-44" id="label-44"><code>rank</code></a></h4></dt><!-- RDLabel: "rank" -->
+<dd>
+alias of ndims</dd>
+<dt><h4><a name="label-45" id="label-45"><code>vartype</code></a></h4></dt><!-- RDLabel: "vartype" -->
+<dd>
+returns "sfloat" in order to behave as NetCDFVar#vartype. </dd>
+<dt><h4><a name="label-46" id="label-46"><code>natts</code></a></h4></dt><!-- RDLabel: "natts" -->
+<dd>
+returns the number of attributes of the variable.</dd>
+<dt><h4><a name="label-47" id="label-47"><code>file</code></a></h4></dt><!-- RDLabel: "file" -->
+<dd>
+returns the file name that controls the variable. </dd>
+<dt><h4><a name="label-48" id="label-48"><code>get_att( <var>name</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "get_att" -->
+<dd>
+returns tha value of the attribute of the variable.</dd>
+<dt><h4><a name="label-49" id="label-49"><code>put_att( <var>name</var>, <var>value</var> )</code></a></h4></dt><!-- RDLabel: "put_att" -->
+<dd>
+<p>set an attribute of the variable. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String): name of an attribute</li>
+<li>value (String): value of an attribute</li>
+</ul></dd>
+<dt><h4><a name="label-50" id="label-50"><code>get(<var>hash</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "get" -->
+<dd>
+<p>returns values of the variable.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>hash (Hash) : Optional argument to limit the portion of the
+     variable to output values. If omitted, the whole variable is
+     subject to the output. This argument accepts a Hash whose keys
+     contain either "index" or a combination of "start","end", and
+     "stride". The value of "index" points the index of a scalar
+     portion of the variable. The other case is used to designate a
+     regularly ordered subset, where "start" and "end" specifies
+     bounds in each dimension and "stride" specifies intervals in
+     it. As in Array "start", "end", and "index" can take negative
+     values to specify index backward from the end. However,
+     "stride" has to be positive, so reversing the array must be
+     done afterwards if you like.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an NArray object</li>
+</ul>
+<p>REMARK
+"stride","index" is not supported yet.</p></dd>
+<dt><h4><a name="label-51" id="label-51"><code>[]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+Same as GrADSVar#get but a subset is specified as in the method [] 
+of NArray. </dd>
+</dl>
+
+</body>
+</html>

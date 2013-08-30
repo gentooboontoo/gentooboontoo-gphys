@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../bin/gpcut</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">NAME</a></h1><!-- RDLabel: "NAME" -->
+<p>gpcut - Extract, slicing and thinning a GPhys variable.</p>
+<h1><a name="label-1" id="label-1">DESCRIPTION</a></h1><!-- RDLabel: "DESCRIPTION" -->
+<p><em>gpcut</em> is command line tools for extract, slicing and thinning a GPhys variables.</p>
+<h1><a name="label-2" id="label-2">USAGE</a></h1><!-- RDLabel: "USAGE" -->
+<pre>% gpcut [options] path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</pre>
+<h1><a name="label-3" id="label-3">OPTIONS</a></h1><!-- RDLabel: "OPTIONS" -->
+<dl>
+<dt><h4><a name="label-4" id="label-4">-h, --help</a></h4></dt><!-- RDLabel: "-h, &shy;&shy;help" -->
+<dd>
+print this message. 
+</dd>
+<dt><h4><a name="label-5" id="label-5">-m dim, --mean dim</a></h4></dt><!-- RDLabel: "-m dim, &shy;&shy;mean dim" -->
+<dd>
+average along dim axis (optional).
+</dd>
+<dt><h4><a name="label-6" id="label-6">-o file, --output file</a></h4></dt><!-- RDLabel: "-o file, &shy;&shy;output file" -->
+<dd>
+output filename (optional). 
+Default output filename is 'gphys.nc'.
+</dd>
+</dl>
+<h1><a name="label-7" id="label-7">HISTORY</a></h1><!-- RDLabel: "HISTORY" -->
+<pre>2005/05/17  S Takehiro (created)
+2005/07/15  S Takehiro (open_gturl method is used for opening gphys variable)
+2005/08/10  S Takehiro (utilize internal function for printing help message)
+2005/08/21  S Takehiro (global attributes copied to the output file)
+2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+2010/03/10  Y SASAKI (change help block into RD format)
+2012/02/19  S Takehiro (description for gturl format updated)</pre>
+
+</body>
+</html>

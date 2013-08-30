@@ -1,0 +1,412 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gdir.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::GDir</a></h1><!-- RDLabel: "class NumRu::GDir" -->
+<p>A class to represent diretories and data files for GPhys.</p>
+<h2><a name="label-1" id="label-1">Overview</a></h2><!-- RDLabel: "Overview" -->
+<p>A GDir object represents a directory, or a file (such as a NetCDF
+file or GrADS control file), for which
+GPhys objects can be defined for the variables in it.
+This means that a NetCDF file, for example, is treated a
+directory, rather than a plain file.</p>
+<p>GDir serves a directory tree under a root (top) directory, which can
+be set as a class variable with <a href="#label-3">GDir.top=</a>. All the absolute path
+of GDir is actually relative to the root directory, and to access
+outside the root directory is prohibited.  Furthermore, it has a
+working directory as a class variable, whose initial value is the top
+directory and can be changed by <a href="#label-8">GDir.cd</a>.</p>
+<p>NEW(2005/06): Now GDir can accept DODS URL as a path. Also,
+the top directory can be set to a DODS URL.</p>
+<h2><a name="label-2" id="label-2">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-3" id="label-3"><code>GDir.top=(<var>top</var>)</code></a></h4></dt><!-- RDLabel: "GDir.top=" -->
+<dd>
+<p>Sets the root directory. This should be done before making
+any GDir objects by <a href="#label-5">GDir.new</a>. The default root directory
+is the root directory of the local file system ('/').</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>top</var> (String): path of the top directory</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>absolute path of the top directory (String) (followed by a '/')</li>
+</ul></dd>
+<dt><h4><a name="label-4" id="label-4"><code>GDir.top</code></a></h4></dt><!-- RDLabel: "GDir.top" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>absolute path of the top directory (String) (followed by a '/')</li>
+</ul></dd>
+<dt><h4><a name="label-5" id="label-5"><code>GDir.new(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "GDir.new" -->
+<dd>
+<p>Constructor.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (String): path of the directory to open as a GDir. 
+      The path is expressed in terms of the top directory.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir</li>
+</ul>
+<p>ERRORS</p>
+<ul>
+<li>ArgumentError if <var>path</var> is out of the directory 
+      tree (originated at the top directory).</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>If the top directory is "/hoge", you can open
+      "/hoge/ho" directory by any of the following.</p>
+<pre>gdir = GDir.new("/ho")
+gdir = GDir.new("./ho")</pre>
+<p>If you want to open "/hoge" (the top directly), then</p>
+<pre>gdir = GDir.new("/")
+gdir = GDir.new(".")</pre>
+<p>To open a NetCDF file or GrADS control file,</p>
+<pre>gdir = GDir.new("/ho/data.nc")
+gdir = GDir.new("/ho/data.ctl")</pre></li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>GDir.set_text_pattern(*<var>regexps</var>)</code></a></h4></dt><!-- RDLabel: "GDir.set_text_pattern" -->
+<dd>
+<p>Sets regular expressions to match the file name of text files.
+The default is /\.txt$/ and /^\w*$/.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>zero or more Regular expressions (zero means no file will be treated
+      as a NetCDF file).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>ERRORS</p>
+<ul>
+<li>TypeError if any of the arguments is not a Regexp</li>
+</ul></dd>
+<dt><h4><a name="label-7" id="label-7"><code>GDir.add_text_pattern(<var>regexp</var> [, <var>regexp</var> [, ...]])</code></a></h4></dt><!-- RDLabel: "GDir.add_text_pattern" -->
+<dd>
+<p>Similar to <a href="#label-6">GDir.set_text_pattern</a>, but adds regular expressions
+instead of replacing existing ones.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>ERRORS</p>
+<ul>
+<li>TypeError if any of the arguments is not a Regexp</li>
+</ul></dd>
+<dt><h4><a name="label-8" id="label-8"><code>GDir.cd(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "GDir.cd" -->
+<dd>
+<p>Changes the working directory of the class.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir</li>
+</ul></dd>
+<dt><h4><a name="label-9" id="label-9"><code>GDir.cwd=(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "GDir.cwd=" -->
+<dd>
+Aliased to <a href="#label-8">GDir.cd</a>.</dd>
+<dt><h4><a name="label-10" id="label-10"><code>GDir.cwd</code></a></h4></dt><!-- RDLabel: "GDir.cwd" -->
+<dd>
+<p>Returns the current working directory as a GDir. The initial value of 
+the working directory is the top directory.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir</li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>GDir.cd(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "GDir.cd" -->
+<dd>
+<p>Changes the working directory to path</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir (current working directory changed by path)</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>GDir[]</code></a></h4></dt><!-- RDLabel: "GDir[]" -->
+<dt><h4><a name="label-13" id="label-13"><code>GDir.data</code></a></h4></dt><!-- RDLabel: "GDir.data" -->
+<dt><h4><a name="label-14" id="label-14"><code>GDir.text</code></a></h4></dt><!-- RDLabel: "GDir.text" -->
+<dt><h4><a name="label-15" id="label-15"><code>GDir.list_dirs</code></a></h4></dt><!-- RDLabel: "GDir.list_dirs" -->
+<dt><h4><a name="label-16" id="label-16"><code>GDir.list_dirs_v</code></a></h4></dt><!-- RDLabel: "GDir.list_dirs_v" -->
+<dt><h4><a name="label-17" id="label-17"><code>GDir.list_data</code></a></h4></dt><!-- RDLabel: "GDir.list_data" -->
+<dt><h4><a name="label-18" id="label-18"><code>GDir.list_data_v</code></a></h4></dt><!-- RDLabel: "GDir.list_data_v" -->
+<dt><h4><a name="label-19" id="label-19"><code>GDir.list_texts</code></a></h4></dt><!-- RDLabel: "GDir.list_texts" -->
+<dt><h4><a name="label-20" id="label-20"><code>GDir.list_texts_v</code></a></h4></dt><!-- RDLabel: "GDir.list_texts_v" -->
+<dt><h4><a name="label-21" id="label-21"><code>GDir.ls</code></a></h4></dt><!-- RDLabel: "GDir.ls" -->
+<dt><h4><a name="label-22" id="label-22"><code>GDir.ls_v</code></a></h4></dt><!-- RDLabel: "GDir.ls_v" -->
+<dd>
+All of these are dispatched to the current working directory.
+Thus, GDir.show is equivalent to GDir.cwd.show, for example.</dd>
+</dl>
+<h2><a name="label-23" id="label-23">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><h4><a name="label-24" id="label-24"><code>close</code></a></h4></dt><!-- RDLabel: "close" -->
+<dd>
+Closes the file/directory objects in the GDir.</dd>
+<dt><h4><a name="label-25" id="label-25"><code>path</code></a></h4></dt><!-- RDLabel: "path" -->
+<dd>
+<p>Returns the path (relative to the top directory)</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-26" id="label-26"><code>name</code></a></h4></dt><!-- RDLabel: "name" -->
+<dd>
+<p>Name of the GDir</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-27" id="label-27"><code>inspect</code></a></h4></dt><!-- RDLabel: "inspect" -->
+<dd>
+<p>Returns the path</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-28" id="label-28"><code>[<var>path</var>]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+<p>Returns a GDir, GPhys, or File (text), by calling
+<a href="#label-29">dir</a>, <a href="#label-30">data</a>, or <a href="#label-31">text</a> depending on path.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (String): Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir, GPhys, or File (text assumed)</li>
+</ul>
+<p>ERROR</p>
+<ul>
+<li>an exception is raised if <var>path</var> is not appropriate.</li>
+</ul></dd>
+<dt><h4><a name="label-29" id="label-29"><code>dir(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "dir" -->
+<dd>
+<p>Returns a GDir specified the <var>path</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (String): Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GDir</li>
+</ul>
+<p>ERROR</p>
+<ul>
+<li>an exception is raised if <var>path</var> is invalid as a GDir.</li>
+</ul></dd>
+<dt><h4><a name="label-30" id="label-30"><code>data(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "data" -->
+<dd>
+<p>Returns a GPhys specified the <var>path</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (String): Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>ERROR</p>
+<ul>
+<li>an exception is raised if <var>path</var> is invalid as a GPhys.</li>
+</ul></dd>
+<dt><h4><a name="label-31" id="label-31"><code>text(<var>path</var>)</code></a></h4></dt><!-- RDLabel: "text" -->
+<dd>
+<p>Returns a text file object specified the <var>path</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (String): Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a File</li>
+</ul>
+<p>ERROR</p>
+<ul>
+<li>an exception is raised if <var>path</var> is invalid as a text file
+      (based on the pattern: see above).</li>
+</ul></dd>
+<dt><h4><a name="label-32" id="label-32"><code>find_dir( <var>filt</var> )</code></a></h4></dt><!-- RDLabel: "find_dir" -->
+<dd>
+<p>Recursively search a GDir whose name match <var>filt</var>..</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>filt</var> (Regexp or String) If String, converted to Regexp
+      with Regexp.new(filt).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array holding pathes (String) that matched.</li>
+</ul></dd>
+<dt><h4><a name="label-33" id="label-33"><code>find_data( <var>name</var>=<var>nil</var>,<var>long_name</var>=<var>nil</var>,<var>units</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "find_data" -->
+<dd>
+<p>Recursively search data variables under the directory.
+Mathces are by taking "AND" for non-nil arguments.
+(At least one of the three arguments must be non-nil.)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>name</var> (Regexp or String or nil) Variable name. If String, 
+      converted to Regexp with Regexp.new(name).</li>
+<li><var>long_name</var> (Regexp or String or nil) long_name. If String, 
+      converted to Regexp with Regexp.new(long_name).</li>
+<li><var>long_name</var> (Units or String or nil) long_name. If String, 
+      converted to Units with Units.new(units).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array holding the path and variable name that matched 
+      (two-element Array of String; [path, variable_name] ).</li>
+</ul></dd>
+<dt><h4><a name="label-34" id="label-34"><code>list_dirs(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_dirs" -->
+<dd>
+<p>Returns the names of the directories.</p>
+<p>See also <a href="#label-40">ls</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (nil or String): if nil, the method is applied to the
+      current directory. If specified, listing is made for the directory
+      designated by it. Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-35" id="label-35"><code>list_dirs_v(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_dirs_v" -->
+<dd>
+<p>Verbose version of <a href="#label-34">list_dirs</a>, showing size and mtime like 'ls -l'.</p>
+<p>See also <a href="#label-43">ls_l</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>See <a href="#label-34">list_dirs</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li><p>an Array of String</p>
+<p>Example of a string:</p>
+<pre>275492  Apr 12 19:15 hogehoge_data.nc/</pre></li>
+</ul></dd>
+<dt><h4><a name="label-36" id="label-36"><code>list_data(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_data" -->
+<dd>
+<p>Returns the names of the data (variables on which GPhys objects
+can be defined.) Returns a non-empty array if the GDir (current
+or at the path) is actually a file recognized by GPhys (i.e.,
+NetCDF or GrADS control file).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (nil or String): if nil, the method is applied to the
+      current directory. If specified, listing is made for the directory
+      designated by it. Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-37" id="label-37"><code>list_data_v(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_data_v" -->
+<dd>
+<p>Verbose version of <a href="#label-36">list_data</a>, showing shape, long_name,
+and units.</p>
+<p>See also <a href="#label-43">ls_l</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>See <a href="#label-36">list_data</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li><p>an Array of String</p>
+<p>Example of a string:</p>
+<pre>u     [lon=120,lat=120,z=40,t=73]     'x components of velocity'      (m/s)</pre></li>
+</ul></dd>
+<dt><h4><a name="label-38" id="label-38"><code>list_texts(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_texts" -->
+<dd>
+<p>Returns the names of the text files.
+Whether a file is a text file or not is judged based on the
+name of the file: That matched the predefined patters is
+judged as a text file regardless whether it is really so.
+The default pattern is /\.txt$/ and /^\w*$/. The patterns
+can be customized by <!-- Reference, RDLabel "set_text_patterns" doesn't exist --><em class="label-not-found">set_text_patterns</em><!-- Reference end --> or 
+<!-- Reference, RDLabel "add_text_patterns" doesn't exist --><em class="label-not-found">add_text_patterns</em><!-- Reference end -->.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>path</var> (nil or String): if nil, the method is applied to the
+      current directory. If specified, listing is made for the directory
+      designated by it. Either relative or absolute.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-39" id="label-39"><code>list_texts_v(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "list_texts_v" -->
+<dd>
+<p>Verbose version of <a href="#label-38">list_texts</a>, showing size and mtime like 'ls -l'.</p>
+<p>See also <a href="#label-43">ls_l</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>See <a href="#label-38">list_texts</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-40" id="label-40"><code>ls(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "ls" -->
+<dd>
+<p>Prints the results of <a href="#label-34">list_dirs</a>, <a href="#label-36">list_data</a>, and 
+<a href="#label-38">list_texts</a> on the standard output.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-41" id="label-41"><code>each_dir</code></a></h4></dt><!-- RDLabel: "each_dir" -->
+<dd>
+Iterator for each directory (GDir) under  self.</dd>
+<dt><h4><a name="label-42" id="label-42"><code>each_data</code></a></h4></dt><!-- RDLabel: "each_data" -->
+<dd>
+Iterator for each GPhys under self.</dd>
+<dt><h4><a name="label-43" id="label-43"><code>ls_l(<var>path</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "ls_l" -->
+<dd>
+<p>Verbose version of <a href="#label-40">ls</a>.
+Prints the results of <a href="#label-35">list_dirs_v</a>, <a href="#label-37">list_data_v</a>, and 
+<a href="#label-39">list_texts_v</a> on the standard output.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-44" id="label-44"><code>mtime</code></a></h4></dt><!-- RDLabel: "mtime" -->
+<dd>
+<p>Returns the last modified time.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Time</li>
+</ul></dd>
+<dt><h4><a name="label-45" id="label-45"><code>atime</code></a></h4></dt><!-- RDLabel: "atime" -->
+<dd>
+<p>Returns the last accessed time.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Time</li>
+</ul></dd>
+<dt><h4><a name="label-46" id="label-46"><code>ctime</code></a></h4></dt><!-- RDLabel: "ctime" -->
+<dd>
+<p>Returns ctime.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Time</li>
+</ul></dd>
+<dt><h4><a name="label-47" id="label-47"><code>mtime_like_ls_l</code></a></h4></dt><!-- RDLabel: "mtime_like_ls_l" -->
+<dd>
+<p>Returns the last modified time formated as in ls -l.
+That is, if  the  time  of last modification is greater than 
+six months ago, it is shown in the format 'month date year';
+otherwise, 'month date time'.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String.</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

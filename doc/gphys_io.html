@@ -1,0 +1,183 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys_io.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">module NumRu::GPhys::IO</a></h1><!-- RDLabel: "module NumRu::GPhys::IO" -->
+<p>A module to handle file IO regarding GPhys. </p>
+<p>Many of the functionality of this module is implemented in the modules
+for specific file types such as NumRu::GPhys::NetCDF_IO, to which this
+module directs operations.</p>
+<p>For example, GPhys::IO.open(file, name) simply calls
+GPhys::*_IO.open(file, name), where '*' is
+NetCDF, GrADS, or grib.</p>
+<h2><a name="label-1" id="label-1">Module functions</a></h2><!-- RDLabel: "Module functions" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>open(<var>file</var>, <var>varname</var>)</code></a></h4></dt><!-- RDLabel: "open" -->
+<dd>
+<p>Opens a GPhys in <code>file</code> having the name <code>varname</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (String, NetCDF, GRIB,.. etc, or Array, NArray, Regexp) :
+      Specifies the file. Path if String; a File pointer if NetCDF etc..
+      The processing is forwarded to open_multi, if this argument is
+      an Array, NArray, or Regexp. </li>
+<li>varname (String) : name of the variable</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-3" id="label-3"><code>open_multi(<var>files</var>, <var>varname</var>)</code></a></h4></dt><!-- RDLabel: "open_multi" -->
+<dd>
+<p>Opens a GPhys by combining a variable across multiple files.
+It initializes GPhys objects over the files by calling open and
+unites them into a single GPhys object by using <code>GPhys.join</code> or
+<code>GPhys.join_md</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>files (Array, NArray (NArray.object), or Regexp) : Specifies the files.
+<ul>
+<li>when Array, it must consist of paths or file pointers 
+        (that are accepted by open).
+        All coordinates of the variable in the files are scanned, 
+        and a joined object is constructed properly.
+        Thus, you can simply put subsets of a 2D tiling in a simple
+        non-nested 1D Array. <code>GPhys.join</code> is used in this case.</li>
+<li><p>when NArray, it must consist of paths or file pointers 
+        (that are accepted by open).
+        Each dimension with multiple elements must correspond
+        to a dimension along which joining is made. 
+        For example, a 2D tiling can be specified as</p>
+<pre>files = NArray.to_na([['f00.nc','f10.nc'],['f01.nc','f11.nc']])
+gp = GPhys::IO.open_multi( files, "f" )</pre>
+<p><code>GPhys.join_md</code> is used in this case.</p></li>
+<li><p>When Regexp, similar to when NArray, but expresses the paths.
+        The dimensions to join is specified by "captures"
+        (parentheses). For example, the above 2D tiling can be specified as</p>
+<pre>files = /f(\d)(\d).nc/
+gp = GPhys::IO.open_multi( files, "f" )</pre>
+<p>The regexp can contain a directory path (e.g., /dir\/sub\/f(\d)(d).nc/),
+but the directory part must be unique (i.e., a simple string),
+so only a single directly can be specified. All captures must
+be in the part representing the file names (in the directory).
+<code>GPhys.join_md</code> is used in this case.</p></li>
+</ul></li>
+<li>varname (String) : name of the variable</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-4" id="label-4"><code>write(<var>file</var>, <var>gphys</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "write" -->
+<dd>
+<p>Writes a GPhys object in a file</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (NetCDF, GRIB,.. etc) : the file. Writing must be permitted.
+      To close (finalize) it after writing is left to the user.</li>
+<li>gphys (GPhys) : the GPhys object to write</li>
+<li>name (String; optional) : if specified, this name is used in the file
+      rather than the name of gphys</li>
+</ul></dd>
+<dt><h4><a name="label-5" id="label-5"><code>write_grid(<var>file</var>, <var>grid_or_gphys</var>)</code></a></h4></dt><!-- RDLabel: "write_grid" -->
+<dt><h4><a name="label-6" id="label-6"><code>each_along_dims_write(<var>gphyses</var>, <var>files</var>, *<var>loopdims</var>){...}  # <var>a</var> <var>block</var> <var>is</var> <var>expected</var></code></a></h4></dt><!-- RDLabel: "each_along_dims_write" -->
+<dt><h4><a name="label-7" id="label-7"><code>var_names(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names" -->
+<dt><h4><a name="label-8" id="label-8"><code>var_names_except_coordinates(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names_except_coordinates" -->
+<dd>
+See the manual of NumRu::GPhys::NetCDF_IO for the methods listed above.</dd>
+<dt><h4><a name="label-9" id="label-9"><code>file2type(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2type" -->
+<dd>
+<p>Figures out the file type supported in this module.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (String, NetCDF, Grib, or GrADS_Gridded) :
+      What to return is of course obvious if it is 
+      NetCDF, Grib, or GrADS_Gridded. If it is a String,
+      it is assumed to be a path of a file, and the file type      
+      is determined by its suffix when 'nc', 'ctl', or 'grib';
+      In other cases, the type is figured out by reading in 
+      a few bytes from the beginning.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>GPhys::IO::NETCDF, GPhys::IO::GRIB, or GPhys::IO::GRADS, 
+      which are string constants.</li>
+</ul></dd>
+<dt><h4><a name="label-10" id="label-10"><code>file2specific_module(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2specific_module" -->
+<dd>
+Same as <a href="#label-9">file2type</a>, but returns GPhys::NetCDF_IO,
+GPhys::GrADS_IO, or GPhys::Grib_IO.</dd>
+<dt><h4><a name="label-11" id="label-11"><code>file2file_class(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2file_class" -->
+<dd>
+Same as <a href="#label-9">file2type</a>, but returns NetCDF,
+GrADS_Gridded, or Grib.</dd>
+<dt><h4><a name="label-12" id="label-12"><code>parse_gturl(<var>gturl</var>)</code></a></h4></dt><!-- RDLabel: "parse_gturl" -->
+<dd>
+<p>Parses GTOOL4-type URLs to specify path, variable name,
+and optionally subsets, whose format is 
+path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gturl (String) GTOOL4 URL, whose format is
+      path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</li>
+</ul>
+<p>RETURN VALUES</p>
+<ul>
+<li>An Array consisting of [file, var, slice, cut_slice, thinning], where
+<ul>
+<li>file (String) : path</li>
+<li>var (String) : variable name</li>
+<li>slice (Array) : subset specifier by the grid numbers
+        to be used as GPhys#[slice].</li>
+<li>cut_slice (Array) : subset specifier in physical coordinate
+        to be used as GPhys#cut[cut_slice].</li>
+<li>thinning (Array) : additional subset specifier for thinning
+        with uniform intervals if needed to be used GPhys#[thinning]
+        after appling GPhys#cut.</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>open_gturl(<var>gturl</var>)</code></a></h4></dt><!-- RDLabel: "open_gturl" -->
+<dd>
+<p>a GPhys constructor from a Gtool4-type URL.
+See <a href="#label-12">parse_gturl</a> for its format.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>str2gphys(<var>str</var>)</code></a></h4></dt><!-- RDLabel: "str2gphys" -->
+<dd>
+<p>Open a GPhys from a slash("/")-separated String
+such as "U.nc/U" and "U.nc".</p>
+<ul>
+<li>Aimed to help quick jobs with interactive sessions
+      -- This method do not handle a GPhys across multiple files.</li>
+<li>if the variable path is ommited such as "U.nc",
+      try to find the variable in it -- read the file and if 
+      only one variable is found, assume that is the 
+      variable specified; otherwise, an exception is raised.</li>
+<li>URL is accepted, but it's only thru NetCDF assuming OPeNDAP.</li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>a String (file_path[/variable_path])
+      e.g. "U.nc/U", "U.nc", "http://.../U.nc/U"</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+</dl>
+<h2><a name="label-15" id="label-15">Module constants</a></h2><!-- RDLabel: "Module constants" -->
+<dl>
+<dt><h4><a name="label-16" id="label-16"><code>GTURLfmt</code></a></h4></dt><!-- RDLabel: "GTURLfmt" -->
+<dd>
+The format of Gtool4URL.</dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+=begin
+= NAME
+
+gplist - print out info on GPhys-compatible variables in specified files.
+
+= Usage 
+
+   % gplist [-h] [ FILES... ]
+
+where FILES are plane files (NetCDF, grib, GrADS control..) or directories. 
+If omitted, equivalent to specifing the current directory.
+
+= HISTORY
+
+  2005/05/15  S Takehiro (created)
+  2005/06/21  T Horinouchi (modified to use GDir (non-recursive version))
+  2005/08/10  S Takehiro (utilize internal function for printing help message)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+  2010/03/10  Y SASAKI (change help block into RD format)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ])
+
+begin
+  parser.each do |opt, arg|
+    case opt
+    when "--help"
+      help
+      exit(0)
+    end
+  end
+rescue
+  raise "\n\n"+usage
+end
+
+#------------------------ Do the job ------------------------
+GDir.top='/'
+
+if ARGV.length==0
+  paths = ['.']
+else
+  paths = ARGV
+end
+
+paths.each do |path| 
+  print path,":\n"
+  gdir = GDir.new(File.expand_path(path))
+  # for a plane file:
+  gdir.list_data_v.each{|s| print "  #{s}\n"}
+  # for a directory:
+  gdir.list_dirs.each do |sub|
+    lsv = gdir.dir(sub).list_data_v
+    if lsv.length>0
+      print( (ARGV.length!=0 ? "#{path.sub(/\/+$/,'')}/" : ""), sub, ":\n")
+      lsv.each{|s| print "  #{s}\n"}
+    end
+  end
+end

@@ -1,0 +1,176 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/unumeric.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::UNumeric</a></h1><!-- RDLabel: "class NumRu::UNumeric" -->
+<p>Class of Numeric with Units.</p>
+<p>Dependent on 
+<a href="http://ruby.gfd-dennou.org/products/numru=units">NumRu::Units</a>
+and Rational, a standard library.</p>
+<h2><a name="label-1" id="label-1">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>new(<var>val</var>, <var>uni</var>)</code></a></h4></dt><!-- RDLabel: "new" -->
+<dd>
+<p>Constractor.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>val</var> (Numeric)</li>
+<li><var>units</var> (NumRu::Units or String):  if string, internally converted to
+      a NumRu::Units</li>
+</ul></dd>
+<dt><h4><a name="label-3" id="label-3"><code>[val, <var>uni</var>]</code></a></h4></dt><!-- RDLabel: "[val, uni]" -->
+<dd>
+Same as new</dd>
+<dt><h4><a name="label-4" id="label-4"><code>from_date(<var>date</var>, <var>units</var>)</code></a></h4></dt><!-- RDLabel: "from_date" -->
+<dd>
+<p>Convert a DateTime (or Date) to a UNUmeric</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>date (Date or DateTime)</li>
+<li>units (Units or String) : units of the UNumeric to be created</li>
+</ul></dd>
+</dl>
+<h2><a name="label-5" id="label-5">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label-6" id="label-6"><code>val</code></a></h4></dt><!-- RDLabel: "val" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>the value (Numeric)</li>
+</ul></dd>
+<dt><h4><a name="label-7" id="label-7"><code>units</code></a></h4></dt><!-- RDLabel: "units" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>the units (NumRu::Units)</li>
+</ul></dd>
+<dt><h4><a name="label-8" id="label-8"><code>inspect</code></a></h4></dt><!-- RDLabel: "inspect" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>a String (e.g., '1 m')</li>
+</ul></dd>
+<dt><h4><a name="label-9" id="label-9"><code>to_s</code></a></h4></dt><!-- RDLabel: "to_s" -->
+<dd>
+aliasesed to <a href="#label-8">inspect</a>.</dd>
+<dt><h4><a name="label-10" id="label-10"><code>to_f</code></a></h4></dt><!-- RDLabel: "to_f" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>val.to_f</li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>to_i</code></a></h4></dt><!-- RDLabel: "to_i" -->
+<dd>
+RETURN VALUE
+<ul>
+<li>val.to_i</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>convert(<var>to_units</var>)</code></a></h4></dt><!-- RDLabel: "convert" -->
+<dd>
+<p>Convert to <var>to_units</var>.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a UNumeric</li>
+</ul>
+<p>EXCEPTION</p>
+<ul>
+<li>when the current units is incompatible with to_units.</li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>convert2</code></a></h4></dt><!-- RDLabel: "convert2" -->
+<dd>
+<p>Same as <a href="#label-12">convert</a>, but returns <var>self</var> if the units are
+incompatible (Warned).</p>
+<p>EXCEPTION</p>
+<ul>
+<li>none</li>
+</ul>
+<p>WARING MADE</p>
+<p>Warning is made to $stderr if the following
+condition is satisfied.</p>
+<ul>
+<li>the units of <var>self</var> and <var>to_units</var> are incompatible.</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>coerce(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "coerce" -->
+<dd>
+As you know. Can handle Numeric, Array, NArray.
+NOTE: VArray and GPhys know UNumeric.</dd>
+<dt><h4><a name="label-15" id="label-15"><code>*(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "*" -->
+<dd>
+<p>Multiplication. Knows Numeric, UNumeric, VArray, and GPhys.
+The units are multipled too. (if other is Numeric, it is assumed 
+to be non-dimension)</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a UNumeric, VArray, or GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-16" id="label-16"><code>/(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "/" -->
+<dd>
+Division. See <a href="#label-15">*</a>.</dd>
+<dt><h4><a name="label-17" id="label-17"><code>+(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "+" -->
+<dd>
+<p>Addition. Knows Numeric, UNumeric, VArray, and GPhys.
+The return value will have the units of <var>self</var>.</p>
+<p>SPECIAL REMARK!</p>
+<p>If <var>other</var> has units within a factor and/or offset
+of difference, It is CONVERTED before addition (by using <a href="#label-13">convert2</a>)!</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a UNumeric, VArray, or GPhys</li>
+</ul>
+<p>WARING MADE </p>
+<p>Warning is made to $stderr if the following
+condition is satisfied.</p>
+<ul>
+<li>the units of <var>self</var> and <var>to_units</var> are incompatible.</li>
+<li><var>other</var> is Numeric.</li>
+</ul></dd>
+<dt><h4><a name="label-18" id="label-18"><code>-(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "-" -->
+<dd>
+Subtraction. See <a href="#label-17">+</a>.</dd>
+<dt><h4><a name="label-19" id="label-19"><code>**(<var>num</var>)</code></a></h4></dt><!-- RDLabel: "**" -->
+<dd>
+Power.</dd>
+<dt><h4><a name="label-20" id="label-20"><code>abs</code></a></h4></dt><!-- RDLabel: "abs" -->
+<dd>
+Absolute value. Other math functions are also avialable as instance 
+methods.</dd>
+<dt><h4><a name="label-21" id="label-21"><code>to_datetime(<var>eps_sec</var>=<var>0</var>.<var>0</var>)</code></a></h4></dt><!-- RDLabel: "to_datetime" -->
+<dd>
+<p>Convert a time UNumeric into a DateTime</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>eps_sec (Float) : Magic epsilon to prevent the round-off of 
+      DateTime [seconds]. Recommended value is 0.1.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a DateTime    </li>
+</ul>
+<p>EXCEPTION</p>
+<ul>
+<li>raised if self does not have a time unit with a since field</li>
+</ul></dd>
+<dt><h4><a name="label-22" id="label-22"><code>strftime(<var>fmt</var>)</code></a></h4></dt><!-- RDLabel: "strftime" -->
+<dd>
+<p>Text expression of the date and time of a time UNumeric.
+Implemented as</p>
+<pre>self.to_datetime(0.1).strftime(fmt)</pre>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>fmt (Sting) : the format. Try</p>
+<pre>% man 3 strftime</pre>
+<p>to find how to write it.</p></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../bin/gpview</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">NAME</a></h1><!-- RDLabel: "NAME" -->
+<p>gpview - quick viewer for the values of a variable specified by a gtool4-type URL. </p>
+<ol>
+<li>for 1-dimensional variable, make line plot.</li>
+<li>for 2-dimensional variable, make contour/tone plot.</li>
+<li>for 3/more-dimensional variable, make contour/tone plot, 
+    select first 2D. possible to make animation.</li>
+</ol>
+<h1><a name="label-1" id="label-1">USAGE</a></h1><!-- RDLabel: "USAGE" -->
+<p>The first command form is </p>
+<pre>% gpview [options] gturl1 gturl2 gturl3 ...</pre>
+<p>where the format of the gturl is</p>
+<pre>path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</pre>
+<p>The second commnad form is </p>
+<pre>% gpview --var url [options] gtfile1 gtfile2 ...</pre>
+<p>where the format of the url is </p>
+<pre>varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</pre>
+<h1><a name="label-2" id="label-2">OPTIONS</a></h1><!-- RDLabel: "OPTIONS" -->
+<p>if you want to know more description, please read</p>
+<pre>http://ruby.gfd-dennou.org/products/gphys/doc/gpview.html</pre>
+<h2><a name="label-3" id="label-3">GLOBAL OPTIONS</a></h2><!-- RDLabel: "GLOBAL OPTIONS" -->
+<dl>
+<dt><h4><a name="label-4" id="label-4">--help:</a></h4></dt><!-- RDLabel: "&shy;&shy;help:" -->
+<dd>
+print this message. 
+</dd>
+<dt><h4><a name="label-5" id="label-5">--var url:</a></h4></dt><!-- RDLabel: "&shy;&shy;var url:" -->
+<dd>
+set the variable name and slicing parameters.
+</dd>
+<dt><h4><a name="label-6" id="label-6">--wsn [1-4]:</a></h4></dt><!-- RDLabel: "&shy;&shy;wsn [1-4]:" -->
+<dd>
+set work staion number. each number represent output device:
+1 : X window.
+2 : PS file. (named dcl.ps) 
+3 : Tcl/Tk file.
+4 : GTK Windows (depend on dcl-5.3)
+</dd>
+<dt><h4><a name="label-7" id="label-7">--clrmap [1-]:</a></h4></dt><!-- RDLabel: "&shy;&shy;clrmap [1-]:" -->
+<dd>
+set colormap to draw tone/contour.
+</dd>
+<dt><h4><a name="label-8" id="label-8">--itr [1-4,5-7,10-15,20-23,30-33]:</a></h4></dt><!-- RDLabel: "&shy;&shy;itr [1-4,5-7,10-15,20-23,30-33]:" -->
+<dd>
+set axis scale. default is 1.
+1 : linear scale for x/y axis 
+2 : linear scale for x , log scale for y axis
+3 : log scale for x , linear scale for y axis
+4 : log scale for x/y axis
+</dd>
+<dt><h4><a name="label-9" id="label-9">--similar [simfac,vxoff,vyoff]:</a></h4></dt><!-- RDLabel: "&shy;&shy;similar [simfac,vxoff,vyoff]:" -->
+<dd>
+(for 5&lt;=itr&lt;=7) set similarity parameters which are fed in DCL.grssim. 
+</dd>
+<dt><h4><a name="label-10" id="label-10">--map_axis [uxc,uyc,rot]:</a></h4></dt><!-- RDLabel: "&shy;&shy;map_axis [uxc,uyc,rot]:" -->
+<dd>
+(for 10&lt;=itr&lt;=33) set mapping parameters which are fed in DCL.umpcnt. 
+</dd>
+<dt><h4><a name="label-11" id="label-11">--title:</a></h4></dt><!-- RDLabel: "&shy;&shy;title:" -->
+<dd>
+set title of figure
+</dd>
+<dt><h4><a name="label-12" id="label-12">--aspect &lt;aspect&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;aspect <aspect>:" -->
+<dd>
+set aspect ratio of Viewport. default is 2.0.
+</dd>
+<dt><h4><a name="label-13" id="label-13">--noannotate:</a></h4></dt><!-- RDLabel: "&shy;&shy;noannotate:" -->
+<dd>
+not draw annotations. 
+</dd>
+<dt><h4><a name="label-14" id="label-14">--animate/anim &lt;dim&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;animate/anim <dim>:" -->
+<dd>
+plot animation along &lt;dim&gt;. &lt;dim&gt; must be name of dimension. 
+</dd>
+<dt><h4><a name="label-15" id="label-15">--alternate, --Ga:</a></h4></dt><!-- RDLabel: "&shy;&shy;alternate, &shy;&shy;Ga:" -->
+<dd>
+enable to backing store.
+</dd>
+<dt><h4><a name="label-16" id="label-16">--nowait, --Gw:</a></h4></dt><!-- RDLabel: "&shy;&shy;nowait, &shy;&shy;Gw:" -->
+<dd>
+not wait for any actions if animate 
+</dd>
+<dt><h4><a name="label-17" id="label-17">--reverse, --Gr:</a></h4></dt><!-- RDLabel: "&shy;&shy;reverse, &shy;&shy;Gr:" -->
+<dd>
+plot animation reversible if animate
+</dd>
+<dt><h4><a name="label-18" id="label-18">--smooth, --Gaw:</a></h4></dt><!-- RDLabel: "&shy;&shy;smooth, &shy;&shy;Gaw:" -->
+<dd>
+equal to --anlternate &amp;&amp; --nowait
+</dd>
+<dt><h4><a name="label-19" id="label-19">--exch:</a></h4></dt><!-- RDLabel: "&shy;&shy;exch:" -->
+<dd>
+exchange(transpose) x/y axis.
+</dd>
+<dt><h4><a name="label-20" id="label-20">--mean &lt;dim&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;mean <dim>:" -->
+<dd>
+mean along axis &lt;dim&gt;. 
+</dd>
+<dt><h4><a name="label-21" id="label-21">--eddy &lt;dim&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;eddy <dim>:" -->
+<dd>
+deviation from mean along axis &lt;dim&gt;. 
+</dd>
+<dt><h4><a name="label-22" id="label-22">--m, --map &lt;map_type&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;m, &shy;&shy;map <map_type>:" -->
+<dd>
+plot map. itr number must be set.  this option is neglect if itr
+number is 1-4.  abailable map type is coast_world, border_world,
+plate_world, state_usa, coast_japan, pref_japan
+</dd>
+<dt><h4><a name="label-23" id="label-23">--operation &lt;math_func&gt;:</a></h4></dt><!-- RDLabel: "&shy;&shy;operation <math_func>:" -->
+<dd>
+operation of the specified math function on the data.
+&lt;math_func&gt; should be a math function with one argument 
+such as log10, sqrt, sin, etc.
+</dd>
+<dt><h4><a name="label-24" id="label-24">--time_ax [nil|false|h|ymd]:</a></h4></dt><!-- RDLabel: "&shy;&shy;time_ax [nil|false|h|ymd]:" -->
+<dd>
+<p>specify type of calendar-type time axis: </p>
+<pre>nil   (=&gt; auto slection)
+false (=&gt; do not use the time axis even if 
+          the units of the axis is a time one with since field)
+"h"   (=&gt; like nil, but always use the hour-resolving datetime_ax method
+          in dclext_datetime_ax.rb)
+"ymd" (=&gt; like "h" but for y-m-d type using DCL.uc[xy]acl)</pre>
+</dd>
+</dl>
+<h2><a name="label-25" id="label-25">LINE/MARK OPTIONS</a></h2><!-- RDLabel: "LINE/MARK OPTIONS" -->
+<dl>
+<dt><h4><a name="label-26" id="label-26">--line:</a></h4></dt><!-- RDLabel: "&shy;&shy;line:" -->
+<dd>
+make line plot forced. (about first 1D)
+</dd>
+<dt><h4><a name="label-27" id="label-27">--mark:</a></h4></dt><!-- RDLabel: "&shy;&shy;mark:" -->
+<dd>
+make mark plot forced. (about first 1D)
+</dd>
+<dt><h4><a name="label-28" id="label-28">--index:</a></h4></dt><!-- RDLabel: "&shy;&shy;index:" -->
+<dd>
+set DCL line index, which set the color/thickness of the line
+primitive. please see DCL documents.
+</dd>
+<dt><h4><a name="label-29" id="label-29">--type:</a></h4></dt><!-- RDLabel: "&shy;&shy;type:" -->
+<dd>
+set line type.
+</dd>
+<dt><h4><a name="label-30" id="label-30">--range [min:max]</a></h4></dt><!-- RDLabel: "&shy;&shy;range [min:max]" -->
+<dd>
+set min/max value for line plot. min or max must be set.
+</dd>
+<dt><h4><a name="label-31" id="label-31">--overplot</a></h4></dt><!-- RDLabel: "&shy;&shy;overplot" -->
+<dd>
+set number of lines on each figure
+</dd>
+</dl>
+<h2><a name="label-32" id="label-32">CONTOUR/TONE OPTIONS</a></h2><!-- RDLabel: "CONTOUR/TONE OPTIONS" -->
+<dl>
+<dt><h4><a name="label-33" id="label-33">--shade:</a></h4></dt><!-- RDLabel: "&shy;&shy;shade:" -->
+<dd>
+make contour and tone plot.
+</dd>
+<dt><h4><a name="label-34" id="label-34">--noshade:</a></h4></dt><!-- RDLabel: "&shy;&shy;noshade:" -->
+<dd>
+make contour plot, without tone.
+</dd>
+<dt><h4><a name="label-35" id="label-35">--nocont:</a></h4></dt><!-- RDLabel: "&shy;&shy;nocont:" -->
+<dd>
+make tone plot, without contour.
+</dd>
+<dt><h4><a name="label-36" id="label-36">--range [min:max]:</a></h4></dt><!-- RDLabel: "&shy;&shy;range [min:max]:" -->
+<dd>
+set min/max value for contour/tone plot. min or max must be set.
+</dd>
+<dt><h4><a name="label-37" id="label-37">--crange:</a></h4></dt><!-- RDLabel: "&shy;&shy;crange:" -->
+<dd>
+set min/max value for contour plot. this is more dominant than --range
+</dd>
+<dt><h4><a name="label-38" id="label-38">--srange:</a></h4></dt><!-- RDLabel: "&shy;&shy;srange:" -->
+<dd>
+set min/max value for tone plot. this is more dominant than --interval/int
+</dd>
+<dt><h4><a name="label-39" id="label-39">--interval,--int [num]:</a></h4></dt><!-- RDLabel: "&shy;&shy;interval,&shy;&shy;int [num]:" -->
+<dd>
+set interval value for contour/tone plot. set the number of lines if
+you set negative value.
+</dd>
+<dt><h4><a name="label-40" id="label-40">--cint:</a></h4></dt><!-- RDLabel: "&shy;&shy;cint:" -->
+<dd>
+set interval value for contour plot. this is more dominant 
+than --interval/int
+</dd>
+<dt><h4><a name="label-41" id="label-41">--sint:</a></h4></dt><!-- RDLabel: "&shy;&shy;sint:" -->
+<dd>
+set interval value for tone plot. this is more dominant than --interval/int.
+</dd>
+<dt><h4><a name="label-42" id="label-42">--levels:</a></h4></dt><!-- RDLabel: "&shy;&shy;levels:" -->
+<dd>
+set values of contour/tone levels. 
+</dd>
+<dt><h4><a name="label-43" id="label-43">--clevels:</a></h4></dt><!-- RDLabel: "&shy;&shy;clevels:" -->
+<dd>
+set values of contour levels. 
+</dd>
+<dt><h4><a name="label-44" id="label-44">--slevels:</a></h4></dt><!-- RDLabel: "&shy;&shy;slevels:" -->
+<dd>
+set tone of contour levels. 
+</dd>
+<dt><h4><a name="label-45" id="label-45">--patterns:</a></h4></dt><!-- RDLabel: "&shy;&shy;patterns:" -->
+<dd>
+set each patterns for tone plot. 
+</dd>
+<dt><h4><a name="label-46" id="label-46">--tonf:</a></h4></dt><!-- RDLabel: "&shy;&shy;tonf:" -->
+<dd>
+use tonf instead of tone.
+</dd>
+<dt><h4><a name="label-47" id="label-47">--nocolorbar:</a></h4></dt><!-- RDLabel: "&shy;&shy;nocolorbar:" -->
+<dd>
+do not draw color bar
+</dd>
+<dt><h4><a name="label-48" id="label-48">--nozero:</a></h4></dt><!-- RDLabel: "&shy;&shy;nozero:" -->
+<dd>
+do not draw zero contour
+</dd>
+</dl>
+<h2><a name="label-49" id="label-49">EXAMPLES</a></h2><!-- RDLabel: "EXAMPLES" -->
+<p>For a single GPhys variable, </p>
+<pre>% gpview data.nc@temp
+% gpview data.nc@temp,lon=130:150,lat=0:90:2
+% gpview --nocont data.nc@temp,lon=130:150,lat=0    
+% gpview --noshade data.nc@temp,lon=130:150,lat=0    
+% gpview --mean lon data.nc@temp,lon=130:150,lat=0
+% gpview --exch data.nc@temp,lon=130:150,lat=0
+% gpview --animate lon data.nc@temp,lon=130:150
+% gpview --animate lon --alternate data.nc@temp
+% gpview --smooth lon data.nc@temp,lon=130:150
+% gpview --levels 0,10,20,30 --pattern 30999,40999,50999,60999,70999 data.nc@temp
+% gpview --overplot=3 --anim t data.nc@temp,lon=0
+% gpview --mark data.nc@temp,lon=0,lat=0
+% gpview --operation log10 data.nc@temp,lon=0
+% gpview --time_ax false data.nc@temp,lon=0,lat=0</pre>
+<p>For multiple GPhys variables, </p>
+<pre>% gpview data1.nc@temp data2.nc@temp
+% gpview data1.nc@temp,lon=130:150 data2.nc@temp,lon=150:170
+% gpview --overplot=3 --anim t data.nc@temp,lon=0 data.nc@temp,lon=10
+% gpview --var temp,lon=130:150 data?.nc 
+% gpview --anim t --var temp,lon=130:150 data*.nc </pre>
+<h2><a name="label-50" id="label-50">HISTORY</a></h2><!-- RDLabel: "HISTORY" -->
+<pre>2004/12/14  D Tsukahara &amp;&amp; T Horinouti(parse_gturl)
+2005/01/08  D Tsukahara (add option --exch and able to invalid value)
+2005/01/09  D Tsukahara (add option --animate, smooth, alternate, index )
+2005/01/10  D Tsukahara (transpose axis with attr "positive:down" ,
+                         abailable loopsense_flag. )
+2005/01/10  D Tsukahara (implement GGraph::color_bar, and margin_info, 
+                         which file name, date, and toolname. )
+2005/01/11  D Tsukahara ( 1. write document about OPTIONS. 
+                          2. add many options. more info please see document. )
+2005/01/23  S Takehiro  (add option --similar, map_axis)
+2005/02/09  D Tsukahara &amp;&amp; M Nakano (add option --reverse, --Gr, --map)
+2005/02/10  D Tsukahara (change option parser (getopts =&gt; getoptlong))
+2005/02/24  D Tsukahara (apply --range for line plot)
+2005/06/15  S Takehiro (add option --levels, --clevels, --slevels, --patterns)
+2005/06/17  S Takehiro (missing_value attribute setting removed)
+2005/06/22  S Takehiro (debug, clipping control added to GGraph::annotate)
+2005/06/23  S Takehiro (debug, option --title implemented)
+2005/07/15  S Takehiro (option --noannotate implemented)
+2005/08/07  S Takehiro (option --overplot implemented)
+2005/08/09  S Takehiro &amp;&amp; T Horinouchi (add option --help and help function.
+                                          URL information corrected. )
+2005/08/23  S Takehiro (multiple Gphys variables plotting 
+                         and option --var implemented)
+2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+2005/10/30  S Takehiro (option --animate recoverd)
+2005/10/31  S Takehiro (option --smooth bug fixed)
+2006/03/07  M Nakano (option --int bug fixed)
+2007/10/03  S Takehiro (option --nocolorbar implemented)
+2008/04/03  S Takehiro (option --nozero implemented)
+2008/12/14  S Takehiro (option --mark implemented)
+2010/03/10  Y SASAKI (change help block into RD format)
+2011/01/14  T Tanigawa &amp;&amp; S Takehiro (option --operation implemented)
+2011/11/04  S Takehiro (option --time_ax implemented)
+2011/11/20  S Takehiro (option --eddy implemented)
+2012/02/19  S Takehiro (description for gturl format updated)
+2013/01/29  T Tanigawa &amp;&amp; S Takehiro (calculation of aspect ratio 
+                                      of viewport improved)
+2013/01/29  S Nishizawa &amp;&amp; S Takehiro (sequential operation implemented)</pre>
+
+</body>
+</html>

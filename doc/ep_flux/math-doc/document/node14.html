@@ -1,0 +1,1065 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with jLaTeX2HTML 2K.1beta (1.48) JA patch-1.4
+patched version by:  Kenshi Muto, Debian Project.
+LaTeX2HTML 2K.1beta (1.48),
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>変形オイラー平均方程式系</TITLE>
+<META NAME="description" CONTENT="変形オイラー平均方程式系">
+<META NAME="keywords" CONTENT="document">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-2022-jp">
+<META NAME="Generator" CONTENT="jLaTeX2HTML v2K.1beta JA patch-1.4">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="document.css">
+
+<LINK REL="previous" HREF="node13.html">
+<LINK REL="up" HREF="node11.html">
+<LINK REL="next" HREF="node15.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html206"
+  HREF="node15.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html202"
+  HREF="node11.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html198"
+  HREF="node13.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html204"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html207"
+  HREF="node15.html">参考文献</A>
+<B> :</B> <A NAME="tex2html203"
+  HREF="node11.html">プリミティブ方程式系と変形オイラー平均の復習</A>
+<B> :</B> <A NAME="tex2html199"
+  HREF="node13.html">オイラー平均方程式系</A>
+ &nbsp <B>  <A NAME="tex2html205"
+  HREF="node1.html">目次</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION004300000000000000000">
+変形オイラー平均方程式系</A>
+</H1>
+
+(<A HREF="node13.html#eq:new_euler_mean_pe"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を EP フラックス, 残差循環を用いて書き直す.
+EP フラックス, 残差循環は以下のように定義する.
+
+<DIV ALIGN="CENTER"><A NAME="eq:residual_v_app"></A><A NAME="eq:residual_w_app"></A><!-- MATH
+ \begin{subequations}
+\begin{align}
+	\overline{v}^* 
+	& =
+     \overline{v} 
+	- \Dinv{\rho_0} \DP{}{z^*}
+	\left( \rho_0 
+	 \frac{\overline{v'\theta'}}
+	 {\overline{\DP{\theta}{z^*}}}
+	\right)
+	\\
+                  \overline{w}^* 
+     & =    \overline{w} 
+                + \Dinv{a \cos\phi} 
+                  \DP{}{\phi}
+                  \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+                  \right)
+    \end{align}
+ 
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="129" ALIGN="BOTTOM" BORDER="0"
+ SRC="img124.png"
+ ALT="\begin{subequations}\begin{align} \overline{v}^*  &amp; = \overline{v}  - \Dinv{...
+...\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+    
+<BR>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+{F_\phi} &=& \rho_0 a
+        \cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+     \overline{u'v'}\right) \\
+        {F_z^*} &=& \rho_0 a
+        \cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]
+       \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+     \overline{u'w'}\right) 
+    
+\end{eqnarray*}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="26" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img125.png"
+ ALT="$\displaystyle {F_\phi}$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="225" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img126.png"
+ ALT="$\displaystyle \rho_0 a
+\cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+\frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+\overline{u'v'}\right)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="27" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$\displaystyle {F_z^*}$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="312" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img128.png"
+ ALT="$\displaystyle \rho_0 a
+\cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \p...
+...rac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+\overline{u'w'}\right)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<BR>
+<BR>
+
+まず連続の式を書き換える.
+(<A HREF="node13.html#eq:new_euler_mean_pe_continuity"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) に
+(<A HREF="node14.html#eq:residual_v_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), (<A HREF="node14.html#eq:residual_w_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を代入すると
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="362" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img129.png"
+ ALT="$\displaystyle \Dinv{a \cos \phi} \DP{}{\phi}\left[ \left\{  \overline{v}^* ...
+...v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\} \cos\phi \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="458" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img130.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0} \DP{}{z^*}  \left[ \rho_0  \left\{ \o...
+...ne{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\} \right] = 0,$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="298" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img131.png"
+ ALT="$\displaystyle \Dinv{a \cos \phi} \DP{}{\phi} \left( \overline{v}^* \cos\phi \right) + \Dinv{\rho_0} \DP{}{z^*}  \left( \rho_0 \overline{w}^* \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="704" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img132.png"
+ ALT="$\displaystyle \qquad + \Dinv{a \cos \phi} \DP{}{\phi} \left\{  \Dinv{\rho_0...
+...c{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\} = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+この第三項と第四項だけを取り出すと
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="648" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img133.png"
+ ALT="$\displaystyle \qquad  \Dinv{a \cos \phi} \DP{}{\phi} \left\{  \Dinv{\rho_0}...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="597" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img134.png"
+ ALT="$\displaystyle =  \Dinv{a \cos \phi} \left[ \DP{}{\phi} \left\{  \Dinv{\rho...
+...overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="601" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$\displaystyle =  \Dinv{a \cos \phi} \left[ \Dinv{\rho_0} \DP{}{\phi} \left...
+...overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="39" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$\displaystyle = 0.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+したがって, 連続の式は以下のようになる.
+<BR>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray}
+\Dinv{a \cos \phi}
+     \DP{}{\phi}
+     \left(
+             \overline{v}^* \cos\phi
+     \right)
+   + \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left( \rho_0  \overline{w}^*  \right) = 0.
+\end{eqnarray}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="338" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$\displaystyle \Dinv{a \cos \phi}
+\DP{}{\phi}
+\left(
+\overline{v}^* \cos\phi
+\right)
++ \Dinv{\rho_0}
+\DP{}{z^*}
+\left( \rho_0 \overline{w}^* \right) = 0.$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(A.14)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<BR>
+<BR>
+
+次に <IMG
+ WIDTH="15" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img45.png"
+ ALT="$ u$"> の式を書き換える.
+(<A HREF="node13.html#eq:new_euler_mean_pe_momentum_x"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) に
+(<A HREF="node14.html#eq:residual_v_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), (<A HREF="node14.html#eq:residual_w_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を代入すると
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="31" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="$\displaystyle \DP{\overline{u}}{t}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="574" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img138.png"
+ ALT="$\displaystyle + \Dinv{a} \left[  \overline{v}^*  + \Dinv{\rho_0} \DP{}{z^*}...
+...eta'}} {\overline{\DP{\theta}{z^*}}} \right) \right] \DP{\overline{u}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="627" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$\displaystyle \qquad \qquad - f  \left[  \overline{v}^*  + \Dinv{\rho_0} \D...
+...ne{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right] - \overline{X}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="408" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img140.png"
+ ALT="$\displaystyle \qquad = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^2 \phi) - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="31" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="$\displaystyle \DP{\overline{u}}{t}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="339" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img141.png"
+ ALT="$\displaystyle + \frac{\overline{v}^*}{a} \DP{\overline{u}}{\phi} + \overline{w...
+...ine{v}^*  - \frac{\tan \phi}{a} \overline{u} \ \overline{v}^*  - \overline{X}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="507" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img142.png"
+ ALT="$\displaystyle \qquad = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^...
+...line{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \DP{\overline{u}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="384" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$\displaystyle \qquad \qquad + f \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0  \fra...
+...\DP{\theta}{z^*}}} \right) - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="493" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img144.png"
+ ALT="$\displaystyle \qquad \qquad - \Dinv{\rho_0 a} \DP{}{z^*} \left( \rho_0  \fra...
+...( \rho_0  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="31" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img88.png"
+ ALT="$\displaystyle \DP{\overline{u}}{t}$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="342" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img145.png"
+ ALT="$\displaystyle + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi}  \left( \overli...
+...) + \overline{w}^* \DP{\overline{u}}{z^*} - f \overline{v}^*  - \overline{X}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="559" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img146.png"
+ ALT="$\displaystyle \qquad = - \Dinv{\rho_0 a^2 \cos^2 \phi}  \DP{}{\phi} (\rho_0 a...
+...line{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \DP{\overline{u}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="589" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img147.png"
+ ALT="$\displaystyle \qquad \qquad + \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left...
+... \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} (\rho_0 a \cos \phi \overline{w'u'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="485" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img148.png"
+ ALT="$\displaystyle \qquad \qquad - \Dinv{\rho_0 a} \DP{}{z^*} \left( \rho_0  \fra...
+...t( \rho_0  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+<A NAME="eq:tem-u-tochuu">(A.15)</A></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+(<A HREF="node14.html#eq:tem-u-tochuu"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) の右辺を以下のように変形する.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="594" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img149.png"
+ ALT="$\displaystyle - \Dinv{\rho_0 a^2 \cos^2 \phi}  \DP{}{\phi} (\rho_0 a \overline...
+...\cos \phi  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="589" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img147.png"
+ ALT="$\displaystyle \qquad \qquad + \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left...
+... \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} (\rho_0 a \cos \phi \overline{w'u'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="460" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img150.png"
+ ALT="$\displaystyle \qquad \qquad - \Dinv{\rho_0 a} \DP{}{z^*} \left( \rho_0  \fra...
+...rline{\DP{\theta}{z^*}}} \DP{}{z^*} \left(  \DP{\overline{u}}{\phi} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="443" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img151.png"
+ ALT="$\displaystyle \qquad \qquad + \frac{\tan \phi}{\rho_0 a} \DP{}{z^*} \left( \...
+...eta'}} {\overline{\DP{\theta}{z^*}}} \DP{}{z^*} \left( \overline{u} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="557" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img152.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 ...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="377" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img153.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a}  \rho_0  \frac{\overline{v'\theta'}}...
+...ac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="457" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img154.png"
+ ALT="$\displaystyle \qquad + \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \lef...
+...line{\DP{\theta}{z^*}}} \right) - \rho_0 a \cos \phi \overline{w'u'} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="423" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img155.png"
+ ALT="$\displaystyle \qquad - \Dinv{\rho_0 a} \DP{}{z^*} \left( \rho_0  \frac{\over...
+...u} \rho_0  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="557" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img152.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 ...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="572" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ \rho_0 a \cos^2...
+...ine{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="457" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img154.png"
+ ALT="$\displaystyle \qquad + \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \lef...
+...line{\DP{\theta}{z^*}}} \right) - \rho_0 a \cos \phi \overline{w'u'} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="580" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img157.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a \cos \phi}  \left[ - \cos \phi \DP{}{...
+...  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="557" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img152.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 ...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="572" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ \rho_0 a \cos^2...
+...ine{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="427" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img158.png"
+ ALT="$\displaystyle \qquad + \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ f \r...
+...} {\overline{\DP{\theta}{z^*}}} - \rho_0 a \cos \phi \overline{w'u'} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="441" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img159.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ - \rho_...
+...u} \rho_0  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+<A NAME="eq:tem-u-uhen">(A.16)</A></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+(<A HREF="node14.html#eq:tem-u-uhen"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) の第一項と第二項だけ取り出すと
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="537" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img160.png"
+ ALT="$\displaystyle \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 a \...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="572" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img156.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ \rho_0 a \cos^2...
+...ine{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="299" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="587" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$\displaystyle \qquad + \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ \rho_0 a \cos^2...
+... \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="630" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img163.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \left[ - \DP{}{\phi} (\rho_0 ...
+...ta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*} \right)  \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="451" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img164.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \DP{}{\phi} \left[ - \rho_0 a...
+...ine{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \DP{\overline{u}}{z^*} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="393" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img165.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \DP{}{\phi} \left[ \rho_0 a \...
+...'\theta'}} {\overline{\DP{\theta}{z^*}}} - \overline{v'u'} \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="222" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img166.png"
+ ALT="$\displaystyle = \Dinv{\rho_0 a^2 \cos^2 \phi}  \DP{}{\phi} \left( \cos \phi F^{*}_{\phi} \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+(<A HREF="node14.html#eq:tem-u-uhen"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) の第三項と第四項だけ取り出すと
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="775" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$\displaystyle \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ f \rho_0 a \co...
+...u} \rho_0  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="595" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$\displaystyle =  \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \rho_0 a \...
+...rline{v'\theta'}} {a \cos \phi \overline{\DP{\theta}{z^*}}} \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="626" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img169.png"
+ ALT="$\displaystyle =  \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \rho_0 a \...
+...{a \cos \phi \overline{\DP{\theta}{z^*}}} - \overline{w'u'} \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="626" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img169.png"
+ ALT="$\displaystyle =  \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \rho_0 a \...
+...{a \cos \phi \overline{\DP{\theta}{z^*}}} - \overline{w'u'} \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="481" HEIGHT="78" ALIGN="MIDDLE" BORDER="0"
+ SRC="img170.png"
+ ALT="$\displaystyle =  \frac{1}{\rho_0 a \cos \phi}  \DP{}{z^*} \left[ \rho_0 a \...
+...'\theta'}} {\overline{\DP{\theta}{z^*}}} - \overline{w'u'} \right\} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="136" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img171.png"
+ ALT="$\displaystyle = \frac{1}{\rho_0 a \cos \phi}  \DP{F^{*}_{z}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+以上より, (<A HREF="node14.html#eq:tem-u-tochuu"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) は次のようになる.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="736" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img172.png"
+ ALT="$\displaystyle \DP{\overline{u}}{t} + \frac{\overline{v}^*}{a \cos \phi} \DP{}{...
+...hi} \right) + \frac{1}{\rho_0 a \cos \phi}  \DP{F^{*}_{z}}{z^*},  \nonumber$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="518" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img173.png"
+ ALT="$\displaystyle \DP{\overline{u}}{t} + \frac{\overline{v}^*}{a \cos \phi} \DP{}{...
+...\overline{v}^*  - \overline{X}  = \Dinv{\rho_0 a \cos \phi} \Ddiv{\Dvect{F}}.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+ここで, 子午面内の発散を以下のように表した.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="279" HEIGHT="62" ALIGN="MIDDLE" BORDER="0"
+ SRC="img174.png"
+ ALT="$\displaystyle \Ddiv{\Dvect{F}}  = \Dinv{a \cos \phi } \DP{(\cos \phi F_{\phi})}{\phi} + \DP{F_{z^{*}}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(A.17)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<BR>
+<BR>
+
+次に熱力学の式を書き換える.
+(<A HREF="node13.html#eq:new_euler_mean_pe_thermal"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) に
+(<A HREF="node14.html#eq:residual_v_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), (<A HREF="node14.html#eq:residual_w_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を代入すると
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="647" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="$\displaystyle \DP{\overline{\theta}}{t} + \frac{1}{a}  \left[  \overline{v}^...
+...P{\theta}{z^*}}} \right) \right] \DP{\overline{\theta}}{z^*} - \overline{Q}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="390" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img176.png"
+ ALT="$\displaystyle \qquad  = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi) - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="215" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img177.png"
+ ALT="$\displaystyle \DP{\overline{\theta}}{t} + \frac{\overline{v}^*}{a} \DP{\overline{\theta}}{\phi} + \overline{w}^* \DP{\overline{\theta}}{z^*} - \overline{Q}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="498" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img178.png"
+ ALT="$\displaystyle \qquad  = - \Dinv{\rho_0 a} \DP{}{z^*} \left( \rho_0  \frac{\o...
+...v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \DP{\overline{\theta}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="403" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img179.png"
+ ALT="$\displaystyle \qquad \qquad - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi) - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+となる.
+この右辺を更に変形すると
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="439" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img180.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0  \frac{\overline{v'\th...
+...v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \DP{\overline{\theta}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="365" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$\displaystyle \qquad - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi) - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="312" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img182.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0  \frac{\overline{v'\th...
+...eta'}} {a \overline{\DP{\theta}{z^*}}} \DP{}{z^*}\DP{\overline{\theta}}{\phi}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="520" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img183.png"
+ ALT="$\displaystyle \qquad  + \Dinv{a \cos\phi}  \left[  \DP{}{\phi} \left( \cos \...
+...( \overline{\DP{\theta}{z^*}} \right)^{-1} \right] \DP{\overline{\theta}}{z^*}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="365" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$\displaystyle \qquad - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi) - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="658" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img184.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0  \frac{\overline{v'\th...
+...{\overline{\theta}}{z^*} - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="585" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left[ \rho_0  \frac{\overline{v'\th...
+... \overline{\DP{\theta}{z^*}} \right)^{-1} \DP{\overline{\theta}}{z^*} \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="416" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left[ \rho_0  \left( \frac{\overli...
+... \frac{ \DP{\overline{\theta}}{z^*} } { \overline{\DP{\theta}{z^*}} } \right)$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$\displaystyle =$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="279" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img187.png"
+ ALT="$\displaystyle - \Dinv{\rho_0} \DP{}{z^*} \left[ \rho_0  \left( \frac{\overli...
+...^*}}} \DP{\overline{\theta}}{\phi} + \overline{w'\theta'} \right)  \right].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+これより, 熱力学の式は以下のようになる.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="515" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img188.png"
+ ALT="$\displaystyle \DP{\overline{\theta}}{t} + \frac{\overline{v}^*}{a} \DP{\overli...
+...^*}}} \DP{\overline{\theta}}{\phi} + \overline{w'\theta'} \right)  \right].$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<BR>
+<BR>
+
+最後に <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img189.png"
+ ALT="$ v$"> の式について考える.
+(<A HREF="node13.html#eq:new_euler_mean_pe_momentum_y"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) に
+(<A HREF="node14.html#eq:residual_v_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>), (<A HREF="node14.html#eq:residual_w_app"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を代入すると
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="692" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$\displaystyle \DP{}{t} \left[  \overline{v}^*  + \Dinv{\rho_0} \DP{}{z^*} \...
+...  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="582" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$\displaystyle \qquad \qquad + \left[ \overline{w}^*  - \Dinv{a \cos\phi}  \...
+...  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="321" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img192.png"
+ ALT="$\displaystyle \qquad \qquad + f \overline{u} + \frac{\tan\phi}{a} (\overline{u})^2 + \Dinv{a} \DP{\overline{\Phi}}{\phi} - \overline{Y}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="474" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img193.png"
+ ALT="$\displaystyle \qquad = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'^2} \cos\phi)...
+...\rho_0}\DP{}{z^*}(\rho_0\overline{v' w'}) - \overline{u'^2}\frac{\tan\phi}{a},$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="193" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img194.png"
+ ALT="$\displaystyle f \overline{u} + \frac{\tan\phi}{a} (\overline{u})^2 + \Dinv{a} \DP{\overline{\Phi}}{\phi}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="764" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img195.png"
+ ALT="$\displaystyle \qquad = - \DP{}{t} \left[  \overline{v}^*  + \Dinv{\rho_0} \...
+...  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="582" HEIGHT="76" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="$\displaystyle \qquad \qquad - \left[ \overline{w}^*  - \Dinv{a \cos\phi}  \...
+...  \frac{\overline{v'\theta'}} {\overline{\DP{\theta}{z^*}}} \right) \right]$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD>&nbsp;</TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="525" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="$\displaystyle \qquad \qquad - \Dinv{a\cos\phi} \DP{}{\phi}(\overline{v'^2} \co...
+...}(\rho_0\overline{v' w'}) - \overline{u'^2} \frac{\tan\phi}{a} + \overline{Y}$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Andrews <I>et al.</I> (1987) によれば, この式の右辺の量は
+左辺に比べれば小さい. 右辺の項を全てまとめて <IMG
+ WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img198.png"
+ ALT="$ G$"> と書くと
+<IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img189.png"
+ ALT="$ v$"> の式は次のようになる.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="247" HEIGHT="68" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$\displaystyle \overline{u}  \left( f + \frac{\tan\phi}{a} \overline{u} \right)  + \Dinv{a} \DP{\overline{\Phi}}{\phi} = G.$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+&nbsp;&nbsp;&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<BR>
+<BR>
+
+以上をまとめると, 以下の<B>変形オイラー平均方程式</B>が得られる.
+<TABLE BORDER="1"><TR><TD>
+
+<DIV ALIGN="CENTER"><A NAME="eq:transformed_euler_mean_pe"></A><A NAME="eq:transformed_euler_mean_pe_momentum_x"></A><A NAME="eq:transformed_euler_mean_pe_momentum_y"></A><A NAME="eq:transformed_euler_mean_pe_momentum_z^*"></A><A NAME="eq:transformed_euler_mean_pe_continuity"></A><A NAME="eq:transformed_euler_mean_pe_thermal"></A><!-- MATH
+ \begin{subequations}
+\begin{align}&
+      \DP{\overline{u}}{t}
+    + \overline{v}^*
+      \left[
+             \Dinv{a\cos\phi}\DP{}{\phi}(\overline{u}\cos\phi) - f
+      \right]
+    + \overline{w}^*\DP{\overline{u}}{z^*}
+    - \overline{X} 
+ =    \Dinv{\rho_0 a \cos\phi}\Ddiv\Dvect{F},    \\&
+      \overline{u}
+      \left( f + \overline{u}\frac{\tan\phi}{a} \right) 
+    + \Dinv{a}\DP{\overline{\Phi}}{\phi}
+ = G.
+\end{align}
+\begin{align}
+     \DP{\overline{\Phi}}{z^*} 
+   - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta}
+ =   0.
+\end{align}
+\begin{align}
+        \Dinv{a\cos\phi}&\left[
+       \DP{}{\phi}(\overline{v}^*\cos\phi)\right]
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}^*) 
+       = 0.
+\end{align}
+\begin{align}
+       \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}^*}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}^*\DP{\overline{\theta}}{z^*}
+        - \overline{Q} =
+		- \Dinv{\rho_0}\DP{}{z^*}
+                \left[\rho_0
+                      \left(
+                        \overline{v'\theta'}\frac{\DP{\overline{\theta}}{\phi}}
+                                 {a\DP{\overline{\theta}}{z^*}} + \overline{w'\theta'}
+                      \right)
+                \right].
+\end{align}
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="316" ALIGN="BOTTOM" BORDER="0"
+ SRC="img200.png"
+ ALT="\begin{subequations}\begin{align}&amp; \DP{\overline{u}}{t} + \overline{v}^* \lef...
+...}{z^*}} + \overline{w'\theta'} \right) \right]. \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+</TD></TR></TABLE>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html206"
+  HREF="node15.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html202"
+  HREF="node11.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html198"
+  HREF="node13.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html204"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html207"
+  HREF="node15.html">参考文献</A>
+<B> :</B> <A NAME="tex2html203"
+  HREF="node11.html">プリミティブ方程式系と変形オイラー平均の復習</A>
+<B> :</B> <A NAME="tex2html199"
+  HREF="node13.html">オイラー平均方程式系</A>
+ &nbsp <B>  <A NAME="tex2html205"
+  HREF="node1.html">目次</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tsukahara Daisuke
+平成17年2月19日
+</ADDRESS>
+</BODY>
+</HTML>

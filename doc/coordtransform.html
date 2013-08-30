@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/coordtransform.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">class NumRu::GPhys</a></h1><!-- RDLabel: "class NumRu::GPhys" -->
+<p>Additional methods regarding coordinate transformation.</p>
+<h2><a name="label:1" id="label:1">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label:2" id="label:2"><code>coordtransform( <var>coordmapping</var>, <var>axes_to</var>, *<var>dims</var> )</code></a></h4></dt><!-- RDLabel: "coordtransform" -->
+<dd>
+<p>Coordinate transformation with <var>coordmapping</var> into <var>axes_to</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>coordmapping</var> (CoordMapping) : relation between the new and
+       original coordinate systems. Mapping is defined from the new one to
+       the orinal one. If the rank of the mapping is smaller than 
+       the rank of self, <var>dims</var> must be used to specify the
+       correspondence. e.g., if the rank of the mapping is 2 and that 
+       of self is 3 and the mapping is regarding the first 2 dimensions
+       of the three, <var>dims</var> must be [0,1].</li>
+<li><var>axes_to</var> (Array of Axis) : grid in the new coordinate system.
+       Its length must be the same as the rank of <var>coordmapping</var></li>
+<li><var>dims</var> (integers) : Specifies the dimensions to which 
+       <var>coordmapping</var> is applied. Needed if 
+       <code>self.rank!=coordmapping.rank</code> (neglected otherwise). 
+       The number of integers must agree with the rank of the mapping.</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

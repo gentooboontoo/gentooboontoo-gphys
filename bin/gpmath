@@ -1,0 +1,121 @@
+#!/usr/bin/env ruby
+=begin
+= NAME
+
+gpmath - operating a mathematical function to a GPhys variable. 
+
+= USAGE
+
+  % gpmath [options] path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+= OPTIONS
+ 
+:-h,--help
+  print this message. 
+:-f func, --function func
+  function name to operate (optional). 
+  Default function name is $0[2..-1].
+:-n name, --name name
+  name of the output gphys variable (optional).
+:-l name, --longname name
+  long_name attr. of the output gphys variable (optional).
+:-o file, --output file
+  output filename (optional). Default output filename is 'gphys.nc'.
+
+  * Commands which operates mathematical functions to a gphys variable are 
+    successively installed by linking this sciript as a "gp+[math. func. name]".
+
+= HISTORY
+
+  2005/06/21  S Takehiro  (created)
+  2005/07/15  S Takehiro (open_gturl method is used for opening gphys variable)
+  2005/08/10  S Takehiro (utilize internal function for printing help message)
+  2005/08/21  S Takehiro (global attributes copied to the output file)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+  2010/03/10  Y SASAKI (change help block into RD format)
+  2012/02/19  S Takehiro (description for gturl format updated)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+#------------------------ Default Settings ------------------------
+Output_default = 'gphys.nc'
+URLfmt = "path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--output",   "-o", GetoptLong::REQUIRED_ARGUMENT],
+  ["--function", "-f", GetoptLong::REQUIRED_ARGUMENT],
+  ["--name",     "-n", GetoptLong::REQUIRED_ARGUMENT],
+  ["--longname", "-l", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ])
+begin
+  parser.each{|opt, arg|
+    case opt
+    when "--output"   then eval "$OPT_output='#{arg}'"
+    when "--function" then eval "$OPT_function='#{arg}'"
+    when "--name"     then eval "$OPT_name='#{arg}'"
+    when "--longname" then eval "$OPT_longname='#{arg}'"
+    when "--help"     then eval "$OPT_help=true"
+    else
+      raise "must not happen"
+    end
+  }
+  rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+          GetoptLong::MissingArgument, 
+          GetoptLong::NeedlessArgument => err
+    help
+    $srderr.puts err.message
+    exit 1
+end
+
+#------------------------ Help message ------------------------
+if $OPT_help then
+  help
+  exit(0)
+end  
+
+#------------------------ Option check ------------------------
+$OPT_output = Output_default unless $OPT_output
+
+#------------------------ Output file check  --------------------------
+raise "#{$OPT_output} already exists." if FileTest.exist?($OPT_output) 
+outncfile=NetCDF.create($OPT_output)
+
+#------------------------ Open gphys variable ------------------------
+gturl = ARGV[0]
+gphys = GPhys::IO.open_gturl(gturl)
+outncfile.copy_global_att(gphys) # Copy global attributes (only for NetCDF)
+
+#--------------------- evaluate math function  -----------------------
+$OPT_function = File.basename($0)[2..-1] unless $OPT_function
+
+eval <<-EOS
+  gphys = gphys.#{$OPT_function}
+EOS
+
+#--------------------- rename, set attribute  -----------------------
+if $OPT_name
+  gphys.rename($OPT_name)
+else
+  gphys.rename($OPT_function+"_"+gphys.name)
+end
+
+if $OPT_longname
+  gphys.set_att('long_name',$OPT_longname)
+else
+  longname=gphys.get_att('long_name')
+  gphys.set_att('long_name',$OPT_function + " of " + longname) if longname
+end
+
+#---------------------- Output GPhys variable  ------------------------
+GPhys::IO.write( outncfile, gphys )
+NetCDF_Conventions.add_history(outncfile, File.basename($0)+" "+ARGV[0])
+outncfile.close
+
+print File.basename($0) +": "+ARGV[0]+ " is written to #{$OPT_output}.\n"

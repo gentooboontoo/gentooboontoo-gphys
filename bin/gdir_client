@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+irb -r numru/gdir_connect_ftp-like
+
+=begin
+= NAME
+
+gdir_client - A client of gdir_server using irb.
+
+= SYNOPSIS
+
+  % gdir_client top_dir [[host:]port] [-a allowed_address] ...
+
+= DESCRIPTION
+
+((*gdir_client*)) command is just equal to
+
+   irb -r numru/gdir_connect_ftp-like
+
+= OPTIONS
+
+same as gdir_server
+
+= SEE ALSO
+
+((*gdir_server(1)*))
+
+=end

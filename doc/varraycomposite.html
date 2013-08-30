@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/varraycomposite.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::VArrayComposite &lt; NumRu::VArray</a></h1><!-- RDLabel: "class NumRu::VArrayComposite < NumRu::VArray" -->
+<p>a VArray that consists of multiple VArrays tiled regularly
+(possibly in multi-dimension). Except for the constructer
+"new" and <!-- Reference, RDLabel "attr_update" doesn't exist --><em class="label-not-found">attr_update</em><!-- Reference end -->, the usage of this class is the same as VArray.</p>
+<p>Note that the name and the attributes of a VArrayComposite is 
+borrowed form one of the VArrays contained (actually, the first one
+is used). Currently, no check is made 
+regarding whether the names and attributes are the same among the 
+VArrays contained. If you rename a VArrayComposite, the change will
+be made with all the VArrays contained. However, currently, 
+change of the attributes are only reflected only in the first 
+VArray. You have to call <!-- Reference, RDLabel "attr_update" doesn't exist --><em class="label-not-found">attr_update</em><!-- Reference end --> separately.</p>
+<h2><a name="label-1" id="label-1">Class methods</a></h2><!-- RDLabel: "Class methods" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>VArrayComposite.new(<var>varrays</var>)</code></a></h4></dt><!-- RDLabel: "VArrayComposite.new" -->
+<dd>
+<p>Constructor</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>varrays (NArray of VArray) : VArrays to be included, gridded 
+      regularly in a NArray.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArrayComposite</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>Suppose that you have VArrays va00, va01, va10, va00,
+      with va00 and va10 having a same 0th dimension length,
+      va01 and va11 having a same 0th dimension length,
+      and va00 and va01 having a same 1st dimention length.</p>
+<pre>varrays = NArray[ [ va00, va01 ],
+                  [ va10, va11 ] ]
+vac = VArrayComposite.new(varrays)</pre>
+<p>This will create a composite VArray tiled two-dimensionally.</p></li>
+<li><p>You can create a VArray that lacks one or more VArrays as
+      long as the shape is unambiguous:</p>
+<pre>vac = VArrayComposite.new(  NArray[ [ va00, va01 ],
+                                    [ va10, nil ] ] )</pre>
+<p>is allowed, but </p>
+<pre>vac = VArrayComposite.new(  NArray[ [ va00, nil ],
+                                    [ va10, nil ] ] )</pre>
+<p>is prohibited.</p>
+<p>NOTICE: At this moment, handling of such nil-contianing 
+VArrayComposite is very limited, and many methods do not work.</p></li>
+<li><p>Suppose that you have 3D VArrays va0, va1, va2, va3,
+      and you want to concatenate them with the 3rd dimension.</p>
+<pre>varrays = NArray[ va0,va1,va2,va3 ].newdim(0,0)</pre>
+<p>This will create a 3D NArray with a shape of [1,1,4].
+Then you can make the composite as follows:</p>
+<pre>vac = VArrayComposite.new(varrays)</pre></li>
+</ul></dd>
+</dl>
+<p>Usage of all the other class methods are the same as in VArray.</p>
+
+</body>
+</html>

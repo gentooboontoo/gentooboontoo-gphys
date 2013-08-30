@@ -1,0 +1,30 @@
+= GPhys -- a class of multi-dimensional Gridded Physical quantities
+
+== Description and general information
+See http://ruby.gfd-dennou.org/products/gphys/
+
+== Licence
+See LICENSE.txt
+
+== Dependent libraries 
+
+As of GPhys 1.2.0. 
+
+Dependent libraries and their versions (required or recommended):
+* Ruby 1.8 or 1.9
+* NArray: 0.5.7 or later
+* NumRu::Misc : 0.1.0 or later
+* NumRu::Units : 1.7 or later
+* NArrayMiss : 1.2.4 or later
+* RubyNetCDF : 0.6.6 or later
+* RubyDCL : 1.6.1 or later
+* Ruby-FFTW3 : 0.3 or later
+* RubyGSL : 1.14 or later
+
+Recommended libraries:
+* Ruby-LAPACK : 1.5 or later (used for efficiency if installed)
+
+Optional dependent libraries:
+* rb-GRIB : 0.2.0 or later (used if installed and explicitly specified.
+  Needed to read GRIB2 data. But rb-GRIB 0.2.0 is experimental, so it
+  is not recommended. Wait for a future version.)

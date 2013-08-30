@@ -1,0 +1,387 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/axis.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::Axis</a></h1><!-- RDLabel: "class NumRu::Axis" -->
+<p>A class of to handle a descretized physical coordinate.</p>
+<h2><a name="label-1" id="label-1">Overview</a></h2><!-- RDLabel: "Overview" -->
+<p>An NumRu::Axis object is meant to represent a dimension in a NumRu::Grid 
+object, which is used in NumRu::Grid (Hereafter, NumRu:: is omitted). 
+An Axis has 1-dimensional data on grid-point posisions as a VArray.
+In addition, it can have supplementary data (as VArray objects).</p>
+<p>Three types of axes are supported in this class:</p>
+<pre>1. Simple (mostly point-sampled) axes
+2. Cell-type axes. In this case, grid points are either
+   at cell boundaries or within the cells (oftern at the center).
+3. Simple ("bare") indexing (without particular physical meaning)</pre>
+<p>In most applications, the 1st type would be enough, but
+the 2nd type would be useful for some type of numerical 
+simulation. The 3rd is not physical and may not be considered as
+"axes", but this could be convenient for some practical applications.</p>
+<h2><a name="label-2" id="label-2">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-3" id="label-3"><code>Axis.new(<var>cell</var>=<var>false</var>,<var>bare_index</var>=<var>false</var>,<var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "Axis.new" -->
+<dd>
+<p>Constructor. The first two arguments are to specify one of the
+types explained above.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>cell (true or false)</li>
+<li>bare_index (true or false)</li>
+<li>name (String or nil): the default name (when nil) is "noname"</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-4" id="label-4"><code>Axis.defined_operations</code></a></h4></dt><!-- RDLabel: "Axis.defined_operations" -->
+<dd>
+<p>Returns the name of the methods defined in Axis to do
+some operation along the axis.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String. Current default value is ["integrate","average"].</li>
+</ul></dd>
+<dt><h4><a name="label-5" id="label-5"><code>Axis.humane_messaging = <var>t_or_f</var></code></a></h4></dt><!-- RDLabel: "Axis.humane_messaging = t_or_f" -->
+<dd>
+If false is given, the [] method is changed to return a naive 
+straightforward message if the axis is lost. -- By default,
+it returns a fancy but sometimes unwanted message if the 
+axis is the time with since field in the form of yyyy-mm-dd....    </dd>
+<dt><h4><a name="label-6" id="label-6"><code>Axis.join(<var>ary</var>)</code></a></h4></dt><!-- RDLabel: "Axis.join" -->
+<dd>
+<p>Join multiple axis objects. (simple concatenation without sort)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ary :  Array (or 1D NArray) of Axis objects</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+</dl>
+<h2><a name="label-7" id="label-7">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><h4><a name="label-8" id="label-8"><code>name=(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "name=" -->
+<dd>
+<p>Set a name.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>name (the argument)</li>
+</ul></dd>
+<dt><h4><a name="label-9" id="label-9"><code>name</code></a></h4></dt><!-- RDLabel: "name" -->
+<dd>
+<p>Returns the name.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-10" id="label-10"><code>cell?</code></a></h4></dt><!-- RDLabel: "cell?" -->
+<dd>
+<p>Whether or not self is a cell-type axis.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>cell_center?</code></a></h4></dt><!-- RDLabel: "cell_center?" -->
+<dd>
+<p>Whether or not self represents data points within the cells (which is
+often, but not necessarily, the centers of the cells).</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true, false, or nil (when the axis is not cell-type)</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>cell_bounds?</code></a></h4></dt><!-- RDLabel: "cell_bounds?" -->
+<dd>
+<p>Whether or not self represents data points at the cell bondaries.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true, false, or nil (when the axis is not cell-type)</li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>bare_index?</code></a></h4></dt><!-- RDLabel: "bare_index?" -->
+<dd>
+<p>Whether or not self is of the bare-index type.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false.</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>flatten</code></a></h4></dt><!-- RDLabel: "flatten" -->
+<dd>
+<p>Returns the VArray objects in self as a flat Array. No cloning is made.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of VArray objects.</li>
+</ul></dd>
+<dt><h4><a name="label-15" id="label-15"><code>each_varray</code></a></h4></dt><!-- RDLabel: "each_varray" -->
+<dd>
+<p>Iterator for each VArray object in self (dependent on <a href="#label-14">flatten</a>.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of VArray objects (same as <a href="#label-14">flatten</a>).</li>
+</ul></dd>
+<dt><h4><a name="label-16" id="label-16"><code>copy</code></a></h4></dt><!-- RDLabel: "copy" -->
+<dd>
+<p>Make a deep clone onto memory.
+All the VArray objects in the return value will be
+of the root class of VArray.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-17" id="label-17"><code>collect</code></a></h4></dt><!-- RDLabel: "collect" -->
+<dd>
+<p>This method is like <a href="#label-16">copy</a>, but it is the 'collect' 
+iterator for each VArray in self (block required).</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-18" id="label-18"><code>pos=(<var>pos</var>)</code></a></h4></dt><!-- RDLabel: "pos=" -->
+<dd>
+<p>Sets the grid-point positions (disretized coordinate values).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>pos (a 1D VArray)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>pos (the argument)</li>
+</ul></dd>
+<dt><h4><a name="label-19" id="label-19"><code>set_pos(<var>pos</var>)</code></a></h4></dt><!-- RDLabel: "set_pos" -->
+<dd>
+<p>Sets the grid-point positions (disretized coordinate values).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>pos (a 1D VArray)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-20" id="label-20"><code>pos</code></a></h4></dt><!-- RDLabel: "pos" -->
+<dd>
+<p>Returns the grid-point positions (disretized coordinate values).</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray (no duplication is made)</li>
+</ul></dd>
+<dt><h4><a name="label-21" id="label-21"><code>cell_center</code></a></h4></dt><!-- RDLabel: "cell_center" -->
+<dd>
+<p>When cell-type, returns the positions of grid points at cell centers.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray (no duplication is made)</li>
+</ul></dd>
+<dt><h4><a name="label-22" id="label-22"><code>cell_bounds</code></a></h4></dt><!-- RDLabel: "cell_bounds" -->
+<dd>
+<p>When cell-type, returns the positions of grid points at cell boundaries.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray (no duplication is made)</li>
+</ul></dd>
+<dt><h4><a name="label-23" id="label-23"><code>length</code></a></h4></dt><!-- RDLabel: "length" -->
+<dd>
+<p>Returns the length of the axis.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Integer</li>
+</ul></dd>
+<dt><h4><a name="label-24" id="label-24"><code>set_cell(<var>center</var>, <var>bounds</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "set_cell" -->
+<dd>
+<p>Set up cell-type axis, by giving both the cell centers and boundaries.
+Completion of the set up is deferred until one of <a href="#label-26">set_pos_to_center</a>
+and <a href="#label-27">set_pos_to_bounds</a> is called.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>center (a 1D VArray)</li>
+<li>bounds (a 1D VArray)</li>
+<li>name (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-25" id="label-25"><code>set_cell_guess_bounds(<var>center</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "set_cell_guess_bounds" -->
+<dd>
+<p>Set up cell-type axis, by specifing only the cell centers
+and deriving bounds with a naive assumption.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>center (a 1D VArray)</li>
+<li>name (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-26" id="label-26"><code>set_pos_to_center</code></a></h4></dt><!-- RDLabel: "set_pos_to_center" -->
+<dd>
+Set the position of the current axis to the centers of the cells.
+This or <a href="#label-27">set_pos_to_bounds</a> is needed to complete the set up
+with set_cell_* methods.</dd>
+<dt><h4><a name="label-27" id="label-27"><code>set_pos_to_bounds</code></a></h4></dt><!-- RDLabel: "set_pos_to_bounds" -->
+<dd>
+Set the position of the current axis to the cell bondaries.
+This or <a href="#label-26">set_pos_to_center</a> is needed to complete the set up
+with set_cell_* methods.</dd>
+<dt><h4><a name="label-28" id="label-28"><code>set_aux(<var>name</var>,<var>vary</var>)</code></a></h4></dt><!-- RDLabel: "set_aux" -->
+<dd>
+<p>Set auxiliary data</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String) a tag to express the kind of the data</li>
+<li>vary (a VArray) the data</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>vary (the 2nd argument)</li>
+</ul></dd>
+<dt><h4><a name="label-29" id="label-29"><code>get_aux(<var>name</var>)</code></a></h4></dt><!-- RDLabel: "get_aux" -->
+<dd>
+<p>Returns auxiliary data</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String) a tag to express the kind of the data (see <a href="#label-28">set_aux</a>).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray</li>
+</ul></dd>
+<dt><h4><a name="label-30" id="label-30"><code>aux_names</code></a></h4></dt><!-- RDLabel: "aux_names" -->
+<dd>
+<p>Returns a list of the names of auxiliary data</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-31" id="label-31"><code>to_gphys(<var>datavary1d</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "to_gphys" -->
+<dd>
+<p>To construct a GPhys object from an Axis.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>datavary1d (nil or VArray) :
+      If nil, the position object of self becomes the main data object.
+      If a VArray, it is used as the main data object.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-32" id="label-32"><code>[<var>slicer</var>]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+<p>Returns a subset. Its specification is the same as in NArray.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-33" id="label-33"><code>cut(<var>coord_cutter</var>)</code></a></h4></dt><!-- RDLabel: "cut" -->
+<dd>
+<p>Similar to <a href="#label-32">[]</a>, but is based on the physical coordinate.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-34" id="label-34"><code>cut_rank_conserving(<var>coord_cutter</var>)</code></a></h4></dt><!-- RDLabel: "cut_rank_conserving" -->
+<dd>
+<p>Similar to <a href="#label-33">cut</a>, but is always rank-conserving. That is,
+a subset specification like [i] is treated as [i..i]</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-35" id="label-35"><code>integrate(<var>ary</var>,<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "integrate" -->
+<dd>
+<p>Does integration along the axis</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ary (NArray or NArray-like multi-dimensional data class) 
+      the data, whose dim-th dimension must have the same length as the axis.</li>
+<li>dim (Integer) : The dimension of ary, to which the operation is applied.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an obejct with the same class as ary, or of a Numeric 
+      class if ary is 1D.</li>
+</ul></dd>
+<dt><h4><a name="label-36" id="label-36"><code>integ_weight</code></a></h4></dt><!-- RDLabel: "integ_weight" -->
+<dd>
+Returns the integration weight (whose default is nil).</dd>
+<dt><h4><a name="label-37" id="label-37"><code>integ_weight=(<var>wgt</var>)</code></a></h4></dt><!-- RDLabel: "integ_weight=" -->
+<dd>
+Sets the integration weight (whose default is nil).</dd>
+<dt><h4><a name="label-38" id="label-38"><code>average(<var>ary</var>,<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "average" -->
+<dd>
+<p>Similar to <a href="#label-35">integrate</a>, but does averaging</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>see <a href="#label-35">integrate</a></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>see <a href="#label-35">integrate</a></li>
+</ul></dd>
+<dt><h4><a name="label-39" id="label-39"><code>average_weight</code></a></h4></dt><!-- RDLabel: "average_weight" -->
+<dd>
+Returns the integration weight (whose default is nil).</dd>
+<dt><h4><a name="label-40" id="label-40"><code>average_weight=(<var>wgt</var>)</code></a></h4></dt><!-- RDLabel: "average_weight=" -->
+<dd>
+Sets the integration weight (whose default is nil).</dd>
+<dt><h4><a name="label-41" id="label-41"><code>draw_positive</code></a></h4></dt><!-- RDLabel: "draw_positive" -->
+<dd>
+<p>Returns the direction to plot the axis, which relies on the 
+VArray#axis_draw_positive method.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>true: axis should be drawn in the increasing order (to right/upward)</li>
+<li>false: axis should be drawn in the decreasing order</li>
+<li>nil: not specified</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-42" id="label-42"><code>cyclic?</code></a></h4></dt><!-- RDLabel: "cyclic?" -->
+<dd>
+<p>Returns whether the axis is cyclic.
+(Relies on the VArray#axis_cyclic? method.)</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>true: cyclic</li>
+<li>false: not cyclic</li>
+<li>nil: not specified</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-43" id="label-43"><code>modulo</code></a></h4></dt><!-- RDLabel: "modulo" -->
+<dd>
+<p>Returns the modulo of a cyclic axis 
+(Relies on the VArray#axis_modulo method.)</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>Float if the modulo is defined</li>
+<li>nil if modulo is not found</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-44" id="label-44"><code>cyclic_extendible?</code></a></h4></dt><!-- RDLabel: "cyclic_extendible?" -->
+<dd>
+<p>Returns whether the axis is cyclic and appropriate to extend.
+(Relies on the VArray#axis_cyclic_extendible? method.)</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+#!/usr/bin/env ruby
+=begin
+= NAME
+
+gpmaxmin - printing maximum and minimum values of a GPhys variable.
+
+= USAGE
+
+   % gpmaxmin [options] path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+= OPTIONS
+
+     -h,      --help     : Print this message. 
+     -n,      --number   : Number of displayed points having max and min values.
+     -a,      --all      : All points are displayed.
+     -i,      --index    : Indicies of max and min points are displayed.
+
+= HISTORY
+
+  2005/05/17  S Takehiro (created)
+  2005/07/15  S Takehiro (open_gturl method is used for opening gphys variable)
+  2005/08/07  S Takehiro (parse_gturl removed)
+  2005/08/10  S Takehiro (locations having max and min values are displayed.
+                          utilize internal function for printing help message.
+                          --all, --index, --number options added.)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+  2006/03/07  M Nakano (USAGE Typo fixed)
+  2010/03/10  Y SASAKI (change help block into RD format)
+  2012/02/19  S Takehiro (description for gturl format updated)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+#------------------------ Default Settings ------------------------
+URLfmt = "path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+print_maxdefault=5
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ],
+  ["--all",      "-a", GetoptLong::NO_ARGUMENT      ],
+  ["--index",    "-i", GetoptLong::NO_ARGUMENT      ],
+  ["--number",   "-n", GetoptLong::REQUIRED_ARGUMENT])
+begin
+  parser.each{|opt, arg|
+    case opt
+    when "--help" then eval "$OPT_help=true"
+    when "--number" then eval "$OPT_number='#{arg}'"
+    when "--all" then eval "$OPT_all=true"
+    when "--index" then eval "$OPT_index=true"
+    else
+      raise "must not happen"
+    end
+  }
+  rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+          GetoptLong::MissingArgument, 
+          GetoptLong::NeedlessArgument => err
+    help
+    $srderr.puts err.message
+    exit 1
+end
+
+#------------------------ Help message ------------------------
+if ( $OPT_help )
+  help 
+  exit(0)
+end  
+
+#------------------------ Option check ------------------------
+gturl = ARGV[0]
+gphys = GPhys::IO.open_gturl(gturl)
+print_maxnumber = ($OPT_number.to_i||print_maxdefault)
+
+#-------------------- find max. and min values -----------------------
+maxval = gphys.val.max   # naray-miss class method is implicitly expected 
+minval = gphys.val.min   # naray-miss class method is implicitly expected 
+
+idx1ds = gphys.val.eq(maxval).where
+idxsmax = Array.new
+idx1ds.each do |idx1d|
+  idxsmax.push(idx=Array.new)
+  gphys.shape.each_with_index{|len,d| idx1d,idx[d] = idx1d.divmod(len)}
+end
+
+idx1ds = gphys.val.eq(minval).where
+idxsmin = Array.new
+idx1ds.each do |idx1d|
+  idxsmin.push(idx=Array.new)
+  gphys.shape.each_with_index{|len,d| idx1d,idx[d] = idx1d.divmod(len)}
+end
+
+#---------------------- Output max and min values  ------------------------
+print_maxnumber = idxsmax.length if ( $OPT_all )
+
+print gturl+" : max="+maxval.to_s+", at, \n"
+for i in 0..[print_maxnumber,idxsmax.length].min-1
+  location = Array.new
+  idxsmax[i].each_with_index{|idx,cid|
+    if ($OPT_index) 
+      location.push(gphys.coord(cid).name+"=" + idx.to_s)
+    else
+      location.push(gphys.coord(cid).name+"=" + gphys.coord(cid).val[idx].to_s)
+    end
+  }
+  print " "+ (i+1).to_s + " : "+ location.join(",  ")+"\n"
+end
+print "     ...(total "+idxsmax.length.to_s+" points)...\n" if ( print_maxnumber < idxsmax.length )
+print "\n"
+
+print_maxnumber = idxsmin.length if ( $OPT_all )
+
+print gturl+" : min="+minval.to_s+", at,  \n"
+for i in 0..[print_maxnumber,idxsmin.length].min-1
+  location = Array.new
+  idxsmin[i].each_with_index{|idx,cid|
+    if ($OPT_index) 
+      location.push(gphys.coord(cid).name+"=" + idx.to_s)
+    else
+      location.push(gphys.coord(cid).name+"=" + gphys.coord(cid).val[idx].to_s)
+    end
+  }
+  print " "+ (i+1).to_s + " : "+ location.join(",  ")+"\n"
+end
+print "     ...(total "+idxsmin.length.to_s+" points)...\n" if ( print_maxnumber < idxsmin.length )

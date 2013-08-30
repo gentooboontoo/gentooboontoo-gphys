@@ -1,0 +1,65 @@
+#!/bin/csh
+
+set sources = ( \
+   ../lib/numru/gphys/attribute.rb \
+   ../lib/numru/gphys/attributenetcdf.rb \
+   ../lib/numru/gphys/axis.rb \
+   ../lib/numru/gphys/coordmapping.rb \
+   ../lib/numru/gphys/coordtransform.rb \
+ ###  ../lib/numru/gphys/derivative.rb \
+ ###  ../lib/numru/gphys/ep_flux.rb \
+   ../lib/numru/gphys/gphys.rb \
+   ../lib/numru/gphys/gphys_fft.rb \
+   ../lib/numru/gphys/gphys_grads_io.rb \
+   ../lib/numru/gphys/gphys_grib_io.rb \
+   ../lib/numru/gphys/gphys_io.rb \
+   ../lib/numru/gphys/gphys_io_common.rb \
+   ../lib/numru/gphys/gphys_netcdf_io.rb \
+   ../lib/numru/gphys/grads_gridded.rb \
+   ../lib/numru/gphys/grib.rb \
+ #  ../lib/numru/gphys/grib_params.rb \
+   ../lib/numru/gphys/grid.rb \
+   ../lib/numru/gphys/netcdf_convention.rb \
+ #  ../lib/numru/gphys/subsetmapping.rb \
+   ../lib/numru/gphys/unumeric.rb \
+   ../lib/numru/gphys/varray.rb \
+   ../lib/numru/gphys/varraycomposite.rb \
+ #  ../lib/numru/gphys/varraygrads.rb \
+ #  ../lib/numru/gphys/varraygrib.rb \
+ #  ../lib/numru/gphys/varraynetcdf.rb \
+ ###  ../lib/numru/derivative.rb \
+   ../lib/numru/ggraph.rb \
+   ../lib/numru/dclext.rb \
+   ../lib/numru/gdir.rb \
+ ###  ../lib/numru/ggraph_on_merdional_section.rb \
+ ### ../lib/numru/gphys.rb  \
+  ../bin/grads2nc_with_gphys \
+  ../bin/gdir_server \
+  ../bin/gpcat \
+  ../bin/gpcut \
+  ../bin/gplist \
+  ../bin/gpmath \
+  ../bin/gpmaxmin \
+  ../bin/gpprint \
+  ../bin/gpview \
+  ../lib/numru/gdir_connect_ftp-like.rb \
+  index.rd \
+)
+
+foreach source ( $sources )
+   set html = `echo $source | sed -e 's/^.*\///' -e 's/\.rb$//' -e 's/\.rd$//' -e 's/$/.html/'`
+   if ( `test ! -f $html && echo 1`  ) then
+     #< html file does not exist >
+     rd2 $source | sed -e 's/<dt>/<dt><h4>/' -e 's/<\/dt>/<\/h4><\/dt>/' \
+          >! $html
+     echo '* Created ' $html
+   else if ( `/usr/bin/test $source -nt $html && echo 1` ) then
+     #< html file exists but the source file is newer >
+     rd2 $source | sed -e 's/<dt>/<dt><h4>/' -e 's/<\/dt>/<\/h4><\/dt>/' \
+          >! tmp.html
+     diff tmp.html $html > /dev/null || \mv tmp.html $html \
+       && echo '* Updated ' $html
+   endif
+end
+
+\rm -f tmp.html

@@ -1,0 +1,299 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/varray.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::VArray</a></h1><!-- RDLabel: "class NumRu::VArray" -->
+<p>VArray is a Virtual Array class, in which a multi-dimensional array data is 
+stored on memory (NArray, NArrayMiss) or in file (NetCDFVar etc). 
+The in-file data handling is left to subclasses such as VArrayNetCDF,
+and this base class handles the following two cases:</p>
+<ol>
+<li>Data are stored on memory using NArray</li>
+<li>Subset of another VArray (possibly a subclass such as VArrayNetCDF).</li>
+</ol>
+<p>Perhaps the latter case needs more explanation. Here, a VArray is defined 
+as a subset of another VArray, so the current VArray has only the link
+and info on how the subset is mapped to the other VArray.</p>
+<p>A VArray behaves just like a NArray, i.e., a numeric multi-dimensional 
+array. The important difference is that a VArray has a name and can 
+have "attributes" like a NetCDF variable. Therefore, VArray can perfectly
+represent a NetCDFVar, which is realized by a sub-class VArrayNetCDF.</p>
+<p>NOMENCLATURE</p>
+<ul>
+<li>value(s): The multi-dimensional numeric array contained in the VArray,
+  or its contents</li>
+<li>attribute(s): A combination of name and data that describes a VArray.
+  Often realized by NumRu::Attribute class (or it is a NetCDFAttr in 
+  VArrayNetCDF). The name must be a string, and the type of attribute
+  values is restricted to a few classes for compatibility with
+  NetCDFAttr (See NumRu::Attribute)</li>
+</ul>
+<h2><a name="label-1" id="label-1">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>VArray.new(<var>narray</var>=<var>nil</var>, <var>attr</var>=<var>nil</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "VArray.new" -->
+<dd>
+<p>A constructor</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>narray (NArray or NArrayMiss; default:nil) The array to be held.
+      (nil is used to initialize a mapping to another VArray by a protected
+      method).</li>
+<li>attr (NumRu::Attribute; default:nil) Attributes. If nil, an empty </li>
+</ul>
+<pre>attribute object is created and stored.</pre>
+<ul>
+<li>name (String; default nil) Name of the VArray. If nil, it is named "noname".</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray</li>
+</ul>
+<p>EXAMPLE</p>
+<pre>na = NArray.int(6,3).indgen!
+va1 = VArray.new( na, nil, "test" )</pre></dd>
+<dt><h4><a name="label-3" id="label-3"><code>VArray.new2(<var>ntype</var>, <var>shape</var>, <var>attr</var>=<var>nil</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "VArray.new2" -->
+<dd>
+<p>Another constructor. Uses parameters to initialize a NArray to hold.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ntype (String or NArray constants): Numeric type of the NArray to be
+      held (e.g., "sfloat", "float", NArray::SFLOAT, NArray::FLOAT)</li>
+<li>shape (Array of Integers): shape of the NArray</li>
+<li>attr (Attribute; default:nil) Attributes. If nil, an empty attribute
+      object is created and stored.</li>
+<li>name (String; default nil) Name of the VArray.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray</li>
+</ul></dd>
+</dl>
+<h2><a name="label-4" id="label-4">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><h4><a name="label-5" id="label-5"><code>val</code></a></h4></dt><!-- RDLabel: "val" -->
+<dd>
+<p>Returns the values as a NArray (or NArrayMiss).</p>
+<p>This is the case even when the VArray is a mapping to another. Also,
+this method is to be redefined in subclasses to do the same thing.</p>
+<p>ARGUMENTS -- none</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a NArray (or NArrayMiss)</li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>val=(<var>narray</var>)</code></a></h4></dt><!-- RDLabel: "val=" -->
+<dd>
+<p>Set values.</p>
+<p>The whole values are set. If you want to set partly, use <a href="#label-9">[]=</a>.
+In this method, values are read from narray and set into the internal
+value holder. Thus, for exampled, the numeric type is not changed
+regardress the numeric type of narray. Use <a href="#label-7">replace_val</a> to
+replace entirely with narray.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>narray (NArray or NArrayMiss or Numeric): If Numeric, the whole
+      values are set to be equal to it. If NArray (or NArrayMiss), its
+      shape must agree with the shape of the VArray.</li>
+</ul></dd>
+<dt><h4><a name="label-7" id="label-7"><code>replace_val(<var>narray</var>)</code></a></h4></dt><!-- RDLabel: "replace_val" -->
+<dd>
+<p>Replace the internal array data with the object narray.
+Use <a href="#label-6">val=</a> if you want to copy the values of narray.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>narray (NArray or NArrayMiss): as pxlained above.
+      Its shape must agree with the shape of the VArray (self).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>if (self.class == VArray), self;
+      otherwise (if self.class is a subclass of VArray), a new VArray.</li>
+</ul></dd>
+<dt><h4><a name="label-8" id="label-8"><code>[]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+Get a subset. Its usage is the same as NArray#[]</dd>
+<dt><h4><a name="label-9" id="label-9"><code>[] = </code></a></h4></dt><!-- RDLabel: "[]=" -->
+<dd>
+Set a subset. Its usage is the same as NArray#[]=</dd>
+<dt><h4><a name="label-10" id="label-10"><code>attr</code></a></h4></dt><!-- RDLabel: "attr" -->
+<dd>
+To be undefined.</dd>
+<dt><h4><a name="label-11" id="label-11"><code>ntype</code></a></h4></dt><!-- RDLabel: "ntype" -->
+<dd>
+<p>Returns the numeric type.</p>
+<p>ARGUMENTS -- none</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String ("byte", "sint", "int", "sfloat", "float", "scomplex"
+      "complex", or "obj"). It can be used in NArray.new to initialize
+      another NArray.</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>rank</code></a></h4></dt><!-- RDLabel: "rank" -->
+<dd>
+Returns the rank (number of dimensions)</dd>
+<dt><h4><a name="label-13" id="label-13"><code>shape</code></a></h4></dt><!-- RDLabel: "shape" -->
+<dd>
+Returns the shape</dd>
+<dt><h4><a name="label-14" id="label-14"><code>shape_current</code></a></h4></dt><!-- RDLabel: "shape_current" -->
+<dd>
+aliased to <a href="#label-13">shape</a>.</dd>
+<dt><h4><a name="label-15" id="label-15"><code>length</code></a></h4></dt><!-- RDLabel: "length" -->
+<dd>
+Returns the length of the VArray</dd>
+<dt><h4><a name="label-16" id="label-16"><code>typecode</code></a></h4></dt><!-- RDLabel: "typecode" -->
+<dd>
+Returns the NArray typecode</dd>
+<dt><h4><a name="label-17" id="label-17"><code>name</code></a></h4></dt><!-- RDLabel: "name" -->
+<dd>
+<p>Returns the name</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>(String) name of the VArray</li>
+</ul></dd>
+<dt><h4><a name="label-18" id="label-18"><code>name=(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "name=" -->
+<dd>
+<p>Changes the name.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>nm(String): the new name.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nm</li>
+</ul></dd>
+<dt><h4><a name="label-19" id="label-19"><code>rename!(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "rename!" -->
+<dd>
+<p>Changes the name (Same as <a href="#label-18">name=</a>, but returns self)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>nm(String): the new name.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-20" id="label-20"><code>rename(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "rename" -->
+<dd>
+<p>Same as rename! but duplicate the VArray object and set its name.</p>
+<p>This method may not be supported in sub-classes, since it is sometimes
+problematic not to change the original.</p></dd>
+<dt><h4><a name="label-21" id="label-21"><code>copy(<var>to</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "copy" -->
+<dd>
+<p>Copy a VArray. If to is nil, works as the deep cloning (duplication of the entire object).</p>
+<p>Both the values and the attributes are copied.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>to (VArray (possibly a subclass) or nil): The VArray to which the 
+      copying is made.</li>
+</ul></dd>
+<dt><h4><a name="label-22" id="label-22"><code>reshape!( *<var>shape</var> )</code></a></h4></dt><!-- RDLabel: "reshape!" -->
+<dd>
+<p>Changes the shape without changing the total size. May not be available in subclasses.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>shape (Array of Integer): new shape</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul>
+<p>EXAMPLE</p>
+<pre>vary = VArray.new2( "float", [10,2])
+vary.reshape!(5,4)   # changes the vary 
+vary.copy.reshape!(2,2,5)  # make a deep clone and change it
+      # This always works with a VArray subclass, since vary.copy
+      # makes a deep clone to VArray with NArray.</pre></dd>
+<dt><h4><a name="label-23" id="label-23"><code>file</code></a></h4></dt><!-- RDLabel: "file" -->
+<dd>
+<p>Returns a file object if the data of the VArray is in a file, nil if it is on memory</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>none</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an object representing the file in which data are stored. Its class
+      depends on the file type. nil is returned if the data is not in a file.</li>
+</ul></dd>
+<dt><h4><a name="label-24" id="label-24"><code>transpose(*<var>dims</var>)</code></a></h4></dt><!-- RDLabel: "transpose" -->
+<dd>
+Transpose. Argument specification is as in NArray.</dd>
+<dt><h4><a name="label-25" id="label-25"><code>reshape(*<var>shape</var>)</code></a></h4></dt><!-- RDLabel: "reshape" -->
+<dd>
+Reshape. Argument specification is as in NArray.</dd>
+<dt><h4><a name="label-26" id="label-26"><code>axis_draw_positive</code></a></h4></dt><!-- RDLabel: "axis_draw_positive" -->
+<dd>
+<p>Returns the direction to plot the axis (meaningful only if self is a
+coordinate variable.) </p>
+<p>The current implementation is based on NetCDF conventions, 
+so REDEFINE IT IN SUBCLASSES if it is not appropriate.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>true: axis should be drawn in the increasing order (to right/upward)</li>
+<li>false: axis should be drawn in the decreasing order</li>
+<li>nil: not specified</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-27" id="label-27"><code>axis_cyclic?</code></a></h4></dt><!-- RDLabel: "axis_cyclic?" -->
+<dd>
+<p>Returns whether the axis is cyclic (meaningful only if self is a
+coordinate variable.) </p>
+<p>The current implementation is based on NetCDF conventions, 
+so REDEFINE IT IN SUBCLASSES if it is not appropriate.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>true: cyclic</li>
+<li>false: not cyclic</li>
+<li>nil: not specified</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-28" id="label-28"><code>axis_modulo</code></a></h4></dt><!-- RDLabel: "axis_modulo" -->
+<dd>
+<p>Returns the modulo of a cyclic axis (meaningful only if self is a
+coordinate variable and it is cyclic.) </p>
+<p>The current implementation is based on NetCDF conventions, 
+so REDEFINE IT IN SUBCLASSES if it is not appropriate.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>one of the following:
+<ul>
+<li>Float if the modulo is defined</li>
+<li>nil if modulo is not found</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label-29" id="label-29"><code>axis_cyclic_extendible?</code></a></h4></dt><!-- RDLabel: "axis_cyclic_extendible?" -->
+<dd>
+(meaningful only if self is a coordinate variable.) 
+Returns true if self is cyclic and it is suitable to exend
+cyclically (having the distance between both ends 
+equal to (modulo - dx), where dx is the mean increment).</dd>
+<dt><h4><a name="label-30" id="label-30"><code>coerce(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "coerce" -->
+<dd>
+For Numeric operators. (If you do not know it, see a manual or book of Ruby)</dd>
+</dl>
+<h2><a name="label-31" id="label-31">Methods compatible with NArray</a></h2><!-- RDLabel: "Methods compatible with NArray" -->
+<p>VArray is a numeric multi-dimensional array, so it supports most of the
+methods and operators in NArray. Here, the name of those methods are just 
+quoted. See the documentation of NArray for their usage.</p>
+<h3><a name="label-32" id="label-32">Math functions</a></h3><!-- RDLabel: "Math functions" -->
+<h4><a name="label-33" id="label-33">sqrt, exp, log, log10, log2, sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh, csc, sec, cot, csch, sech, coth, acsc, asec, acot, acsch, asech, acoth</a></h4><!-- RDLabel: "sqrt, exp, log, log10, log2, sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh, csc, sec, cot, csch, sech, coth, acsc, asec, acot, acsch, asech, acoth" -->
+<h3><a name="label-34" id="label-34">Binary operators</a></h3><!-- RDLabel: "Binary operators" -->
+<h4><a name="label-35" id="label-35">-, +, *, /, %, **, .add!, .sub!, .mul!, .div!, mod!, &gt;, &gt;=, &lt;, &lt;=, &amp;, |, ^, .eq, .ne, .gt, .ge, .lt, .le, .and, .or, .xor, .not</a></h4><!-- RDLabel: "-, +, *, /, %, **, .add!, .sub!, .mul!, .div!, mod!, >, >=, <, <=, &, |, ^, .eq, .ne, .gt, .ge, .lt, .le, .and, .or, .xor, .not" -->
+<h3><a name="label-36" id="label-36">Unary operators</a></h3><!-- RDLabel: "Unary operators" -->
+<h4><a name="label-37" id="label-37">~ - +</a></h4><!-- RDLabel: "~ - +" -->
+<h3><a name="label-38" id="label-38">Mean etc</a></h3><!-- RDLabel: "Mean etc" -->
+<h4><a name="label-39" id="label-39">mean, sum, stddev, min, max, median</a></h4><!-- RDLabel: "mean, sum, stddev, min, max, median" -->
+<h3><a name="label-40" id="label-40">Other methods</a></h3><!-- RDLabel: "Other methods" -->
+<p>These methods returns a NArray (not a VArray).</p>
+<h4><a name="label-41" id="label-41">all?, any?, none?, where, where2, floor, ceil, round, to_f, to_i, to_a</a></h4><!-- RDLabel: "all?, any?, none?, where, where2, floor, ceil, round, to_f, to_i, to_a" -->
+
+</body>
+</html>

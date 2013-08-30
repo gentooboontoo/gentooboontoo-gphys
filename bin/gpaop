@@ -1,0 +1,147 @@
+#!/usr/bin/env ruby
+=begin
+= NAME
+
+gpaop - Carrying out an arithmetric operation multiple GPhys variables.
+
+= USAGE
+
+   % gpaop -f func [options] gturl1 gturl2 ...
+
+= DESCRIPTION
+
+Carrying out an arithmetric operation (addition, subtraction, 
+multiplication and division) multiple GPhys variables. 
+
+= SYNOPSYS 
+
+Operation, gphys1 (+-*/) gphys2 (+-*/) gphys3 (+-*/) ... is performed 
+by the following  command formats. 
+
+  % gpaop -f func [options] gturl1 gturl2 ...
+
+Format of 'gturl*' is 'path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]'
+
+  % gpaop -f func --var varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]] [options] gtfile1 gtfile2 ...
+
+Commands which compute arithmetric operation on gphys variables are 
+successively installed by linking this sciript as a 
+"gp+(add|sub|multi|div)". You can omit '--func' option by using 
+these commands.  
+
+= OPTIONS
+
+:-f func, --func func
+  kind of operation (add|sub|multi|div|)
+:-v url, --var url
+  set the variable name and slicing parameters.
+:-h, --help
+  print this message. 
+:-o file, --output file
+  output filename (optional). 
+  Default output filename is 'gphys.nc'.
+
+Usage Examples
+
+ % gpaop -f add gtool.nc@temp gtool.nc@temp
+ % gpaop -f sub gtool.nc@temp,t=1 gtool.nc@temp,t=2
+
+ % gpaop -f multi --var temp gtool*.nc
+ % gpaop -f div --var temp,t=1 gtool*.nc
+ % gpaop -o temp.nc --var temp,t=1 gtool*.nc
+
+= HISTORY
+
+  2005/08/21  S Takehiro (created)
+  2005/08/23  S Takehiro (common methods to gp* commandmoved to gpcommon.rb)
+  2010/03/10  Y SASAKI (change help block into RD format)
+  2012/02/19  S Takehiro (description for gturl format updated)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+#------------------------ Default Settings ------------------------
+Output_default = 'gphys.nc'                      # default ouptput file name
+command = File.basename($0)+" "+ARGV.join(' ')   # keep an input command line 
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--func",     "-f", GetoptLong::REQUIRED_ARGUMENT],
+  ["--var",      "-v", GetoptLong::REQUIRED_ARGUMENT],
+  ["--output",   "-o", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ])
+begin
+  parser.each{|opt, arg|
+    case opt
+    when "--func" then eval "$OPT_func='#{arg}'"
+    when "--var" then eval "$OPT_var='#{arg}'"
+    when "--output" then eval "$OPT_output='#{arg}'"
+    when "--help" then eval "$OPT_help=true"
+    else
+      raise "must not happen"
+    end
+  }
+  rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+          GetoptLong::MissingArgument, 
+          GetoptLong::NeedlessArgument => err
+    help
+    $srderr.puts err.message
+    exit 1
+end
+
+#------------------------ Help message ------------------------
+if $OPT_help then
+  help
+  exit(0)
+end  
+
+#------------------------ Option check ------------------------
+$OPT_output ||= Output_default 
+$OPT_func ||= $0.sub(/^gp/,'')
+raise "Operation '#{$OPT_func}' not supported. It should be add,sub,multi or div." unless /(add|sub|multi|div)/ =~ $OPT_func 
+
+unless ARGV[0]
+  help
+  exit 1
+end
+
+#------------------------ Output file check  --------------------------
+raise "#{$OPT_output} already exists." if FileTest.exist?($OPT_output) 
+outncfile=NetCDF.create($OPT_output)
+
+#------------------------ Open gphys variable ------------------------
+# Reading the first Gphys variable
+gturl = ARGV[0]
+gturl = gturl+'@'+$OPT_var if $OPT_var
+gphys = GPhys::IO.open_gturl(gturl)
+print "  Reading #{gturl}\n"
+gphys_aop = gphys.copy
+outncfile.copy_global_att(gphys) # Copy global attributes (only for NetCDF)
+ARGV.shift 
+
+
+# Reading Gphys variables after the first one.
+while ARGV[0] do
+  gturl = ARGV[0]
+  gturl = gturl+'@'+$OPT_var if $OPT_var
+  gphys = GPhys::IO.open_gturl(gturl)
+  print "  Reading #{gturl}\n"
+
+  gphys_aop = gphys_aop + gphys if $OPT_func=="add"
+  gphys_aop = gphys_aop - gphys if $OPT_func=="sub"
+  gphys_aop = gphys_aop * gphys if $OPT_func=="multi"
+  gphys_aop = gphys_aop / gphys if $OPT_func=="div"
+  ARGV.shift 
+end
+
+#---------------------- Output GPhys variable  ------------------------
+GPhys::IO.write( outncfile, gphys_aop )
+NetCDF_Conventions.add_history(outncfile, command) # Exec command written as a history
+outncfile.close
+
+print File.basename($0) +": Output is written to #{$OPT_output}.\n"

@@ -1,0 +1,20 @@
+have_header: checking for narray.h... -------------------- yes
+
+"/usr/bin/gcc -E -I. -I/home/julien/.rbenv/versions/1.8.7-p371/lib/ruby/1.8/x86_64-linux -I. -I/home/julien/.rbenv/versions/1.8.7-p371/lib/ruby/gems/1.8/gems/narray-0.5.9.7 -I'/home/julien/.rbenv/versions/1.8.7-p371/include'   -I'/home/julien/.rbenv/versions/1.8.7-p371/include'       conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <narray.h>
+/* end */
+
+--------------------
+
+have_header: checking for narray_config.h... -------------------- yes
+
+"/usr/bin/gcc -E -I. -I/home/julien/.rbenv/versions/1.8.7-p371/lib/ruby/1.8/x86_64-linux -I. -I/home/julien/.rbenv/versions/1.8.7-p371/lib/ruby/gems/1.8/gems/narray-0.5.9.7 -I'/home/julien/.rbenv/versions/1.8.7-p371/include'   -I'/home/julien/.rbenv/versions/1.8.7-p371/include'       conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <narray_config.h>
+/* end */
+
+--------------------
+

@@ -1,0 +1,778 @@
+#!/usr/bin/env ruby
+##################################################
+=begin
+=NAME
+
+gpvect - drawing 2-dim vector fiels. Contour/tone of scalar field can be plotted simultaneously. 
+    
+==USAGE
+
+The first command form is for only vector field plotting. 
+
+     % gpvect [options] gturl_x gturl_y ....
+
+where the format of the gturl is
+
+     path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+The command loads two gphys variables in each time and draws 
+vector field whose x and y components are the first and the second argument, 
+gturl_x gturl_y. 
+
+When the slice parameters are the same throughout the all Gphys
+variables, the following form can be used:
+
+     % gpvect --slice <slice> [options] file@var_x file@var_y ...
+
+where the format of the slice is
+
+     dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+The second command form is
+
+     % gpvect --scalar [options] gturl_c gturl_x gturl_y ....
+
+In this case the command loads three gphys variables in each time and
+draws a contour/tone of the first argument gturl_c, and vector fields
+whose x and y components are the second and the thrid argument,
+gturl_x gturl_y.
+
+==OPTIONS
+
+===GLOBAL OPTIONS
+
+:--help:
+  print this message. 
+
+:--slice url:
+  set the slicing parameters.
+
+:--wsn [1-4]:
+  set work staion number. each number represent output device.
+  1: X window.
+  2: PS file. (named dcl.ps) 
+  3: Tektronix output.
+  4: GTK Windows (depend on dcl-5.3)
+
+:--clrmap [1-]:
+  set colormap to draw tone/contour. default is 1.
+
+:--itr [1-4,5-7,10-15,20-23,30-33]:
+  set axis scale. default is 1.
+  1: linear scale for x/y axis 
+  2: linear scale for x , log scale for y axis
+  3: log scale for x , linear scale for y axis
+  4: log scale for x/y axis
+
+:--similar [simfac,vxoff,vyoff]:
+  (for 5<=itr<=7) set similarity parameters which are fed in DCL.grssim. 
+
+:--map_axis [uxc,uyc,rot]:
+  (for 10<=itr<=33) set mapping parameters which are fed in DCL.umpcnt. 
+
+:--title:
+  set title of figure
+
+:--aspect <aspect>:
+  set aspect ratio of Viewport. default is 2.0.
+
+:--noannotate:   
+  not draw annotations. 
+
+:--animate/anim <dim>:
+  plot animation along <dim>. <dim> must be name of dimension. 
+
+:--alternate, --Ga: 
+  enable to backing store.
+
+:--nowait, --Gw:   
+  not wait for any actions if animate 
+
+:--reverse, --Gr:      
+  plot animation reversible if animate
+
+:--smooth, --Gaw:     
+  equal to --anlternate && --nowait
+
+:--exch:     
+  exchange(transpose) x/y axis.
+
+:--mean <dim>:
+  mean along axis <dim>. 
+
+:--eddy <dim>:
+  deviation from mean along axis <dim>. 
+
+:--m, --map <map_type>:
+  plot map. itr number must be set.  this option is neglect if itr
+  number is 1-4.  abailable map type is coast_world, border_world,
+  plate_world, state_usa, coast_japan, pref_japan
+
+:--scalar:
+  plot scaler field (contour,tone)
+
+===CONTOUR/TONE OPTIONS
+
+:--shade:            
+  make contour and tone plot.
+
+:--noshade:
+  make contour plot, without tone.
+
+:--nocont:           
+  make tone plot, without contour.
+
+:--range [min:max]:
+  set min/max value for contour/tone plot. min or max must be set.
+
+:--crange:   
+  set min/max value for contour plot. this is more dominant than --range
+
+:--srange:            
+  set min/max value for tone plot. this is more dominant than --interval/int
+
+:--interval,--int [num]:
+  set interval value for contour/tone plot.set the number of lines if
+  you set negative value.
+
+:--cint:
+  set interval value for contour plot. this is more dominant than --interval/int
+
+:--sint:
+  set interval value for tone plot. this is more dominant than --interval/int.
+
+:--levels:
+  set values of contour/tone levels. 
+
+:--clevels:
+  set values of contour levels. 
+
+:--slevels:
+  set tone of contour levels. 
+
+:--patterns:
+  set each patterns for tone plot. 
+
+:--tonf:
+  use tonf instead of tone.
+
+:--nocolorbar:
+  do not draw color bar
+
+:--nozero:
+  do not draw zero contour
+
+===VECTOR OPTIONS
+
+:--noflow_vect:
+  DCL::ugvect is used.
+
+:--xintv <xintv>:
+  interval of data sampling in x
+
+:--yintv <yintv>:
+  interval of data sampling in y
+                            
+:--factor <factor>:
+  (Effective only if flow_vect) scaling factor to strech/reduce the
+  arrow lengths
+
+:--unit_vect:
+  Show the unit vector
+
+:--max_unit_vect:
+  (Effective only if flow_vect && unit_vect) use the maximum arrows to
+  scale the unit vector
+
+:--ux_unit <value>:
+  (Effective only if flow_vect) length of the x direction unit vector 
+  (precedence of this option is lower than max_unit_vect)
+
+:--uy_unit <value>:
+  (Effective only if flow_vect) length of the y direction unit vector 
+  (precedence of this option is lower than max_unit_vect)
+
+:--xscale <value>:
+  (Effective only if noflow_vect) scaling of the x direction vector 
+
+:--yscale <value>:
+  (Effective only if noflow_vect) scaling of the y direction vector 
+
+
+==EXAMPLES
+
+For the first command format, 
+
+    % gpvect data.nc@vx data.nc@vy
+    % gpvect data.nc@vx,lon=0 data.nc@vy,lon=0
+    % gpvect --scalar data.nc@temp datax.nc@vx datay.nc@vy
+    % gpvect --scalar --anim t --nocont data.nc@temp data.nc@vx data.nc@vy
+
+For the second command format, 
+    % gpvect --scalar --slice lat=0 data.nc@temp data.nc@vx data.nc@vy
+
+
+==HISTORY
+
+  2007/07/02  S Takehiro (created based on gpview)
+  2007/07/04  S Takehiro (polar coodinate vector component conversion 
+                          from U to N coordinates moved to ggraph.rb) 
+  2007/07/06  S Takehiro (default title was set when --scalar option is given) 
+  2009/09/30  S Takehiro (option --nocolorbar and --nozero implemented)
+  2010/03/10  Y SASAKI (change help block into RD format)
+  2010/07/16  Y SASAKI (option --clrmap implemented)
+  2011/07/29  S Takehiro (option --clrmap fixed)
+  2012/02/19  S Takehiro (description for gturl format updated)
+  2012/07/28  S Takehiro (option --ux_unit, --uy_unit, --xscale, --yscale
+                          implemented)
+
+=end
+#################################################
+require "getoptlong"        # for option_parse
+require "numru/ggraph"      # ggraph library
+require "numru/gphys/gpcommon"
+
+include NumRu
+
+#####################################################
+## Default param.
+
+VIEWPORT = [0.15,0.85,0.2,0.55]
+URLfmt = "path[@|/]varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+
+#####################################################
+def GGraph::annotate(str_ary)
+  lclip = DCL.sgpget('lclip')
+  DCL.sgpset('lclip',nil)
+  lnum = 0
+  str_ary.each{ |str|lnum += 1 }
+    charsize = 0.7 * DCL.uzpget('rsizec1')
+  dvx = 0.01
+  dvy = charsize*1.5
+  raise TypeError,"Array expected" if ! str_ary.is_a?(Array)
+  vxmin,vxmax,vymin,vymax = DCL.sgqvpt
+  vx = 0.70
+  vy = 0.045 + (lnum-1)*dvy
+  str_ary.each{|str|
+    DCL::sgtxzv(vx,vy,str,charsize,0,-1,1)
+    vy -= dvy
+  }
+  DCL.sgpset('lclip',lclip)
+  nil
+end
+
+def each_along_dims(gp1, gp2, gp3, loopdim)
+
+  raise ArgumentError,"1st argument must be an GPhys." if !gp1.is_a?(GPhys)
+  raise ArgumentError,"1st argument must be an GPhys." if !gp2.is_a?(GPhys)
+  raise ArgumentError,"1st argument must be an GPhys." if !gp3.is_a?(GPhys)
+
+  if loopdim.is_a?(String)
+    dimname = loopdim
+  elsif
+    if loopdim < 0 
+      dimname = gp1.coord(gphys.rank + loopdim).name
+    else
+      dimname = gp1.coord(loopdim).name
+    end
+  else
+    raise ArgumentError,"loopdims must consist of Integer and/or String"
+  end
+
+  loopdim_na = gp1.coord(dimname).val                      # get coord ary
+  loopdim_na = loopdim_na[-1..0] if $OPT_reverse || $OPT_Gr  # reverse  
+  loopdim_na.each { |x|
+    yield( gp1.cut(dimname=>x), gp2.cut(dimname=>x), gp3.cut(dimname=>x) )
+  }
+end
+
+
+def draw_setup(gp)
+
+  # set missing value
+  DCLExt.gl_set_params('lmiss'=>true)
+
+  # fontsize
+  DCL.sgpset('lcntl', false)
+#  DCL.uzfact(0.7)
+  DCL.sgpset('lfull', true)               # use full area in the window
+  DCL.sgpset('lfprop',true)               # use proportional font
+  DCL.uscset('cyspos', 'B' )              # move unit y axis
+  
+  # viewport size
+  GGraph.set_fig('viewport'=>$VIEWPORT)
+  GGraph.set_fig( 'itr'=>($OPT_itr == nil) ? 1 : $OPT_itr.to_i )
+  GGraph.set_fig("xrev"=>"units:mb,units:hPa,units:millibar,positive:down",  
+                 "yrev"=>"units:mb,units:hPa,units:millibar,positive:down") 
+
+  # set options
+  min_range,  max_range  = __split_range($OPT_range)
+  min_crange, max_crange = __split_range($OPT_crange)
+  min_srange, max_srange = __split_range($OPT_srange)
+  GGraph.set_linear_contour_options(
+                                    'int' => ( $OPT_cint   || $OPT_interval || $OPT_int ),
+                                    'min' => ( min_crange  || min_range ),
+                                    'max' => ( max_crange  || max_range )
+                                    )
+  GGraph.set_linear_tone_options(
+                                    'int' => ( $OPT_sint   || $OPT_interval || $OPT_int ),
+                                    'min' => ( min_srange  || min_range ),
+                                    'max' => ( max_srange  || max_range )
+                                 )
+  if ( $OPT_clevels || $OPT_levels )
+    $OPT_clevels=($OPT_clevels || $OPT_levels).split(',').map!{|v| v.to_f }
+  end
+
+  if ( $OPT_slevels || $OPT_levels )
+    $OPT_slevels=($OPT_slevels||$OPT_levels).split(',').map!{|v| v.to_f }
+    p $OPT_slevels
+  end
+
+  if ( $OPT_patterns )
+    $OPT_patterns=$OPT_patterns.split(',').map!{|v| v.to_f }
+  end
+
+  # judge draw kind
+  gp_rank = gp.rank
+  gp_rank = gp_rank - 1 if ( $OPT_animate || $OPT_anim )
+
+  raise "The rank of gphys variables must be >=2 " if (gp_rank < 2)
+  
+  if ( $OPT_scalar ) 
+    if ( !$OPT_noshade && $OPT_nocont )
+      draw_flag = "nocont"
+    elsif ( $OPT_noshade && !$OPT_nocont )
+      draw_flag = "noshade"
+    elsif ( !$OPT_noshade && !$OPT_nocont )
+      draw_flag = "full"
+    end
+  else
+    draw_flag = 'noscalar'
+  end  
+
+  # similar projection
+  if ($OPT_similar)
+    if /([\d\-.]*),([\d\-.]*),([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,$2.to_f,$3.to_f]
+    elsif /([\d\-.]*),([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,$2.to_f,0]
+    elsif /([\d\-.]*)/ =~ $OPT_similar
+      similar=[$1.to_f,0,0]
+    end
+    GGraph.set_fig('similar'=>similar)
+  end
+
+  # similar projection
+  if ($OPT_map_axis)
+    if /([\d\-.]*),([\d\-.]*),([\d\-.]*)/ =~ $OPT_map_axis
+      map_axis=[$1.to_f,$2.to_f,$3.to_f]
+    elsif /([\d\-.]*),([\d\-.]*)/ =~ $OPT_map_axis
+      map_axis=[$1.to_f,$2.to_f,0]
+    elsif /([\d\-.]*)/ =~ $OPT_similar
+      map_axis=[$1.to_f,0,0]
+    end
+    GGraph.set_fig('map_axis'=>map_axis)
+  end
+
+
+  # map
+  if ( $OPT_m || $OPT_map)
+    map_type = "coast_world"     if $OPT_m
+    map_type = $OPT_map          if $OPT_map
+    GGraph::set_map(map_type=>true)
+  end
+
+  # vector
+  if ($OPT_noflow_vect)
+    $flow_vect = false 
+  else
+    $flow_vect = true
+  end
+
+  if ($OPT_unit_vect)
+    $unit_vect = true
+  else
+    $unit_vect = false 
+  end
+
+  if ($OPT_max_unit_vect)
+    $max_unit_vect = true
+  else
+    $max_unit_vect = false 
+  end
+
+  if ($OPT_ux_unit)
+    $ux_unit = $OPT_ux_unit.to_f
+  else
+    $ux_unit = nil
+  end
+
+  if ($OPT_uy_unit)
+    $uy_unit = $OPT_uy_unit.to_f
+  else
+    $uy_unit = nil
+  end
+
+  if ($OPT_xscale)
+    xscale = $OPT_xscale.to_f
+    DCL.ugpset('LNRMAL',false)
+    vx_unit=DCL.ugpget('VXUNIT')
+    DCL.ugpset('XFACT1',vx_unit/xscale)
+  end
+
+  if ($OPT_yscale)
+    yscale = $OPT_yscale.to_f
+    DCL.ugpset('LNRMAL',false)
+    vy_unit=DCL.ugpget('VYUNIT')
+    DCL.ugpset('YFACT1',vy_unit/yscale)
+  end
+
+  $xintv=($OPT_xintv||1).to_i
+  $yintv=($OPT_yintv||1).to_i
+  $factor=($OPT_factor||1).to_f
+
+  return draw_flag
+
+end
+
+def draw(gp, gpux, gpuy, draw_flag)
+
+  # draw contour/tone
+  case draw_flag
+  when "full"
+    GGraph.tone(gp,
+                true, 
+                "title"=>$OPT_title,
+                "annotate"=>$annotate,
+                "transpose"=>$OPT_exch,
+                "levels"=>$OPT_slevels,
+                "patterns"=>$OPT_patterns,
+                "tonf"=>$OPT_tonf
+                )
+    GGraph.contour(gp,
+		   false,
+		   "transpose"=>$OPT_exch,
+		   "levels"=>$OPT_clevels,
+		   "nozero"=>$OPT_nozero
+		   )
+    vnewframe = false
+
+  when "nocont"
+    GGraph.tone(gp,
+                true, 
+                "title"=>$OPT_title,
+                "annotate"=>$annotate,
+                "transpose"=>$OPT_exch,
+                "levels"=>$OPT_slevels,
+                "patterns"=>$OPT_patterns,
+                "tonf"=>$OPT_tonf
+                )
+    vnewframe = false
+
+  when "noshade"
+    mj = DCL.udpget('indxmj')
+    mn = DCL.udpget('indxmn')
+    GGraph.contour(gp, 
+                   true, 
+                   "title"    =>$OPT_title,
+                   "label"    =>true,
+                   "annotate"=>$annotate,
+		   "transpose"=>$OPT_exch,
+                   "levels"=>$OPT_clevels,
+		   "nozero"=>$OPT_nozero
+                   )
+    vnewframe = false
+
+  when "noscalar"
+    vnewframe = true
+  end
+
+  # draw vector
+
+  if ($OPT_itr == '5')
+    GGraph.vector( gpux, gpuy, newframe=vnewframe, 
+                  "title"=>$OPT_title,
+                  "annotate"=>$annotate,
+                  "exchange"=>$OPT_exch,
+                  "flow_vect"=>false,
+                  "flow_itr5"=>true,
+                  "xintv"=>$xintv,
+                  "yintv"=>$yintv,
+                  "factor"=>$factor,
+                  "unit_vect"=>$unit_vect,
+                  "max_unit_vect"=>$max_unit_vect,
+                  "ux_unit"=>$ux_unit, 
+                  "uy_unit"=>$uy_unit
+                  )
+  else
+    GGraph.vector(gpux, gpuy, newframe=vnewframe,
+                  "title"=>$OPT_title,
+                  "annotate"=>$annotate,
+                  "exchange"=>$OPT_exch,
+                  "flow_vect"=>$flow_vect,
+                  "xintv"=>$xintv,
+                  "yintv"=>$yintv,
+                  "factor"=>$factor,
+                  "unit_vect"=>$unit_vect,
+                  "max_unit_vect"=>$max_unit_vect,
+                  "ux_unit"=>$ux_unit, 
+                  "uy_unit"=>$uy_unit
+                  )
+   end
+
+  # color bar
+  if ( ( draw_flag == "full") || ( draw_flag == "nocont") ) && $colorbar
+    GGraph::color_bar(
+                      "left"      => true,
+                      "landscape" => true
+                      )
+  end
+
+end
+
+
+def set_vpsize( default_vp, aspect=2.0 )
+
+  raise "#{aspect} must be a positive Numeric" if (aspect.to_f <= 0.0)
+  aspect = aspect.to_f
+
+  # default viewport
+  x0 = default_vp[0]; x1 = default_vp[1]
+  y0 = default_vp[2]; y1 = default_vp[3]
+  # viewport size
+  hlength =   x1 - x0
+  vlength =   y1 - y0
+  # center grid of viewport
+  cen_of_vp = [ x0 + hlength/2.0, y0 + vlength/2.0  ] 
+
+  if aspect <= 2.0
+    hlength = vlength * aspect
+    x0 = cen_of_vp[0] - hlength/2.0
+    x1 = cen_of_vp[0] + hlength/2.0
+  else
+    vlength = hlength / aspect     
+    y0 = cen_of_vp[1] - vlength/2.0
+    y1 = cen_of_vp[1] + vlength/2.0
+  end  
+
+  return [ x0, x1, y0, y1 ]
+
+end
+
+def __split_range(range)
+
+  if /(.*):(.*)/ =~ range
+    if $1 == ""
+      min = nil
+    else
+      min = $1.to_f
+    end
+    if $2 == ""
+      max = nil
+    else
+      max = $2.to_f
+    end
+  elsif range == nil
+    min = max = nil
+  else
+    raise "invalid range: variable subset specification error. split range with ':'\n\n"
+  end
+  
+  return min, max
+end
+
+
+#####################################################
+###++++++           Main Routine            ++++++###
+
+## parse options
+parser = GetoptLong.new
+parser.set_options(
+                   ###    global option   ###
+                   ['--slice',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--wsn',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--clrmap',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--itr',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--similar',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--map_axis',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ['--title',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--aspect',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--anim',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--animate',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--noannotate',               GetoptLong::NO_ARGUMENT],
+                   ['--alternate',                GetoptLong::NO_ARGUMENT],
+                   ['--Ga',                       GetoptLong::NO_ARGUMENT],
+                   ['--nowait',                   GetoptLong::NO_ARGUMENT],
+                   ['--Gw',                       GetoptLong::NO_ARGUMENT],
+                   ['--smooth',                   GetoptLong::NO_ARGUMENT],
+                   ['--Gaw',                      GetoptLong::NO_ARGUMENT],
+                   ['--exch',                     GetoptLong::NO_ARGUMENT],
+                   ['--reverse',                  GetoptLong::NO_ARGUMENT],
+                   ['--Gr',                       GetoptLong::NO_ARGUMENT],
+                   ['--mean',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--eddy',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--map',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--m',                        GetoptLong::NO_ARGUMENT],
+                   ['--scalar',                   GetoptLong::NO_ARGUMENT],
+                   ### tone or cont option ###
+                   ['--nocont',                   GetoptLong::NO_ARGUMENT],
+                   ['--noshade',                  GetoptLong::NO_ARGUMENT],
+                   ['--range',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--crange',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--srange',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--interval',                 GetoptLong::REQUIRED_ARGUMENT],
+                   ['--int',                      GetoptLong::REQUIRED_ARGUMENT],
+                   ['--cint',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--sint',                     GetoptLong::REQUIRED_ARGUMENT],
+                   ['--levels',                   GetoptLong::REQUIRED_ARGUMENT],
+                   ['--clevels',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--slevels',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--patterns',                  GetoptLong::REQUIRED_ARGUMENT],
+                   ['--tonf',                     GetoptLong::NO_ARGUMENT],
+                   ['--nocolorbar',               GetoptLong::NO_ARGUMENT],
+                   ['--nozero',                   GetoptLong::NO_ARGUMENT],
+                   ###    vector option    ###
+                   ['--noflow_vect',              GetoptLong::NO_ARGUMENT],
+                   ['--xintv',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--yintv',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--factor',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--unit_vect',              GetoptLong::NO_ARGUMENT],
+                   ['--max_unit_vect',          GetoptLong::NO_ARGUMENT],
+                   ['--ux_unit',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--uy_unit',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--xscale',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--yscale',                    GetoptLong::REQUIRED_ARGUMENT],
+                   ['--help',                     GetoptLong::NO_ARGUMENT]
+#                   ['--version',                  GetoptLong::NO_ARGUMENT]  # to be defined
+                   )
+begin
+  parser.each_option do |name, arg|
+    eval "$OPT_#{name.sub(/^--/, '').gsub(/-/, '_')} = '#{arg}'"  # strage option value to $OPT_val
+  end
+rescue
+  help
+  raise
+end
+
+## Print out help message
+if ($OPT_help)
+  help 
+  exit(1)
+end
+
+## set some figure option
+DCL::swlset('lwait', false) if ($OPT_nowait    || $OPT_Gw || $OPT_smooth || $OPT_Gaw)
+                                           # set wait or nowait
+DCL::swlset('lalt',  true)  if ($OPT_alternate || $OPT_Ga || $OPT_smooth || $OPT_Gaw)
+                                           # set backing store option
+if ($OPT_noannotate)
+  $annotate = false 
+else
+  $annotate = true
+end
+
+if ($OPT_nocolorbar)
+  $colorbar = false 
+else
+  $colorbar = true
+end
+
+## decide VIEWPORT
+$VIEWPORT = set_vpsize( VIEWPORT, ($OPT_aspect||2.0) )
+
+## tune the size of axis parameters.
+DCL.uzfact(0.7)
+
+## draw figure
+loopdim   = ( $OPT_animate || $OPT_anim ) 
+loopdim = loopdim.to_i if loopdim.to_i.to_s == loopdim
+
+## set colormap
+DCL.sgscmn($OPT_clrmap||1)
+## open work station
+DCL.gropn($OPT_wsn||4)
+
+## open netcdf variables
+
+while ARGV[0] do
+  gturl = ARGV[0]
+  gturl = gturl+','+$OPT_slice if $OPT_slice
+  gp = GPhys::IO.open_gturl(gturl)
+  print "  Reading #{gturl}\n"
+
+  ARGV.shift
+
+  if ( $OPT_scalar )
+    gturlx = ARGV[0]
+    gturlx = gturlx+','+$OPT_slice if $OPT_slice
+    
+    gpux = GPhys::IO.open_gturl(gturlx)
+    print "  Reading #{gturlx}\n"
+    ARGV.shift
+  else
+    gpux = gp
+  end
+
+  gturly = ARGV[0]
+  gturly = gturly+','+$OPT_slice if $OPT_slice
+
+  gpuy = GPhys::IO.open_gturl(gturly)
+  print "  Reading #{gturly}\n"
+  ARGV.shift
+
+  sh = gp.shape
+  if sh != gpux.shape
+    raise ArgumentError, "shapes of 1st and 2nd variables do not agree with each other"
+  elsif sh != gpuy.shape
+    raise ArgumentError, "shapes of 1st and 3rd variables do not agree with each other"
+  end
+
+## mean along any axis
+  if ($OPT_mean)
+    dims = ($OPT_mean).split(/\s*,\s*/)
+    dims.each{|dim|
+      dim = dim.to_i if dim.to_i.to_s == dim
+      gp = gp.mean(dim)
+      gpux = gpux.mean(dim)
+      gpuy = gpuy.mean(dim)
+    }
+  end
+
+## deviation from mean along any axis
+  if ($OPT_eddy)
+    dims = ($OPT_eddy).split(/\s*,\s*/)
+    dims.each{|dim|
+      dim = dim.to_i if dim.to_i.to_s == dim
+      gp = gp.eddy(dim)
+      gpux = gpux.eddy(dim)
+      gpuy = gpuy.eddy(dim)
+    }
+  end
+
+  # set title
+  if !$OPT_title && $OPT_scalar
+    gpnm   = gp.data.get_att('long_name')   || gp.name
+    gpuxnm = gpux.data.get_att('long_name') || gpux.name
+    gpuynm = gpuy.data.get_att('long_name') || gpuy.name
+    $OPT_title = gpnm+'('+gpuxnm+','+gpuynm+')'
+  end
+
+  # draw margin infomation
+  GGraph.margin_info($0, gturl+'('+gturlx+','+gturly+')') if $annotate && $OPT_scalar
+  GGraph.margin_info($0, gturl+','+gturly) if $annotate && !$OPT_scalar
+
+  kind_of_fig = draw_setup(gp)                # determine figure kind
+
+  if loopdim           # animation
+    each_along_dims(gp, gpux, gpuy, loopdim){|gp_sub,gpux_sub,gpuy_sub|
+      draw(gp_sub,gpux_sub,gpuy_sub, kind_of_fig)
+    }
+  else
+    draw( gp, gpux, gpuy, kind_of_fig )       # single figure
+  end
+
+end
+
+DCL.grcls
+
+

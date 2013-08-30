@@ -1,0 +1,324 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys_fft.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">extension of class NumRu::GPhys -- Fast Fourier transformation and its applications</a></h1><!-- RDLabel: "extension of class NumRu::GPhys &shy;&shy; Fast Fourier transformation and its applications" -->
+<p>This manual documents the methods of NumRu::GPhys defined in gphys_fft.rb</p>
+<h1><a name="label-1" id="label-1">class methods</a></h1><!-- RDLabel: "class methods" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>GPhys::fft_ignore_missing( <var>ignore</var>=<var>true</var>, <var>replace_val</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "GPhys::fft_ignore_missing" -->
+<dd>
+Set a flag (class variable) to ignore missing values. 
+This is for data that do not have missing 
+but is treated as potentially having missing (often
+by having the valid_* attributes of NetCDF.)
+If replace_val is specified, data missing with replaced
+with that value.</dd>
+</dl>
+<h1><a name="label-3" id="label-3">methods</a></h1><!-- RDLabel: "methods" -->
+<dl>
+<dt><h4><a name="label-4" id="label-4"><code>fft(<var>backward</var>=<var>false</var>, *<var>dims</var>)</code></a></h4></dt><!-- RDLabel: "fft" -->
+<dd>
+<p>Fast Fourier Transformation (FFT) by using  
+(<a href="http://www.fftw.org">FFTW</a>) ver 3 or ver 2.
+A FFTW ver.2 interface is included in NArray, while
+to use FFTW ver.3, you have to install separately.
+Dimension specification by the argument dims is available
+only with ver.3. By default, FFT is applied to all dimensions.</p>
+<p>The transformation is complex. If the input data is not complex,
+it will be coerced to complex before transformation.</p>
+<p>When the FT is forward, the result is normalized 
+(i.e., divided by the data number), unlike the default behavior of
+FFTW.</p>
+<p>Each coordinate is assumed to be equally spaced without checking.
+The new coordinate variables will be set equal to wavenumbers,
+derived as 2*PI/(length of the axis)*[0,1,2,..], where the length
+of the axis is derived as (coord.val.max - coord.val.min)*(n+1)/n.</p>
+<p>REMARK</p>
+<ul>
+<li>If the units of the original coordinate is degree (or its
+      equivalent ones such as degrees_east), the wavenumber was
+      made in integers by converting the coordinate based on 
+      radian.</li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>backward (true of false) : when true, backward FT is done;
+      otherwise forward FT is done.</li>
+<li>dims (integers) : dimensions to apply FFT</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<pre>gphy.fft           # forward, for all dimensions
+gphy.fft(true)     # backward, for all dimensions
+gphy.fft(nil, 0,1) # forward, for the first and second dimensions.
+gphy.fft(true, -1) # backward, for the last dimension.</pre></dd>
+<dt><h4><a name="label-5" id="label-5"><code>detrend(<var>dim1</var>[,<var>dim2</var>[,...]])</code></a></h4></dt><!-- RDLabel: "detrend" -->
+<dd>
+<p>Remove means and linear trends along dimension(s) specified.
+Algorithm: 1st order polynomial fitting.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim? (Integer of String): the dimension along which you want to remove
+      trends.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li>See <a href="#label-5">detrend</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>cos_taper(<var>dim1</var>[,<var>dim2</var>[,...]])</code></a></h4></dt><!-- RDLabel: "cos_taper" -->
+<dd>
+<p>Cosine tapering along dimension(s) specified.</p>
+<p>Algorithm: to multiply with the half cosine curves at the both 
+1/10 ends of the data.</p>
+<pre>cos taper shape:
+         _____________
+       _/             \_
+     -&gt;   &lt;-       -&gt;   &lt;-
+      T/10           T/10
+   half-cosine     half-cosine
+     shaped         shaped</pre>
+<p>The spectra of tapered data should be multiplied by 1/0.875,
+which is stored as GPhys::COS_TAPER_SP_FACTOR (==1/0.875).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim? (Integer of String): the dimension along which you want to remove
+      trends.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<pre>dim = 0    # for the 1st dimension
+fc = gphys.detrend(dim).cos_taper(dim).fft(nil,dim)
+sp = fc.abs**2 * GPhys::COS_TAPER_SP_FACTOR</pre></dd>
+<dt><h4><a name="label-7" id="label-7"><code>spect_zero_centering(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "spect_zero_centering" -->
+<dd>
+<p>Shifts the wavenumber axis to cover from -K/2 to K/2 instead of 
+from 0 to K-1, where the wavenumber is symbolically treated as integer,
+which is actually not the case, though. Since the first (-K/2) and
+the last (K/2) elements are duplicated, both are divided by 2.
+Therefore, this method is to be used for spectra (squared quantity)
+rather than the raw Fourier coefficients. (That is why the method name
+is prefixed by "spect_").</p>
+<p>The method is applied for a single dimension (specified by the argument
+dim). If you need to apply for multiple dimensions, use it for multiple
+times.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim (integer): the dimension you want to shift spectra elements.
+      Count starts from zero.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li><p>To get a spectra of a variable var along the 1st and 2nd dimensions:</p>
+<pre>fc = var.fft(nil, 0,1)    # --&gt; Fourier coef
+sp = ( fc.abs**2 ).spect_zero_centering(0).spect_zero_centering(1)</pre>
+<p>Note that spect_zero_centering is applied after taking |fc|^2.</p></li>
+<li><p>Same but if you want to have the 2nd dimension one-sided:</p>
+<pre>fc = var.fft(nil, 0,1)
+sp = ( fc.abs**2 ).spect_zero_centering(0).spect_one_sided(1)</pre></li>
+<li><p>Similar to the first example but for cross spectra:</p>
+<pre>fc1 = var1.fft(nil, 0,1)
+fc2 = var2.fft(nil, 0,1)
+xsp = (fc1 * fc2.conj).spect_zero_centering(0).spect_zero_centering(1)</pre></li>
+</ul></dd>
+<dt><h4><a name="label-8" id="label-8"><code>spect_one_sided(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "spect_one_sided" -->
+<dd>
+<p>Similar to <a href="#label-7">spect_zero_centering</a> but to make one-sided spectra.
+Namely, to convert from 0..K-1 to 0..K/2. To be applied for spectra;
+wavenumber 2..K/2-1 are multiplied by 2.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim (integer): the dimension you want to shift spectra elements.
+      Count starts from zero.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li>See the 2nd example of <a href="#label-7">spect_zero_centering</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-9" id="label-9"><code>rawspect2powerspect(*<var>dims</var>)</code></a></h4></dt><!-- RDLabel: "rawspect2powerspect" -->
+<dd>
+<p>Converts raw spectra obtained by gphys.fft.abs**2 into
+power spectra by dividing by wavenumber increments
+along the dimensions specified by dims.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dims (integers): the dimensions corresponding to wavenumbers.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li><p>Suppose a 2 (or more) dimensional data gphys.</p>
+<pre>fc = gphys.fft(nil, 0, 1)
+sp = fc.abs**2
+ps = sp.rawspect2powerspect(0,1)</pre>
+<p>Here, sp is the raw spectrum of gphys, and ps is the power spectrum.
+The Parseval relation for them are as follows:</p>
+<pre>(gphys**2).mean == sp.sum
+                == pw.sum*dk*dl (== \int pw dk dl, mathematically),</pre>
+<p>where, dk = (pw.coord(0)[1] - pw.coord(0)[0]), and
+dl = (pw.coord(1)[1] - pw.coord(1)[0]).</p></li>
+</ul></dd>
+<dt><h4><a name="label-10" id="label-10"><code>phase_velocity_filter(<var>xdim</var>, <var>tdim</var>, <var>cmin</var>=<var>nil</var>, <var>cmax</var>=<var>nil</var>, <var>xconv</var>=<var>nil</var>, <var>tconv</var>=<var>nil</var>, <var>remove_xtmean</var>=<var>false</var>)</code></a></h4></dt><!-- RDLabel: "phase_velocity_filter" -->
+<dd>
+<p>Filtering by phase velocity (between cmin and cmax)</p>
+<p>REMARKS</p>
+<ul>
+<li>If the number of the grid points along x or t is an even number,
+      the maximum wavenumber or frequency is treated as positive 
+      and negative, respectively, which results in an asymmetry of 
+      the treatment of positive and negative phase speeds.
+      (That should be ok. -- In case its effect is significant, 
+      to do the filtering itself is not meaningful.)</li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>xdim (Integer or String): spacial dimension</li>
+<li>tdim (Integer or String): time dimension</li>
+<li>cmin (Float or nil): minimum phase velocity. nil means no specification. 
+      (at least cmin or cmax must be given by Float)</li>
+<li>cmax (Float or nil): maximum phase velocity. nil means no specification. 
+      (at least cmin or cmax must be given by Float)</li>
+<li>xconv (nil or UNumeric) : (optional) if given, xconv is multiplied
+      with the x axis before computing the phase velocity
+      (kconv=1/xconv is used to scale wavenumbers)</li>
+<li>tconv (nil or UNumeric) : (optional) if given, tconv is multiplied
+      with the t axis before computing the phase velocity
+      (fconv=1/tconv is used to scale frequency)</li>
+<li>remove_xtmean (false or true) : if false (default), 
+      components with k=0 and f=0 are counted as c=0 (stationary),
+      (unlike <a href="#label-12">phase_velocity_binning</a>), so they are included if
+      cmin*cmax &lt;= 0; if true, k=0 &amp; f=0 components are always removed.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li><p>For a 4D data with [x,y,z,t] dimensions, filtering by the phase
+      velocity in the y dimension greater than 10.0 (in the unit
+      of y/t) can be made by</p>
+<pre>cmin = 10.0; cmax = nil
+gpfilt = gp.phase_velocity_filter(1, 3, cmin, cmax)</pre></li>
+<li><p>For a global data (on the Earth's surface) with 
+      [lon, lat, z, time] axes, where the units of lon is 
+      "degrees" (or "degrees_east" or "radian")
+      and the units of time is "hours", to filter disturbances
+      whose zonal phase speed MEASURED AT THE EQUATOR is less or
+      equal to 30 m/s can be made by</p>
+<pre>cmin = -30.0; cmax = 30.0
+xconv = UNumeric[6.37e6, "m"]  # Earth's radius (i.e., m/radian)
+   # This is a special case since "radian" is exceptionally omitted.
+   # See the private method __predefined_coord_units_conversion.
+tconv = UNumeric[3.6e3, "s/hours"]
+gpfilt = gp.phase_velocity_filter(1, 3, cmin, cmax, xconv, tconv)</pre></li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>phase_velocity_binning_iso_norml(<var>kdim</var>, <var>fdim</var>, <var>cmin</var>, <var>cmax</var>, <var>cint</var>, <var>kconv</var>=<var>nil</var>, <var>fconv</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "phase_velocity_binning_iso_norml" -->
+<dd>
+<p>Same as <a href="#label-12">phase_velocity_binning</a> but exclusively for
+equal phase velocity spacing. Also, a normalization is
+additionally made, to scale spectra in terms of integration
+along phase velocity axis --- The result of
+<a href="#label-12">phase_velocity_binning</a> called inside
+this method is divided by cint along with corresponding
+units conversion. Therefore, if this method is applied
+to spectra, a normalization is made such that an integration
+(not summation) along the phase velocity gives the variance
+(or covariance etc.) -- This normalization is suitable to
+quadratic quantities (such as spectra) but is not suitable to
+raw Fourier coefficients.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>kdim (Integer or String): see <a href="#label-12">phase_velocity_binning</a></li>
+<li>fdim (Integer or String): see <a href="#label-12">phase_velocity_binning</a></li>
+<li>cmin (Float) : minimum phase velocity</li>
+<li>cmin (Float) : maximum phase velocity</li>
+<li>cint (Float) : inter val with which the range [cmin and cmax]
+      is divided.</li>
+<li>kconv (nil or UNumeric) : see <a href="#label-12">phase_velocity_binning</a></li>
+<li>fconv (nil or UNumeric) : see <a href="#label-12">phase_velocity_binning</a></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>phase_velocity_binning(<var>kdim</var>, <var>fdim</var>, <var>cbins</var>, <var>kconv</var>=<var>nil</var>, <var>fconv</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "phase_velocity_binning" -->
+<dd>
+<p>Bin a 2D spectrum in space and time based on phase velocity.
+The operand (self) must be Fourier coefficients or spectra,
+whose grid has not been altered since the call of the method
+fft (i.e., those that have not applied with zero centering
+etc, since it is done in this method).</p>
+<p>Binning by this method is based on summation, leaving
+the units unchanged.</p>
+<p>REMARKS</p>
+<ul>
+<li>Components whose phase velocities are exactly equal to one 
+      of the boundaries are divided into the two bins half by half</li>
+<li>components with k=0 and f=0 are excluded -- the spatio-temporal
+      mean do not reflect in the result </li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>kdim (Integer or String): wavenumber dimension (from spacial dimension)</li>
+<li>fdim (Integer or String): frequency dimension (from time dimension)</li>
+<li>cbins : an Array of bin bounds or a Hash of max, min, int
+      e.g., [-10,-1,-0.1,0.1,11,10], {"min"=&gt;-30,"max"=&gt;30,"int"=&gt;5}</li>
+<li>kconv (nil or UNumeric) : (optional) if given, kconv is multiplied
+      with the wavenumber axis before computing the phase velocity</li>
+<li>fconv (nil or UNumeric) : (optional) if given, fconv is multiplied
+      with the frequency axis before computing the phase velocity</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>Example A</p>
+<pre>fu = u.fft(nil, 0, 2)
+cfu = fu.phase_velocity_binning(0, 2, {"min"=&gt;-1,"max"=&gt;1,"int"=&gt;0.1})</pre></li>
+<li><p>Example B</p>
+<pre>fu = u.fft(nil, 0, 2)
+pw = fu.abs**2rawspect2powerspect(0,2)          # power spectrum
+cbins = [-100.0, -10.0, -1.0, 1.0, 10.0, 100.0] # logarithmic spacing
+cpw = pw.phase_velocity_binning(0, 2, cbins)</pre></li>
+<li><p>Example C</p>
+<pre>fu = u.fft(nil, 0, 3)
+fv = v.fft(nil, 0, 3)
+kconv = UNumeric[1/6.37e6, "m-1"]
+fconv = UNumeric[1/3.6e3, "hours/s"]
+fuv = (fu * fv.conj)   # cross spectra
+cfuv = fuv.phase_velocity_binning(0, 3, {"min"=&gt;-50,"max"=&gt;50,"int"=&gt;5},
+                                  kconv, fconv)</pre></li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

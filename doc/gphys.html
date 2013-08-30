@@ -1,0 +1,625 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class NumRu::GPhys</a></h1><!-- RDLabel: "class NumRu::GPhys" -->
+<h2><a name="label-1" id="label-1">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label-2" id="label-2"><code>GPhys.new(<var>grid</var>, <var>data</var>)</code></a></h4></dt><!-- RDLabel: "GPhys.new" -->
+<dd>
+<p>Constructor.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>grid (a Grid) : the grid</li>
+<li>data (a VArray) : the data. grid and data must have
+      the same shape.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>the arguments are NOT duplicated to construct a GPhys.</li>
+</ul></dd>
+<dt><h4><a name="label-3" id="label-3"><code>GPhys.each_along_dims(<var>gphyses</var>, *<var>loopdims</var>){...}  # <var>a</var> <var>block</var> <var>is</var> <var>expected</var></code></a></h4></dt><!-- RDLabel: "GPhys.each_along_dims" -->
+<dd>
+<p>Iterator to process GPhys objects too big to read on memory at once.</p>
+<p>Makes a loop (loops) by dividing the GPhys object(s) (<var>gphyses</var>)
+with the dimension(s) specified by <var>loopdims</var>.
+If the return value of the block is an Array, it is assumed to consist
+of GPhys objects, and the return value of this method is an Array
+in which the whole of the results are reconstructed as if no
+iteration is made, which is the same behavior as
+<var>GPhys::IO.each_along_dims_write</var>. If the return value of 
+the block is not an Array, this methods returns nil.</p>
+<p>WARNING: Unlike <var>GPhys::IO.each_along_dims_write</var>,
+the results of this method is NOT written in file(s),
+so be careful about memory usage if you put an Array of GPhys as the 
+return value of the block. You will probably need to have the size
+of them smaller than input data.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphyses (GPhys or Array of GPhys): GPhys object(s) to be processed.
+      All of them must have dimensions specified with <var>loopdims</var>,
+      and their lengths must not vary among files. Other dimensions
+      are arbitrary, so, for example,  <var>gphyses</var> could be 
+      [a(lon,lat,time), b(lat,time)] as long as loopdims==["time"].</li>
+<li>loopdims (Array of String or Integer) : name (when String) or
+      count starting from zero (when Integer) </li>
+<li>expected block : Number of arguments == number of GPhys objects in
+      <var>gphyses</var>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>If the return value of the block is an Array,
+      GPhys objects in which the whole results are written in
+      (the Array must consist of GPhys objects).
+      If the return value of the block is NOT an Array,
+      nil is returned.</li>
+</ul>
+<p>ERRORS</p>
+<p>The following raise exceptions (in addition to errors in arguments).</p>
+<ul>
+<li>Dimensions specified by <var>loopdims</var> are not shared among
+      GPhys objects in <var>gphyses</var>.</li>
+<li>Return value of the block is an Array, but it does not consist of 
+      GPhys objects.</li>
+<li>(Only when the return value of the block is an Array):
+      Dimension(s) used for looping (<var>loopdims</var>) is(are) eliminated
+      from the returned GPhys objects.</li>
+</ul>
+<p>USAGE</p>
+<p>See the manual of <var>GPhys::IO.each_along_dims_write</var>.</p></dd>
+<dt><h4><a name="label-4" id="label-4"><code>GPhys.join_md_nocheck(<var>gpnary</var>)</code></a></h4></dt><!-- RDLabel: "GPhys.join_md_nocheck" -->
+<dd>
+<p>Join multiple GPhys objects that are ordered perfectly in a NArray.</p>
+<p>LIMITATION (as of 2013-03-04)</p>
+<ul>
+<li>joining assoc_coords is yet to be supported; Currently
+      assoc_coords are ignored if any.</li>
+</ul>
+<p>ARGUMENT</p>
+<ul>
+<li>gpnarray [NArray of GPhys] having the same rank with that of
+      its component GPhys objects. multiple GPhys objects are joined
+      along the dimension with multiple elements (the order is kept). </li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-5" id="label-5"><code>GPhys.join_md(<var>gpnary</var>)</code></a></h4></dt><!-- RDLabel: "GPhys.join_md" -->
+<dd>
+<p>Join multiple GPhys objects (ordered in a NArray).</p>
+<p>Like GPhys.join_md_nocheck but it supports insersion
+of omitted 1-element dimensions and transpose for
+gpnary (the input NArray). It means that the rank of gpnary
+can be smaller than that of its compoent GPhys objects, and
+the order of dimensions can be arbitrary. Also,
+the order of coordinate values along each dimension does not 
+have to be monotonic; the method supports sorting and spliting
+along dimensions. For example, if gpnary == NArray.object(2):[gp0, gp1],
+where the first object gp0 has the 1st coordinate [0,1,7,8] and
+the second object gp1 has the 1st coordinate [3,4,5,6],
+gpnary is restructured as [ gp0[0..1,false], gp1, gp0[2..3,false] ],
+and join is made by using GPhys.join_md_nocheck.</p>
+<p>This method is generally faster than GPhys.join unless the split
+is one-dimensional.</p>
+<p>ARGUMENT</p>
+<ul>
+<li>gpnarray [NArray of GPhys] </li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>GPhys.join(<var>gpary</var>)</code></a></h4></dt><!-- RDLabel: "GPhys.join" -->
+<dd>
+<p>Join multiple GPhys objects (no need for any pre-ordering).</p>
+<p>ARGUMENT</p>
+<ul>
+<li>gpnarray [Array (or 1D NArray) of GPhys]</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-7" id="label-7"><code>GPhys.concat(<var>gpary</var>, <var>axis_or_ary</var>, <var>name</var>=<var>nil</var>, <var>attr</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "GPhys.concat" -->
+<dd>
+<p>Concatenate an Array (or 1D NArray) of GPhys objects
+along the new dimension specified by the 2nd to 4th arguments.
+The rank of the result (a GPhys) is one plus the rank of 
+the GPhys objects.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gpary [1D NArray or Array of GPhys]</li>
+<li>axis_or_ary [an Axis or a 1D NArray or Array of floats]</li>
+<li>name [String; optional] name of the coordinate; 
+      needed if axis_or_ary is not an Axis.</li>
+<li>attr [Hash; optional] attributes of the coordinate;
+      used if axis_or_ary is not an Axis.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+</dl>
+<h2><a name="label-8" id="label-8">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><h4><a name="label-9" id="label-9"><code>data</code></a></h4></dt><!-- RDLabel: "data" -->
+<dd>
+<p>Returns the data object</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>the data object is NOT duplicated.</li>
+</ul></dd>
+<dt><h4><a name="label-10" id="label-10"><code>grid_copy</code></a></h4></dt><!-- RDLabel: "grid_copy" -->
+<dd>
+<p>Returns a copy (deep  clone) of the grid object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>grid does not make a copy.</li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>grid</code></a></h4></dt><!-- RDLabel: "grid" -->
+<dd>
+<p>Returns the grid object without copying.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>Use grid_copy to avoid side effects</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>copy</code></a></h4></dt><!-- RDLabel: "copy" -->
+<dd>
+<p>Make a deep clone onto memory</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>name</code></a></h4></dt><!-- RDLabel: "name" -->
+<dd>
+<p>Returns the name of the GPhys object, which is equal to the 
+name of the data object in the GPhys object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>name=(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "name=" -->
+<dd>
+<p>Set the name of the GPhys object.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>nm (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nm (the argument)</li>
+</ul></dd>
+<dt><h4><a name="label-15" id="label-15"><code>rename(<var>nm</var>)</code></a></h4></dt><!-- RDLabel: "rename" -->
+<dd>
+<p>Same as <a href="#label-14">name=</a>, but self is returned.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>nm (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-16" id="label-16"><code>val</code></a></h4></dt><!-- RDLabel: "val" -->
+<dd>
+<p>Returns data values</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a NArray or NArrayMiss. It is always a copy and to write in it
+      will not affect self.</li>
+</ul></dd>
+<dt><h4><a name="label-17" id="label-17"><code>val=(<var>v</var>)</code></a></h4></dt><!-- RDLabel: "val=" -->
+<dd>
+<p>Writes in data values.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>v (NArray, NArrayMiss, or Numeric) : data to be written in.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>v (the argument)</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>the contents of v are copied in, unlike <a href="#label-18">replace_val</a></li>
+</ul></dd>
+<dt><h4><a name="label-18" id="label-18"><code>replace_val(<var>v</var>)</code></a></h4></dt><!-- RDLabel: "replace_val" -->
+<dd>
+<p>Replace the data values.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>v (NArray or NArrayMiss) : data to be written in.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>This method is similar to <a href="#label-17">val=</a>, but
+      the whole numeric data object is replaced with v.
+      It is not very meaningful if the data is in a file:
+      the file is not modified, but you just get an GPhys object on memory.</li>
+</ul></dd>
+<dt><h4><a name="label-19" id="label-19"><code>att_names</code></a></h4></dt><!-- RDLabel: "att_names" -->
+<dd>
+<p>Returns attribute names of the data object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-20" id="label-20"><code>get_att(<var>name</var>)</code></a></h4></dt><!-- RDLabel: "get_att" -->
+<dd>
+<p>Get the value of the attribute named name.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>String, NArray, or nil</li>
+</ul></dd>
+<dt><h4><a name="label-21" id="label-21"><code>set_att(<var>name</var>, <var>val</var>)</code></a></h4></dt><!-- RDLabel: "set_att" -->
+<dt><h4><a name="label-22" id="label-22"><code>put_att(<var>name</var>, <var>val</var>)</code></a></h4></dt><!-- RDLabel: "put_att" -->
+<dd>
+<p>Set an attribute of the data object</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String)</li>
+<li>val (String, NArray, or nil)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-23" id="label-23"><code>del_att(<var>name</var>)</code></a></h4></dt><!-- RDLabel: "del_att" -->
+<dd>
+<p>Delete an attribute of the data object.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>name (String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label-24" id="label-24"><code>ntype</code></a></h4></dt><!-- RDLabel: "ntype" -->
+<dd>
+<p>Returns the numeric type of the data object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>String such as "float", and "sfloat"</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>See also <a href="#label-25">typecode</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-25" id="label-25"><code>typecode</code></a></h4></dt><!-- RDLabel: "typecode" -->
+<dd>
+<p>Returns the numeric type of the data object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>NArray constants such as NArray::FLOAT and NArray::SFLOAT.</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>See also <a href="#label-24">ntype</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-26" id="label-26"><code>units</code></a></h4></dt><!-- RDLabel: "units" -->
+<dd>
+<p>Returns the units of the data object</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Units</li>
+</ul></dd>
+<dt><h4><a name="label-27" id="label-27"><code>units=(<var>units</var>)</code></a></h4></dt><!-- RDLabel: "units=" -->
+<dd>
+<p>Changes the units of the data object</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>units (Units or String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>units (the argument)</li>
+</ul></dd>
+<dt><h4><a name="label-28" id="label-28"><code>convert_units(<var>to</var>)</code></a></h4></dt><!-- RDLabel: "convert_units" -->
+<dd>
+<p>Convert the units of the data object</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>to (a Units)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-29" id="label-29"><code>long_name</code></a></h4></dt><!-- RDLabel: "long_name" -->
+<dd>
+<p>Returns the "long_name" attribute the data object</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a String</li>
+</ul></dd>
+<dt><h4><a name="label-30" id="label-30"><code>long_name=(<var>to</var>)</code></a></h4></dt><!-- RDLabel: "long_name=" -->
+<dd>
+<p>Changes/sets the "long_name" attribute the data object</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>to (a String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>to (the argument)</li>
+</ul></dd>
+<dt><h4><a name="label-31" id="label-31"><code>[]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+<p>Returns a subset.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>Same as those for NArray#[], NetCDFVar#[], etc.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-32" id="label-32"><code>[] = </code></a></h4></dt><!-- RDLabel: "[]=" -->
+<dd>
+<p>Sets values of a subset</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>the data object on the rhs</li>
+</ul></dd>
+<dt><h4><a name="label-33" id="label-33"><code>cut</code></a></h4></dt><!-- RDLabel: "cut" -->
+<dd>
+<p>Similar to <a href="#label-31">[]</a>, but the subset is specified by physical coordinate.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>pattern 1: similar to those for <a href="#label-31">[]</a>, where the first
+      argument specifies a subset for the first dimension.</li>
+<li>pattern 2: by a Hash, in which keys are axis names.</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>Pattern 1</p>
+<pre>gphys.cut(135.5,0..20.5,false)</pre></li>
+<li><p>Pattern 2</p>
+<pre>gphys.cut({'lon'=&gt;135.5,'lat'=&gt;0..20})</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-34" id="label-34"><code>cut_rank_conserving</code></a></h4></dt><!-- RDLabel: "cut_rank_conserving" -->
+<dd>
+Similar to <a href="#label-33">cut</a>, but the rank is conserved by not eliminating
+any dimension (whose length could be one).</dd>
+<dt><h4><a name="label-35" id="label-35"><code>axnames</code></a></h4></dt><!-- RDLabel: "axnames" -->
+<dd>
+<p>Returns the names of the axes</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-36" id="label-36"><code>rank</code></a></h4></dt><!-- RDLabel: "rank" -->
+<dd>
+<p>Returns the rank</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Integer</li>
+</ul></dd>
+<dt><h4><a name="label-37" id="label-37"><code>axis(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "axis" -->
+<dd>
+<p>Returns the Axis object of a dimension.</p>
+<p>ARGEMENTS</p>
+<ul>
+<li>dim (Integer or String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label-38" id="label-38"><code>coord(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "coord" -->
+<dt><h4><a name="label-39" id="label-39"><code>coordinate(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "coordinate" -->
+<dd>
+<p>Returns the coordinate variable</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim (Integer or String)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a VArray</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>coord(dim) is equivalent to axis(dim).pos</li>
+</ul></dd>
+<dt><h4><a name="label-40" id="label-40"><code>lost_axes</code></a></h4></dt><!-- RDLabel: "lost_axes" -->
+<dd>
+<p>Returns info on axes eliminated during operations.</p>
+<p>Useful for annotation in plots, for example (See the code of GGraph
+for an application).</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label-41" id="label-41"><code>dim_index( <var>dimname</var> )</code></a></h4></dt><!-- RDLabel: "dim_index" -->
+<dd>
+<p>Returns the integer id (count from zero) of the dimension</p>
+<p>ARGUMENT</p>
+<ul>
+<li>dimname (String or Integer) : this method is trivial if is is an integer</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Integer</li>
+</ul></dd>
+<dt><h4><a name="label-42" id="label-42"><code>integrate(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "integrate" -->
+<dd>
+<p>Integration along a dimension.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>Algorithm implementation is done in Axis class.</li>
+</ul></dd>
+<dt><h4><a name="label-43" id="label-43"><code>average(<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "average" -->
+<dd>
+<p>Averaging along a dimension.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li>Algorithm implementation is done in Axis class.</li>
+</ul></dd>
+<dt><h4><a name="label-44" id="label-44"><code>eddy(*<var>dim</var>)</code></a></h4></dt><!-- RDLabel: "eddy" -->
+<dd>
+<p>Deviation from mean</p>
+<p>ARGUMENT</p>
+<ul>
+<li>a list of dimensions (including none) [Integer or String] along which
+      the mean is taken.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>NOTE</p>
+<ul>
+<li><p>Simply defined as</p>
+<pre>def eddy(*dim)
+  self - self.mean(*dim)
+end</pre></li>
+</ul></dd>
+<dt><h4><a name="label-45" id="label-45"><code>first1D</code></a></h4></dt><!-- RDLabel: "first1D" -->
+<dd>
+<p>Returns a 1D subset selecting the first elements of 2nd, 3rd, ..
+dimensions, i.e., self[true, 0, 0, ...]. (For graphics)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>(none)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-46" id="label-46"><code>first2D</code></a></h4></dt><!-- RDLabel: "first2D" -->
+<dd>
+<p>Returns a 2D subset selecting the first elements of 3rd, 4th, ..
+dimensions, i.e., self[true, true, 0, 0, ...]. (For graphics)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>(none)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-47" id="label-47"><code>first3D</code></a></h4></dt><!-- RDLabel: "first3D" -->
+<dd>
+<p>Returns a 3D subset selecting the first elements of 4th, 5th, ..
+dimensions, i.e., self[true, true, true, 0, ...]. (For graphics)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>(none)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-48" id="label-48"><code>coerce(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "coerce" -->
+<dd>
+<var>You know what it is.</var></dd>
+<dt><h4><a name="label-49" id="label-49"><code>shape_coerce(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "shape_coerce" -->
+<dd>
+Like <a href="#label-48">coerce</a>, but just changes shape without changing numeric type
+by possibly inserting dimensions whose lengths are one (i.e.,
+without changeing the total length of data).</dd>
+<dt><h4><a name="label-50" id="label-50"><code>shape_coerce_full(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "shape_coerce_full" -->
+<dd>
+Similar to <a href="#label-49">shape_coerce</a> but to return the gphyses having  
+really the same shape with possible expansion by replication.</dd>
+<dt><h4><a name="label-51" id="label-51"><code>transpose(*<var>dims</var>)</code></a></h4></dt><!-- RDLabel: "transpose" -->
+<dd>
+<p>Transpose.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dims (integers) : for example, [1,0] to transpose a 2D object.
+      For 3D objects, [1,0,2], [2,1,0], etc.etc.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+<dt><h4><a name="label-52" id="label-52"><code>shape_current</code></a></h4></dt><!-- RDLabel: "shape_current" -->
+<dd>
+<p>Returns the current shape of the GPhys object.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of Integer</li>
+</ul></dd>
+<dt><h4><a name="label-53" id="label-53"><code>shape</code></a></h4></dt><!-- RDLabel: "shape" -->
+<dd>
+Aliased to <a href="#label-52">shape_current</a></dd>
+<dt><h4><a name="label-54" id="label-54"><code>cyclic_ext(<var>dim_or_dimname</var>, <var>modulo</var>)</code></a></h4></dt><!-- RDLabel: "cyclic_ext" -->
+<dd>
+<p>Extend a dimension cyclically.</p>
+<p>The extension is done only when adding one grid point makes a full circle.
+Thus, data at coordinate values [0,90,180,270] with modulo 360 are extended
+(to at [0,90,180,270,360]), but data at [0,90,180] are not extended with
+the same modulo: in this case, self is returned.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer)</li>
+<li>modulo (Numeric)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys (possibly self)</li>
+</ul></dd>
+</dl>
+<h3><a name="label-55" id="label-55">Math functions (instance methods)</a></h3><!-- RDLabel: "Math functions (instance methods)" -->
+<h4><a name="label-56" id="label-56">sqrt, exp, log, log10, log2, sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh, csc, sec, cot, csch, sech, coth, acsc, asec, acot, acsch, asech, acoth</a></h4><!-- RDLabel: "sqrt, exp, log, log10, log2, sin, cos, tan, sinh, cosh, tanh, asin, acos, atan, asinh, acosh, atanh, csc, sec, cot, csch, sech, coth, acsc, asec, acot, acsch, asech, acoth" -->
+<h3><a name="label-57" id="label-57">Binary operators</a></h3><!-- RDLabel: "Binary operators" -->
+<h4><a name="label-58" id="label-58">-, +, *, /, %, **, .add!, .sub!, .mul!, .div!, mod!, &gt;, &gt;=, &lt;, &lt;=, &amp;, |, ^, .eq, .ne, .gt, .ge, .lt, .le, .and, .or, .xor, .not</a></h4><!-- RDLabel: "-, +, *, /, %, **, .add!, .sub!, .mul!, .div!, mod!, >, >=, <, <=, &, |, ^, .eq, .ne, .gt, .ge, .lt, .le, .and, .or, .xor, .not" -->
+<h3><a name="label-59" id="label-59">Unary operators</a></h3><!-- RDLabel: "Unary operators" -->
+<h4><a name="label-60" id="label-60">~ - +</a></h4><!-- RDLabel: "~ - +" -->
+<h3><a name="label-61" id="label-61">Mean etc (instance methods)</a></h3><!-- RDLabel: "Mean etc (instance methods)" -->
+<h4><a name="label-62" id="label-62">mean, sum, stddev, min, max, median</a></h4><!-- RDLabel: "mean, sum, stddev, min, max, median" -->
+<h3><a name="label-63" id="label-63">Other instance methods</a></h3><!-- RDLabel: "Other instance methods" -->
+<p>These methods returns a NArray (not a GPhys).</p>
+<h4><a name="label-64" id="label-64">all?, any?, none?, where, where2, floor, ceil, round, to_f, to_i, to_a</a></h4><!-- RDLabel: "all?, any?, none?, where, where2, floor, ceil, round, to_f, to_i, to_a" -->
+<pre>gp00.set_assoc_coords([GPhys.new(Grid.new(xax0,yax0),VArray.new(x,nil,"A"))])
+gp10.set_assoc_coords([GPhys.new(Grid.new(xax1,yax0),VArray.new(x,nil,"A"))])
+gp01.set_assoc_coords([GPhys.new(Grid.new(xax0,yax1),VArray.new(x,nil,"A"))])
+gp11.set_assoc_coords([GPhys.new(Grid.new(xax1,yax1),VArray.new(x,nil,"A"))])</pre>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>index.rd</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">Reference manuals of the GPhys library</a></h1><!-- RDLabel: "Reference manuals of the GPhys library" -->
+<h2><a name="label-1" id="label-1">Highlight</a></h2><!-- RDLabel: "Highlight" -->
+<p>Core part of the GPhys class</p>
+<ul>
+<li><a href="gphys.html">class NumRu::GPhys</a> </li>
+<li>See also the entire <a href="#label-3">GPhys Core Part</a> section.</li>
+</ul>
+<p>Visualization library</p>
+<ul>
+<li><a href="ggraph.html">module NumRu::GGraph</a></li>
+</ul>
+<p><a href="#label-8">Application Commands</a></p>
+<p>---------------------------------------------------------------------</p>
+<h2><a name="label-2" id="label-2">GPhys and its components</a></h2><!-- RDLabel: "GPhys and its components" -->
+<h4><a name="label-3" id="label-3">GPhys Core Part</a></h4><!-- RDLabel: "GPhys Core Part" -->
+<p>A GPhys object has the following structure:</p>
+<pre>-
+           has 1
+a GPhys --------- array-like data (VArray)
+         | has 1
+         --------- grid (Grid)
+                     |  has rank
+                     ------------ axis (Axis)
+                                   | has 1
+                                   -------- 1D position data (VArray)
+                                   | has 0..
+                                   -------- ancillary data (VArray)</pre>
+<p>That is, a GPhys object consists of data (whose class is VArray) and
+grid (whose class is Grid). The latter consists of axes (whose class is
+Axis), which consist of VArray objects (such as ones that have
+1-dimensional grid-point position data). To use GPhys, it is
+useful to know these four classes.</p>
+<ul>
+<li><a href="varray.html">class NumRu::VArray</a> :
+  Virtual Array class, which holds multi-dimensional data of various
+  format and media (on memory or in file).
+<ul>
+<li><a href="varraycomposite.html">class NumRu::VArrayComposite</a> :
+    Subclass of VArray to bundle multiple VArrays by "tiling".</li>
+</ul></li>
+<li><a href="axis.html">class NumRu::Axis</a> : A class to represent a discretized physical coordinate.</li>
+<li><a href="grid.html">class NumRu::Grid</a> : A class to represent discretized grids of physical quantities.</li>
+<li><a href="gphys.html">class NumRu::GPhys</a> : Core part of the GPhys class</li>
+</ul>
+<h4><a name="label-4" id="label-4">Miscellaneous Extensions of GPhys</a></h4><!-- RDLabel: "Miscellaneous Extensions of GPhys" -->
+<ul>
+<li><a href="coordtransform.html">coordinate transformation</a> :
+  Extension of the NumRu::GPhys class for coordinate transformation.</li>
+<li><a href="gphys_fft.html">FFT</a> :
+  Extension of the NumRu::GPhys class 
+  for the Fast Fourier Transformation and its applications</li>
+<li><a href="derivative/index.html">module NumRu::GPhys::Derivative</a> :
+  Module functions to make differentiation of GPhys objects.</li>
+<li><a href="ep_flux/index.html">module NumRu::GPhys::EP_Flux</a> :
+  Module functions to derive the Eliassen-Palm flux and related
+  quantities (such as the residual circulation and its mass stream function).</li>
+<li><a href="interpolate/index.html">interpolation</a> : Interpolation library</li>
+<li><a href="ganalysis_planet/index.html">GAnalysis::Planet</a> : Library for spherical planets (default: Earth)</li>
+<li><a href="ganalysis_met/index.html">GAnalysis::Met</a> : Meteorological analysis library</li>
+</ul>
+<h4><a name="label-5" id="label-5">Miscellaneous Dependent Libraries Distributed with GPhys</a></h4><!-- RDLabel: "Miscellaneous Dependent Libraries Distributed with GPhys" -->
+<ul>
+<li><a href="unumeric.html">class NumRu::UNumeric</a> :
+  Numeric with units (combination of Numeric and Units)</li>
+<li><a href="derivative/index.html">module NumRu::Derivative</a> :
+  Module functions to make differentiation using NArray.</li>
+<li><!-- Reference, RDLabel "class NumRu::SubsetMapping" doesn't exist --><em class="label-not-found">class NumRu::SubsetMapping</em><!-- Reference end --> : Sorry, yet to be written.</li>
+<li><a href="attribute.html">class NumRu::Attribute</a> : A Hash class compatible with NetCDF attributes.</li>
+<li><a href="coordmapping.html">class NumRu::CoordMapping</a> :
+<ul>
+<li><a href="coordmapping.html">class NumRu::LinearCoordMapping</a> :</li>
+</ul></li>
+<li><a href="grads_gridded.html">class NumRu::GrADS_Gridded</a> :
+  Class to handle GrADS data.</li>
+<li><a href="grib.html">class NumRu::Grib</a> :
+  a class for GRIB datasets.</li>
+<li><a href="htdir.html">class NumRu::GDir::HtDir</a> :
+  A class to treat the URL of a "directory" as a directory (used in 
+  GDir).</li>
+<li><a href="derivative/dclext.html">module NumRu::DCLExt</a> :
+  An extension of RubyDCL.</li>
+</ul>
+<h4><a name="label-6" id="label-6">External File Handlers of GPhys</a></h4><!-- RDLabel: "External File Handlers of GPhys" -->
+<ul>
+<li><a href="gphys_io.html">module NumRu::GPhys::IO</a> :
+  GPhys file IO module for all file types.</li>
+<li><a href="gphys_netcdf_io.html">module NumRu::GPhys::NetCDF_IO</a> :
+  NetCDF data input/output.</li>
+<li><a href="netcdf_convention.html">module NumRu::NetCDF_Conventions, 
+  module NumRu::NetCDF_Convention_Users_Guide etc.
+  </a> :
+  NetCDF convention handler.</li>
+<li><a href="gphys_grads_io.html">module NumRu::GPhys::GrADS_IO</a> :
+  GrADS data input/output.</li>
+<li><a href="gphys_grib_io.html">module NumRu::GPhys::Grib_IO</a> :
+  GRIB data IO.</li>
+</ul>
+<h2><a name="label-7" id="label-7">Applications distributed with GPhys</a></h2><!-- RDLabel: "Applications distributed with GPhys" -->
+<p>To use the following, you have to <var>require</var> explicitly. </p>
+<ul>
+<li><a href="ggraph.html">module NumRu::GGraph</a> :
+  A graphic library using GPhys.</li>
+<li><a href="gdir.html">class NumRu::GDir</a> :
+  A class to represent directories and data files for GPhys.</li>
+<li><a href="gdir_connect_ftp-like.html">irb start-up program gdir_connect_ftp-like</a> A library to be required
+  to interactively connect with a <a href="gdir_server.html">gdir_server</a>.</li>
+</ul>
+<h2><a name="label-8" id="label-8">Application Commands</a></h2><!-- RDLabel: "Application Commands" -->
+<ul>
+<li><a href="grads2nc_with_gphys.html">grads2nc_with_gphys</a> file converter
+  from the GrADS format to NetCDF</li>
+<li><a href="gdir_server.html">gdir_server</a> A dRuby server with a GDir
+  at the front end.</li>
+<li><a href="gdir_client.html">gdir_client</a> : A client of gdir_server
+  using irb with <a href="gdir_connect_ftp-like.html">gdir_connect_ftp-like</a></li>
+<li><a href="gpcat.html">gpcat</a> Read a variable in multiple NetCDF files, concatenate and write them to a single netcdf file. </li>
+<li><a href="gpcut.html">gpcut</a> extract, slicing and thinning a GPhys variable</li>
+<li><a href="gplist.html">gplist</a> print out variables and their dimensions</li>
+<li><a href="gpmath.html">gpmath</a> operate a math function to a GPhys variable</li>
+<li><a href="gpmaxmin.html">gpmaxmin</a> prints maximum and minimum values of a GPhys variable</li>
+<li><a href="gpprint.html">gpprint</a> prints the values of a GPhys variable </li>
+<li><a href="gpview.html">gpview</a> visualizer (2D, 1D)</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with jLaTeX2HTML 2K.1beta (1.48) JA patch-1.4
+patched version by:  Kenshi Muto, Debian Project.
+LaTeX2HTML 2K.1beta (1.48),
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>変数変換</TITLE>
+<META NAME="description" CONTENT="変数変換">
+<META NAME="keywords" CONTENT="document">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-2022-jp">
+<META NAME="Generator" CONTENT="jLaTeX2HTML v2K.1beta JA patch-1.4">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="document.css">
+
+<LINK REL="previous" HREF="node9.html">
+<LINK REL="up" HREF="node3.html">
+<LINK REL="next" HREF="node11.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html157"
+  HREF="node11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html153"
+  HREF="node3.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html149"
+  HREF="node9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html155"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html158"
+  HREF="node11.html">プリミティブ方程式系と変形オイラー平均の復習</A>
+<B> :</B> <A NAME="tex2html154"
+  HREF="node3.html">NumRu::GPhys::EP_Flux で計算される緒量</A>
+<B> :</B> <A NAME="tex2html150"
+  HREF="node9.html">質量流線関数</A>
+ &nbsp <B>  <A NAME="tex2html156"
+  HREF="node1.html">目次</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003700000000000000000">
+変数変換</A>
+</H1>
+
+EP_Flux モジュールでは与えられたデータに応じて
+変数変換を施す場合がある. その変換は以下のように行う.
+
+<BR>
+<BR>
+
+入力されるデータの鉛直軸が気圧軸であった場合, 
+以下の関係式を用いて高度軸に変換し, 計算を行う.
+
+<DIV ALIGN="CENTER"><A NAME="eq:p-henkan"></A><!-- MATH
+ \begin{subequations}
+\begin{align}
+    z^* &= -H \log \left( \frac{p}{p_{00}} \right),\\
+    p &= p_{00} \exp \left( -\frac{z^*}{H} \right)
+\end{align}
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="105" ALIGN="BOTTOM" BORDER="0"
+ SRC="img56.png"
+ ALT="\begin{subequations}\begin{align} z^* &amp;= -H \log \left( \frac{p}{p_{00}} \right...
+...  p &amp;= p_{00} \exp \left( -\frac{z^*}{H} \right) \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+ここで<IMG
+ WIDTH="14" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$ p$">は圧力, <IMG
+ WIDTH="28" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img57.png"
+ ALT="$ p_{00}$">は地表面参考気圧(定数)である.
+
+<BR>
+<BR>
+
+入力が<IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="$ \theta$">や<IMG
+ WIDTH="19" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ w$"> でなく, 気温<IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img58.png"
+ ALT="$ T$">, 圧力「速度」<!-- MATH
+ $\omega \equiv Dp/Dt$
+ -->
+<IMG
+ WIDTH="100" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$ \omega \equiv Dp/Dt$">
+の場合はそれぞれを元に<IMG
+ WIDTH="19" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$ w$">, <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="$ \theta$">を求める必要がある. 本モジュールでは以下の式
+を用いて<IMG
+ WIDTH="36" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$ w, \theta$">を求める.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$\displaystyle w$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="86" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$\displaystyle = -\omega H / p$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2.14)</TD></TR>
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="14" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$\displaystyle \theta$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="198" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img64.png"
+ ALT="$\displaystyle = T \left(\frac{p_{00}}{p}\right)^\kappa, \kappa = R/C_p$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2.15)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+ここで<IMG
+ WIDTH="19" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img9.png"
+ ALT="$ R$">, <IMG
+ WIDTH="26" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$ C_p$">はそれぞれ乾燥空気の気体定数および定圧比熱である.
+
+<BR><HR>
+<ADDRESS>
+Tsukahara Daisuke
+平成17年2月19日
+</ADDRESS>
+</BODY>
+</HTML>

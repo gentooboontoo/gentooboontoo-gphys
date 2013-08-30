@@ -1,0 +1,1119 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/ggraph.rb</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">module NumRu::GGraph and others in ggraph.rb</a></h1><!-- RDLabel: "module NumRu::GGraph and others in ggraph.rb" -->
+<h2><a name="label-1" id="label-1">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li><a href="#label-2">module NumRu::GGraph</a>
+<ul>
+<li><a href="#label-4">margin_info</a>
+    Sets the strings to appear in the bottom margin.</li>
+<li><a href="#label-5">title</a>
+    Shows title by <code>DCL.uxmttl('t',string,0.0)</code>.
+    Graphic methods such as <a href="#label-25">contour</a> calls this by default.</li>
+<li><a href="#label-6">annotate</a>
+    Show texts on the right margin of the viewport.
+    Graphic methods such as <a href="#label-25">contour</a> calls this by default.</li>
+<li><a href="#label-7">fig</a>
+    Define a figure by setting viewport, window, and coordinate transform
+    id (itr) from two 1D VArrays <code>xax</code> and <code>yax</code>.</li>
+<li><a href="#label-8">set_fig</a>
+    Change the default option values for <a href="#label-7">fig</a>.</li>
+<li><a href="#label-9">next_fig</a>
+    Set the option values effective only in the next call of <a href="#label-7">fig</a>
+    (cleared then).</li>
+<li><a href="#label-10">axes</a>
+    Draw axes using (by default) info in <code>xax</code> and <code>yax</code> if non-nil.</li>
+<li><a href="#label-11">set_axes</a>
+    Change the default option values for <a href="#label-10">axes</a>.</li>
+<li><a href="#label-12">next_axes</a>
+    Set the option values effective only in the next call of <a href="#label-10">axes</a>
+    (cleared then).</li>
+<li><a href="#label-13">sim_trn?</a>
+    Returns whether the current coordinate transformation is a rectangular curvelinear coordinate.</li>
+<li><a href="#label-14">polar_coordinate_boundaries</a>
+    Draw boundaries in a polar coordinate.</li>
+<li><a href="#label-15">map_trn?</a>
+    Returns whether the current coordinate transformation is a map projection.</li>
+<li><a href="#label-16">map</a>
+    (For map projection) Draws map grid and/or lim and/or coast lines etc.</li>
+<li><a href="#label-17">set_map</a>
+    Change the default option values for <a href="#label-16">map</a>.</li>
+<li><a href="#label-18">next_map</a>
+    Set the option values effective only in the next call of <a href="#label-16">map</a></li>
+<li><a href="#label-19">line</a>
+    Plot a poly-line by selecting the first dimension (with GPhys#first1D)
+    if <code>gphys</code> is more than 2D.</li>
+<li><a href="#label-20">mark</a>
+    Similar to <a href="#label-19">line</a> but plots marks instead of drawing a poly-line.</li>
+<li><a href="#label-21">scatter</a>
+    Scatter diagram (using uumrkz, as in <a href="#label-20">mark</a>).</li>
+<li><a href="#label-22">color_scatter</a>
+    Scatter diagram colored by values.</li>
+<li><a href="#label-24">tone_and_contour</a>
+    Calls <a href="#label-30">tone</a> and <a href="#label-25">contour</a> successively. </li>
+<li><a href="#label-25">contour</a>
+    Contour plot by selecting the first 2 dimensions (with GPhys#first2D)
+    if <code>gphys</code> is more than 3D.</li>
+<li><!-- Reference, RDLabel "set_contour" doesn't exist --><em class="label-not-found">set_contour</em><!-- Reference end -->
+    Set options for contour in general.</li>
+<li><!-- Reference, RDLabel "next_contour" doesn't exist --><em class="label-not-found">next_contour</em><!-- Reference end -->
+    Set options for contour in general, which is applied only to the next call.</li>
+<li><a href="#label-26">set_contour_levels</a>
+    Set contour levels for <a href="#label-25">contour</a> explicitly by values with the option <code>levels</code>.</li>
+<li><a href="#label-27">clear_contour_levels</a>
+    Clear contour levels set by <a href="#label-26">set_contour_levels</a>.</li>
+<li><a href="#label-28">set_linear_contour_options</a>
+    Change the default option values regarding linear contour level
+    setting in <a href="#label-25">contour</a>.</li>
+<li><a href="#label-29">next_linear_contour_options</a>
+    Similar to <a href="#label-28">set_linear_contour_options</a> but the setting
+    is effective only for the next call of <a href="#label-25">contour</a>.</li>
+<li><a href="#label-30">tone</a>
+    Color tone or shading by selecting the first 2 dimensions
+    (with GPhys#first2D) if <code>gphys</code> is more than 3D.</li>
+<li><a href="#label-31">color_bar </a> Color bar</li>
+<li><a href="#label-32">set_tone_levels</a>
+    Set tone levels for <a href="#label-30">tone</a> explicitly by values.</li>
+<li><!-- Reference, RDLabel "set_tone" doesn't exist --><em class="label-not-found">set_tone</em><!-- Reference end -->
+    Set options for tone in general.</li>
+<li><!-- Reference, RDLabel "next_tone" doesn't exist --><em class="label-not-found">next_tone</em><!-- Reference end -->
+    Set options for tone in general, which is applied only to the next call.</li>
+<li><a href="#label-33">clear_tone_levels</a>
+    Clear tone levels set by <a href="#label-32">set_tone_levels</a>.</li>
+<li><a href="#label-34">set_linear_tone_options</a>
+    Change the default option values regarding linear tone level
+    setting in <a href="#label-30">tone</a>.</li>
+<li><a href="#label-35">next_linear_tone_options</a>
+    Similar to <a href="#label-34">set_linear_tone_options</a> but the setting
+    is effective only for the next call of <a href="#label-30">tone</a>.</li>
+<li><a href="#label-38">vector</a> 2-D vector plot using DCL_Ext::<!-- Reference, RDLabel "flow_vect" doesn't exist --><em class="label-not-found">flow_vect</em><!-- Reference end --></li>
+</ul></li>
+</ul>
+<h1><a name="label-2" id="label-2">module NumRu::GGraph</a></h1><!-- RDLabel: "module NumRu::GGraph" -->
+<p>A graphic library for GPhys using RubyDCL.</p>
+<p>This module uses GPhys but is not a part of it.
+More specifically, even though this module is included in
+the GPhys distribution, the class NumRu::GPhys knows nothing about it,
+and GGraph accesses GPhys only though public methods.
+So GGraph is not an insider, and you can make another graphic
+library if you like.</p>
+<h2><a name="label-3" id="label-3">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<dl>
+<dt><h4><a name="label-4" id="label-4"><code>margin_info(<var>program</var>=<var>nil</var>, <var>data_source</var>=<var>nil</var>, <var>char_height</var>=<var>nil</var>, <var>date</var>=<var>nil</var>, <var>xl</var>=<var>0</var>.<var>0</var>, <var>xr</var>=<var>0</var>.<var>0</var>, <var>yb</var>=<var>nil</var>, <var>yt</var>=<var>0</var>.<var>0</var>)</code></a></h4></dt><!-- RDLabel: "margin_info" -->
+<dd>
+<p>Sets the strings to appear in the bottom margin.</p>
+<p>This method sets margin widths as DCL.slmgn(xl, xr, yb, yt),
+and sets the 1st and 2nd margin strings as <code>program</code>
+and <code>data</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>program (String or nil) : String to be put on the left side in
+      the bottom margin. This is meant to represent the name of the
+      execution program. Therefore, if it is nil, the full path of
+      $0 is used.</li>
+<li>data_source (String or nil) : String to be put on the right side in
+      the bottom margin. This is meant to represent the data file name or the
+      directory in which the data are situated.
+      If nil, the full path of the current directory is used
+      (but nothing is shown if it is equal to the directory of the program).</li>
+<li>date (true, false, nil) : whether to put todays date --
+      true: always, nil: if program.length is short enough, false: never</li>
+<li>char_height (Float or nil) : height of the string to appear
+      in the V coordinate. If nil, internally defined.</li>
+<li>xl, xr, yb, yl (Float --- nil is available for yb) : margin
+      size in the V coordinate. The margin is set as
+      DCL.slmgn(xl, xr, yb, yt). If <code>yb</code> is nil, it is determined
+      internally as <code>2.0 * char_height</code>.</li>
+</ul></dd>
+<dt><h4><a name="label-5" id="label-5"><code>title(<var>string</var>)</code></a></h4></dt><!-- RDLabel: "title" -->
+<dd>
+<p>Shows title by <code>DCL.uxmttl('t',string,0.0)</code>.
+Graphic methods such as <a href="#label-25">contour</a> calls this by default.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-6" id="label-6"><code>annotate(<var>str_ary</var>)</code></a></h4></dt><!-- RDLabel: "annotate" -->
+<dd>
+<p>Show texts on the right margin of the viewport.
+Graphic methods such as <a href="#label-25">contour</a> calls this by default.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>str_ary (Array of String) :</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-7" id="label-7"><code>fig(<var>xax</var>=<var>nil</var>, <var>yax</var>=<var>nil</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "fig" -->
+<dd>
+<p>Define a figure by setting viewport, window, and coordinate transform
+id (itr) from two 1D VArrays <code>xax</code> and <code>yax</code> (which are
+not needed if a map projection is specified with the optional
+parameter 'itr').</p>
+<p><code>DCL.grfrm</code> or <code>DCL.grfig</code> is called depending options provided.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (VArray): (Used only if not map projection)
+      A VArray representing the x (horizontal) coordinate
+      of the figure.
+      The x range of the window (UXMIN &amp; UYMAX in DCL) are determined
+      with the max and min of <code>xax.val</code>. By default,
+      the min and max values are assigned to the left and right
+      boundaries, respectively, but it is reversed if <code>xax</code> has
+      a 'positive' attribute and its value is 'down' etc (see <code>options</code>).</li>
+<li>yax (VArray): (Used only if not map projection)
+      Similar to <code>xax</code> but for the y (vertical) coordinate
+      of the figure.</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"new_frame"   true    # whether to define a new frame by DCL.grfrm
+                      # (otherwise, DCL.grfig is called)
+"no_new_fig"  false   # If true, neither DCL.grfrm nor DCL.grfig
+                      # is called (overrides new_frame) -- Then, you need
+                      # to call one of them in advance. Convenient to set
+                      # DCL parameters that are reset by grfrm or grfig.
+"itr"         1       # coordinate transformation number
+"viewport"    [0.2, 0.8, 0.2, 0.8]    # [vxmin, vxmax, vymin, vymax]
+"eqdistvpt"   false   # modify viewport to equidistant for x and y
+                      # (only for itr=1--4)
+"window"      nil     # (for itr&lt;10,&gt;50) [uxmin, uxmax, uymin, uymax],
+                      # each element allowed nil (only for itr&lt;5,&gt;50)
+"xreverse"    "positive:down,units:hPa"       # (for itr&lt;10,&gt;50) Assign
+                      # max value to UXMIN and min value to UXMAX if
+                      # condition is satisfied (nil:never, true:always,
+                      # String: when an attibute has the value specified
+                      # ("key:value,key:value,..")
+"yreverse"    "positive:down,units:hPa"       # (for itr&lt;10,&gt;50) Assign
+                      # max value to UYMIN and min value to UYMAX if
+                      # condition is satisfied (nil:never, true:always,
+                      # String: when an attibute has the value specified
+                      # ("key:value,key:value,..")
+"round0"      false   # expand window range to good numbers (effective
+                      # only to internal window settings)
+"round1"      false   # expand window range to good numbers (effective
+                      # even when "window" is explicitly specified)
+"similar"     nil     # (for rectangular curvilinear coordinate only)
+                      # 3-element float array for similar transformation
+                      # in a rectangular curvilinear coordinate, which
+                      # is fed in DCL:grssim:[simfac,vxoff,vyoff],where
+                      # simfac and [vxoff,vyoff] represent scaling
+                      # factor and origin shift, respectively.
+"map_axis"    nil     # (for all map projections) 3-element float
+                      # array to be fed in DCL::umscnt: [uxc, uxy, rot],
+                      # where [uxc, uyc] represents the tangential point
+                      # (or the pole at top side for cylindrical
+                      # projections), and rot represents the rotation
+                      # angle. If nil, internally determined. (units:
+                      # degrees)
+"map_radius"  nil     # (for itr&gt;=20: conical/azimuhal map
+                      # projections) raidus around the tangential point.
+                      # (units: degrees)
+"map_fit"     nil     # (Only for itr=10(cylindrical) and 11 (Mercator))
+                      # true: fit the plot to the data window
+                      # (overrides map_window and map_axis); false: do
+                      # not fit (then map_window and map_axis are used);
+                      # nil: true if itr==10, false if itr==11
+"map_rsat"    nil     # (Only for itr=30) satellite distance from the
+                      # earth's center (Parameter "RSAT" for sgpack)
+"map_window"  [-180, 180, -75, 75]    # (for itr&lt;20: cylindrical
+                      # map projections) lon-lat window [lon_min,
+                      # lon_max, lat_min, lat_max ] to draw the map
+                      # (units: degres)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>those from NumRu::DCL if any / TypeError if any</li>
+<li>options has a key that does not match any of the option names.</li>
+<li>options has a key that is ambiguous</li>
+</ul></dd>
+<dt><h4><a name="label-8" id="label-8"><code>set_fig(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_fig" -->
+<dd>
+<p>Change the default option values for <a href="#label-7">fig</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-7">fig</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-7">fig</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-9" id="label-9"><code>next_fig(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_fig" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label-7">fig</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label-7">fig</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-7">fig</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-7">fig</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-10" id="label-10"><code>axes(<var>xax</var>=<var>nil</var>, <var>yax</var>=<var>nil</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "axes" -->
+<dd>
+<p>Draw axes using (by default) info in <code>xax</code> and <code>yax</code> if non-nil.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (nil or VArray): if non-nil, attributes 'long_name' and 'units'
+      are read to define <code>xtitle</code> and <code>xunits</code> (see below).
+      These are overwritten by explicitly specifying <code>xtitle</code> and
+      <code>xunits</code>.</li>
+<li>yax (nil or VArray): if non-nil, attributes 'long_name' and 'units'
+      are read to define <code>ytitle</code> and <code>yunits</code> (see below).
+      These are overwritten by explicitly specifying <code>ytitle</code> and
+      <code>yunits</code>.</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"xside"       "tb"    # Where to draw xaxes (combination of t, b and u)
+"yside"       "lr"    # Where to draw yaxes (combination of l, r and u)
+"xtitle"      nil     # Title of x axis (if nil, internally determined)
+"ytitle"      nil     # Title of y axis (if nil, internally determined)
+"xunits"      nil     # Units of x axis (if nil, internally determined)
+"yunits"      nil     # Units of y axis (if nil, internally determined)
+"xtickint"    nil     # Interval of x axis tickmark
+                      #                 (if nil, internally determined)
+"ytickint"    nil     # Interval of y axis tickmark
+                      #                 (if nil, internally determined)
+"xlabelint"   nil     # Interval of x axis label
+                      #                 (if nil, internally determined)
+"ylabelint"   nil     # Interval of y axis label
+                      #                 (if nil, internally determined)
+"xloglabelall" false  # Show lavels for all log-level tick marks
+                      # (x-axes) (e.g.,1000,900,800,... inseatd of
+                      # 1000,500,200,...)
+"yloglabelall" false  # Show lavels for all log-level tick marks
+                      # (y-axes) (e.g.,1000,900,800,... inseatd of
+                      # 1000,500,200,...)
+"xmaplabel"   nil     # If "lon"("lat"), use
+                      # DCLExt::lon_ax(DCLExt::lat_ax) to draw xaxes;
+                      # otherwise, DCL::usxaxs is used.
+"ymaplabel"   nil     # If "lon"("lat"), use
+                      # DCLExt::lon_ax(DCLExt::lat_ax) to draw yaxes;
+                      # otherwise, DCL::usyaxs is used.
+"time_ax"     nil     # Type of calendar-type time axis: nil (=&gt; auto
+                      # slection), false (do not use the time axis even
+                      # if the units of the axis is a time one with since
+                      # field), "h" (=&gt; like nil, but always use the
+                      # hour-resolving datetime_ax method in
+                      # dclext_datetime_ax.rb), or "ymd" (=&gt; like "h" but
+                      # for y-m-d type using DCL.uc[xy]acl)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>those from NumRu::DCL if any / TypeError if any</li>
+<li>options has a key that does not match any of the option names.</li>
+<li>options has a key that is ambiguous</li>
+</ul></dd>
+<dt><h4><a name="label-11" id="label-11"><code>set_axes(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_axes" -->
+<dd>
+<p>Change the default option values for <a href="#label-10">axes</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-10">axes</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-10">axes</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-12" id="label-12"><code>next_axes(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_axes" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label-10">axes</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label-10">axes</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-10">axes</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-10">axes</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-13" id="label-13"><code>sim_trn?</code></a></h4></dt><!-- RDLabel: "sim_trn?" -->
+<dd>
+<p>Returns whether the current coordinate transformation is a rectangular
+curvelinear coordinate. A coordinate transformation must have been
+established with <a href="#label-7">fig</a> or <code>DCL::grstrf</code>.
+Mainly for internal usage, but a user can use it too.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+<dt><h4><a name="label-14" id="label-14"><code>polar_coordinate_boundaries(<var>xax</var>=<var>nil</var>,<var>yax</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "polar_coordinate_boundaries" -->
+<dd>
+<p>Draw boundaries in a polar coordinate.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (VArray): Grid points of the radial coordinate.</li>
+<li>yax (VArray): Grid points of the azimuthal coordinate.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-15" id="label-15"><code>map_trn?</code></a></h4></dt><!-- RDLabel: "map_trn?" -->
+<dd>
+<p>Returns whether the current coordinate transformation is a map projection.</p>
+<p>A coordinate transformation must have been established
+with <a href="#label-7">fig</a> or <code>DCL::grstrf</code>.
+Mainly for internal usage, but a user can use it too.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+<dt><h4><a name="label-16" id="label-16"><code>map(<var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "map" -->
+<dd>
+<p>(For map projection) Draws map grid and/or lim and/or coast lines etc.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"lim"         true    # draw map lim (t or f)
+"grid"        true    # draw map grid (t or f)
+"vpt_boundary" false  # draw viewport boundaries (f, t or
+                      # 1,2,3.., representing the line width)
+"wwd_boundary" false  # draw worksation window boundaries (f, t
+                      # or 1,2,3.., representing the line width)
+"fill"        false   # fill the map if coast_world or coast_japan is
+                      # true (t or f)
+"coast_world" false   # draw world coast lines (t or f)
+"border_world" false  # draw nation borders (t or f)
+"plate_world" false   # draw plate boundaries (t or f)
+"state_usa"   false   # draw state boundaries of US (t or f)
+"coast_japan" false   # draw japanese coast lines (t or f)
+"pref_japan"  false   # draw japanese prefecture boundaries (t or
+                      # f)
+"dgridmj"     nil     # the interval between the major lines of
+                      # latitudes and longitudes. If nil, internally
+                      # determined. (units: degrees) (this is a UMPACK
+                      # parameter, which is nullified when uminit or
+                      # grfrm is called)
+"dgridmn"     nil     # the interval between the minor lines of
+                      # latitudes and longitudes. If nil, internally
+                      # determined. (units: degrees) (this is a UMPACK
+                      # parameter, which is nullified when uminit or
+                      # grfrm is called)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>if called when the coordinate tansformation has not been established or
+      the transformation is not a map projection.</li>
+<li>those from NumRu::DCL if any / TypeError if any</li>
+<li>options has a key that does not match any of the option names.</li>
+<li>options has a key that is ambiguous</li>
+</ul></dd>
+<dt><h4><a name="label-17" id="label-17"><code>set_map(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_map" -->
+<dd>
+<p>Change the default option values for <a href="#label-16">map</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-16">map</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-16">map</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-18" id="label-18"><code>next_map(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_map" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label-16">map</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label-16">map</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-16">map</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label-16">map</a>.</li>
+</ul></dd>
+<dt><h4><a name="label-19" id="label-19"><code>line(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "line" -->
+<dd>
+<p>Plot a poly-line by selecting the first dimension (with GPhys#first1D)
+if <code>gphys</code> is more than 2D.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a>,
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"exchange"    false   # whether to exchange x and y axes
+"index"       1       # line/mark index
+"type"        1       # line type
+"label"       nil     # if a String is given, it is shown as the label
+"max"         nil     # maximum data value
+"min"         nil     # minimum data value
+"legend"      nil     # legend to annotate the line type and index. nil
+                      # (defalut -- do not show); a String as the legend;
+                      # true to use the name of the GPhys as the legend
+"legend_vx"   nil     # (effective if legend) viewport x values of
+                      # the lhs of the legend line (positive float); or
+                      # nil for automatic settting (shown to the right of
+                      # vpt); or move it to the left relatively (negtive
+                      # float)
+"legend_dx"   nil     # (effective if legend) length of the legend
+                      # line
+"legend_vy"   nil     # (effective if legend) viewport y value of the
+                      # legend (Float; or nil for automatic settting)
+"legend_size" nil     # (effective if legend) character size of the
+                      # legend
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"slice"        nil    # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"          nil    # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"         nil    # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-20" id="label-20"><code>mark(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "mark" -->
+<dd>
+<p>Similar to <a href="#label-19">line</a> but plots marks instead of drawing a poly-line.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a>,
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"exchange"    false   # whether to exchange x and y axes
+"index"       1       # mark index
+"type"        2       # mark type
+"size"        0.01    # marks size
+"max"         nil     # maximum data value
+"min"         nil     # minimum data value
+"legend"      nil     # legend to annotate the mark type, index, and
+                      # size. nil (defalut -- do not to show); a String
+                      # as the legend; true to use the name of the GPhys
+                      # as the legend
+"legend_vx"   nil     # (effective if legend) viewport x values of
+                      # the lhs of the legend line (positive float); or
+                      # nil for automatic settting (shown to the right of
+                      # vpt); or move it to the left relatively (negtive
+                      # float)
+"legend_vy"   nil     # (effective if legend) viewport y value of the
+                      # legend (Float; or nil for automatic settting)
+"legend_size" nil     # (effective if legend) character size of the
+                      # legend
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"slice"        nil    # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"          nil    # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"         nil    # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-21" id="label-21"><code>scatter(<var>fx</var>, <var>fy</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "scatter" -->
+<dd>
+<p>Scatter diagram (using uumrkz, as in <a href="#label-20">mark</a>).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (GPhys) : x and y locations.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a>,
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.</p>
+<pre>option name  default value  # description:
+"title"      ""       # Title of the figure(if nil, internally determined)
+"annotate"   true     # if false, do not put texts on the right
+                      # margin even when newframe==true
+"index"      1        # mark index
+"type"   2            # mark type
+"size"   0.01         # marks size
+"map_axes" false      # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"xintv"  1            # interval of data sampling in x
+"yintv"  1            # interval of data sampling in y
+"slice"  nil          # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"    nil          # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"   nil          # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"help"   false        # show help message if true</pre></li>
+</ul></dd>
+<dt><h4><a name="label-22" id="label-22"><code>color_scatter(<var>fx</var>, <var>fy</var>, <var>fz</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "color_scatter" -->
+<dd>
+<p>Scatter diagram colored by values.</p>
+<p>Coloring is made with respoect to fz just like in (&lt;&lt;tone&gt;&gt;).
+You can draw a color bar by calling (&lt;&lt;color_bar&gt;&gt;) after calling
+this method.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (GPhys) : x and y locations.</li>
+<li>fz (GPhys) : value on which colors are based.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a>,
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.</p>
+<pre>option name  default value  # description:
+"title"      ""       # Title of the figure(if nil, internally determined)
+"annotate"   true     # if false, do not put texts on the right
+                      # margin even when newframe==true
+"index"      3        # mark index (1-9)
+"type"   10           # mark type
+"size"   0.01         # marks size
+"map_axes" false      # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"clr_min"  nil        # if an integer (in 10..99) is specified, used as
+                      # the color number for the minimum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor1")
+"clr_max"  nil        # if an integer (in 10..99) is specified, used as
+                      # the color number for the maximum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor2")
+"keep"	false        # Use the tone levels and patterns used previously
+"min"	nil          # minimum tone level
+"max"	nil	     # maximum tone level
+"nlev"	nil	     # number of levels
+"interval"	nil  # contour interval
+"help"	false        # show help message if true
+"log"	nil	     # approximately log-scaled levels (by using
+                      # DCLExt::quasi_log_levels)
+"log_cycle"	3    # (if log) number of levels in one-order (1 or 2
+                      # or 3)
+"levels"	nil	     # tone levels  (Array/NArray of Numeric). Works
+                      # together with patterns
+"patterns"   nil  # Similar to the pattern option in (&lt;&lt;tone&gt;&gt;)),
+                  # but here only the color part (4th and 5th 
+                  # digitgs) is used. -- e.g, pattern 38999
+                  # --&gt; color 38.
+"xintv"  1            # interval of data sampling in x
+"yintv"  1            # interval of data sampling in y
+"slice"  nil          # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"    nil          # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"   nil          # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"help"   false        # show help message if true</pre></li>
+</ul></dd>
+<dt><h4><a name="label-23" id="label-23"><code>add_mode_vectors(<var>mean</var>, <var>modes</var>, <var>options</var>)</code></a></h4></dt><!-- RDLabel: "add_mode_vectors" -->
+<dd>
+<p>This method overlays mode vectors on scatter plots.
+Call this method after scatter / color_scatter.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>mean : this determines the center of vectors</li>
+<li><p>modes : two dimensional mode vectors (e.g. EOF modes) of the shape [2,2], [2,1], or [2].</p>
+<pre>the first mode is modes[true,0] and the second mode is modes[true,1].</pre></li>
+<li><p>options (Hash) : options to change the default behavior if specified.</p>
+<pre>option name  default value  # description:
+'lineindex'  1              # line index
+'linetype'   1              # line type
+'fact'       2              # scaling factor (line length = stddev * fact for each side)
+'style'      'line'         # style of displaying modes (line, arrow, ellipse)</pre></li>
+</ul></dd>
+<dt><h4><a name="label-24" id="label-24"><code>tone_and_contour(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "tone_and_contour" -->
+<dd>
+<p>Calls <a href="#label-30">tone</a> and <a href="#label-25">contour</a> successively. You can
+specify the options for any of these.</p>
+<p>NOTE:</p>
+<ul>
+<li>The option keys that are not existent in these methods
+      are simply neglected -- thus no spell-check-like feedback
+      is made, contrary to the indivisual call of contour or tone.
+      Also, only the help menu of <a href="#label-30">tone</a> can be shown.</li>
+<li>Requires numru-misc-0.0.6 or later.</li>
+</ul></dd>
+<dt><h4><a name="label-25" id="label-25"><code>contour(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "contour" -->
+<dd>
+<p>Contour plot by selecting the first 2 dimensions (with GPhys#first2D)
+if <code>gphys</code> is more than 3D.</p>
+<p>Contour levels are determined as follows:</p>
+<ul>
+<li>contour levels are set in this method if not set by
+      <a href="#label-26">set_contour_levels</a> or the option <code>"levels"</code> is specified
+      explicitly.</li>
+<li>When contour levels are set in this method, the option <code>"levels"</code>
+      has the highest precedence. If it is specified, options
+      <code>"index"</code>, <code>"line_type"</code>, <code>"label"</code>, and <code>"label_height"</code>
+      are used.
+      If <code>"levels"</code> are not specified, contour levels with a linear
+      increment are set by using the options <code>"min"</code>, <code>"max"</code>,
+      <code>"nlev"</code>, <code>"interval"</code>, <code>"nozero"</code>, <code>"coloring"</code>,
+      <code>"clr_min"</code>, and <code>"clr_max"</code>, which are interpreted by
+      DCLExt::<!-- Reference, RDLabel "ud_set_linear_levs" doesn't exist --><em class="label-not-found">ud_set_linear_levs</em><!-- Reference end -->. The default values
+      of the linear level setting can be changed with
+      <a href="#label-28">set_linear_contour_options</a>.</li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a> (or <a href="#label-16">map</a>),
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"keep"        false   # Use the contour levels used previously
+"min"         nil     # minimum contour level
+"max"         nil     # maximum contour level
+"nlev"        nil     # number of levels
+"interval"    nil     # contour interval
+"nozero"      nil     # delete zero contour
+"coloring"    false   # set color contours with ud_coloring
+"clr_min"     13      # (if coloring) minimum color number for the
+                      # minimum data values
+"clr_max"     99      # (if coloring) maximum color number for the
+                      # maximum data values
+"help"        false   # show help message if true
+"log"	     nil     # approximately log-scaled levels (by using
+                      # DCLExt::quasi_log_levels)
+"log_cycle"   3       # (if log) number of levels in one-order (1 or 2
+                      # or 3)
+"levels"      nil     # contour levels (Array/NArray of Numeric)
+"index"       nil     # (if levels) line index(es) (Array/NArray of
+                      # integers, Integer, or nil)
+"line_type"   nil     # (if levels) line type(s) (Array/NArray of
+                      # integers, Integer, or nil)
+"label"       nil     # (if levels) contour label(s) (Array/NArray of
+                      # String, String, true, false, nil). nil is
+                      # recommended.
+"label_height"  nil   # (if levels) label height(s)
+                      # (Array/NArray of Numeric, Numeric, or nil).
+                      #  nil is recommended.
+"xintv"        1      # interval of data sampling in x
+"yintv"        1      # interval of data sampling in y
+"xcoord"       nil    # Name of the coordinate variable for x-axis
+"ycoord"       nil    # Name of the coordinate variable for y-axis
+"slice"        nil    # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"          nil    # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"         nil    # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-26" id="label-26"><code>set_contour_levels(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_contour_levels" -->
+<dd>
+<p>Set contour levels for <a href="#label-25">contour</a> explicitly by values with the option <code>levels</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : options to change the default behavior.
+      The option <code>"levels"</code> is mandatory (so it is not optional!).
+      Supported options are <code>"levels"</code>, <code>"index"</code>,
+      <code>"line_type"</code>, <code>"label"</code>, and <code>"label_height"</code>.
+      See <a href="#label-25">contour</a> for their description.</li>
+</ul></dd>
+<dt><h4><a name="label-27" id="label-27"><code>clear_contour_levels</code></a></h4></dt><!-- RDLabel: "clear_contour_levels" -->
+<dd>
+Clear contour levels set by <a href="#label-26">set_contour_levels</a>.</dd>
+<dt><h4><a name="label-28" id="label-28"><code>set_linear_contour_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_linear_contour_options" -->
+<dd>
+<p>Change the default option values regarding linear contour level
+setting in <a href="#label-25">contour</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code>
+      for <a href="#label-25">contour</a> but supported options here are limited to
+      <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, <code>"interval"</code>,
+      <code>"nozero"</code>, <code>"coloring"</code>, <code>"clr_min"</code>, and <code>"clr_max"</code>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul></dd>
+<dt><h4><a name="label-29" id="label-29"><code>next_linear_contour_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_linear_contour_options" -->
+<dd>
+Similar to <a href="#label-28">set_linear_contour_options</a> but the setting
+is effective only for the next call of <a href="#label-25">contour</a>.</dd>
+<dt><h4><a name="label-30" id="label-30"><code>tone(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "tone" -->
+<dd>
+<p>Color tone or shading by selecting the first 2 dimensions
+(with GPhys#first2D) if <code>gphys</code> is more than 3D.</p>
+<p>Tone levels are determined as follows:</p>
+<ul>
+<li>Tone levels are set in this method if not set by
+      <a href="#label-32">set_tone_levels</a> or the option <code>"levels"</code> (and
+      optionally, <code>"patterns"</code>) is (are) specified explicitly.</li>
+<li>When contour levels &amp; patterns are set in this method,
+<ul>
+<li><code>"levels"</code> has the highest precedence. If it is specified,
+         tone levels and patterns are determined by DCLExt::<!-- Reference, RDLabel "ue_set_tone" doesn't exist --><em class="label-not-found">ue_set_tone</em><!-- Reference end -->.
+         Here, tone patterns can be specified with the option <code>"patterns"</code>.</li>
+<li>Currently, option <code>"patterns"</code> is effective only if <code>"levels"</code>
+         is specified. Otherwise, it is ignored and patterns are
+         determined internally (by using DCL.uegtlb).</li>
+<li>If not, a linear tone levels are set if <code>"ltone"=true</code>
+         (this is the default), or shading is made if <code>"ltone"=false</code>.
+         Shading is determined by following the parameters in the UDPACK
+         in DCL. Therefore, coloring is made if DCL.udpget('ltone')==true
+         regardless the option <code>"ltone"=false</code> here.
+         When linear levels are set in this method, options
+         <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, and <code>"interval"</code>
+         are used if specified, which are interpreted by
+         DCLExt::<!-- Reference, RDLabel "ue_set_linear_levs" doesn't exist --><em class="label-not-found">ue_set_linear_levs</em><!-- Reference end -->.
+         Their default values can be changed by
+         <a href="#label-34">set_linear_tone_options</a>.</li>
+</ul></li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a> (or <a href="#label-16">map</a>),
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"ltone"       true    # Same as udpack parameter ltone
+"tonf"        false   # Use DCL.uetonf instead of DCL.uetone
+"tonb"        false   # Use DCL.uetonb instead of DCL.uetone
+"tonc"        false   # Use DCL.uetonc instead of DCL.uetone
+"clr_min"     nil     # if an integer (in 10..99) is specified, used as
+                      # the color number for the minimum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor1")
+"clr_max"     nil     # if an integer (in 10..99) is specified, used as
+                      # the color number for the maximum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor2")
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"keep"        false   # Use the tone levels and patterns used previously
+"color_bar"   false   # Add a color bar: THIS IS ONLY FOR QUICK
+                      # LOOK. Use the GGraph::color_bar method explicitly
+                      # for full option control
+"min"         nil     # minimum tone level
+"max"         nil     # maximum tone level
+"nlev"        nil     # number of levels
+"interval"    nil     # contour interval
+"help"        false   # show help message if true
+"log"	     nil     # approximately log-scaled levels (by using
+                      # DCLExt::quasi_log_levels)
+"log_cycle"   3       # (if log) number of levels in one-order (1 or 2
+                      # or 3)
+"levels"      nil     # tone levels  (Array/NArray of Numeric). Works
+                      # together with patterns
+"patterns"    nil     # tone patters (Array/NArray of Numeric). Works
+                      # together with levels
+"xintv"        1      # interval of data sampling in x
+"yintv"        1      # interval of data sampling in y
+"xcoord"       nil    # Name of the coordinate variable for x-axis
+"ycoord"       nil    # Name of the coordinate variable for y-axis
+"slice"        nil    # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"          nil    # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"         nil    # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-31" id="label-31"><code>color_bar (<var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "color_bar" -->
+<dd>
+<ul>
+<li>Descroption:
+      Draws color bars. Calls <code>DCLext.color_bar</code>.</li>
+</ul></dd>
+<dt><h4><a name="label-32" id="label-32"><code>set_tone_levels(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_tone_levels" -->
+<dd>
+<p>Set tone levels for <a href="#label-30">tone</a> explicitly by values.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : options to change the default behavior.
+      Supported options are <code>"levels"</code> and <code>"patterns"</code>.
+      Both of them must be specified explicitly (so they are
+      not optional!).</li>
+</ul></dd>
+<dt><h4><a name="label-33" id="label-33"><code>clear_tone_levels</code></a></h4></dt><!-- RDLabel: "clear_tone_levels" -->
+<dd>
+Clear tone levels set by <a href="#label-32">set_tone_levels</a>.</dd>
+<dt><h4><a name="label-34" id="label-34"><code>set_linear_tone_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_linear_tone_options" -->
+<dd>
+<p>Change the default option values regarding linear tone level
+setting in <a href="#label-30">tone</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code>
+      for <a href="#label-30">tone</a> but supported options here are limited to
+      <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, and <code>"interval"</code>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul></dd>
+<dt><h4><a name="label-35" id="label-35"><code>next_linear_tone_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_linear_tone_options" -->
+<dd>
+Similar to <a href="#label-34">set_linear_tone_options</a> but the setting
+is effective only for the next call of <a href="#label-30">tone</a>.</dd>
+<dt><h4><a name="label-36" id="label-36"><code>set_unit_vect_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_unit_vect_options" -->
+<dt><h4><a name="label-37" id="label-37"><code>next_unit_vect_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_unit_vect_options" -->
+<dt><h4><a name="label-38" id="label-38"><code>vector(<var>fx</var>, <var>fy</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "vector" -->
+<dd>
+<p>2-D vector plot using DCL_Ext::<!-- Reference, RDLabel "flow_vect" doesn't exist --><em class="label-not-found">flow_vect</em><!-- Reference end -->,
+which scales vectors in physical ("U") coordinates.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (GPhys) : represent vectors</li>
+<li>newframe (true/false) : if true, calls <a href="#label-7">fig</a>, <a href="#label-10">axes</a> (or <a href="#label-16">map</a>),
+      <a href="#label-5">title</a>, and <a href="#label-6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"flow_vect"   true    # If true, use DCLExt::flow_vect to draw
+                      # vectors; otherwise, DCL::ugvect is used.
+"flow_itr5"   false   # If true, use DCLExt::flow_itr5 to draw
+                      # vectors; otherwise, DCLExt::flow_vect or
+                      # DCL::ugvect is used.
+"keep"        false   # Use the same vector scaling as in the previous
+                      # call. -- Currently, works only when "flow_vect"
+                      # is true
+"xintv"       1       # (Effective only if flow_vect) interval of data
+                      # sampling in x
+"yintv"       1       # (Effective only if flow_vect) interval of data
+                      # sampling in y
+"factor"      1.0     # (Effective only if flow_vect) scaling factor to
+                      # strech/reduce the arrow lengths
+"unit_vect"   false   # Show the unit vector
+"max_unit_vect"       false   # (Effective only if flow_vect &amp;&amp;
+                      # unit_vect) If true, use the maximum arrows to
+                      # scale the unit vector; otherwise, normalize in V
+                      # coordinate.
+"ux_unit"     nil     # (If Numeric) length of the x direction unit
+                      # vector (precedence of this option is lower than
+                      # max_unit_vect)
+"uy_unit"     nil     # (If Numeric) length of the y direction unit
+                      # vector (precedence of this option is lower than
+                      # max_unit_vect)
+"help"        false   # show help message if true
+"xcoord"       nil    # Name of the coordinate variable for x-axis
+"ycoord"       nil    # Name of the coordinate variable for y-axis
+"slice"        nil    # An Array to be pathed to the GPhys#[] method to
+                      # subset the data before plotting (order applied:
+                      # slice -&gt; cut -&gt; mean)
+"cut"          nil    # An Array or Hash to be pathed to the GPhys#cut
+                      # method to subset the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)
+"mean"         nil    # An Array to be pathed to the GPhys#mean method to
+                      # take mean of the data before plotting (order
+                      # applied: slice -&gt; cut -&gt; mean)</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-39" id="label-39"><code>set_regression_line(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_regression_line" -->
+<dd>
+<p>Change the default option values for <a href="#label-41">regression_line</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-41">regression_line</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul></dd>
+<dt><h4><a name="label-40" id="label-40"><code>next_regression_line(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_regression_line" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label-41">regression_line</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label-41">regression_line</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label-41">regression_line</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label-41" id="label-41"><code>regression_line(<var>x</var>,<var>y</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "regression_line" -->
+<dd>
+<p>Draw a linear regression line in the current viewport.</p>
+<p>A figure must have been drawn. Good to call after <a href="#label-21">scatter</a> or
+<a href="#label-22">color_scatter</a>. You can also use this method after any
+scatter plot (passively under non-GPhys environment), since the 
+argument x,y can be NArray etc unlike other draw methods in GGraph. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>x, y (GPhys or VArray or NArray or NArrayMiss or Array) : x and y values </li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name      default value	# description:
+"x_given_y"   false   # If false (default), regress y for given x.
+                      # If true, x given y.
+"annot_slope"  nil    # Whether to show the slope on the right
+                      # margin. nil: show when itr=1,4, do not show when
+                      # itr=2,3; true: show; false: not show
+"annot_intercept" false # [Meaningful only when itr=1 (linear
+                      # scaling plot)] if true, show the intercept on the
+                      # right margin
+"limit"      false    # If true, regression line is shown only over the
+                      # range between max and min of the independent
+                      # variable. If false, regression line is written
+                      # over the whole range of the independent variable
+"clip"        true    # If true, use DCL's clipping not to show the line
+                      # outside the viewport
+"index"          1    # line index
+"type"           1    # line type
+"help"       false    # show help message if true</pre></li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

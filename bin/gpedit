@@ -1,0 +1,232 @@
+#!/usr/bin/env ruby
+=begin
+= NAME
+
+:gpedit:
+   Create or overwrite the attributes of a variable specified by
+   a gtool4-type URL (Only netCDF files are supported).
+  
+= USAGE
+
+  % gpedit [options] path[@|/][varname:var_attr=...][varname|+global_attr]
+
+= EXAMPLES
+
+* Add
+        % gpedit data.nc@temp:units=W/m
+        % gpedit -a data.nc@temp:missing_value=-2.0e20
+        % gpedit --add data.nc@temp+title=\"surface temperature\"
+
+* Delete
+        % gpedit -d data.nc@lon:topology
+        % gpedit --delete data.nc@lon+Conventions
+"
+=  HISTORY
+
+   2012/02/19  S Takehiro (gturl format updated)
+   2010/03/10  Y SASAKI (change help block into RD format)
+   2007/07/18  Y. Morikawa  'gpattr' is renamed to 'gpedit'
+   2006/09/29  Y. Morikawa  A value looks like numeric is treated as a numerical value
+   2005/01/09  Y. Morikawa
+   2005/01/07  D. Tsukahara
+
+
+=end
+##################################################
+#= gpedit
+#== SYNOPSIS
+SYNOPSIS = <<-"SYNOP"
+     Create or overwrite the attributes of a variable specified by
+     a gtool4-type URL (Only netCDF files are supported).
+SYNOP
+
+#== HISTORY
+#
+#   2010/03/10  Y SASAKI (change help block into RD format)
+#   2007/07/18  Y. Morikawa  'gpattr' is renamed to 'gpedit'
+#   2006/09/29  Y. Morikawa  A value looks like numeric is treated as a numerical value
+#   2005/01/09  Y. Morikawa
+#   2005/01/07  D. Tsukahara
+#
+#==USAGE
+URLFMT = "path@[varname:var_attr=...][varname|+global_attr]"
+USAGE = "
+        % #{File.basename(__FILE__)} [options] url
+
+     where the format of the url is
+
+         #{URLFMT}
+"
+#==EXAMPLES
+EXAMPLES = "
+    * Add
+        % #{File.basename(__FILE__)} data.nc@temp:units=W/m
+        % #{File.basename(__FILE__)} -a data.nc@temp:missing_value=-2.0e20
+        % #{File.basename(__FILE__)} --add data.nc@temp+title=\"surface temperature\"
+
+    * Delete
+        % #{File.basename(__FILE__)} -d data.nc@lon:topology
+        % #{File.basename(__FILE__)} --delete data.nc@lon+Conventions
+"
+#
+##################################################
+require "optparse"
+require "numru/netcdf"
+include NumRu
+
+opt = OptionParser.new
+OPTS = {}
+ARGV.options{|opt|
+
+  opt.summary_width = 23
+  opt.summary_indent = ' '*6
+
+  opt.on( '-a', '--add',
+                             "Add attribute (default)."
+         ){|v| OPTS[:add] = v}
+
+  opt.on( '-d', '--delete',
+                             "Delete attribute."
+         ){|v| OPTS[:delete] = v}
+
+  opt.on_tail('-h', '-H', '--help', 
+                             "Show this help message.\n"
+              ){|v| OPTS[:help] = v}
+
+  opt.parse!
+}
+
+## help
+def help(opt)
+  print <<-"EOF"
+
+#{File.basename(__FILE__)}: 
+#{SYNOPSIS}
+  USAGE: #{USAGE}
+  OPTION: \n#{opt.to_a[1..-1].join("")}
+  EXAMPLES:
+    #{EXAMPLES}
+  EOF
+end
+private :help
+
+
+#####################################################
+
+def to_appropriate_type(str)
+  if str =~ /\.|e/i
+    val = str.to_f
+  else
+    val = str.to_i
+  end
+  if val.to_i == 0
+    unless str =~ /^0+((\.0+)?(e\d+)?)?$/i
+      val = str
+    end
+  end
+  return val
+end
+
+def url_error(msg)
+  $stderr.print <<-"EOF"
+
+  Error: invalid URL: #{msg}.
+         Current URL format is 
+  
+           #{URLFMT}
+
+EOF
+  exit 1
+end
+
+def parse_gturl_for_attr(gturl)
+  if /(.*)@(.*)/ =~ gturl
+    file = $1
+    var = $2
+  elsif /(.*)\/(.*)/ =~ gturl
+    file = $1
+    var = $2
+  else
+    url_error "'[@|/]' between path & variable is not found"
+  end
+  if /(.*):(.*)/ =~ var
+    var_name = var.split(":")[0]
+    att =      var.split(":")[1]
+    if /(.*)\=(.*)/ =~ att
+      var_att =    att.split("=")[0]
+      global_att = nil
+      att_val  =   to_appropriate_type(var.split("=")[1])
+    elsif OPTS[:delete]
+      var_att =    att
+      global_att = nil
+      att_val =    nil
+    else
+      url_error "'=' between atribute name & value is not found"
+    end
+  elsif /(.*)\+(.*)/ =~ var
+    var_name = var.split("+")[0]
+    att =      var.split("+")[1]
+    if /(.*)\=(.*)/ =~ att
+      var_att =    nil
+      global_att = att.split("=")[0]
+      att_val =    to_appropriate_type(att.split("=")[1])
+    elsif OPTS[:delete]
+      var_att =    nil
+      global_att = att
+      att_val =    nil
+    else
+      url_error "'=' between atribute name & value is not found"
+    end
+  else
+    url_error "':' or '+' between atribute name & value is not found"
+  end
+  if !(att_val) && !OPTS[:delete]
+    url_error "attribute value is not found. you must point out unless delete attribute"
+  end
+  [file, var_name, var_att, global_att, att_val]
+end
+#####################################################
+
+if OPTS[:help] || ARGV.length != 1 then
+  help(opt)
+  exit
+end
+
+gturl = ARGV[0]
+file, var, var_att, global_att, att_val = parse_gturl_for_attr(gturl)
+
+begin
+  nc = NetCDF.new(file, "r")
+  nc.close
+rescue NetcdfSyserr
+  $stderr.print "  Error: " + file + ": " + $!.to_s + "\n"
+  exit 1
+rescue NetcdfNotnc
+  $stderr.print "  Error: " + file + ": " + $!.to_s + "\n"
+  $stderr.print "  \"#{File.basename(__FILE__)}\" supports only netCDF files.\n"
+  exit 1
+end
+
+nc = NetCDF.new(file, "a+")
+if nc.var(var)
+  var = nc.var(var)
+elsif nc.dim(var)
+  var = nc.dim(var)
+end
+nc.redef
+if var.class.to_s == "String"
+  $stderr.print "  Error: #{file}@#{var}: variable is not found.\n"
+  exit 1
+end
+if OPTS[:delete]
+  begin
+    nc.att(global_att).delete       if global_att
+    var.att(var_att).delete         if var_att
+  rescue NoMethodError
+    print "  Warning: " + gturl + " is not exist.\n"
+  end
+else
+  nc.put_att(global_att, att_val) if global_att
+  var.put_att(var_att, att_val)   if var_att
+end
+nc.close

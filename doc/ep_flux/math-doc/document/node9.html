@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with jLaTeX2HTML 2K.1beta (1.48) JA patch-1.4
+patched version by:  Kenshi Muto, Debian Project.
+LaTeX2HTML 2K.1beta (1.48),
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>質量流線関数</TITLE>
+<META NAME="description" CONTENT="質量流線関数">
+<META NAME="keywords" CONTENT="document">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-2022-jp">
+<META NAME="Generator" CONTENT="jLaTeX2HTML v2K.1beta JA patch-1.4">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="document.css">
+
+<LINK REL="next" HREF="node10.html">
+<LINK REL="previous" HREF="node8.html">
+<LINK REL="up" HREF="node3.html">
+<LINK REL="next" HREF="node10.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html147"
+  HREF="node10.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html143"
+  HREF="node3.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html137"
+  HREF="node8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html145"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html148"
+  HREF="node10.html">変数変換</A>
+<B> :</B> <A NAME="tex2html144"
+  HREF="node3.html">NumRu::GPhys::EP_Flux で計算される緒量</A>
+<B> :</B> <A NAME="tex2html138"
+  HREF="node8.html">子午面上の発散演算子</A>
+ &nbsp <B>  <A NAME="tex2html146"
+  HREF="node1.html">目次</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003600000000000000000">
+質量流線関数</A>
+</H1>
+
+残差循環の質量流線関数 <IMG
+ WIDTH="27" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img49.png"
+ ALT="$ \Psi^*$"> を
+
+<DIV ALIGN="CENTER"><!-- MATH
+ \begin{subequations}
+\begin{align}
+    \sigma \overline{v}^* &= -g\Dinv{2\pi a \cos\phi }\DP{\Psi^*}{z^{*}}, \\
+    \sigma \overline{w}^* &= g\Dinv{2\pi a^2\cos\phi}\DP{\Psi^*}{\phi}
+  \end{align}
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="98" ALIGN="BOTTOM" BORDER="0"
+ SRC="img50.png"
+ ALT="\begin{subequations}\begin{align} \sigma \overline{v}^* &amp;= -g\Dinv{2\pi a \cos\...
+...w}^* &amp;= g\Dinv{2\pi a^2\cos\phi}\DP{\Psi^*}{\phi} \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+と定義する. 
+上式を積分して <IMG
+ WIDTH="27" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img49.png"
+ ALT="$ \Psi^*$"> を求めるために, 
+本モジュールでは (<A HREF="node4.html#eq:logp"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]" SRC="crossref.png"></A>) を使用して
+対数圧力座標 (<IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ z^*$">) 系から圧力座標(<IMG
+ WIDTH="14" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img14.png"
+ ALT="$ p$">)系へ
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="59" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$\displaystyle \DP{}{z^*}\Psi^*$"></TD>
+<TD NOWRAP ALIGN="LEFT"><IMG
+ WIDTH="107" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img52.png"
+ ALT="$\displaystyle = -\frac{p}{H}\DP{}{p}\Psi^*$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2.11)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+と変換し, 大気上端(<IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img53.png"
+ ALT="$ p=0$">)において <!-- MATH
+ $\Psi^* = 0$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img54.png"
+ ALT="$ \Psi^* = 0$"> として積分し
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="243" HEIGHT="61" ALIGN="MIDDLE" BORDER="0"
+ SRC="img55.png"
+ ALT="$\displaystyle \Psi^*(\theta, p) = \frac{2\pi a \cos\phi}{g} \int_{0}^{p}\overline{v}^*\Dd p$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2.12)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+と質量流線関数を導いている.
+
+<BR><HR>
+<ADDRESS>
+Tsukahara Daisuke
+平成17年2月19日
+</ADDRESS>
+</BODY>
+</HTML>

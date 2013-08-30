@@ -1,0 +1,6422 @@
+2013-04-15  Takeshi Horinouchi  (HEAD, gphys-1_3_1, master)
+improvement for netcdf-4: To avoid error when accessing opendap
+though netcdf 4, changed to rescue error by calling redef and enddef
+in VArrayNetCDF#val.
+
+M	lib/numru/gphys/varraynetcdf.rb
+
+2013-04-15  Takeshi Horinouchi  (origin/master, origin/HEAD)
+Revert "the extention library is moved into ext/"
+
+This reverts commit 9c59f9b4131150bfbc3d7a3087af8c8f1df90c47.
+
+D	ext/ext_coord.c
+D	ext/ext_init.c
+D	ext/extconf.rb
+D	ext/interpo.c
+D	ext/multibitIO.c
+A	ext_coord.c
+A	ext_init.c
+A	extconf.rb
+A	interpo.c
+A	multibitIO.c
+
+2013-04-15  Takeshi Horinouchi 
+Revert "Updated extconf.rb; added $vendorarchdir to the search path etc."
+
+This reverts commit 33b55ed30efa297a33d4c3e9b782dad01ee90c29.
+
+M	ext/extconf.rb
+
+2013-03-28  Takeshi Horinouchi 
+Updated extconf.rb; added $vendorarchdir to the search path etc.
+Reference: extconf.rb in rb-grib
+Note: retained the part regarding cygwin and mingw, but I do not know
+whether this part is still valid and needed.
+
+M	ext/extconf.rb
+
+2013-03-28  Takeshi Horinouchi 
+Added *.log
+
+M	.gitignore
+
+2013-03-28  Takeshi Horinouchi 
+the extention library is moved into ext/
+
+A	ext/ext_coord.c
+A	ext/ext_init.c
+A	ext/extconf.rb
+A	ext/interpo.c
+A	ext/multibitIO.c
+D	ext_coord.c
+D	ext_init.c
+D	extconf.rb
+D	interpo.c
+D	multibitIO.c
+
+2013-03-27  Takeshi Horinouchi 
+(test) deleted the dummy file
+
+D	tmp.txt
+
+2013-03-27  Takeshi Horinouchi 
+(test) added a dummy file
+
+A	tmp.txt
+
+2013-03-27  Takeshi Horinouchi 
+Renamed the current ChangeLog to back up.
+
+A	.ChangeLog.until201303
+D	ChangeLog
+
+2013-03-27  Takeshi Horinouchi 
+Registered files (patterns) to ignore in the repository
+
+A	.gitignore
+
+2013-03-19  horinout  (gphys-1_3_0, cvsimport)
+corrected dates of recent commits (2012-->2013)
+
+M	ChangeLog
+
+2013-03-19  horinout 
+*** empty log message ***
+
+M	LICENSE.txt
+
+2013-03-19  horinout 
+Tue Mar 19  2012  T Horinouchi
+	* LICENCE.txt updated years
+
+M	ChangeLog
+M	LICENSE.txt
+
+2013-03-19  horinout 
+Tue Mar 19  2012  T Horinouchi
+	* gphys-1.3.0 released (cvs tag gphys-1_3_0)
+
+M	ChangeLog
+
+2013-03-19  horinout 
+Tue Mar 19  2012  T Horinouchi
+	* doc/ updated
+        * lib/numru/gphys/gphys_netcdf_io.rb: removed a comment-out block (to
+	  update doc/)
+
+M	ChangeLog
+M	doc/axis.html
+M	doc/dclext.html
+M	doc/gphys.html
+M	doc/gphys_io.html
+M	doc/gpview.html
+M	doc/grid.html
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2013-03-19  horinout 
+Tue Mar 19  2012  T Horinouchi
+	* lib/numru/dclext.rb : edited the part introduced yesterday
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2013-03-18  horinout 
+Mon Mar 18  2012  T Horinouchi
+	* lib/numru/dclext.rb : Added new module functions DCLExt.date_ax and
+	  DCLExt.year_ax. DCLExt.date_ax is to avoid the problem of
+	  DCL's UCPACK methods (uc[xy]acl and uc[xy]yr), which currently
+	  do not put year labels when the period is long. The new
+	  methods (date_ax and year_ax)  may not be needed in future,
+	  if the UCPACK methods are improved.
+	* lib/numru/ggraph.rb: private method __calendar_ax is
+	  changed to use DCLExt.date_ax instead of uc[xy]acl.
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+M	lib/numru/ggraph.rb
+
+2013-03-12  horinout 
+Tue Mar 12  2012  T Horinouchi
+	* lib/numru/gphys/axis.rb,lib/numru/gphys/gphys.rb,
+	  lib/numru/gphys/grid.rb,lib/numru/gphys/varraycomposite.rb:
+	  refactoring for the duck typing
+Tue Mar  5  2012  T Horinouchi
+        * lib/numru/gphys/gphys_netcdf_io.rb: minor inprovement in error msg
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2013-03-12  horinout 
+Tue Mar 12  2012  T Horinouchi
+	* sample/druby_cli[12].rb, sample/druby_serv2.rb: updated
+
+M	ChangeLog
+M	sample/druby_cli1.rb
+M	sample/druby_cli2.rb
+M	sample/druby_serv2.rb
+
+2013-03-04  horinout 
+Mon Mar  4  2012  T Horinouchi
+	* lib/numru/gphys/grid.rb: Added a new method Grid#insert_axis
+        * lib/numru/gphys/gphys.rb: Added a new class method
+	  GPhys.concat, which is like GPhys.join but concatenates
+	  GPhys objects (aligned in 1D) with a new axis
+	  (non-exisistent in the GPhys objects) specified by argument(s).
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2013-03-04  horinout 
+Mon Mar  4  2012  T Horinouchi
+        * lib/numru/gphys/varraycomposite.rb: Supported VArrayComposite
+	  construction with a greater rank than that of component VAarrays.
+	  (e.g., to make a 4D VArray from 3D VArrays by concatenating them
+	  with time).
+
+M	ChangeLog
+M	lib/numru/gphys/varraycomposite.rb
+
+2013-03-04  horinout 
+* minor debug in the test part (which did not occur on another system).
+
+M	lib/numru/gphys/gphys_io.rb
+
+2013-03-04  horinout 
+Mon Mar  4  2012  T Horinouchi
+        * lib/numru/gphys/gphys_io.rb: Added a new method (module function)
+	  open_multi, which constructs a GPhys object across multiple
+	  files (by using GPhys.join or GPhys.join_md).
+	  The method open is modified to forward the processing
+	  to open_multi, if the files are specified by an Array, NArray,
+	  or Regexp. This means that the join functionality is now
+	  available for all file types supported by GPhys, not just for NetCDF.
+          Also, the Ishioka latitudinal tiling is suppored.
+       * lib/numru/gphys/gphys.rb: removed unecessary stdout for development.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2013-03-03  horinout 
+Mon Mar  4  2012  T Horinouchi
+        * lib/numru/gphys/gphys.rb: Added new class methods
+	  GPhys.join, GPhys.join_md, and GPhys.join_md_nocheck
+	  to support multi-dimensional joining of GPhys objects
+	* lib/numru/gphys/axis.rb: Added a new class method
+	  Axis.join to support 1D joining of GPhys axes
+	* lib/numru/gphys/mdstorage.rb: Created. Extendible multi-dimensional
+	  strorage to support GPhys.join
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+A	lib/numru/gphys/mdstorage.rb
+
+2013-03-01  horinout 
+Fri Mar  1  2012  T Horinouchi
+        * lib/numru/gphys/gphys.rb: GPhys::each_along_dims : debug
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2013-02-23  horinout 
+Sat Feb 23  2013  T Horinouchi
+	* lib/numru/gphys/varraycomposite.rb: debug (for the special
+	  case where component varray(s) are missing (nil))
+
+M	ChangeLog
+M	lib/numru/gphys/varraycomposite.rb
+
+2013-02-09  takepiro 
+Thu Feb 09  2013  S Takehiro
+        * lib/numru/gphys/gphys_io.rb: open: support wildcard '?' in file name
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io.rb
+
+2013-01-29  takepiro 
+Tue Jan 29  2013  S Takehiro < S Nishizawa
+        * bin/gpview: sequential operation implemented.
+Tue Jan 29  2013  S Takehiro < T Tanigawa
+        * bin/gpview: calculation of aspect ratio of viewport improved.
+
+M	ChangeLog
+M	bin/gpview
+
+2013-01-29  horinout 
+Tue Jan 29  2013  T Horinouchi
+	* lib/numru/gphys/gphys_fft.rb: behavior changed to
+	  treat NArrayMiss with no missing (count_invalid==0)
+	  without calling GPhys::fft_ignore_missing.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+
+2013-01-28  horinout 
+Mon Jan 28  2013  T Horinouchi
+        * lib/numru/ganalysis/met.rb: debug: e_sat_emanuel_water,
+	  e_sat_emanuel_ice
+
+M	ChangeLog
+M	lib/numru/ganalysis/met.rb
+
+2013-01-16  horinout 
+Wed Jan 16  2013  T Horinouchi
+	* lib/numru/dclext.rb : moved the contents from dclext_datetime_ax.rb
+	* lib/numru/dclext_datetime_ax.rb : removed
+	* doc/index.rd, doc/index.html : updated
+
+M	ChangeLog
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/dclext.rb
+D	lib/numru/dclext_datetime_ax.rb
+M	lib/numru/ggraph.rb
+
+2012-12-14  takepiro 
+Fri Dec 14  2012  S Takehiro
+        * bin/gpview, bin/gpvect:
+          * Default wsn number is changed from 1 to 4
+
+M	ChangeLog
+M	bin/gpvect
+M	bin/gpview
+
+2012-12-13  seiya 
+Thu Dec 13  2012  S Nishizawa
+	* lib/numru/ggraph.rb:
+          * change default value for the option of "auto" for tone to true
+          * change thresfold value to use tonf instead of tone
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-12-08  horinout 
+Sat Dec 08  2012  T Horinouchi
+	* doc/ updated
+
+M	ChangeLog
+M	doc/coordmapping.html
+M	doc/derivative/gphys-derivative.html
+M	doc/derivative/numru-derivative.html
+M	doc/gpcut.html
+M	doc/gphys.html
+M	doc/gphys_grib_io.html
+M	doc/gphys_io.html
+M	doc/gpmath.html
+M	doc/gpmaxmin.html
+M	doc/gpprint.html
+M	doc/gpview.html
+M	lib/numru/derivative.rb
+M	lib/numru/gphys/derivative.rb
+
+2012-12-05  mizuta 
+
+* lib/numru/dclext.rb bugfix in DCLExt.flow_vect_anyproj
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-09-06  seiya 
+	* lib/numru/gphys.rb: changed to load rubygems if it exists
+        * lib/numru/gphys/gphys_io.rb: open: support wildcard '*' in file name
+        * lib/numru/gphys/gphys_netcdf_io.rb: open: support flat Array for file aggrigation
+
+M	ChangeLog
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2012-07-28  takepiro 
+Wed Jul 28  2012  S Takehiro
+        * bib/gpvect: option --ux_unit, --uy_unit, --xscale, --yscale
+          implemented
+
+M	ChangeLog
+M	bin/gpvect
+
+2012-07-18  mizuta 
+Wed Jul 18  2012  R Mizuta
+	* lib/numru/gphys/gphys_netcdf.io.rb: open: fixed opening of a
+	  single file as Array of files
+  	* lib/numru/gphys/varraycomposite.rb: []: support for Array slicer
+	* lib/numru/gphys/varray.rb: convert_units: support for unusual calendars
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2012-07-17  horinout 
+Tue Jul 17  2012  T Horinouchi
+	* lib/numru/gphys/varraycomposite.rb: initialize: unify units if
+	  different
+	* lib/numru/gphys/gphys_netcdf.io.rb: open: unify units if
+	  different
+	* lib/numru/gphys/varray.rb: operator "**": changed not to adjust
+	  units if other has units
+        * lib/numru/ganalysis/met.rb: added some methods regarding water
+	  vapor.
+
+M	ChangeLog
+M	lib/numru/ganalysis/met.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2012-06-27  otsuka 
+* lib/numru/dclext.rb: bugfix for the previous change.
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-06-26  horinout 
+Tue Jun 25  2012  T Horinouchi
+	* lib/numru/dclext.rb: to restore axparam_bk when returning.
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-06-15  otsuka 
+* lib/numru/gphys/gphys_nusdas_io.rb: improvement of error handling when opening NuSDaS
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2012-06-14  otsuka 
+* lib/numru/gphys/gphys_io.rb: file2type will raise error instead of returning nil when given file is not found.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io.rb
+
+2012-04-25  otsuka 
+* lib/numru/ganalysis/histogram.rb: bugfix of option 'window' in GGraph#histogram
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2012-04-24  otsuka 
+* lib/numru/ggraph.rb
+  * patch by Dr. M. Nakano: when 'keep' => true for flow_vect_anyproj in GGraph.vector,
+    the unit vector did not have the same length with the previous one.
+  * new option for GGraph.vector: index
+* lib/numru/dclext.rb
+  * patch by Dr. M. Nakano: changes in DCLExt.flow_vect_anyproj
+    related to the changes in ggraph.rb
+  * bugfix in DCLExt.legend
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+M	lib/numru/ggraph.rb
+
+2012-04-18  otsuka 
+* new options for GGraph.line, GGraph.histogram, and GAnalysis.histogram
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+M	lib/numru/ggraph.rb
+
+2012-04-11  horinout 
+Wed Apr 11  2012  T Horinouchi
+	* lib/numru/gphys/assoccoords.rb: added a new method AssocCoords#replace
+	* lib/numru/interpolate.rb: debug (of today's commit)
+	* interpo.c: debug regarding missing value setting
+
+M	ChangeLog
+M	interpo.c
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/interpolate.rb
+
+2012-04-11  horinout 
+Wed Apr 11  2012  T Horinouchi
+	* lib/numru/gphys/gphys.rb:
+	  * facilitated subclass definition
+	  * lifted the protection of GPhys#grid (finally!)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2012-04-11  horinout 
+Wed Apr 11  2012  T Horinouchi
+	* lib/numru/interpolate.rb: not to raise error
+	  when interpolation is made outsie the full 2D grid
+        * lib/numru/ganalysis/met.rb: added a new method pv_on_p
+
+M	ChangeLog
+M	lib/numru/ganalysis/met.rb
+M	lib/numru/gphys/interpolate.rb
+
+2012-04-06  horinout 
+Fri Apr  6  2012  T Horinouchi
+	* lib/numru/gphys/netcdf_convention.rb:
+	  NetCDF_Convention_CF::assoc_coord_names : changed not to erroneously
+	  treat standard coordinates as associated coordinates.
+
+M	ChangeLog
+M	lib/numru/gphys/netcdf_convention.rb
+
+2012-04-06  otsuka 
+* lib/numru/dclext.rb: bugfix in legend
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-03-26  otsuka 
+* lib/numru/ggraph.rb
+  * bugfix of map_axes for itr == 10
+* lib/numru/dclext.rb
+  * bugfixes in color_bar and legend
+  * code refinement
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+M	lib/numru/ggraph.rb
+
+2012-03-09  otsuka 
+* lib/numru/ggraph.rb: bugfix of map_axes for itr == 10
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-03-02  horinout  (gphys-1_2_2)
+* Updated --- I thought I released 1.2.2 on Feb 27, but I found I didin't.
+  So I'll do it today, incorporating the bug fix by Mizutasan on Feb 28:
+
+  Fri Mar  2  2012  T Horinouchi
+	* gphys-1.2.2 released (cvs tag gphys-1_2_2)
+
+M	ChangeLog
+
+2012-02-28  mizuta 
+Tue Feb 28  2012  R Mizuta
+  * lib/numru/gphys/unumeric.rb: not to use Date#to_datetime
+    + fix for "proleptic_gregorian" calendar.
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2012-02-27  horinout 
+Mon Feb 27  2012  T Horinouchi
+	* gphys-1.2.2 released (cvs tag gphys-1_2_2)
+
+M	ChangeLog
+
+2012-02-27  horinout 
+Mon Feb 27  2012  T Horinouchi
+	* lib/numru/varraygrib.rb : changed to explicitly raise LoadError
+	  if rb-GRIB is not available and VArrayGrib::use_rb_grib is called.
+
+M	ChangeLog
+M	lib/numru/gphys/varraygrib.rb
+
+2012-02-27  horinout 
+Mon Feb 27  2012  T Horinouchi
+	* lib/numru/ggraph.rb : altered the recently commited test :
+	  reduced the numbder of figs; added cliping to polar stereo etc.
+	* lib/numru/gphys/assoccoords.rb : debug
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/assoccoords.rb
+
+2012-02-27  horinout 
+Mon Feb 27  2012  T Horinouchi
+	* lib/numru/gphys/unumeric.rb: (for Ruby 1.8) not to use
+	  Date#to_datetime if not defined.
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2012-02-26  otsuka 
+* lib/numru/dclext.rb: bugfix in color_bar
+* lib/numru/ggraph.rb: bugfix of map_axes for itr == 10
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+M	lib/numru/ggraph.rb
+
+2012-02-24  otsuka 
+* lib/numru/ggraph.rb
+  * test of color_bar for itr = 13..15 and 20..23
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-02-24  otsuka 
+* lib/numru/dclext.rb
+  * bugfix in color_bar for itr >= 10
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-02-23  horinout  (gphys-1_2_1)
+* gphys 1.2.1 released
+
+M	ChangeLog
+
+2012-02-21  horinout 
+install.rb: Added again
+
+M	ChangeLog
+A	install.rb
+
+2012-02-21  horinout  (gphys-1_2_0)
+Tue Feb 21  2012  T Horinouchi
+	* gphys-1.2.0 released (cvs tag gphys-1_2_0)
+
+M	ChangeLog
+
+2012-02-20  horinout 
+Tue Feb 21  2012  T Horinouchi
+	* lib/numru/gphys/grib.rb : class name changed: NumRu::Grib -->
+	  NumRu::GPhys::Grib etc
+	* lib/numru/gphys/varraygrads.rb: made gphys_grib (NumRu::GPhys::Grib)
+	  the default, supported switching between gphys_grib and rb-GRIB
+	  (external library)
+	* lib/numru/gphys/gphys_io.rb, lib/numru/gphys/gphys_grib_io.rb:
+	  Changed accordingly
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2012-02-20  horinout 
+Mon Feb 20  2012  T Horinouchi
+	* gphys_grib_io.rb, gphys_io.rb, varraygrib.rb: previous changes
+	  are reverted
+	* README : updated
+
+M	ChangeLog
+M	README
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2012-02-20  seiya 
+* gphys_grib_io.rb, gphys_io.rb, varraygrib.rb: enable to switch
+  grib library (default is the gphys grib).
+  * to switch it use GPhys::IO.use_gphys_grib or GPhys:IO.use_rb_grib
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2012-02-20  horinout 
+Mon Feb 20  2012  T Horinouchi
+	* README : added a remark on rb-GRIB
+
+M	ChangeLog
+M	README
+
+2012-02-20  horinout 
+Mon Feb 20  2012  T Horinouchi
+	* lib/numru/gphys/grib.rb : not show the warning (... is obsolte).
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2012-02-20  horinout 
+Mon Feb 20  2012  T Horinouchi
+	* lib/numru/ggraph.rb : added a colorbar in graph 34 & 36 (itr=5)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-02-20  otsuka 
+* lib/numru/dclext.rb: bugfix in color_bar for itr = 5, 6
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-02-19  horinout 
+Sun Feb 19  2012  T Horinouchi
+	* install.rb: deleted (it has been obsolete since extconf.rb
+	  was introduced years ago.)
+
+M	ChangeLog
+D	install.rb
+
+2012-02-19  takepiro 
+Sun Feb 19  2012  S Takehiro
+        * lib/numru/gphys/gphys_io.rb parse_gturl:
+          * gturl format was changed so as to be able to use "/"
+            as a separater between path and variable.
+        * bin/ : comments updated according to the change of gturl format.
+
+M	ChangeLog
+M	bin/gpaop
+M	bin/gpcut
+M	bin/gpedit
+M	bin/gpmath
+M	bin/gpmaxmin
+M	bin/gpprint
+M	bin/gpvect
+M	bin/gpview
+M	lib/numru/gphys/gphys_io.rb
+
+2012-02-19  horinout 
+Sun Feb 19  2012  T Horinouchi
+	* README: udpated
+
+M	ChangeLog
+M	README
+
+2012-02-19  horinout 
+Sun Feb 19  2012  T Horinouchi
+	* lib/numru/gphys/coordmapping.rb: adapted the test part to Ruby 1.9
+
+M	ChangeLog
+M	lib/numru/gphys/coordmapping.rb
+
+2012-02-19  horinout 
+Sun Feb 19  2012  T Horinouchi
+	* lib/numru/ganalysis/histogram.rb: bugfix
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2012-02-17  horinout 
+Fri Feb 17  2012  T Horinouchi
+        * lib/numru/ganalysis/met.rb: added an option to frontogenesis_func
+	* lib/numru/dclext.rb : updated the documentation part
+	* doc/ : updated
+
+M	ChangeLog
+A	doc/dclext.html
+M	doc/ggraph.html
+M	doc/gphys.html
+M	doc/gpview.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/update
+M	lib/numru/dclext.rb
+M	lib/numru/ganalysis/met.rb
+
+2012-02-16  horinout 
+Thu Feb 16  2012  T Horinouchi
+	* lib/numru/dclext.rb DCLExt::flow_vect_anyproj
+	  * improved not to show arrows on the baskside when the
+	    projection is multi-valued (map projections)
+	  * added handling of NaNs
+	  * modified test part
+
+M	ChangeLog
+M	lib/numru/dclext.rb
+
+2012-02-15  horinout 
+Wed Feb 15  2012  T Horinouchi
+	* lib/numru/ggraph.rb (separated DCLExt into the new file dclext.rb)
+	* lib/numru/dclext.rb (new file) NumRu::DCLExt is separated from
+	  lib/numru/ggraph.rb
+
+M	ChangeLog
+A	lib/numru/dclext.rb
+M	lib/numru/ggraph.rb
+
+2012-02-15  horinout 
+Wed Feb 15  2012  T Horinouchi (actually done in Dec 2011)
+        * DCLExt::flow_vect_anyproj : added option polar_thinning etc.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-02-09  otsuka 
+* lib/numru/ggraph.rb
+  * In GGraph, GPhys#name will be used for the title of a diagram
+    if GPhys#long_name is too long.
+  * tentative workaround in GGraph#color_bar
+* lib/numru/ganalysis/eof.rb
+  * Load rubygems because Ruby/GSL might be installed via rubygems.
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+M	lib/numru/ggraph.rb
+
+2012-02-09  mizuta 
+Thu Feb 9  2012  R Mizuta
+	* lib/numru/gphys/unumeric.rb
+	  * bugfix in the method self::from_date with "360_day" calendar.
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2012-02-03  mizuta 
+Fri Feb 3  2012  R Mizuta
+	* lib/numru/gphys/grads_gridded.rb, gphys_grads_io.rb:
+	  * fixed an error when variable names in grads ctl files
+	    conflict with dimension names (x,y,z,t).
+
+M	lib/numru/gphys/gphys_grads_io.rb
+
+2012-02-03  otsuka 
+* lib/numru/ggraph.rb
+  * Map projection numbers 16--19 and 34 are enabled.
+    Additional modifications might be needed in future.
+    (DCL 5.4.3 or later is needed to actually use these.)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-02-03  mizuta 
+Fri Feb 3  2012  R Mizuta
+	* lib/numru/gphys/grads_gridded.rb, gphys_grads_io.rb:
+	  * fixed an error when variable names in grads ctl files
+	    conflict with dimension names (x,y,z,t).
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2012-02-01  takepiro 
+Wed Dec 1  2012  S Takehiro < S. Nishizawa
+        * bin/gpview
+          * added --tonf option.
+        * bin/gpvect
+          * added --tonf option.
+
+M	ChangeLog
+
+2012-02-01  takepiro 
+Wed Dec 1  2012  S Takehiro < S. Nishizawa
+        * bin/gpview
+          * added --tonf option.
+        * bin/gpvect
+          * added --tonf option.
+
+M	bin/gpvect
+M	bin/gpview
+
+2012-01-31  mizuta 
+* lib/numru/gphys/unumeric.rb
+  * added support for "proleptic_gregorian" calendar.
+  * added check for invalid date in "360_day" calendar.
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2012-01-24  horinout 
+Tue Jan 24  2012  T Horinouchi
+	* commited some enhancement/modification made in Dec 2011
+	  * lib/numru/ganalysis/planet.rb
+	    * supported boundary condition selection for derivatives (lat_bc)
+	    * added some methods (grad_sx, grad_sy, grad_sy_cosphifact,
+	      weight_tanphi, weight_cosphi, weight_sinphi)
+	  * lib/numru/ganalysis/met.rb
+	    * added a method df_dx_vialogscale, to support numerical
+	      derivative in log-p coordinate. This is not necessarily
+	      an improvement --- it depends on inputs, but the default
+	      is tentatively changed to use it.
+	    * added new methods: z2geostrophic_wind, frontogenesis_func
+
+M	ChangeLog
+M	lib/numru/ganalysis/met.rb
+M	lib/numru/ganalysis/planet.rb
+
+2012-01-08  otsuka 
+* lib/numru/ggraph.rb:
+  * GGraph#fig: default value of LGLOBE in map projections are changed.
+    * when Mercator, LGLOBE becomes true only if the window is
+      almost global.
+  * bugfix in DCLExt#color_bar: when map projection is used
+    in the main plot, ITR was reset when DCLExt.color_bar was called.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2012-01-04  otsuka 
+* lib/numru/gphys/varray.rb: marshal dump and load are implemented.
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+
+2011-12-24  otsuka 
+* lib/numru/ganalysis/histogram.rb: bugfix for logarithmic axes.
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2011-12-22  otsuka 
+* lib/numru/ganalysis/histogram.rb: bugfix of default window.
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2011-12-22  otsuka 
+* lib/numru/ggraph.rb: log10_safe and log10_or_0 are defined
+  in order to prevent errors when 0 is given to Math::log10.
+  Math::log10 in color_bar-related functions are substituted
+  with log10_or_0.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-12-14  horinout 
+Wed Dec  14  2011  T Horinouchi
+	* lib/numru/ggraph.rb: Supported vector drawing in any projection
+	  (esp. map projection!). It requires a new (yet to come) version
+	  of NArrayMiss -- it depends on NArrayMiss#valid? with argument(s).
+	  * New methods:
+	    * DCLExt::flow_vect_anyproj : flow_vect on any DCL projection.
+	      Arrows drawn by this method are properly directed locally
+	      (consistent with the local coordinate). Their lengths are
+	      proportional to those of the data given. (currently not yet
+	      tested with the tranformations 5 and 6, which I'm not used to).
+	    * DCLExt::unit_vect_single : for DCLExt::flow_vect_anyproj.
+	      Draws only one arrow to express the scaling (by default,
+	      upward oriented.)
+          * Default change:
+	    * GGraph::vector : changed to use flow_vect_anyproj if
+	      the current projection number is >= 2. (the method to use
+	      can be switched by the new option "flow_vect_anyproj")
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-12-12  horinout 
+	* lib/numru/interpolate.rb: Added a new method dcl_fig_cut,
+	  which is separated from mouse_cut for use cases without
+	  mouse click.
+
+M	ChangeLog
+M	lib/numru/gphys/interpolate.rb
+
+2011-12-12  horinout 
+	* lib/numru/interpolate.rb: debug of  coord_data_reverse :
+	  to avoid a side effect on the grid of self.
+
+M	ChangeLog
+M	lib/numru/gphys/interpolate.rb
+
+2011-12-12  horinout 
+Mon Dec  12  2011  T Horinouchi
+	* lib/numru/interpolate.rb: debug of mouse_cut: up to the previous
+	  version, the end point of the last line segment is not included
+	  in the sample points. (So the debug is to cover this end point.)
+
+M	ChangeLog
+M	lib/numru/gphys/interpolate.rb
+
+2011-12-09  otsuka 
+* lib/numru/ggraph.rb: xreverse and yreverse will be true
+  when the unit of an axis is compatible with that specified
+  as an option (previously xreverse/yreverse became true
+  only when the unit was exactly the same).
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-12-02  horinout 
+Fri Dec  2  2011  T Horinouchi
+	* lib/numru/gphys/gphys.rb: added a new method shape_coerce_full
+	  (similar to shape_coerce but possibly expands by replication)
+	* lib/numru/interpolate.rb: added a new method coord_data_reverse
+	  (reverses the main data (i.e., the dependent variable) and one of the
+	  coordinates (an independent variable) through interpolation.)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/interpolate.rb
+
+2011-12-01  horinout 
+Thu Dec  1  2011  T Horinouchi
+	* lib/numru/interpolate.rb, interpo.c: Supported a behavior
+	  not to make extrapolation outside the original grid.
+	  Changed the default behavior to this one.
+	* lib/numru/interpolate.rb: added a new class method
+	  GPhys::extrapolation=(extrapo), where extrapo is true or
+	  false --- the default behavior is false, as noted above.
+
+M	ChangeLog
+M	interpo.c
+M	lib/numru/gphys/interpolate.rb
+
+2011-11-29  seiya 
+	* lib/numru/grib.rb: print message to inform that this grib library is obsoluted.
+	* lib/numru/varraygrib: change to find rb-grib library first.
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2011-11-20  takepiro 
+Sun Nov 20  2011  S Takehiro
+        * bin/gpview: option --eddy implemented.
+        * bin/gpvect: option --eddy implemented.
+
+M	ChangeLog
+M	bin/gpvect
+M	bin/gpview
+
+2011-11-11  horinout 
+Fri Nov 11  2011  T Horinouchi
+	* lib/numru/ggraph.rb: added 'xloglabelall' and
+	  'yloglabelall' to the options of GGraph::axes (to show
+	  lavels for all log-level tick marks)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-11-03  takepiro 
+Thu Nov 03  2011  S Takehiro
+        * bin/gpview: option --time_ax implemented.
+
+M	ChangeLog
+M	bin/gpview
+
+2011-10-28  otsuka 
+* lib/numru/ganalysis/histogram.rb: support for itr=2, 3, and 4 in GGraph#histogram.
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2011-10-18  horinout 
+Tue Oct 18  2011  T Horinouchi
+	* lib/numru/ganalysis/planet.rb :
+	  * Changed method name: get_lonlat --> get_lambda_phi.
+	  * method get_lambda_phi: added an optional argument
+	    err_raise (default:true). Changed the order of outputs.
+	    Added doc.
+	* lib/numru/interpolate.rb: minor reformating of documentation
+	* lib/numru/gphys/axis.rb: Axis#cyclic_extendible?: debug
+Mon Oct 17  2011  T Horinouchi
+	* lib/numru/ganalysis/planet.rb : find_lon_lat_dims: Refined the
+	  criteria
+
+M	ChangeLog
+M	lib/numru/ganalysis/planet.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/interpolate.rb
+
+2011-10-14  horinout 
+Fri Oct 14  2011  T Horinouchi
+	* lib/numru/gphys/derivative.rb: added a new method deriv2nd
+
+M	ChangeLog
+M	lib/numru/gphys/derivative.rb
+
+2011-10-14  horinout 
+Fri Oct 14  2011  T Horinouchi
+	* lib/numru/derivative.rb: added a new method deriv2nd
+	  (2nd derivative covering uniform grids)
+Thu Aug 18  2011  T Horinouchi
+	* lib/numru/interpolate.rb: mouse_cut: added optional arguments
+	  line_type & line_index, whose default values are 1 & 1,respectively.
+
+M	ChangeLog
+M	lib/numru/derivative.rb
+M	lib/numru/gphys/interpolate.rb
+
+2011-09-04  otsuka 
+* When max and min of an axis are the same integer value,
+  window values become invalid.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-08-15  horinout  (gphys-1_1_1)
+	* gphys-1.1.1 released (cvs tag gphys-1_1_1)
+
+M	ChangeLog
+
+2011-08-11  horinout 
+	* LICENCE.txt: Added (BSD 2-clause licence)
+
+M	ChangeLog
+A	LICENSE.txt
+
+2011-08-11  horinout 
+Thu Aug 11  2011  T Horinouchi
+	* lib/numru/ggraph.rb: added a method linear_reg_slope_error.
+	  --- It may not be a good choice to define this method
+	  here. It is placed here just because it is related with
+	  the linear_regression method called in regression_line.
+	  In future, methods like this can be moved to another
+	  module, so to document it is deliberately avoided.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-07-30  takepiro 
+Sat Jul 29 2011  S Takehiro
+        * bin/gpview: option --clrmap fixed.
+
+M	ChangeLog
+M	bin/gpvect
+
+2011-07-14  otsuka 
+* lib/numru/gphys/gphys_nusdas_io.rb: Bug fix for assoc_coords.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2011-06-24  otsuka 
+* lib/numru/gphys/gphys_netcdf_io.rb: when variable name is included in the assoc_coord_names, assoc_coords should not be set.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2011-06-23  horinout 
+Thu Jun 23 2011  T Horinouchi
+	* lib/numru/ggraph.rb: added new options ux_unit and uy_unit,
+	  which specify unit vector lengths
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-06-13  otsuka 
+* minor bug fix for NuSDaS assoc coords
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2011-06-07  horinout 
+Tue Jun  7 2011  T Horinouchi
+	* lib/numru/ganalysis/planet.rb : Added a new method grad_s
+Tue Jun  7 2011  T Horinouchi < R Mizuta (jun 3)
+	* lib/numru/gphys/subsetmapping.rb: bug fix (l.234)
+
+M	ChangeLog
+M	lib/numru/ganalysis/planet.rb
+M	lib/numru/gphys/subsetmapping.rb
+
+2011-05-11  otsuka 
+* bug fix in multibitIO.c and grib.rb
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	multibitIO.c
+
+2011-04-19  otsuka 
+* In histogram.rb, minimum number of nbins is increased from 1 to 10 when not specified.
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2011-03-19  horinout 
+Sat Mar 19 2011  T Horinouchi
+	* lib/numru/ganalysis/eof.rb: Updated an error message
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+
+2011-03-18  horinout 
+Fri Mar 18 2011  T Horinouchi
+	* ggraph.rb: Added a method regression_line.
+	  (((CAUTION: This will fully work in combination with a future
+	  NArrayMiss version newer than 1.2.1. Currently,
+	  to feed it data with missing will cause an error.)))
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-03-15  horinout 
+Tue Mar 15 2011  T Horinouchi
+	* lib/numru/gphys/gphys_fft.rb: a refactoring to deal with
+	  a syntax change (or a BUG??) in Ruby 1.9.2 (compared with
+	  Ruby 1.8) regarding multiple assignments in one line
+	  using the "[]=" method.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+
+2011-02-25  horinout  (gphys-1_1_0)
+	* gphys-1.1.0 released (cvs tag gphys-1_1_0)
+
+M	ChangeLog
+
+2011-02-25  horinout 
+Fri Feb 25 2011  T Horinouchi
+	* lib/numru/gphys/unumeric.rb: added treatment for
+	  two- and one-digit years: to always interpret them as
+	  00\d\d etc., not 20\d\d or 19\d\d (as in Date of Ruby 1.9),
+	  regardless Ruby versions.
+	* documents updated.
+
+M	ChangeLog
+M	doc/attribute.html
+M	doc/axis.html
+M	doc/gdir.html
+M	doc/gdir_server.html
+M	doc/ggraph.html
+M	doc/gphys.html
+M	doc/gphys_fft.html
+M	doc/gphys_grads_io.html
+M	doc/gphys_io_common.html
+M	doc/gphys_netcdf_io.html
+M	doc/gpview.html
+M	doc/grads2nc_with_gphys.html
+M	doc/grads_gridded.html
+M	doc/grib.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/netcdf_convention.html
+M	doc/unumeric.html
+M	doc/varray.html
+M	doc/varraycomposite.html
+M	lib/numru/gphys/unumeric.rb
+
+2011-02-24  horinout 
+Thu Feb 24 2011  T Horinouchi
+	* gphys-1.1.0 released (cvs tag gphys-1_1_0)
+
+M	ChangeLog
+
+2011-02-22  koshiro 
+Tue Feb 22 2011  T Koshiro
+        * multibitIO.c: ruby 1.9.2 compatibility
+
+M	ChangeLog
+M	multibitIO.c
+
+2011-02-21  koshiro 
+Mon Feb 21 2011  T Koshiro
+        * ggraph.rb: Added an option 'tonb' to GGraph.tone
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2011-02-17  horinout 
+* refactoring just to make the document look clearer.
+
+M	lib/numru/ganalysis/met.rb
+
+2011-02-17  horinout 
+Thu Feb 17 2011  T Horinouchi
+	* lib/numru/ganalysis/met.rb : Added an RDoc documentation.
+
+M	ChangeLog
+M	lib/numru/ganalysis/met.rb
+
+2011-02-12  horinout 
+Sat Feb 12 2011  T Horinouchi
+	* added new files lib/numru/ganalysis/planet.rb
+	  and lib/numru/ganalysis/met.rb (created in Jan, actually).
+	  * They define modules NumRu::GAnalysis::Planet and
+	    NumRu::GAnalysis::Met, unlike other files in GAnalysis
+	    that define module functions directory under GAnalysis.
+	  * So far, these modules have only limited capabilities.
+	    (lead by my own necessity)
+
+M	ChangeLog
+M	lib/numru/ganalysis.rb
+A	lib/numru/ganalysis/met.rb
+A	lib/numru/ganalysis/planet.rb
+
+2011-01-19  horinout 
+Wed Jan 19 2011  T Horinouchi
+	* interpo.c: debug to prevent invalid array access
+
+M	ChangeLog
+M	interpo.c
+
+2011-01-18  horinout 
+Tue Jan 18 2011  T Horinouchi
+	* lib/numru/gphys/assoccoords.rb: added attr_reader :axlens.
+	  Introduced legnth consistency check in the constructor.
+	* lib/numru/gphys/grid.rb: Grid#set_assoc_coords: Added
+	  legnth consistency check.
+Mon Jan 17 2011  T Horinouchi
+	* lib/numru/derivative.rb: Supported cyclic extension etc.
+	* lib/numru/gphys/derivative.rb: Supported cyclic extension etc
+	  (with an option to automatically judge whether cyclic).
+	  Unified codes of cderiv and threepoint_O2nd_deriv.
+	  Added a new optional argument 'altcoord' to them.
+	* lib/numru/gphys/varray.rb: add a method axis_cyclic_extendible?
+	* lib/numru/gphys/axis.rb: add a method cyclic_extendible?
+
+M	ChangeLog
+M	lib/numru/derivative.rb
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/derivative.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+
+2011-01-17  horinout 
+Mon Jan 17 2011  T Horinouchi
+	* lib/numru/ggraph.rb: added a new option map_rsat to the fig
+	  method. This parameter sets RSAT of DCL's SGPPACK for itr==30.
+	* lib/numru/gphys/gphys_fft.rb: made new methods:
+	  phase_velocity_filter, phase_velocity_binning, and
+	  phase_velocity_binning_iso_norml.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_fft.rb
+
+2011-01-14  takepiro 
+Fri Jan 14 2011  S Takehiro < T Tanigawa
+        * bin/gpview: option --operation implemented
+
+M	ChangeLog
+M	bin/gpview
+
+2011-01-14  otsuka 
+* changelog is updated
+
+M	ChangeLog
+
+2011-01-13  otsuka 
+* changes for NuSDaS format: z* levels are computed and added to assoc_coords
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2010-10-06  seiya 
+* lib/numru/ganalysis/eof.rb: changed to sort eof modes with eigen value when GSL is used
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+
+2010-10-06  seiya 
+* lib/numru/ganalysis/eof.rb: added rdoc document for #eof method
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+
+2010-10-05  otsuka 
+* the function to display EOF modes is moved to a new method add_mode_vectors
+
+M	ChangeLog
+M	lib/numru/ganalysis/covariance.rb
+M	lib/numru/ggraph.rb
+
+2010-10-05  otsuka 
+* bug fix: missing value was not correctly treated in covariance.rb
+
+M	ChangeLog
+M	lib/numru/ganalysis/covariance.rb
+
+2010-10-05  horinout 
+Tue Oct  5 2010  T Horinouchi
+	* lib/numru/gphys/gphys.rb: added methods set_lost_axes
+	  and add_lost_axes, which are redirected to @grid.
+	* interpolate.rb: to inherit the lost_axes info
+	* lib/numru/ggraph.rb:
+	  * test part : added a sample plot of color_scatter;
+	    changed to show page numbers
+	  * GGraph::scatter, GGraph::color_scatter : modified
+	    not to loose the lost_axes info.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/interpolate.rb
+
+2010-10-04  otsuka 
+* a new function 'eof2' is added to GAnalysis
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+
+2010-10-04  horinout 
+Mon Oct  4 2010  T Horinouchi
+	* lib/numru/ggraph.rb: added sample plots of GGraph::scatter
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2010-09-13  otsuka 
+* GGraph::scatter / GGraph::color_scatter is modified to use all elements
+  in gphys objects
+* some experimental functions for those scatter plots
+* minor changes (see details in Changelog)
+
+M	ChangeLog
+M	README
+M	lib/numru/ganalysis/covariance.rb
+M	lib/numru/ggraph.rb
+
+2010-09-07  horinout 
+* re-commit (minor refinement)
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2010-09-07  horinout 
+	* lib/numru/ggraph.rb: document updated
+
+M	ChangeLog
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2010-09-07  horinout 
+Tue Sep  7 2010  T Horinouchi
+	* doc/: updated
+
+M	ChangeLog
+M	doc/ggraph.html
+M	doc/gpcat.html
+M	doc/gpcut.html
+M	doc/gphys_io.html
+M	doc/gplist.html
+M	doc/gpmath.html
+M	doc/gpmaxmin.html
+M	doc/gpprint.html
+M	doc/gpview.html
+M	doc/grid.html
+
+2010-09-06  otsuka 
+ * bug fix in each_along_dims_write
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io_common.rb
+
+2010-08-04  horinout 
+Wed Aug  4 2010  T Horinouchi
+	* lib/numru/gphys/unumeric.rb: added class methods
+	  supported_calendar? and supported_calendars
+	* lib/numru/ggraph.rb: not to show calendar-based axes
+	  if the time variable has the attribute "calendar"
+	  and its value is not suppored in UNumeric.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/unumeric.rb
+
+2010-08-04  horinout 
+Wed Aug  4 2010  T Horinouchi
+	* lib/numru/gphys/unumeric.rb: UNumeric#to_datetime,
+	  UNumeric::from_date: changed to return nil, rather
+	  than to raise an exception, if the calendar speficied is
+	  not supported
+	* lib/numru/gphys/axis.rb: Axis#[]:
+	  to handle nil from UNumeric#to_datetime when @@humane_message
+	* lib/numru/gphys/gtool3.rb: Gtool3#interpret_time_axis:
+	  to handle nil from UNumeric#to_datetime
+
+Mizuta sama: I don't know what to do for grads_gridded.rb if a specified
+calendar is not supported.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gtool3.rb
+M	lib/numru/gphys/unumeric.rb
+
+2010-08-02  horinout 
+	* lib/numru/gphys/unumeric.rb: added "gregorian" and "standard"
+	  as synonims of the default calendar (case when nil -->
+	  case when nil, "gregorian", "standard").
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2010-07-27  horinout 
+Tue Jul 27 2010  T Horinouchi
+	* lib/numru/gphys/unumeric.rb : correction for Ruby 1.9:
+	  to deal with a new feature of DateTime#parse, which interprets
+	  1- or 2-digit years (e.g. 1, 02) as in 2000's (e.g., 2001, 2002
+	  -- In Ruby 1.8, these were simply interpreted as years
+	  1 and 2, which is the behavior we need.)
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2010-07-21  seiya 
+        * lib/numru/ganalysis/eof.rb
+          * changes for update of ruby-lapack
+          * change options
+
+M	ChangeLog
+M	lib/numru/ganalysis/eof.rb
+
+2010-07-16  uwabami 
+* bin/gpview, bin/gpvect: add option "--clrmap" to select colormap
+
+M	ChangeLog
+M	bin/gpvect
+M	bin/gpview
+
+2010-06-28  horinout 
+Mon Jun 28 2010  T Horinouchi
+	* interpo.c: debug -- multi-dimensional 1D interpolation.
+	  * interpo_find_loc_1D_MD: for dimc < rank-1
+	  * interpo_do: index counting for mtyp>=3
+
+M	ChangeLog
+M	interpo.c
+
+2010-05-18  otsuka 
+* Some parameters added for 1D histogram
+
+M	ChangeLog
+M	lib/numru/ganalysis/histogram.rb
+
+2010-05-17  horinout 
+Mon May 17 2010  T Horinouchi
+	* lib/numru/gphys/assoccoords.rb : slight change to suppress
+	  a warning in a (sub?) version of ruby 1.8.7
+
+M	ChangeLog
+M	lib/numru/gphys/assoccoords.rb
+
+2010-04-21  horinout 
+Wed Apr 21 2010  T Horinouchi
+	* interpo.c: made "find loc" methods available outside GPhys as
+	  class methods (interpo_find_loc_1D, interpo_find_loc_1D_MD).
+
+M	ChangeLog
+M	interpo.c
+
+2010-04-13  seiya 
+	* multibitIO.c
+	  * fix typo
+	  * fix memory leak
+	* lib/numru/gphys/grib.rb
+	  * bugfix
+
+M	lib/numru/gphys/grib.rb
+M	multibitIO.c
+
+2010-04-04  seiya 
+Sun Apr 04 2010  S Nishizawa
+	* multibitIO.c : add String#to_uint{1,2,3} methods
+	* lib/numru/gphys/grib.rb : change to use String#to_uint{1,2,3}
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	multibitIO.c
+
+2010-03-31  seiya 
+	* multibitIO.c
+	  * raise exception when input file name is invalid
+	  * fix memory leak
+	* lib/numru/gphys/grib.rb : changed to use MultibitIO
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	multibitIO.c
+
+2010-03-30  horinout 
+Wed Mar 31 2010  T Horinouchi
+	* multibitIO.c : changed: module MultibitIO -> class MultibitIO
+	* test/test_multibitIO.rb : changed accordingly
+
+M	ChangeLog
+M	multibitIO.c
+M	test/test_multibitIO.rb
+
+2010-03-30  horinout 
+Tue Mar 30 2010  T Horinouchi
+	* multibitIO.c : newly added. IO of multibit numbers. Defines
+	  a module MultibitIO and its module function read2D.
+	* test/test_multibitIO.rb : a sample source to use MultibitIO
+	* test/mltbit.dat : test data used by test_multibitIO.rb
+	* ext_init.c : updated to the initializer in multibitIO.c
+
+M	ChangeLog
+M	ext_init.c
+A	multibitIO.c
+A	test/mltbit.dat
+A	test/test_multibitIO.rb
+
+2010-03-26  horinout 
+Thu Mar 26 2010  T Horinouchi
+	* lib/numru/gphys/grib.rb: changed the type of narray to read
+	  in: float (=double) -> sfloat
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2010-03-20  seiya 
+        * lib/numru/gphys.grib.rb: modification for efficiency
+
+M	lib/numru/gphys/grib.rb
+
+2010-03-15  seiya 
+* lib/numru/gphys/grib.rb: "hoge".hex to 0xhoge
+* lib/numru/gphys/grib_params.rb: add variable of VBDSF (No.166) to the JMA table
+VS: ----------------------------------------------------------------------
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2010-03-15  horinout 
+Mon Mar 15 2010  T Horinouchi
+	* lib/numru/gphys/grib.rb: update for Ruby 1.9
+	  (in response to a change in String#[])
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2010-03-10  uwabami 
+* Change help format to RD format, for create man(1) file using rd2
+
+M	bin/gdir_client
+M	bin/gdir_server
+M	bin/gpaop
+M	bin/gpcat
+M	bin/gpcut
+M	bin/gpedit
+M	bin/gplist
+M	bin/gpmath
+M	bin/gpmaxmin
+M	bin/gpprint
+M	bin/gpvect
+M	bin/gpview
+M	bin/grads2nc_with_gphys
+
+2010-02-26  otsuka 
+* bugfix on options in tone_and_contour
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2010-02-22  horinout 
+*** empty log message ***
+
+M	ChangeLog
+
+2010-02-22  horinout  (gphys-1_0_0)
+* install.rb added again after removal
+
+A	install.rb
+
+2010-02-19  horinout 
+Fri Feb 19 2010  T Horinouchi
+	* gphys-1.0.0 released (cvs tag gphys-1_0_0)
+
+M	ChangeLog
+
+2010-02-19  mizuta 
+
+Fri Feb 19 2010  R Mizuta
+	* lib/numru/gphys/grads_gridded.rb: speed up of reading file
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2010-02-19  horinout 
+Fri Feb 19 2010  T Horinouchi
+	* lib/numru/gphys/gphys.rb : added a new method GPhys#eddy
+	  (which must have been frequently defined by users :-p )
+	* install.rb : removed from repository
+	* lib/numru/interpolate.rb: cleaned up (removed unnecesary comment-
+	  outs)
+
+M	ChangeLog
+D	install.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/interpolate.rb
+
+2010-02-18  horinout 
+Thu Feb 18 2010  T Horinouchi
+	* lib/numru/interpolate.rb: GPhys#interpolate supported data missing
+	* interpo.c: interpo_do (c_interpo_do) supported data missing
+
+M	ChangeLog
+M	interpo.c
+M	lib/numru/gphys/interpolate.rb
+
+2010-02-18  horinout 
+Thu Feb 18 2010  T Horinouchi
+	* lib/numru/interpolate.rb:
+	  * added a new method GPhys#regrid
+	  * GPhys#interpolate: supported conversion of coordinate units
+
+M	ChangeLog
+M	lib/numru/gphys/interpolate.rb
+
+2010-02-18  horinout 
+Thu Feb 18 2010  T Horinouchi
+	* lib/numru/gphys/varraycomposite.rb : VArrayComposite#val changed
+	  not to depend on ntype
+	* lib/numru/gphys/gphys.rb : GPhys.each_along_dims changed
+	  not to depend on ntype
+        * lib/numru/ggraph.rb: GGraph::level_chval_fmt improved judgement
+	  of least_order
+Thu Feb 11 2010  T Horinouchi
+	* lib/numru/interpolate.rb: very minor change
+Wed Feb 10 2010  T Horinouchi
+	* lib/numru/gphys/assoccoords.rb : minor change in AssocCoords#merge
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/interpolate.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2010-02-05  horinout 
+Fri Feb  5 2010  T Horinouchi
+	* sample/ncep_theta_coord.rb : [newly added] a sample
+	  of GPhys#interpolate
+
+M	ChangeLog
+A	sample/ncep_theta_coord.rb
+
+2010-02-05  horinout 
+Fri Feb  5 2010  T Horinouchi
+	* lib/numru/dcl_mouse.rb: [newly added] defines classes
+	  DCLMousePt and DCLMouseLine to capture mouse click on
+	  the DCL viewport.
+	* lib/numru/interpolate.rb:
+	  * added new methods GPhys#mouse_cut GPhys#mouse_cut_repeat
+	    * mouse_cut: makes a subset interactively by specifying
+	      a (poly-)line on the DCL window
+	    * mouse_cut_repeat: interpolation onto grid points
+	      specified by the previous call of GPhys#mouse_cut
+	  * minor change in dimension ordering.
+	  * to accept values with missing (but data missing treatment
+	    has not been supported -- currently just ignored).
+	* interpo.c: debug
+	* lib/numru/gphys/grid.rb: set_axis was changed to renew the axis name
+
+M	ChangeLog
+M	interpo.c
+A	lib/numru/dcl_mouse.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/interpolate.rb
+
+2010-02-04  horinout 
+Thu Feb  4 2010  T Horinouchi
+	* lib/numru/interpolate.rb, interpo.c: coverage broadened / debug
+
+M	ChangeLog
+M	interpo.c
+M	lib/numru/gphys/interpolate.rb
+
+2010-02-01  horinout 
+Mon Feb  1 2010  T Horinouchi
+	* lib/numru/interpolate.rb: [newly added] defines
+	  a new method GPhys#interpolate in a separate file.
+	  (Wide-purpose multi-dimensional linear interpolation)
+	* interpo.c: [newly added] C extension to support
+	  GPhys#interpolate. This file provides only private methods.
+	* ext_init.c: Modfied to call the initiation method in
+	  interpo.c.
+	* lib/numru/gphys.rb: Modified to require numru/gphys/interpolate;
+	  Also, to require numru/gphys_ext is made mandatory (from optional).
+
+M	ChangeLog
+M	ext_init.c
+A	interpo.c
+M	lib/numru/gphys.rb
+A	lib/numru/gphys/interpolate.rb
+
+2010-01-29  horinout 
+Mon Jan 29 2010  T Horinouchi
+	* lib/numru/grid.rb: added a new method coord_dim_indices
+	  (test part is written in lib/numru/assoccoords.rb)
+
+        * ggraph.rb: minor change in an error message
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/grid.rb
+
+2010-01-13  horinout 
+Wed Jan 13 2010  T Horinouchi
+        * lib/numru/ggraph.rb: added a new method color_scatter
+	  (to draw a scatter diagram colored by values)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2010-01-05  horinout 
+Tue Jan 05 2010  T Horinouchi
+        * lib/numru/ggraph.rb: added a new method scatter
+	  (to draw a scatter diagram)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2009-09-30  takepiro 
+* bin/gpvect: option --nocolorbar and --nozero added.
+
+M	ChangeLog
+M	bin/gpvect
+
+2009-08-07  horikawa 
+* lib/numru/gphys/gphys_hdfeos5_io.rb: _sw_open bug fix
+* lib/numru/ggraph.rb: profile,timeplot were modified.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2009-07-29  otsuka 
+bug fix for GrADS
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2009-07-28  koshiro 
+	* Fixed ChangeLog.
+
+M	ChangeLog
+
+2009-07-27  koshiro 
+Mon Jul 27 2009 T Koshiro
+        * DCLExt.color_bar:
+          * added a new option "inffact": to specify the factor to change the
+            length of triangle on the side for infinity (relative to 'vwidth').
+          * added a new option "units_voff" and "title_voff": to specify the
+            offset value from the default position in the V coordinate.
+          * changed default position of units and default character size of
+            title.
+          * bug fix for "log"=>true.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2009-07-22  otsuka 
+* bug fix for NuSDaS
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2009-07-08  koshiro 
+Wed Jul  8 2009 T Koshiro
+	* lib/numru/ggraph.rb: GGraph::axes
+	  options "xmaplabel","ymaplabel": default values change
+
+M	lib/numru/ggraph.rb
+
+2009-07-02  horinout  (gphys-0_7_0)
+
+Sorry!!
+
+Thu Jul  2 2009 T Horinouchi
+	* gphys-0.7.0 re-released (cvs tag gphys-0_7_0)
+	* lib/numru/gphys/narray_ext.rb : _dump / _load implementation
+	  was modified.
+
+M	ChangeLog
+M	lib/numru/gphys/narray_ext.rb
+
+2009-07-02  horinout 
+	* gphys-0.7.0 released (cvs tag gphys-0_7_0)
+
+M	ChangeLog
+
+2009-07-02  horinout 
+Thu Jul  2 2009 T Horinouchi
+	* lib/numru/gphys/gphys.rb : made the #marshal_load and
+	  #marshal_dump methods public. Added test code of them
+	* lib/numru/gphys/narray_ext.rb : Newly created. To support
+	  marshaling.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+A	lib/numru/gphys/narray_ext.rb
+
+2009-07-02  seiya 
+* add #marshal_load and #marshal_dump methods
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2009-07-02  horinout 
+	* lib/numru/vizshot.rb : removed (moved into the new
+	  project gfdnavi_utils)
+
+M	ChangeLog
+D	lib/numru/vizshot.rb
+
+2009-07-01  horinout 
+* minor update in the test part (to prevent an error when gphys_ext is
+  not installed.)
+
+M	lib/numru/ggraph.rb
+
+2009-07-01  horinout 
+	* lib/numru/gphys.rb : to require "gphys_ext" if installed
+
+M	ChangeLog
+M	lib/numru/gphys.rb
+
+2009-07-01  horinout 
+	* lib/numru/ggraph.rb : added the "auto" option to GGraph::tone
+
+M	lib/numru/ggraph.rb
+
+2009-07-01  horinout 
+* minor bug fix.
+
+M	ChangeLog
+M	lib/numru/gphys/gtool3.rb
+M	lib/numru/gphys/varraygtool3.rb
+
+2009-07-01  otsuka 
+revert
+
+M	lib/numru/ggraph.rb
+
+2009-06-25  otsuka 
+add map_axis option to tone and contour
+
+M	lib/numru/ggraph.rb
+
+2009-05-18  otsuka 
+a bug fix to prevent endless loop
+
+M	ChangeLog
+M	lib/numru/gphys/varraynetcdf.rb
+
+2009-05-06  mizuta 
+
+May  6 2009 R Mizuta
+  * lib/numru/gphys/grads_gridded.rb:
+    tentatibe support for "pdef"
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2009-04-28  tomoba 
+Tue Apr 28 2009 A tomobayashi
+        * lib/numru/gphys/gphys_hdfeos5_io.rb:
+          enable to read Zonal Average structure.
+        * lib/numru/gphys/varrayhdfeos5.rb:
+          make a new class "VArrayHE5ZaField".
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2009-04-27  horinout 
+Mon Apr 27 2009  T Horinouchi
+	* lib/numru/gphys/gphys_io.rb: added a new method
+	  GPhys::IO.str2gphys.
+	* lib/numru/ggraph.rb:
+	  * ggraph methods (contour etc): enhanced to accept strings
+	    to specify a GPhys -- Longer need to call GPhys::IO.open
+	    in advance
+	  * ggraph methods (contour etc): added new options "slice",
+	    "cut", and "mean" -- this is to supplement the enhancement
+	    above. Also, one can unify subsetting calls for the 2
+	    vector components.
+	  * eliminated unsed options (don't know why they are introduced)
+	  * tone: added the "color_bar" option for quick look.
+	    -- for full control, you should still use GGraph.color_bar
+	    separately.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2009-04-27  horinout 
+Mon Apr 27 2009  T Horinouchi
+	* Added a gtool3 support
+	  * Added files: gtool3.rb, gphys_gtool3_io.rb, gphys_gtool3_io.rb
+	    (in lib/numru/gphys/)
+	    * Note: gtool3.rb is in pure Ruby. Though it's reasonably
+	      fast, in future I would like to have a C-extension
+	      library that generally handles regularly structured
+	      binary files (incl. fortran unformatted files)
+	      as a common low-level library for GrADS, GRIB, etc.
+	  * lib/numru/gphys/gphys_io.rb: added the Gtool3 support.
+
+M	ChangeLog
+A	lib/numru/gphys/gphys_gtool3_io.rb
+M	lib/numru/gphys/gphys_io.rb
+A	lib/numru/gphys/gtool3.rb
+A	lib/numru/gphys/varraygtool3.rb
+
+2009-04-23  tomoba 
+Mon Apr 23 2009 A tomobayashi
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * remove "Regexp" from error message in __interpret_files method.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2009-04-23  tomoba 
+Mon Apr 23 2009 A tomobayashi
+	* lib/numru/gphys/varrayhdfeos5.rb:
+	  * replace get_att_names method to att_names.
+
+M	ChangeLog
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2009-04-19  tomoba 
+Mon Apr 20 2009 A tomobayashi
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * corrected an error message for truely multidimensional longitudes/latitudes.
+	  * has_swath? and has_grid? methods come to be used again.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2009-04-15  tomoba 
+Thu Apr 16 2009 A tomobayashi
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  corrected how to select variables for making axes in reading grid structure.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2009-04-13  horinout 
+Mon Apr 13  2009  T Horinouchi
+	* lib/numru/gphys/attribute.rb: made the methods merge and update
+	  public
+
+M	ChangeLog
+M	lib/numru/gphys/attribute.rb
+
+2009-04-13  tomoba 
+* update ChangeLog.
+
+M	ChangeLog
+
+2009-04-13  horinout 
+Mon Apr 13  2009  T Horinouchi
+	* lib/numru/gphys/varray.rb, lib/numru/gphys/varraycomposite.rb
+	  * debug : TypeErroor --> TypeError in a raise call
+	    (varray.rb)
+	  * minor change in a private method __ntype (to take typecode
+	    directly as the argument rather than to call arg.typpecode
+	    inside) (varray.rb, varraycomposite.rb)
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2009-04-06  tomoba 
+* enable to read grid structure.
+* make a new class "VArrayHE5GdField".
+
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2009-03-26  horikawa 
+changed struct HE5SwField (VALUE file -> VALUE swath)
+
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2009-03-14  seiya 
+
+* add associate coordinate
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2009-03-11  seiya 
+* bugfix
+* not raise but just warn when try to open GRIB2 file
+
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/grib.rb
+
+2009-03-09  seiya 
+
+* bugfix
+  * error when an index is negative
+
+M	lib/numru/gphys/grib.rb
+
+2009-01-20  mizuta 
+    * lib/numru/gphys/axis.rb, unumeric.rb, grads_gridded.rb:
+      support 365_day calendar (i.e. no leap year) for NetCDF and GrADS
+    * lib/numru/ggraph.rb:
+      support 365_day calendar for time axis
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/unumeric.rb
+
+2009-01-15  uwabami 
+* RD document modified for create man pages
+  * untabified indent
+
+M	bin/gpvect
+M	bin/gpview
+
+2009-01-14  seiya 
+
+* add ganalysis module
+  * eof
+  * histogram
+  * covariance
+* add sample
+  * eof
+
+A	lib/numru/ganalysis.rb
+A	lib/numru/ganalysis/covariance.rb
+A	lib/numru/ganalysis/eof.rb
+A	lib/numru/ganalysis/histogram.rb
+A	test/eof_slp.rb
+
+2009-01-14  otsuka 
+typo? ('raise nil' -> 'return nil'; please revert if not)
+
+M	lib/numru/gphys/varray.rb
+
+2008-12-14  takepiro 
+Sun Dec 14  2008  S Takehiro
+	* bin/gpview: --mark option implemented
+
+M	ChangeLog
+M	bin/gpview
+
+2008-10-20  seiya 
+
+* add alias :open :new
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2008-10-12  otsuka 
+bugfix for reading multiple netcdf files with assoc_coords
+
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/netcdf_convention.rb
+
+2008-08-01  otsuka 
+* lib/numru/ggraph.rb: ruby 1.9 compatibility
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2008-07-18  horikawa 
+HE5_IO::_sw_open : renamed var0.file to var0.swath
+
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-17  horinout 
+Mon Jul 14  2008  T Horinouchi
+        * lib/numru/gphys/varrayhdfeos5.rb: to use HE5SwField#get_att
+          instead of HE5SwField#att (which was deprecated).
+
+M	ChangeLog
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2008-07-17  otsuka 
+* extconf.rb: code for cygwin added.
+
+M	ChangeLog
+M	extconf.rb
+
+2008-07-17  otsuka 
+* lib/numru/gphys/attribute.rb: ruby 1.9 compatibility
+
+M	ChangeLog
+M	lib/numru/gphys/attribute.rb
+
+2008-07-14  horinout 
+* minor debug
+
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-14  horinout 
+Mon Jul 14  2008  T Horinouchi
+	* lib/numru/ggraph.rb: definition of @@[line|mark|vector]_options
+	  were moved outside the [line|mark|vector] methods.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2008-07-14  horinout 
+Mon Jul 14  2008  T Horinouchi
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * HE5_IO::open (actually HE5_IO::_sw_open) was modified
+	    to use AssocCoords
+	* lib/numru/gphys/grid.rb:
+	  * deprecated unused methods
+	    exclude, change_axis!, insert_axis, insert_axis!
+          * added assoc coord support to Grid#transpose
+	    Grid#change_axis, Grid#delete_axes
+	* lib/numru/gphys/assoccoords.rb: addde a new method
+	  AssocCoords#subset_having_axnames
+
+M	ChangeLog
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/grid.rb
+
+2008-07-14  horinout 
+Mon Jul 14  2008  T Horinouchi
+	* lib/numru/gphys/grid.rb: added Grid#cut_assoccoord
+	* lib/numru/gphys/gphys.rb: GPhys#cut : support assoc coords --
+	  when the argument is a Hash, one can specify associated
+	  coordinates as well as the regular axes.
+	* lib/numru/gphys/assoccoords.rb: addition was made to the test part
+	* lib/numru/ggraph.rb: addition was made to the test part
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2008-07-13  horinout 
+Sat Jul 12  2008  T Horinouchi
+	* lib/numru/gphys/varrayhdfeos5.rb : VArrayHE5SwField#shape
+	  was improved in response to the debug of ruby-hdfeos5
+
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2008-07-12  horinout 
+Sat Jul 12  2008  T Horinouchi
+	* lib/numru/gphys/netcdf_convention.rb : started CF convention
+	  support, which is set to be the default convention.
+	* lib/numru/gphys/gphys_netcdf_io.rb : supported assoc coords
+	* lib/numru/gphys/grid.rb,lib/numru/gphys/gphys.rb : minor update
+	* lib/numru/gphys/assoccoords.rb: added some methods
+	* testdata/assoc_crds.nc : added (renamed output from
+	  assoccoords.rb)
+
+M	ChangeLog
+M	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/netcdf_convention.rb
+A	testdata/assoc_crds.nc
+
+2008-07-12  horinout 
+Sat Jul 12  2008  T Horinouchi
+	* lib/numru/ggraph.rb:
+	  * Refactoring of GGraph::vector :
+	    shortened by using axes_or_map_and_ttl.
+	  * introduced data_prep_2D and data_prep_1D to do common
+	    works in graphic methods.
+	  * Many changes to support itr==51
+Fri Jul 11  2008  T Horinouchi
+	* lib/numru/gphys/grid.rb:
+	  * to use AssocCoords, along with many new methods such as
+	    set_assoc_coords
+	  * made Grid#coord
+	* lib/numru/gphys/gphys.rb:
+	  * GPhys#coord was changed to simply use Grid#coord
+	  * made many methods to be forwared to the new methods of Grid
+	  * Changed GPhys#grid to be public (it has been protected),
+	    since a grid is not just a container of axes any more.
+	    But forwarding will be continued. So basically,
+	    it would not be needed to use it.
+	* lib/numru/gphys/assoccoords.rb: test part enhanced, etc
+
+Fri Jul  4  2008  T Horinouchi
+	* lib/numru/gphys/assoccoords.rb: created -- to support "assocated
+	  coordinates", which can be multi-dimensional.
+	* extconf.rb: created
+	* ext_coord.c: created -- extension library to speed up coordinate handling
+	* ext_init.c: created -- just a starter of extention libraries
+
+M	ChangeLog
+A	ext_coord.c
+A	ext_init.c
+A	extconf.rb
+M	lib/numru/ggraph.rb
+A	lib/numru/gphys/assoccoords.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2008-07-02  horinout 
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * Changed according to the recent change in hdfeos5.rb
+	    (HE5SwField#dim_names was reversed)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-02  horinout 
+Wed Jul  2  2008  T Horinouchi
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * Introduced PredefCoordNames, from which GPhys::HE5_IO::open
+	    select coordinate variables if found. Also, it was
+	    changed to look for 1D data fields if no geolocation
+	    field for a dimension is found.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-01  horinout 
+Tue Jul  1  2008  T Horinouchi
+	* lib/numru/gphys/varrayhdfeos5.rb: Changed not to do buffering --
+	  This part was for NetCDF, which has the define mode and
+	  the data mode. I do not know whether a similar buffering
+	  would be desirable or not.
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * A minor refactoring of IO::write
+	  * Edited the test part at the bottom of the file
+	    * Now it passes!
+	    * But, actually, I have commented out a latter half of it.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/varrayhdfeos5.rb
+
+2008-07-01  horinout 
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * Refactoring of HE5_IO::open : Division was made for
+	    each grid type. Now the main part of the old open
+	    is separated in the private method _sw_open
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-01  horinout 
+	* lib/numru/gphys/gphys_hdfeos5_io.rb:
+	  * Refactoring of HE5_IO::open -- the behavior should
+	    be identical, but the source has got much shorter.
+	    (This is to prepare for modification to improve.)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+
+2008-07-01  horinout 
+* update
+
+M	ChangeLog
+
+2008-07-01  horinout 
+* lib/numru/gphys/gphys_hdfeos5_io.rb:
+  * change due to a debug of hdfeos5.rb (swath_names? --> swath_names)
+  * Changed the delimiter between swath names and variable names
+    from "." to "/"
+
+* lib/numru/gphys/gphys_io.rb:
+  * file2type : to support HE5Sw in addition to HE5
+
+M	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2008-04-22  horinout 
+Tue Apr 22  2008  T Horinouchi
+	* gphys_io.rb: Changed to make the HDF-EOS5 support optional:
+	  get around the load error of the HDF-EOS5 interface
+	  (NumRu::HE5).
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io.rb
+
+2008-04-22  horikawa 
+Tue Apr 22  2008  M Horikawa
+     * lib/numru/gphys/gphys_hdfeos5_io.rb: added for hdfeos5
+     * lib/numru/gphys/varrayhdfeos5.rb: added for hdfeos5
+     * lib/numru/gphys/gphys_io.rb: modified for hdfeos5
+     * lib/numru/ggraph.rb: added new methods profile, timeplot
+                            modified @@contour_options, @@tone_options
+     * lib/numru/vizshot.rb: added new methods profile, timeplot
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+A	lib/numru/gphys/gphys_hdfeos5_io.rb
+M	lib/numru/gphys/gphys_io.rb
+A	lib/numru/gphys/varrayhdfeos5.rb
+M	lib/numru/vizshot.rb
+
+2008-04-04  horinout 
+* documents updated.
+
+M	ChangeLog
+M	doc/ggraph.html
+M	doc/gphys.html
+M	doc/gphys_io.html
+M	doc/gpview.html
+M	doc/grib.html
+M	doc/unumeric.html
+
+2008-04-03  takepiro 
+Thu Apr  3  2008  S Takehiro
+        * bin/gpview: option --nocolorbar and --nozero implemented
+
+M	bin/gpview
+
+2008-03-25  seiya 
+
+* bugfix for color_bar, which has made an error when values are constant
+
+M	lib/numru/ggraph.rb
+
+2008-03-25  seiya 
+
+* bugfix
+
+M	lib/numru/gphys/grib.rb
+
+2008-03-25  seiya 
+
+* bugfix
+
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2008-03-21  seiya 
+
+* support parameter table for JMA
+
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2008-03-01  horinout  (gphys-0_6_1)
+* to release 0.6.1
+
+M	ChangeLog
+
+2008-02-24  otsuka 
+update of ChangeLog
+
+M	ChangeLog
+
+2008-02-24  otsuka 
+ruby 1.9 compatibility on windows
+
+M	lib/numru/gphys/grads_gridded.rb
+
+2008-02-15  seiya 
+
+* bugfix
+
+M	lib/numru/vizshot.rb
+
+2008-02-14  takepiro 
+Thu Feb  14  2008  S Takehiro
+        * gphys_io.rb: parse_gturl and open_gturl interpret position setting
+	  as grid numbers rather than physical coordinates
+	  when the position specifiers begin with "^".
+	* gpcommon.rb: copy_global_att can deal with GPhys
+	  which consists of multiple files.
+
+M	ChangeLog
+M	lib/numru/gphys/gpcommon.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2008-02-12  seiya 
+
+* bugfix
+
+M	lib/numru/gphys/grib.rb
+
+2008-02-12  seiya 
+
+* change for better performance
+  * str2uint -> str2uint(1|2|3)
+  * str2int -> str2int(1|2|3)
+
+M	lib/numru/gphys/grib.rb
+
+2008-02-12  seiya 
+
+* bugfix
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2008-02-12  mizuta 
+
+Tue Feb  12  2008  R Mizuta
+    * axis.rb: changes corresponding to the added methods in unumeric.rb
+
+M	ChangeLog
+
+2008-02-12  mizuta 
+
+Tue Feb  11  2008  R Mizuta
+    * axis.rb: changes corresponding to the added methods in unumeric.rb
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2008-02-12  seiya 
+
+* grib.rb : minor change for better performance
+* gphys_nusdas_io.rb : changes for new version of ruby-nusdas
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_nusdas_io.rb
+M	lib/numru/gphys/grib.rb
+
+2008-02-11  horinout 
+Mon Feb  11  2008  T Horinouchi
+	* unumeric.rb : added a new class method UNumeric::from_date
+	  and a method UNumeric#to_datetime. Changed UNumeric#strftime
+	  to use UNumeric#to_datetime.
+
+M	ChangeLog
+M	lib/numru/gphys/unumeric.rb
+
+2008-02-11  horinout 
+Mon Feb  11  2008  T Horinouchi < R Mizuta
+        * axis.rb: Axis#cut : to support Date and DateTime
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2008-02-11  horinout 
+ Feb  8  2008  T Horinouchi
+  commited the following changes, which haven't been commited yet
+  (latest changes in ggraph.rb were merged):
+  Wed Dec 26  2007  T Horinouchi
+	* lib/numru/ggraph.rb: GGraph::annotate : added new argument
+	  noff (nil=default or Integer) to make it suitable to
+	  consecutive (separate) calls
+	* axis.rb : added new class methods Axis.strftime_fmt= and
+	  Axis.strftime_fmt to specify (or get) the format of strftime
+	  used in Axis#[]
+	* unumeric.rb : added new method strftime.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/unumeric.rb
+
+2008-02-10  otsuka 
+bug fix
+
+M	install.rb
+
+2008-02-09  seiya 
+
+* add '.grb' to @@grib_pattern
+* minor changes for performance
+
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/grib.rb
+
+2008-02-08  otsuka 
+* ruby 1.9 compatibility
+
+M	ChangeLog
+
+2008-02-08  otsuka 
+* ruby 1.9 compatibility
+
+M	install.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/subsetmapping.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2008-02-08  koshiro 
+* ggraph.rb: DCLExt.color_bar: bug fix for drawing bar frame
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2008-02-08  koshiro 
+* ggraph.rb: DCLExt.color_bar: added a new option "labels_ud":
+  to specify user-defined labels for replacing the default labels
+  (Array of String)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2008-02-07  koshiro 
+* ggraph.rb: DCLExt.color_bar: added new options and fixed bugs.
+  * added new option: "title", "units", and "charindex"
+  * no tick lines are drawn if opt["tickintv"] == 0
+  * no labels are drawn if opt["labelintv"] == 0
+  * option "index" is validated for frame and tick lines regardless of opt["constwidth"] setting
+  * fixed the length of the color bar with opt["constwidth"] == true
+  * fixed other small bugs
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2008-01-30  seiya 
+
+* bugfix in varraynusdas
+
+M	lib/numru/gphys/varraynusdas.rb
+
+2008-01-30  mizuta 
+
+Wed Jan 30  2008  R Mizuta
+	* grads_gridded.rb: bug fix for reading sequential binary file.
+	* varraygrads.rb: minor bug fix for writing control file.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2008-01-29  seiya 
+
+* add some definitions to variables table of ECMWF 162
+
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2008-01-28  seiya 
+
+* bugfix in gphys_nusdas_io.rb
+
+M	lib/numru/gphys/gphys_nusdas_io.rb
+
+2007-12-25  horinout 
+Tue Dec 25  2007  T Horinouchi
+	* lib/numru/ggraph.rb: added new options.
+	  * GGraph.fig: eqdistvpt, round0, round1
+	  * GGraph.line, GGraph.mark: map_axes
+	    * in doing so, introduced a new method axes_or_map_and_ttl,
+	      which is now commonly called in contour, tone, mark & line.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-12-14  seiya 
+
+* add support for NuSDaS
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io.rb
+A	lib/numru/gphys/gphys_nusdas_io.rb
+A	lib/numru/gphys/varraynusdas.rb
+
+2007-12-03  horinout 
+Mon Dec  3  2007  T Horinouchi
+	* varray.rb: improvement for NArray_type3_methods : not to fail
+	  if the result is nil.
+          (also updated ggraph.rb accordingly)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/varray.rb
+
+2007-12-03  horinout 
+Mon Dec  3  2007  T Horinouchi
+	* lib/numru/ggraph.rb: improvement in GGraph::fig: To avoid
+	  the internally defined DCL window to have xmin==xmax or ymin==ymax.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-12-03  horinout 
+Mon Dec  3  2007  T Horinouchi < S Nishizawa
+	* lib/numru/vizshot.rb: revised VizShot#plot not to fail with opendap
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2007-11-27  horinout 
+* added class method has_plot_method?
+
+M	lib/numru/vizshot.rb
+
+2007-11-27  horinout 
+Tue Nov 27  2007  T Horinouchi
+	* lib/numru/vizshot.rb: supported extensions, thanks to S. Nishizawa
+Tue Nov 27  2007  T Horinouchi
+	* gphys.rb: added a new method first3D
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/vizshot.rb
+
+2007-10-25  mizuta 
+
+Thu Oct 25  2007  R Mizuta
+	* grads_gridded.rb: bug fix for template in the grads control file.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2007-08-28  horinout 
+Tue Aug 28  2007  T Horinouchi < dennou-ruby:002830
+	* ggraph.rb: (debug) DCLExt.color_bar: to call DCL.uwsgxz(false)
+	  and DCL.uwsgyz(false) after calling DCL::uwsgxa and DCL::uwsgya.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-08-16  horinout  (gphys-0_6_0)
+* regenerated.
+
+M	doc/axis.html
+M	doc/ggraph.html
+M	doc/gphys_fft.html
+M	doc/grads_gridded.html
+
+2007-08-16  horinout 
+Thu Aug 16  2007  T Horinouchi
+	* gphys-0.6.0 released (cvs tag gphys-0_6_0)
+
+M	ChangeLog
+
+2007-08-14  horinout 
+Tue Aug 14  2007  T Horinouchi
+	* ggraph.rb: DCLExt::level_chval_fmt : improved the automatic
+	  label-format determination algorithm for |dx|<1e-6
+	  (essentially a debug).
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-07-27  horinout 
+Fri Jul 27  2007  T Horinouchi
+	* gdir.rb: fixed bugs in list_*_v when called with a path argument.
+
+M	ChangeLog
+M	lib/numru/gdir.rb
+
+2007-07-26  horinout 
+Thu Jul 26  2007  T Horinouchi
+	* gphys_netcdf_io.rb, gphys_io.rb: to make a record in the NetCDF
+	  global attribute 'history' in each_along_dims_write. (Before that,
+	  history recording is made only with the write method.)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2007-07-26  horinout 
+Thu Jul 26  2007  T Horinouchi
+	* gphys_netcdf_io.rb: NetCDF_IO::write : changed to write command
+	  name (File.basename($0)), rather than the method name, to the
+	  global attribute 'history'.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2007-07-25  horinout 
+Wed Jul 25  2007  T Horinouchi
+	* ggraph.rb: improved default color-bar labeling for log-scale:
+	  to simply use chval format 'b', rather than using
+	  level_chval_fmt, which is optimized for equal spacing.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/subsetmapping.rb
+
+2007-07-24  horinout 
+Tue Jul 24  2007  T Horinouchi
+	* axis.rb: added a new class method Axis.humane_message=
+	  to disable the humane messaging by [] (By defalut,
+	  lost time axis info is expressed in a chronological
+	  yyyy-mm-... form, which may be unwanted.)
+	* subsetmapping.rb: to use Array#values_at instead of
+	  Array#indices, which is obsolete and warned in Ruby 1.8.
+	  (note: Array#values_at is a ruby 1.8 feature.)
+	* varray.rb: VArray#val: to support negative array index
+	  with step (by using Hash) for NArray-type data.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/subsetmapping.rb
+M	lib/numru/gphys/varray.rb
+
+2007-07-18  morikawa 
+Wed Jul 18  2007  Y Morikawa
+        * bin/gpedit: Create or overwrite the attributes of a variable
+          specified by a gtool4-type URL (Only netCDF files are supported).
+
+M	ChangeLog
+
+2007-07-18  morikawa 
+Wed Jul 18  2007  Y Morikawa
+        * bin/gpedit: Create or overwrite the attributes of a variable
+          specified by a gtool4-type URL (Only netCDF files are supported).
+
+A	bin/gpedit
+
+2007-07-17  takepiro 
+Tue Jul 17  2007  S Takehiro
+        * lib/numru/ggraph.rb: demo for GGraph::vector and 'flow_itr5' option
+          (vector filed plotting on the polar corrdinate) added.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-07-06  takepiro 
+Tue Jul 6  2007  S Takehiro
+        * lib/numru/ggraph.rb: optional branch position of 'flow_itr5' and
+          'flow_vect' are exchanged in GGraph::vector.
+          In GGraph::title, action of the case of itr==5 changed.
+          In flow_itr5, unit_vector option is added.
+        * bin/gpvect: commnad for 2D vector field plotting, optionally with
+          contour/tone of scalar field newly created.
+
+M	ChangeLog
+A	bin/gpvect
+M	lib/numru/ggraph.rb
+
+2007-07-05  mizuta 
+
+Thu Jul 5  2007  R Mizuta
+  * grads_gridded.rb: added support for template %m1,%d1,%h1,%h2,%n2
+    in the control file.
+  * lib/numru/dclext_datetime_ax.rb: bug fixed
+    (save and restore x/yfact, x/yoffset)
+
+M	ChangeLog
+M	lib/numru/dclext_datetime_ax.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2007-07-04  takepiro 
+Tue Jul 4   2007  S Takehiro
+        * lib/numru/ggraph.rb: Added a new method DCLExt.flow_itr5 to draw
+          a 2D vector filed on the polor coordinate. GGraph::vector was
+          modified to call this method.
+          GGraph::vector is fixed to perform the axes exchange before
+          rank inquirey.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-06-26  horinout 
+Tue Jun 26  2007  T Horinouchi
+	* lib/numru/vizshot.rb: Added a new tone_cont option
+	  "color_bar_options", which takes options of
+	  GGraph::color_bar as a Hash. To test it, try the test menu 6 by
+	    % ruby vizshot.rb 6
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2007-06-26  horinout 
+Tue Jun 26  2007  T Horinouchi
+	* lib/numru/vizshot.rb: Added a logarithmic color-bar option:
+	  * If a GGraph option 'log' is given to VizShot#tone_cont,
+	    it was made to be passed to GGraph::color_bar in addition
+	    to GGraph::tone etc.
+	    (Therefore, at this moment, only the "log" option
+	    of color_bar was supported. I'm also planning to
+	    support any color_bar options.)
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2007-06-25  horinout 
+Mon Jun 25  2007  T Horinouchi
+	* axis.rb Axis#[]
+	  * supported units compatible with "months" (e.g.
+	    year, pentad) with since fields.
+	  * debug and minor improvement of "day"-compatible
+	    units (second,hour,...) with since fields,
+	    which was supported on jun 21 2007.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2007-06-21  horinout 
+* error message was a bit more detailed.
+
+M	lib/numru/gphys/grads_gridded.rb
+
+2007-06-21  horinout 
+tmp
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2007-06-21  mizuta 
+
+Thu Jun 21  2007  R Mizuta
+    * grads_gridded.rb: error message when ctl file and binary
+      are inconsistent.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2007-06-20  horinout 
+Thu Jun 21  2007  T Horinouchi
+	* ggraph.rb: Added calendar-type time axis support.
+	  * Added new option "time_ax" for GGraph::axes, where
+	    * nil (defalut): Draws calendar-type time axis if
+	      the unit of an axis is time one with the "since"
+	      field (such as "hours since 2006-01-01").
+	      Auto selects "h" or "ymd" below, depending on the
+	      length of the period (current thres: 5 days).
+	    * false: Do not use the time axis regardless the units
+	    * 'h': When the units allow (see the description for nil),
+	      always use the hour-resolving time axis datetime_ax
+	      in dclext_datetime_ax.rb)
+	    * 'ymd': When the units allow (see the description for nil),
+	      always use the y-m-d type axis using DCL.uc[xy]acl.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-05-22  horinout 
+        * Sorry, minor debug in the new functionality.
+
+M	lib/numru/ggraph.rb
+
+2007-05-22  horinout 
+Tue May 22  2007  T Horinouchi
+	* ggraph.rb: Added a new option 'keep' in GGraph::contour,
+	  GGraph::tone, GGraph:vector (defalut val: false). If its value
+	  is set true, the contour levels / tone levels & patterns /
+	  vector scaling, respectively, are set to be the same
+	  as in the previous call. GOOD FOR ANIMATION.
+	  Also, a minor debug was made in contour -- handling of 'lmsg'
+	  in log scaling.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2007-05-09  horinout 
+Wed May 9  2007  T Horinouchi
+	* gphys.rb: GPhys#average etc (in Axis.defined_operations).
+	  debug not to cause error when the result is scalar
+	  (to return the scalar itself -- behavior unified with
+	  mean etc)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2007-04-24  horinout 
+Tue Apr 24  2007  T Horinouchi
+	* varray.rb: debug in replace_val (replace_val was not effective
+	  for subset VArray); added explicit error for VArray subclasses
+	  such as VArrayNetCDF.
+	* gphys_fft.rb: added the second argument replace_val to the class
+	  method fft_ignore_missing
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/varray.rb
+
+2007-03-16  horinout 
+Fri Mar 16  2007  T Horinouchi
+	* axis.rb: debuged the error message string at l.646
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2007-02-23  horinout  (gphys-0_5_4)
+Fri Feb 23  2007  T Horinouchi
+	* gphys-0.5.4 released (cvs tag gphys-0_5_4)
+
+Mon Dec 12  2006  T Horinouchi
+	* gphys_fft.rb: added a class method fft_ignore_missing: this is
+	  to set a flag (class variable) to ignore missing values.
+	  This is for data that actually do not have missing
+	  but is treated as potentially having missing (often
+	  by having the valid_* attributes of NetCDF.)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+
+2006-12-12  horinout 
+Mon Dec 12  2006  T Horinouchi
+	* ggraph.rb:
+	  * GGraph.tone,GGraph.contour: Added option 'log'
+	  * DCLExt : added new method quasi_log_levels and quasi_log_levels_z
+            (driver of quasi_log_levels with data values)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2006-12-11  horinout 
+Mon Dec 11  2006  T Horinouchi
+	* ggraph.rb: Added options 'legend' etc to GGraph.line and GGraph.mark
+	  to annotate the line/mark type and index (and size if mark).
+	  ('legend', 'legend_vx', 'legend_dx' (only for line), 'legend_vy',
+          'legend_size') By defualt it is shown in the right margin of vpt.
+	  'legend' is a String to show, or true to show the name of the
+	  current GPhys object.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2006-11-23  horinout 
+Fri Nov 24  2006  T Horinouchi
+	* lib/numru/vizshot.rb: debug to allow Regexp in :file & :file2
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2006-10-11  horinout 
+*** empty log message ***
+
+M	doc/ggraph.html
+
+2006-10-11  horinout 
+	* ggraph.rb: added documentation for (next|set)_(contour|tone)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2006-10-11  horinout  (gphys-0_5_3)
+	* gphys-0.5.3 released (cvs tag gphys-0_5_3)
+	* ggraph.rb: added new methods set_contour, next_contour,
+	  set_tone, and next_tone
+	* lib/numru/vizshot.rb: added new methods set_contour and set_tone
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/vizshot.rb
+
+2006-09-08  horinout 
+
+Sep  8  2006  T Horinouchi
+	* lib/numru/vizshot.rb: added new methods:
+	  * VizShot#add : to add plots in another VizShot non-destructively
+	    (also added are protected methods
+	    semi_deep_clone, and  plots (attr_reader))
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2006-08-31  horinout 
+  * to take care the swpack parameter fname
+  * improved handling of data paths
+
+M	lib/numru/vizshot.rb
+
+2006-08-31  horinout 
+   * very minor change in test menu 0
+
+M	lib/numru/vizshot.rb
+
+2006-08-31  horinout 
+	  * changed argument spec in execute and (gen|dump)_code*
+
+M	ChangeLog
+M	lib/numru/vizshot.rb
+
+2006-08-31  horinout 
+	* lib/numru/vizshot.rb <-- lib/numru/easyviz.rb : renamed
+
+D	lib/numru/easyviz.rb
+A	lib/numru/vizshot.rb
+
+2006-08-31  horinout 
+	  * support dump_code_and_data
+	  * windows -> ms_windows etc
+          * CAUTION:  I will probably rename EasyViz to something else
+
+M	lib/numru/easyviz.rb
+
+2006-08-31  horinout 
+	  * added replace_plot!
+
+M	lib/numru/easyviz.rb
+
+2006-08-31  horinout 
+	  * added dump_code
+	  * multiple frame support
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* improved map projection etc
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* minor change (iws=1 if not dump).
+* windows support -- maybe
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* added 1D plots
+* support GGraph options (just to path through GGraph::tone etc etc)
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* minor updates
+  * minor improvement for cut/slice
+  * added :cut examples in the test part
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* minor debug
+
+M	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+Wed Aug 30  2006  T Horinouchi
+	* lib/numru/easyviz.rb: added
+
+M	ChangeLog
+A	lib/numru/easyviz.rb
+
+2006-08-30  horinout 
+* added a new test data
+
+A	testdata/UV.jan.nc
+
+2006-08-28  horinout  (gphys-0_5_2)
+To release GPhys 0.5.2
+
+M	ChangeLog
+
+2006-08-23  horinout 
+Wed Aug 23  2006  T Horinouchi < T Koshiro [dennou-ruby:002687 & 002690]
+	* ggraph.rb: Applied the patches made by T Koshiro;
+	  * 002687: map-fitting (with option 'map_fit') and axes-drawing
+	    (with option 'map_axes') were made available
+	    simultaneously when itr=10.
+	  * 002690: added axis-drwaing options: 'xmaplabel', 'ymaplabel'
+	    better axis-labelling when itr==10, with 90E, 90W, etc instead
+	    of 90, 270, etc.
+	  * Added examples (graph 27-30) in the test part at the bottom.
+        * sample/ggraph_mapfit-axes_dr002687.rb: sample program by koshiro
+	* sample/ggraph_latlon_labelling_dr002690: sample program by koshiro
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+A	sample/ggraph_latlon_labelling_dr002690.rb
+A	sample/ggraph_mapfit-axes_dr002687.rb
+
+2006-08-15  horinout 
+Tue Aug 15  2006  T Horinouchi (ref: [dennou-ruby:002682] from koshiro)
+	* attribute.rb: better error message in Attribue#[]=
+
+M	ChangeLog
+M	lib/numru/gphys/attribute.rb
+
+2006-08-15  horinout 
+Tue Aug 15  2006  T Horinouchi (ref: [dennou-ruby:002682] from koshiro)
+	* sample/cira86_to_nc.rb: debug
+
+M	ChangeLog
+M	sample/cira86_to_nc.rb
+
+2006-08-15  horinout 
+Tue Aug 15  2006  T Horinouchi (ref: [dennou-ruby:002681] from nishizawa)
+	* gphys.rb: GPhys#each_along_dims
+	  * corrected to support NArrayMiss in addition to NArray
+	  * the sencond argument is allowed to be an empy array, which
+            is a trivial case with no need for this method but
+	    is supported for generality in terms of programming.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2006-08-15  horinout 
+Tue Aug 15  2006  T Horinouchi
+	* grid.rb: corrected the document for Grid#cut
+
+M	ChangeLog
+M	doc/axis.html
+M	doc/ggraph.html
+M	doc/gpcat.html
+M	doc/gpcut.html
+M	doc/gplist.html
+M	doc/gpmath.html
+M	doc/gpmaxmin.html
+M	doc/gpprint.html
+M	doc/gpview.html
+M	doc/grads_gridded.html
+M	doc/grib.html
+M	doc/grid.html
+M	doc/varray.html
+M	lib/numru/gphys/grid.rb
+
+2006-07-31  mizuta 
+Mon Jul 31  2006  R Mizuta
+    * ggraph.rb: color_bar: support option 'chval_fmt' with using
+          option 'constwidth'.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2006-06-14  horinout 
+Wed Jun 14  2006  T Horinouchi
+	* gphys.rb: replaced .is_a?(GPhys) with .respond_to?(:grid),
+	  since it causes troubles in binary operations through dRuby.
+
+?? may? 2006  S Nishizawa (logging forgotten; added by horinout on june 14)
+(Nishizawa-kun, please correct.)
+	* grib_params.rb, grib.rb: new parameters added...
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2006-05-15  seiya 
+
+grib.rb: change not to print warnimg of difference of time range
+
+M	lib/numru/gphys/grib.rb
+
+2006-05-02  seiya 
+
+grib_params.rb: update parameter's table
+                add variable definition of ECMWF128 (60, 152, 203)
+
+M	lib/numru/gphys/grib_params.rb
+
+2006-04-12  seiya 
+
+* grib.rb: change not to raise when time range is different
+           change not to raise when delta longitude is different
+
+M	lib/numru/gphys/grib.rb
+
+2006-03-24  horinout 
+Oops, I haven't saved it.
+
+M	lib/numru/ggraph.rb
+
+2006-03-24  horinout 
+Fri Mar 24  2006  T Horinouchi
+	* ggraph.rb: added option "no_new_fig" to GGraph::fig. (This made
+	  possible to set DCL parameters that are reset by grfrm or grfig
+	  such as the uspack parameters d[xy][tl])
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2006-03-07  takepiro 
+Tue Mar  7  2006  S Takehiro < M Nakano
+	* bin/gpmaxmin: USAGE Typo fixed.
+	* bin/gpview: option --int bug fixed
+
+M	ChangeLog
+M	bin/gpmaxmin
+M	bin/gpview
+
+2005-12-14  horinout 
+Wed Dec 14  2005  T Horinouchi < T Koshiro
+	* lib/numru/ggraph.rb: debug in the method axes [dennou-ruby:002541]
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-11-16  horinout 
+Thu Nov 17  2005  T Horinouchi
+	* lib/numru/dclext_datetime_ax.rb: debug axis label direction recovery
+
+M	ChangeLog
+M	lib/numru/dclext_datetime_ax.rb
+
+2005-11-09  mizuta 
+Wed Nov  9   2005  R Mizuta
+	* grads_gridded.rb: support 'byteswapped' option,
+	  become classes under NumRu module
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-11-07  mizuta 
+Mon Nov  7   2005  R Mizuta
+	* grads_gridded.rb, gphys_grads_io.rb: debug in reading variables
+	  with different number of vertical levels from ZDEF.
+	* grads_gridded.rb: minor modification in reading
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-10-30  takepiro 
+Tue Oct  31  2005   S Takehiro
+	* bin/gpview: option --smooth bug fixed.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-10-29  takepiro 
+Tue Oct  30  2005   S Takehiro
+        * bin/gpview: --animate option recoverd.
+
+M	ChangeLog
+
+2005-10-29  takepiro 
+Tue Oct  30  2005   S Takehiro
+        * bin/gpview: --animate option recoverd.
+
+M	bin/gpview
+
+2005-10-05  horinout 
+Wed Oct  5  2005   T Horinouchi
+	* ggraph.rb: color_bar: enhancement (& debug) of the modification on
+	  Sep 27 2005 to support trn > 5
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-09-27  horinout 
+Tue Sep 27  2005   T Horinouchi
+	* ggraph.rb: color_bar: to restore viewport, window, and trn at exit,
+	  so that one can overlay plots after showing a color bar.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-09-26  horinout 
+Mon Sep 26  2005   T Horinouchi
+	* ggraph.rb: color_bar added option 'chval_fmt' to override the
+	  internal automatic setting.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-09-26  horinout 
+Mon Sep 26  2005   T Horinouchi
+	* varray.rb: minor modification in binary operations for better
+	  error messaging.
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+
+2005-09-13  horinout 
+Tue Sep 13  2005   T Horinouchi
+	* lib/numru/dclext_datetime_ax.rb: added (it was developed
+	  separately at ~/davis/WORK/dcl/)
+
+M	ChangeLog
+A	lib/numru/dclext_datetime_ax.rb
+
+2005-09-13  horinout 
+Tue Sep 13  2005   T Horinouchi < T Koshiro
+	* grads_gridded.rb: debug in []
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-09-12  horinout 
+varray.rb: axis_cyclic? and axis_modulo: special treatment for degrees_east
+
+M	lib/numru/gphys/varray.rb
+
+2005-09-12  horinout 
+Mon Sep 12  2005   T Horinouchi
+	* gphys_netcdf_io.rb: added a test for the axis treatment (see below)
+	* axis.rb: added methods Axis#cyclic? and Axis#modulo.
+        * varray.rb: added methods VArray#axis_cyclic? and VArray#axis_modulo.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/varray.rb
+
+2005-09-12  horinout 
+Mon Sep 12  2005   T Horinouchi
+	* grid.rb:
+	  * refactoring: Grid.new -> self.class.new (for inheritance)
+	  * Grid#merge: avoid redunduncy in lost_axes
+
+M	ChangeLog
+M	lib/numru/gphys/grid.rb
+
+2005-09-09  horinout  (gphys-0_5_1)
+Fri Sep  9  2005   T Horinouchi
+	* gphys-0.5.1 released (cvs tag gphys-0_5_1)
+
+M	ChangeLog
+
+2005-08-29  horinout 
+Mon Aug 29  2005   T Horinouchi
+	* ggraph.rb: minor improvement when [xy]intv >= 2 (to plot at max
+	  num of grid points)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-08-23  takepiro 
+Tue Aug 23  2005
+	* lib/numru/gphys/gpcommon.rb: 'help' method bug fix.
+
+M	ChangeLog
+M	lib/numru/gphys/gpcommon.rb
+
+2005-08-23  takepiro 
+Tue Aug 23  2005
+	* bin/: gpaop craated
+	* bin/gp*, lib/numru/gphys/gpcommon.rb: common methods to bin/gp*
+	  command moved to gpcommon.rb.
+	* bin/gpview: multiple Gphys variables plotting and option --var
+	  implemented.
+	* bin/gpcut,gpcat,gpaop,gpmath: Global attributes are copied to
+	  the output ncfile when the input is NetCDF.
+
+M	ChangeLog
+A	bin/gpaop
+M	bin/gpcat
+M	bin/gpcut
+M	bin/gplist
+M	bin/gpmath
+M	bin/gpmaxmin
+M	bin/gpprint
+M	bin/gpview
+A	lib/numru/gphys/gpcommon.rb
+
+2005-08-21  takepiro 
+Sun Aug 21  2005   S Takehiro
+	* bin/: gpadd, gpsub, gpmulti, gpdiv removed.
+
+M	ChangeLog
+D	bin/gpadd
+D	bin/gpdiv
+D	bin/gpmulti
+D	bin/gpsub
+
+2005-08-21  takepiro 
+Sun Aug 21  2005   S Takehiro
+	* bin/: gpadd, gpsub, gpmulti, gpdiv created.
+
+M	ChangeLog
+A	bin/gpadd
+A	bin/gpdiv
+A	bin/gpmulti
+A	bin/gpsub
+
+2005-08-16  horinout 
+Tue Aug 16  2005   T Horinouchi
+	* varray.rb: Added VArray#reshape.
+	* axis.rb: Debug in Axis#integrate (in judgment for prodefined
+	  integration weight -- it was never to use a non-default one
+	  becasuse of a typo). Added Axis#integ_weigtht(=) and
+	  Axis#average_weighte(=)
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/varray.rb
+
+2005-08-10  takepiro 
+Tue Aug  10  2005   S Takehiro
+        * bin/gpmaxmin: locations having max and min values are displayed.
+          utilize internal function for printing help message.
+          --all, --index, --number options added.
+	* bin/gpcat, gpcut, gpmath, gpprint, gplist: utilize internal
+	  function for printing help message.
+
+M	ChangeLog
+M	bin/gpcat
+M	bin/gpcut
+M	bin/gplist
+M	bin/gpmath
+M	bin/gpmaxmin
+M	bin/gpprint
+
+2005-08-09  horinout 
+Tue Aug  9  2005   T Horinouchi
+	* doc/: updated
+
+M	ChangeLog
+M	doc/ggraph.html
+M	doc/gpmaxmin.html
+M	doc/gpview.html
+M	doc/grid.html
+M	doc/update
+
+2005-08-09  takepiro 
+Tue Aug  9  2005   S Takehiro
+	* bin/gpview: add option --help and help function < T Horinouchi,
+          URL information corrected.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-08-09  horinout 
+Tue Aug  9  2005   T Horinouchi
+	* ggraph.rb: contour,tone,vector: debug in the cyclic extention
+	  handling for itr==5.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-08-09  horinout 
+Tue Aug  9  2005   T Horinouchi
+	* ggraph.rb: contour,tone,vector: added option 'exchange', which
+	  is a synonym for 'transpose'.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-08-07  takepiro 
+Sat Aug  7  2005   S Takehiro
+	* bin/gpmaxmin: parse_gturl removed.
+	* bin/gpview: option --overplot implemented.
+
+M	ChangeLog
+M	bin/gpmaxmin
+M	bin/gpview
+
+2005-08-05  horinout 
+Fri Aug  5  2005   T Horinouchi
+	* grid.rb: Grid#ax_dim (protected method) changed to allow
+	  negative dimension
+	* install.rb: takehiro modification corrected
+
+M	ChangeLog
+M	install.rb
+M	lib/numru/gphys/grid.rb
+
+2005-08-01  seiya 
+
+* grib.rb: change not to be error when file contain unknow variables
+           bugfix when missing value exists
+* grib_params.rb: add new variables
+
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-07-27  horinout 
+Wed Jul 27  2005   T Horinouchi < M Nakano
+	* ggraph.rb: debug vector (to use yintv for y-axis)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-07-21  horinout 
+Thu Jul 21  2005   T Horinouchi
+ 	* bin/gdir_client: RD document commented out
+	* doc/index.rd: a link error corrected (gdir)
+	* doc/ updated
+	* lib/numru/gdir.rb:
+	  * rd document changed a bit
+	  * GDir#initialize : debug in abspath setting
+
+M	ChangeLog
+M	bin/gdir_client
+M	doc/gdir.html
+M	doc/gpcut.html
+M	doc/gpmath.html
+M	doc/gpmaxmin.html
+M	doc/gpview.html
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/gdir.rb
+
+2005-07-21  takepiro 
+Wed Jul 20  2005   S Takehiro
+	* recover install.rb from that for debian packaging.
+
+M	ChangeLog
+M	install.rb
+
+2005-07-15  takepiro 
+Wed Jul 15  2005   S Takehiro
+        * bin/gpview: option --noannotate implemented.
+	* bin/gpcut,gpmaxmin,gpmath: open_gturl method is used
+	  for opening gphys variable.
+
+M	ChangeLog
+M	bin/gpcut
+M	bin/gpmath
+M	bin/gpmaxmin
+M	bin/gpview
+M	install.rb
+
+2005-07-13  horinout 
+Wed Jul 13  2005   T Horinouchi
+	* varray.rb: eliminate an error in binary operations when data without
+	  missing is on the lefthand and data with missing is on the righthand.
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+
+2005-06-30  horinout 
+Thu Jun 30  2005   T Horinouchi
+        * gphys.rb : re-activated the correction disabled on June 21.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2005-06-23  takepiro 
+Wed Jun 23  2005   S Takehiro
+	* bin/gpview: debug, option --title implemented.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-06-22  horinout 
+Wed Jun 22  2005   T Horinouchi
+	* ggraph.rb: DCLExt::color_bar : labeling improved -- to show
+	  more digits if needed (for levels such as 1001,1002,1003,..).
+          (It was left to the uxypak default, chval fmt 'b', which uses only 3)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-06-22  takepiro 
+Tue Jun 22  2005   S Takehiro
+	* bin/gpview: debug, clipping control added to GGraph::annotate.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* doc/ updated.
+
+M	ChangeLog
+M	doc/gdir.html
+M	doc/gpcut.html
+M	doc/gplist.html
+M	doc/gpmaxmin.html
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/htdir.rb
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* lib/numru/gdir.rb: modified to accept DODS URLs by using
+	  lib/numru/htdir.rb (see below).
+	* lib/numru/htdir.rb: Created.
+	  class NumRu::GDir::HtDir : A class to treat the URL of a
+	  "directory" as a directory, with a special interpretation for DODS
+	  URL if requested.
+	* gphys_io.rb: GPhys::IO::file2type modified to treat URLs
+	  starting with 'http://' as NetCDF, hoping that it is treated
+	  as DODS extention of the NetCDF
+
+M	ChangeLog
+M	lib/numru/gdir.rb
+M	lib/numru/gphys/gphys_io.rb
+A	lib/numru/htdir.rb
+
+2005-06-21  horinout 
+Todays final commit regarding:
+
+Tue Jun 21  2005   T Horinouchi
+	* bin/gplist: modfied to use GDir
+
+M	bin/gplist
+
+2005-06-21  horinout 
+gplist modified -- I am very sorry. This is a quite minor debug of the
+portion I editted. TH
+
+M	bin/gplist
+
+2005-06-21  horinout 
+gplist further modified a little bit
+
+M	bin/gplist
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* bin/gplist: modfied to use GDir
+
+M	ChangeLog
+M	bin/gplist
+A	doc/gdir_server.html
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* doc/ updated
+
+A	doc/gdir_client.html
+
+2005-06-21  takepiro 
+doc/, bin/: gpcut, gpmaxmin comment fixed.
+
+M	ChangeLog
+M	bin/gpcut
+M	bin/gpmaxmin
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* doc/ updated
+	* bin/gdir_client: RD document added.
+
+M	ChangeLog
+M	bin/gdir_client
+A	doc/gdir_connect_ftp-like.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/update
+
+2005-06-21  takepiro 
+Fri Jun 21  2005   S Takeshiro
+	* bin: gpcut, gpcat, gplist, gpmath, gpmaxmin are created.
+	* doc: gpcut.html, gpcat.html, gplist.html, gpmath.html,
+	  gpmaxmin.html are created.
+
+M	ChangeLog
+A	bin/gpcat
+A	bin/gpcut
+A	bin/gplist
+A	bin/gpmath
+A	bin/gpmaxmin
+A	doc/gpcat.html
+A	doc/gpcut.html
+A	doc/gplist.html
+A	doc/gpmath.html
+A	doc/gpmaxmin.html
+
+2005-06-21  horinout 
+Tue Jun 21  2005   T Horinouchi
+	* gphys.rb : *temporarily* disabled the modification on Jun 16:
+	  >>  not to take
+	  >>    na_other = self.data.val.fill(other)
+          >>  which is inefficitent. But this would require a
+  	  by re-activating l.636 (be removing comment-out chars).
+	  Plus, a minor debug of an enbug on Jun 16.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2005-06-21  horinout 
+Fri Jun 17  2005   T Horinouchi < S Takeshiro
+	* bin/gpview: debug [dennou-ruby:002321], [dennou-ruby:002328(7)]
+Thu Jun 16  2005   T Horinouchi
+	* gphys.rb : GPhys#coerce modified
+	  * not to take
+	      na_other = self.data.val.fill(other)
+            which is inefficitent. But this would require a
+	    future new version of NArrayMiss
+	  * set nil to units of a Numric/NArray for
+	    correct units handling bor both add/sub and mlt/div (see below).
+	* varray.rb :
+	  * Binary_operators_Uconv (+,-,add!,sbt!) : to use other's units
+	    if 'units' attribute is emtpy (nil), rather than interpreting
+	    it as '1' (non-dimension).
+	  * collect a typo: sub!(which is non-exitent in NArray) --> sbt!
+	* grid.rb : added Grid#merge
+Wed Jun 15  2005   T Horinouchi < S Takeshiro
+	* bin/gpprint: debug [dennou-ruby:002321]
+
+M	ChangeLog
+M	bin/gpprint
+M	bin/gpview
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+
+2005-06-06  horinout 
+Mon Jun  6  2005   T Horinouchi < S Otsuka
+	* gphys_netcdf_io.rb: modified the edition of NetCDF_IO::open just
+	  before.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2005-06-06  horinout  (gphys-0_5_0)
+Mon Jun  6  2005   T Horinouchi
+	* gphys-0.5.0 released (cvs tag gphys-0_5_0)
+	* doc/: updated
+
+M	ChangeLog
+M	doc/axis.html
+M	doc/gphys_netcdf_io.html
+
+2005-06-06  horinout 
+Mon Jun  6  2005   T Horinouchi
+	* gdir_connect_ftp-like.rb: very minor change in URL handling
+	  (chomp -> strip)
+	* bin/gdir_server: changed the default behavior to allow
+	  connections only from the localhost. (You need specify
+	  -a hoge.hero.org or -a all etc. to accept remote hosts.)
+Mon Jun  6  2005   T Horinouchi < S Otsuka
+	* gphys_netcdf_io.rb: NetCDF_IO::open : improved handling of
+	  files without coordinate variables. (add "_#{dim}" to
+	  the automatically generated name "noname")
+
+M	ChangeLog
+M	bin/gdir_server
+M	lib/numru/gdir_connect_ftp-like.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2005-06-06  horinout 
+Mon Jun  6  2005   T Horinouchi
+	* gphys_io_common.rb: IO_Common::each_along_dims_write : changed to
+	  use the new grid obtained with *_IO::write_grid
+          [It solves the problem reported by T Koshiro
+          (Subject: GPhys::NetCDF_IO.each_along_dims_write
+          Date: Wed, 27 Apr 2005 11:00:40 +0900)]
+	* gphys_netcdf_io.rb: GPhys::NetCDF_IO::write_grid : changed
+	  to return a Grid object, in which all VArrays in the original
+	  grid are replaced with the new ones in the file (the return
+	  value used to be nil).
+	* axis.rb: added methods Axis#each_varray, Axis#collect.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys_io_common.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2005-05-30  horinout 
+Mon May 30  2005   T Horinouchi (thanks to T Koshiro)
+	* ggraph.rb: GGraph#(tone|contour|vector): debug in
+	  cyclic extension treatment; GGraph#map_trn?: modified
+	  to support the debug in tone etc.
+Wed May 25  2005   T Horinouchi
+	* grads_gridded.rb: GrADS_Gridded#parse_ctl: to use a bit simpler
+	  time representation
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-05-25  horinout 
+Wed May 25  2005   T Horinouchi
+	* grads_gridded.rb: GrADSVar#initialize: added attribute
+	  'missing_value', which is 'undef' in GrADS_Gridded.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-05-25  horinout 
+Wed May 25  2005   T Horinouchi
+	* grads_gridded.rb: GrADS_Gridded#parse_ctl: change in the
+	  relative path intepretation: to deal with path without
+	  '^' at the beginning (BEFORE: '^hoge' -> absolute path,
+	  'hoge' -> remained relative; AFTER: both -> absolute path.
+	  So you don't need to be at the data directory anymore.)
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-05-24  horinout 
+Tue May 24  2005   T Horinouchi
+	* grads_gridded.rb: GrADS_Gridded#get_dim: to use float for
+ 	  spacial dimensions as well as time.
+	  GrADSVar#vartype: to return 'float' for coordinate variables.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-05-24  horinout 
+Tue May 24  2005   T Horinouchi
+	* grads_gridded.rb: GrADSVar#initialize: to raise error if the
+	  variable name specified (varname) is not found in the ctl file.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-05-13  horinout 
+Added ChangeLog:
+	  (requires numru-misc-0.0.6 or later)
+
+M	ChangeLog
+
+2005-05-13  horinout 
+Fri May 13  2005   T Horinouchi
+	* ggraph.rb: Added method GGraph::tone_and_contour.
+	* bin/gdir_server: added option to explicitly specify host address
+	* gdir.rb: sort gdirs and texts in list_*; plus, a very minor change
+	* gdir_connect_ftp-like.rb: start_dcl: to call
+	  DCL.swpset('lwait',false) (if you don't like it, you don't need to
+	  use start_dcl.)
+
+M	ChangeLog
+M	bin/gdir_server
+M	doc/ggraph.html
+M	doc/index.html
+M	lib/numru/gdir.rb
+M	lib/numru/gdir_connect_ftp-like.rb
+M	lib/numru/ggraph.rb
+
+2005-05-10  horinout 
+Wed May 11  2005   T Horinouchi
+	* Merged gphys-remote-0.4 in gphys:
+	  * commands bin/gdir_server and bin/gdir_client
+	    (the former was renamed from gdir_server.rb in gphys-remote).
+	  * irb start-up file lib/numru/gdir_connect_ftp-like.rb
+            (renamed from gphys_connect_ftp-like.rb in gphys-remote).
+
+M	ChangeLog
+A	bin/gdir_client
+A	bin/gdir_server
+M	doc/gpview.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/update
+M	lib/numru/gdir.rb
+A	lib/numru/gdir_connect_ftp-like.rb
+
+2005-05-10  horinout 
+*** empty log message ***
+
+M	ChangeLog
+
+2005-05-10  horinout 
+Tue May 10  2005   T Horinouchi
+	* ggraph.rb: GGraph's visualization methods are changed to call
+	  DCL.gropn(1) if gropn/sgopn has not been called
+	  (by introducing GGraph::gropn_1_if_not_yet).
+	* gdir.rb: Added GDir.pwd, GDir#each_dir, GDir#each_data.
+
+M	ChangeLog
+M	doc/gdir.html
+M	doc/ggraph.html
+M	lib/numru/gdir.rb
+M	lib/numru/ggraph.rb
+
+2005-05-09  horinout 
+Mon May  9  2005   T Horinouchi
+	* subsetmapping.rb: SubsetMapping1D.new: support reversed range.
+	* varray.rb: VArray#val: interpret Hash slicers for NArray/NArrayMiss
+	* ggraph.rb:
+	  GGraph::map: added option 'fill'.
+	  GGraph::contour / GGraph::tone: when map projection, convert to
+	  the anti-clockwise coordinate to get around a bug in UMFMAP in
+	  DCL 5.3
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/subsetmapping.rb
+M	lib/numru/gphys/varray.rb
+
+2005-05-09  horinout 
+Fri May  6  2005   T Horinouchi < T Koshiro
+	* ggraph.rb: GGraph::map added options "dgridmj" and "dgridmn"
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-04-15  horinout 
+*** empty log message ***
+
+M	sample/map_projection.rb
+
+2005-04-15  horinout 
+Fri Apr 15  2005   T Horinouchi
+	* ggraph.rb: Further modification for map projection:
+	  The strategy of the previous edition was not good.
+	  If map is to be drawn, 'itr' should be 10 and axes should be drawn
+	  afterwards. Eliminated the new "map" and introduced "map_axes".
+
+M	ChangeLog
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+M	sample/map_projection.rb
+
+2005-04-15  horinout 
+Fri Apr 15  2005   T Horinouchi
+	* lib/numru/gdir.rb: added GDir#open_all_data. Renamed ls_v ->
+	  ls_l, which I originally meant. Supported path in show, show_v.
+	  Support the path argument in show and show_v
+	* gphys_io.rb: corrrected a spell miss of method name in documentation
+	* ggraph.rb: Revision regarding map projection:
+	  * GGraph::fig: Option changed from map_lat_range -> map_window
+	    (the latter includes log-lat range, and the former is eliminated).
+	    Added new option 'map_fit', which is for itr=10 and 11.
+	    Changed the default behavior for itr=10 (cylindrical) to fit
+            the map to the data window (equiv to 'map_fit'=>true).
+	    Concequently, the default window for itr=10 is now the same as
+	    with itr=1.
+	  * GGraph::tone & GGraph::contour: added option 'map_fit',
+	    which draws map etc by switching temporarilly to itr=10 and
+	    calling GGraph::map.
+	* sample/map_projection.rb: Revised according to the change
+	  of ggraph.rb. New samples were added regarding the 'map_fit'
+	  option of fig and the 'map' option of tone/contour.
+	* doc/: updated
+
+M	ChangeLog
+M	doc/gdir.html
+M	doc/ggraph.html
+M	doc/gphys_io.html
+M	lib/numru/gdir.rb
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_io.rb
+M	sample/map_projection.rb
+
+2005-04-13  horinout 
+Wed Apr 13  2005   T Horinouchi
+	* lib/numru/gdir.rb: Imported (moved) from gphys-remote-0.3. It will be
+	  maintained here.
+	* lib/numru/gphys.rb: to include gdir
+	* gphys_io.rb: added method file2file_class(file), which returns
+	  NetCDF, GrADS_Gridded, or Grib.
+	* doc/: updated corresponding to the import of gdir.rb
+
+M	ChangeLog
+A	doc/gdir.html
+M	doc/gphys_io.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/update
+A	lib/numru/gdir.rb
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2005-04-04  seiya 
+
+Mon Apr  4  2005   S Nishizawa
+	* grib.rb, grib_params.rb: change not to set attribute of "units" when variables have no unit.
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-04-01  horinout 
+changelog: forgot to write this:
+        * gphys_netcdf_io.rb: added a test regarging packed data.
+
+M	ChangeLog
+
+2005-04-01  horinout 
+Fri Apr  1  2005   T Horinouchi
+	* Revised netcdf convension handling. This improves attribute
+	  handling of the user's guide convention (the default one)
+	  regarding data missing etc.
+	  * attributenetcdf.rb: AttributeNetCDF#initialize to extend
+	    Attribute_Mixin whose default is defined in netcdf_convention.rb
+	  * netcdf_convention.rb: created module Attribute_Mixin
+	    in NetCDF_Convention_Users_Guide. Moved contents of
+	    VArray_Mixin to Attribute_NetCDF, which is to move
+	    attribute editor on copying (deep-cloning) from VArrayNetCDF
+	    to AttributeNetCDF (which is used in VArrayNetCDF).
+	* grads_gridded.rb: minor revision of documentation.
+	  allowed modes: "r" & "w+" --> "r" & "w" (read only / write only).
+	* doc/: updated
+
+M	ChangeLog
+M	doc/grads_gridded.html
+M	doc/grib.html
+M	doc/netcdf_convention.html
+M	lib/numru/gphys/attributenetcdf.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/netcdf_convention.rb
+
+2005-03-31  seiya 
+
+Thu Mar 31  2005   S Nishizawa
+	* grib.rb: remove @define_mode and Grib#enddef
+	           change value by units to write
+   	* varraygrib.rb: change as removing Grib#enddef
+	* gphys_grib_io.rb: small change in test
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2005-03-31  horinout 
+Excuse me, another small change in the error message at l.1364
+
+M	lib/numru/gphys/grib.rb
+
+2005-03-31  horinout 
+just a small change in the error message at l.1364
+
+M	lib/numru/gphys/grib.rb
+
+2005-03-31  horinout 
+Thu Mar 31  2005   T Horinouchi
+	* grib.rb: Grib: eliminated @mode and introduced @define_mode
+	  (It is a half-hearted job, since no @define_mode check is
+	  introduced in the write method)
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-31  horinout 
+Thu Mar 31  2005   T Horinouchi
+	* grib.rb: minor update of Grib#initialize (to refuse "w+";
+	  corresponding error message at l.1268; documentation of file mode).
+
+M	ChangeLog
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/gphys/grib.rb
+
+2005-03-30  mizuta 
+bug fixed
+
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2005-03-30  mizuta 
+Wed Mar 30  2005   R Mizuta
+	* gphys_grads_io.rb, varraygrads.rb:
+	  output normal gphys into GrADS file
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2005-03-30  seiya 
+
+Wed May 30  2005   S Nishizawa
+	* grib.rb: bugfix in opening file for write
+	* gphys_grib_io.rb: add test for writing, change variable name in test
+	* varraygrib.rb: change variable name in test
+
+M	ChangeLog
+
+2005-03-30  seiya 
+
+Wed May 30  2005   S Nishizawa
+	* grib.rb: bugfix in opening file for write
+	* gphys_grib_io.rb: add test for writing, change variable name in test
+	* varraygrib.rb: change variable name in test
+
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2005-03-30  mizuta 
+Wed Mar 30  2005   R Mizuta
+	* grads_gridded.rb:
+	  * speed up in reading
+	  * GrADSVar followed changes of NetCDFVar
+	* grads_gridded.rb, varraygrads.rb:
+	  gives more readable control file in GrADS output
+	* gphys_grads_io.rb: bug in the test code fixed
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2005-03-29  horinout 
+forgetten to add
+
+A	doc/coordmapping.html
+
+2005-03-29  horinout 
+*** empty log message ***
+
+A	doc/gphys_io.html
+
+2005-03-29  horinout 
+Tue Mar 29  2005   T Horincouhi
+	* gphys_io.rb: Added methods parse_gturl and open_gturl
+	  (the former was moved from bin/gpprint to gphys_io.rb).
+	* bin/gpprint,bin/gpview: modified to use GPhys::IO.open_gturl
+        * doc/: updated
+
+M	ChangeLog
+M	bin/gpprint
+M	bin/gpview
+M	doc/grib.html
+M	lib/numru/gphys/gphys_io.rb
+
+2005-03-29  seiya 
+
+Tue Mar 29  2005   S Nishizawa
+	* grib.rb: change status
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-29  horinout 
+Tue Mar 29  2005   T Horincouhi
+	* bin/grads2nc_with_gphys: debug (repoted by S Nishizawa 2005/03/15)
+
+M	ChangeLog
+M	bin/grads2nc_with_gphys
+
+2005-03-29  horinout 
+Added the documentation update script.
+
+A	doc/update
+
+2005-03-29  horinout 
+
+Nishizawa-kun. Today is Tuesday!!
+
+Tue Mar 29  2005   T Horincouhi
+        * axis.rb: document written. Changed return value of set_aux to self.
+        * grid.rb: document written.
+	* gphys.rb: minor updates of the document.
+        * doc/: updated
+
+M	ChangeLog
+A	doc/axis.html
+M	doc/gphys.html
+A	doc/grid.html
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2005-03-29  seiya 
+
+Mon Mar 29  2005   S Nishizawa
+	* grib.rb: remove space from attribute key names
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-29  seiya 
+
+Mon Mar 29  2005   S Nishizawa
+	* grib.rb: add attribute of "level" and "time" when number of level and time is one
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-29  seiya 
+
+Mon Mar 29  2005   S Nishizawa
+	* grib.rb: bugfix when number of bit for packing is odd
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-29  horinout 
+Tue Mar 29  2005   T Horincouhi
+	* gphys_io.rb: RD document written
+	* gphys.rb:
+	  * Added a class method GPhys.each_along_dims, along with its test.
+	  * Changed return value of replace_val, set_att, and del_att to self.
+        * doc/: updated
+
+M	ChangeLog
+A	doc/attribute.html
+A	doc/attributenetcdf.html
+M	doc/ggraph.html
+M	doc/gphys.html
+M	doc/gphys_grib_io.html
+A	doc/gphys_io_common.html
+A	doc/grib.html
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2005-03-29  seiya 
+
+Mon Mar 29  2005   S Nishizawa
+	* grib.rb, grib_params.rb: add some new definitions of variables and levels for NCEP grib file.
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-03-28  horinout 
+Mon Mar 28  2005   T Horincouhi
+	* grib.rb: debug to open grib files in the binary mode.
+	* gphys_netcdf_io.rb: debug in is_a_NetCDF?: to open with
+	  the binary mode.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grib.rb
+
+2005-03-26  mizuta 
+Sat Mar 26 2005 R Mizuta
+	* grads_gridded.rb: open binary file with binary mode
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-03-25  horinout 
+Fri Mar  25   2005   T Horinouchi
+	* attribute.rb: attribute name is limited to those that matche
+	  /^[A-Za-z_]\w*$/. Removed Numeric from allowed value type
+	  list: Use a 1-element NArray instead.
+
+M	ChangeLog
+M	lib/numru/gphys/attribute.rb
+
+2005-03-25  seiya 
+
+Fri Mar  25   2005   S Nishizawa
+        * grib.rb: change ' ' to '_' in name of attribute
+                   change value to NArray with rank of 1 for value of attribute
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-25  seiya 
+
+Fri Mar  25   2005   S Nishizawa
+        * grib.rb: enable Grib#[] to get negative value
+        * gphyx_grib_io.rb: add name and atts to aux for hybrid level
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+
+2005-03-25  seiya 
+
+Fri Mar  25   2005   S Nishizawa
+	* grib.rb: change value of hybrid level
+	           bugfix
+   	* gphys_grib_io.rb: use Axis#set_aux for hybrid level
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+
+2005-03-21  seiya 
+
+Mon Mar  21   2005   S Nishizawa
+	* grib.rb: bugfix for hybrid level
+
+M	ChangeLog
+
+2005-03-21  seiya 
+
+Mon Mar  21   2005   S Nishizawa
+	* grib.rb: bugfix for hybrid level
+
+M	lib/numru/gphys/grib.rb
+
+2005-03-21  seiya 
+
+Mon Mar  21   2005   S Nishizawa
+	* grib.rb: bugfix in Grib.write
+		* grib_params.rb: add variable of unknown
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-03-21  seiya 
+
+Mon Mar  21   2005   S Nishizawa
+	* grib.rb: change value of hybrid level from level number to coordinate parameters.
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-03-21  horinout 
+Mon Mar 21  2005   T Horinouchi
+	* gphys_io.rb: IO::fil2type: added case when Grib.
+	* gphys_grib_io.rb: Grib_IO::write: added the 3rd argument
+	  as name_dummy=nil, which is a dummy and is never used but
+	  is present for consistency with other *_IO modules.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2005-03-16  horinout 
+Wed Mar  16  2005   T Horinouchi
+	* doc/ updated.
+
+M	ChangeLog
+M	doc/gphys_fft.html
+M	doc/gphys_grads_io.html
+A	doc/gphys_grib_io.html
+M	doc/gphys_netcdf_io.html
+M	doc/grads_gridded.html
+M	doc/index.html
+M	doc/index.rd
+M	doc/unumeric.html
+M	doc/varray.html
+
+2005-03-16  horinout  (gphys-0_4_0)
+Wed Mar  16  2005   T Horinouchi
+	* gphys-0.4.0 released (cvs tag gphys-0_4_0)
+	* ggraph.rb: color_bar: changed not to draw a colobar when
+	  the # of levels is less or equal to 1 (warning is made
+	  in this case).
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-03-10  daktu32 
+Fri Mar  11   2005   D Tsukahara
+	* ggraph.rb: minor bugfix
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-03-10  daktu32 
+Thu Mar  10   2005   D Tsukahara
+	* ggraph.rb: minor bugfix for (Wed Mar 09   2005   D Tsukahara)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-03-10  seiya 
+
+	* grib.rb: change way to make variables of longitude and latitude.
+		* gphys_grib_io.rb: change to set bare_index true at hybrid level
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+
+2005-03-10  seiya 
+
+	* grib.rb, grib_params.rb: add standard_name attribution to variables
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-03-10  seiya 
+
+	* grib_params.rb: change name of variable to the same name of wgrib if it possible.
+		* grib.rb: minor bugfix
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+
+2005-03-10  seiya 
+
+	* T.jan.grib: sample grib file converted from T.jan.nc
+		* grib.rb, gphys_grib_io.rb: change to use T.jan.grib in sample	code, change name from is_aGrib? to is_a_Grib?
+			* gphys_netcdf_io.rb, gphys_grads_io.rb, gphys_grib_io.rb, grib.rb: bugfix for is_a_*?
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grib.rb
+A	testdata/T.jan.grib
+
+2005-03-10  horinout 
+Wed Mar  10   2005   T Horinouchi
+	* axis.rb,varray.rb: to deal with axis plot direction
+	  specification:
+	  axis.rb: added new method Axis#draw_positive, which simply calls
+	  @pos.axis_draw_positive (see below).
+	  varray.rb: added new method VArray#axis_draw_positive, which
+ 	  returns true (positive=='up'), false (positive=='down'), or
+	  nil (undefined) --- this is based on a widely-used NetCDF
+	  convention, so redefine it in VArray's subclasses if not
+	  appropriate
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/varray.rb
+
+2005-03-10  horinout 
+minor modification
+
+M	lib/numru/gphys/netcdf_convention.rb
+
+2005-03-10  horinout 
+Wed Mar  10   2005   T Horinouchi
+	* netcdf_convention.rb:
+	  * in private method _op_attr_edit (called when operations are made)
+	    in NetCDF_Convention_Users_Guide:
+	    * Added deletion of _FillValue.
+	    * To unpack valid_* and missing_value if appropriate
+ 	      (in a separate new private method _unpack_missing_specification)
+        * testdata/T.jan.packed.withmiss.nc: Added for test
+	  (requires RubyNetCDF 0.6.0, since missing_value is in
+	  the packed data type.)
+
+M	ChangeLog
+M	lib/numru/gphys/netcdf_convention.rb
+A	testdata/T.jan.packed.withmiss.nc
+
+2005-03-09  daktu32 
+Wed Mar 09   2005   D Tsukahara
+	* ggraph.rb: add test for line (option "max" and "min")
+
+M	lib/numru/ggraph.rb
+
+2005-03-09  daktu32 
+Tur Mar 10   2005   D Tsukahara
+	* ggraph.rb, doc/ggraph.html: rewrite (because I overwrote the newest version)
+
+M	lib/numru/ggraph.rb
+
+2005-03-09  daktu32 
+to rewrite the newest revision
+
+M	lib/numru/ggraph.rb
+
+2005-03-09  daktu32 
+Wed Mar 09   2005   D Tsukahara
+	* ggraph.rb: fix fig (option "window" can have its element "nil"),
+	  line and mark (add option "max", "min")
+	* bin/gpview: apply option "range" for line plot
+	* doc/ep_flux/index*: change link for tutorial page
+
+M	ChangeLog
+
+2005-03-09  daktu32 
+Tue Mar 09   2005   D Tsukahara
+	* doc/ep_flux/index*: change link for tutorial page
+
+M	doc/ep_flux/index.html
+M	doc/ep_flux/index.rd
+
+2005-03-09  daktu32 
+Tue Mar 09   2005   D Tsukahara
+	* bin/gpview: apply option "range" for line plot
+
+M	bin/gpview
+M	doc/gpview.html
+
+2005-03-09  daktu32 
+Tue Mar 09   2005   D Tsukahara
+	* ggraph.rb: fix fig (option "window" can have its element "nil"),
+	  line and mark (add option "max", "min")
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-03-07  horinout 
+Tue Mar 07   2005   T Horinouchi < S Koshiro
+	* ggraph.rb: [dennou-ruby:002075] support auto-level setting when
+	  level is explicitly given.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-03-07  seiya 
+
+        * gphys_IO.rb gphys_netcdf_io.rb gphys_grads_io.rb gphys_grib_io.rb:
+	          add class methods; var_names, var_names_except_coordinates, is_a_[NetCDF,GrADS,Grib]?, respectively, except gphys_io.rb
+          add part using is_a_*? methods to distinction of file type
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/gphys_io.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2005-03-03  daktu32 
+Thu Mar 03   2005   D Tsukahara
+	* doc/derivative/math-doc/*: fix and amend a text
+
+A	doc/derivative/math-doc/document/document.css
+A	doc/derivative/math-doc/document/document.html
+A	doc/derivative/math-doc/document/images.aux
+A	doc/derivative/math-doc/document/images.log
+A	doc/derivative/math-doc/document/images.pl
+A	doc/derivative/math-doc/document/images.tex
+A	doc/derivative/math-doc/document/img1.png
+A	doc/derivative/math-doc/document/img10.png
+A	doc/derivative/math-doc/document/img11.png
+A	doc/derivative/math-doc/document/img12.png
+A	doc/derivative/math-doc/document/img13.png
+A	doc/derivative/math-doc/document/img14.png
+A	doc/derivative/math-doc/document/img15.png
+A	doc/derivative/math-doc/document/img16.png
+A	doc/derivative/math-doc/document/img17.png
+A	doc/derivative/math-doc/document/img18.png
+A	doc/derivative/math-doc/document/img19.png
+A	doc/derivative/math-doc/document/img2.png
+A	doc/derivative/math-doc/document/img20.png
+A	doc/derivative/math-doc/document/img21.png
+A	doc/derivative/math-doc/document/img22.png
+A	doc/derivative/math-doc/document/img23.png
+A	doc/derivative/math-doc/document/img24.png
+A	doc/derivative/math-doc/document/img25.png
+A	doc/derivative/math-doc/document/img26.png
+A	doc/derivative/math-doc/document/img27.png
+A	doc/derivative/math-doc/document/img28.png
+A	doc/derivative/math-doc/document/img29.png
+A	doc/derivative/math-doc/document/img3.png
+A	doc/derivative/math-doc/document/img30.png
+A	doc/derivative/math-doc/document/img4.png
+A	doc/derivative/math-doc/document/img5.png
+A	doc/derivative/math-doc/document/img6.png
+A	doc/derivative/math-doc/document/img7.png
+A	doc/derivative/math-doc/document/img8.png
+A	doc/derivative/math-doc/document/img9.png
+A	doc/derivative/math-doc/document/index.html
+A	doc/derivative/math-doc/document/labels.pl
+A	doc/derivative/math-doc/document/node1.html
+A	doc/derivative/math-doc/document/node2.html
+
+2005-03-03  daktu32 
+Thu Mar 03   2005   D Tsukahara
+	* doc/derivative/math-doc/*: fix and amend a text
+
+M	ChangeLog
+D	doc/derivative/math-doc/document/document.css
+D	doc/derivative/math-doc/document/document.html
+D	doc/derivative/math-doc/document/images.aux
+D	doc/derivative/math-doc/document/images.log
+D	doc/derivative/math-doc/document/images.pl
+D	doc/derivative/math-doc/document/images.tex
+D	doc/derivative/math-doc/document/img1.png
+D	doc/derivative/math-doc/document/img10.png
+D	doc/derivative/math-doc/document/img11.png
+D	doc/derivative/math-doc/document/img12.png
+D	doc/derivative/math-doc/document/img13.png
+D	doc/derivative/math-doc/document/img14.png
+D	doc/derivative/math-doc/document/img15.png
+D	doc/derivative/math-doc/document/img16.png
+D	doc/derivative/math-doc/document/img17.png
+D	doc/derivative/math-doc/document/img18.png
+D	doc/derivative/math-doc/document/img19.png
+D	doc/derivative/math-doc/document/img2.png
+D	doc/derivative/math-doc/document/img20.png
+D	doc/derivative/math-doc/document/img21.png
+D	doc/derivative/math-doc/document/img22.png
+D	doc/derivative/math-doc/document/img23.png
+D	doc/derivative/math-doc/document/img24.png
+D	doc/derivative/math-doc/document/img25.png
+D	doc/derivative/math-doc/document/img26.png
+D	doc/derivative/math-doc/document/img27.png
+D	doc/derivative/math-doc/document/img28.png
+D	doc/derivative/math-doc/document/img29.png
+D	doc/derivative/math-doc/document/img3.png
+D	doc/derivative/math-doc/document/img30.png
+D	doc/derivative/math-doc/document/img4.png
+D	doc/derivative/math-doc/document/img5.png
+D	doc/derivative/math-doc/document/img6.png
+D	doc/derivative/math-doc/document/img7.png
+D	doc/derivative/math-doc/document/img8.png
+D	doc/derivative/math-doc/document/img9.png
+D	doc/derivative/math-doc/document/index.html
+D	doc/derivative/math-doc/document/labels.pl
+A	doc/derivative/math-doc/document/next.png
+A	doc/derivative/math-doc/document/next_g.png
+D	doc/derivative/math-doc/document/node1.html
+D	doc/derivative/math-doc/document/node2.html
+A	doc/derivative/math-doc/document/prev.png
+A	doc/derivative/math-doc/document/prev_g.png
+A	doc/derivative/math-doc/document/up.png
+A	doc/derivative/math-doc/document/up_g.png
+
+2005-03-03  daktu32 
+Thu Mar 03   2005   D Tsukahara
+	* doc/derivative/math-doc/*: fix and amend a text
+
+M	doc/derivative/math-doc/document.pdf
+M	doc/derivative/math-doc/document.tex
+
+2005-03-02  seiya 
+
+Tue Mar 02   2005   S Nishizawa
+	* grib.rb, varraygrib.rb, gphys_grib_io.rb: support writing
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/grib_params.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2005-02-26  seiya 
+
+Tue Feb 26   2005   S Nishizawa
+	* grib.rb: remove dimension variables from variables
+	  change timing to obtain variable infomation from Grib.open to Grib#var
+	  add methods GribDim#get, GribDim#[], GribDim#[set,put]_att, DribDim#att
+	* varraygrib.rb, gphys_grib_io.rb: some changes corresponding to the changes of grib.rb
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grib_io.rb
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2005-02-25  seiya 
+
+Tue Feb 25   2005   S Nishizawa
+	* grib.rb: support missing value
+	* varraygrib.rb: change path of grib.rb
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+M	lib/numru/gphys/varraygrib.rb
+
+2005-02-25  seiya 
+
+Tue Feb 25   2005   S Nishizawa
+	* grib.rb: change to use NArray.to_na
+	  some changes to speed up
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+
+2005-02-24  seiya 
+
+Tue Feb 24   2005   S Nishizawa
+	* grib.rb: separate definition of parameters to grib_params.rb
+	* grib_params.rb: imported (from separated from grib.rb and added some new definitions for ECMWF datasets)
+
+M	ChangeLog
+M	lib/numru/gphys/grib.rb
+A	lib/numru/gphys/grib_params.rb
+
+2005-02-22  horinout 
+Tue Feb 22   2005   S Nishizawa  (cvs committed by Horinouchi)
+	* grib.rb,varraygrib.rb,gphys_grib_io.rb: imported.
+	  (Grib data handlers.)
+
+M	ChangeLog
+A	lib/numru/gphys/gphys_grib_io.rb
+A	lib/numru/gphys/grib.rb
+A	lib/numru/gphys/varraygrib.rb
+
+2005-02-19  daktu32 
+Thu Feb 19   2005   D Tsukahara
+	* doc/ep_flux/math-doc/*: fix and amend a text(Thanks to M Ishiwatari)
+
+M	ChangeLog
+
+2005-02-19  daktu32 
+regenerated by ../document.tex
+
+A	doc/ep_flux/math-doc/document/contents.png
+A	doc/ep_flux/math-doc/document/crossref.png
+M	doc/ep_flux/math-doc/document/document.html
+M	doc/ep_flux/math-doc/document/images.log
+M	doc/ep_flux/math-doc/document/images.pl
+M	doc/ep_flux/math-doc/document/images.tex
+M	doc/ep_flux/math-doc/document/img1.png
+M	doc/ep_flux/math-doc/document/img10.png
+M	doc/ep_flux/math-doc/document/img100.png
+M	doc/ep_flux/math-doc/document/img101.png
+M	doc/ep_flux/math-doc/document/img102.png
+M	doc/ep_flux/math-doc/document/img103.png
+M	doc/ep_flux/math-doc/document/img104.png
+M	doc/ep_flux/math-doc/document/img105.png
+M	doc/ep_flux/math-doc/document/img106.png
+M	doc/ep_flux/math-doc/document/img107.png
+M	doc/ep_flux/math-doc/document/img108.png
+M	doc/ep_flux/math-doc/document/img109.png
+M	doc/ep_flux/math-doc/document/img11.png
+M	doc/ep_flux/math-doc/document/img110.png
+M	doc/ep_flux/math-doc/document/img111.png
+M	doc/ep_flux/math-doc/document/img112.png
+M	doc/ep_flux/math-doc/document/img113.png
+M	doc/ep_flux/math-doc/document/img114.png
+M	doc/ep_flux/math-doc/document/img115.png
+M	doc/ep_flux/math-doc/document/img116.png
+M	doc/ep_flux/math-doc/document/img117.png
+M	doc/ep_flux/math-doc/document/img118.png
+M	doc/ep_flux/math-doc/document/img119.png
+M	doc/ep_flux/math-doc/document/img12.png
+M	doc/ep_flux/math-doc/document/img120.png
+M	doc/ep_flux/math-doc/document/img121.png
+M	doc/ep_flux/math-doc/document/img122.png
+M	doc/ep_flux/math-doc/document/img123.png
+M	doc/ep_flux/math-doc/document/img124.png
+A	doc/ep_flux/math-doc/document/img125.png
+A	doc/ep_flux/math-doc/document/img126.png
+A	doc/ep_flux/math-doc/document/img127.png
+A	doc/ep_flux/math-doc/document/img128.png
+A	doc/ep_flux/math-doc/document/img129.png
+M	doc/ep_flux/math-doc/document/img13.png
+A	doc/ep_flux/math-doc/document/img130.png
+A	doc/ep_flux/math-doc/document/img131.png
+A	doc/ep_flux/math-doc/document/img132.png
+A	doc/ep_flux/math-doc/document/img133.png
+A	doc/ep_flux/math-doc/document/img134.png
+A	doc/ep_flux/math-doc/document/img135.png
+A	doc/ep_flux/math-doc/document/img136.png
+A	doc/ep_flux/math-doc/document/img137.png
+A	doc/ep_flux/math-doc/document/img138.png
+A	doc/ep_flux/math-doc/document/img139.png
+M	doc/ep_flux/math-doc/document/img14.png
+A	doc/ep_flux/math-doc/document/img140.png
+A	doc/ep_flux/math-doc/document/img141.png
+A	doc/ep_flux/math-doc/document/img142.png
+A	doc/ep_flux/math-doc/document/img143.png
+A	doc/ep_flux/math-doc/document/img144.png
+A	doc/ep_flux/math-doc/document/img145.png
+A	doc/ep_flux/math-doc/document/img146.png
+A	doc/ep_flux/math-doc/document/img147.png
+A	doc/ep_flux/math-doc/document/img148.png
+A	doc/ep_flux/math-doc/document/img149.png
+M	doc/ep_flux/math-doc/document/img15.png
+A	doc/ep_flux/math-doc/document/img150.png
+A	doc/ep_flux/math-doc/document/img151.png
+A	doc/ep_flux/math-doc/document/img152.png
+A	doc/ep_flux/math-doc/document/img153.png
+A	doc/ep_flux/math-doc/document/img154.png
+A	doc/ep_flux/math-doc/document/img155.png
+A	doc/ep_flux/math-doc/document/img156.png
+A	doc/ep_flux/math-doc/document/img157.png
+A	doc/ep_flux/math-doc/document/img158.png
+A	doc/ep_flux/math-doc/document/img159.png
+M	doc/ep_flux/math-doc/document/img16.png
+A	doc/ep_flux/math-doc/document/img160.png
+A	doc/ep_flux/math-doc/document/img161.png
+A	doc/ep_flux/math-doc/document/img162.png
+A	doc/ep_flux/math-doc/document/img163.png
+A	doc/ep_flux/math-doc/document/img164.png
+A	doc/ep_flux/math-doc/document/img165.png
+A	doc/ep_flux/math-doc/document/img166.png
+A	doc/ep_flux/math-doc/document/img167.png
+A	doc/ep_flux/math-doc/document/img168.png
+A	doc/ep_flux/math-doc/document/img169.png
+M	doc/ep_flux/math-doc/document/img17.png
+A	doc/ep_flux/math-doc/document/img170.png
+A	doc/ep_flux/math-doc/document/img171.png
+A	doc/ep_flux/math-doc/document/img172.png
+A	doc/ep_flux/math-doc/document/img173.png
+A	doc/ep_flux/math-doc/document/img174.png
+A	doc/ep_flux/math-doc/document/img175.png
+A	doc/ep_flux/math-doc/document/img176.png
+A	doc/ep_flux/math-doc/document/img177.png
+A	doc/ep_flux/math-doc/document/img178.png
+A	doc/ep_flux/math-doc/document/img179.png
+M	doc/ep_flux/math-doc/document/img18.png
+A	doc/ep_flux/math-doc/document/img180.png
+A	doc/ep_flux/math-doc/document/img181.png
+A	doc/ep_flux/math-doc/document/img182.png
+A	doc/ep_flux/math-doc/document/img183.png
+A	doc/ep_flux/math-doc/document/img184.png
+A	doc/ep_flux/math-doc/document/img185.png
+A	doc/ep_flux/math-doc/document/img186.png
+A	doc/ep_flux/math-doc/document/img187.png
+A	doc/ep_flux/math-doc/document/img188.png
+A	doc/ep_flux/math-doc/document/img189.png
+M	doc/ep_flux/math-doc/document/img19.png
+A	doc/ep_flux/math-doc/document/img190.png
+A	doc/ep_flux/math-doc/document/img191.png
+A	doc/ep_flux/math-doc/document/img192.png
+A	doc/ep_flux/math-doc/document/img193.png
+A	doc/ep_flux/math-doc/document/img194.png
+A	doc/ep_flux/math-doc/document/img195.png
+A	doc/ep_flux/math-doc/document/img196.png
+A	doc/ep_flux/math-doc/document/img197.png
+A	doc/ep_flux/math-doc/document/img198.png
+A	doc/ep_flux/math-doc/document/img199.png
+M	doc/ep_flux/math-doc/document/img2.png
+M	doc/ep_flux/math-doc/document/img20.png
+A	doc/ep_flux/math-doc/document/img200.png
+M	doc/ep_flux/math-doc/document/img21.png
+M	doc/ep_flux/math-doc/document/img22.png
+M	doc/ep_flux/math-doc/document/img23.png
+M	doc/ep_flux/math-doc/document/img24.png
+M	doc/ep_flux/math-doc/document/img25.png
+M	doc/ep_flux/math-doc/document/img26.png
+M	doc/ep_flux/math-doc/document/img27.png
+M	doc/ep_flux/math-doc/document/img28.png
+M	doc/ep_flux/math-doc/document/img29.png
+M	doc/ep_flux/math-doc/document/img3.png
+M	doc/ep_flux/math-doc/document/img30.png
+M	doc/ep_flux/math-doc/document/img31.png
+M	doc/ep_flux/math-doc/document/img32.png
+M	doc/ep_flux/math-doc/document/img33.png
+M	doc/ep_flux/math-doc/document/img34.png
+M	doc/ep_flux/math-doc/document/img35.png
+M	doc/ep_flux/math-doc/document/img36.png
+M	doc/ep_flux/math-doc/document/img37.png
+M	doc/ep_flux/math-doc/document/img38.png
+M	doc/ep_flux/math-doc/document/img39.png
+M	doc/ep_flux/math-doc/document/img4.png
+M	doc/ep_flux/math-doc/document/img40.png
+M	doc/ep_flux/math-doc/document/img41.png
+M	doc/ep_flux/math-doc/document/img42.png
+M	doc/ep_flux/math-doc/document/img43.png
+M	doc/ep_flux/math-doc/document/img44.png
+M	doc/ep_flux/math-doc/document/img45.png
+M	doc/ep_flux/math-doc/document/img46.png
+M	doc/ep_flux/math-doc/document/img47.png
+M	doc/ep_flux/math-doc/document/img48.png
+M	doc/ep_flux/math-doc/document/img49.png
+M	doc/ep_flux/math-doc/document/img5.png
+M	doc/ep_flux/math-doc/document/img50.png
+M	doc/ep_flux/math-doc/document/img51.png
+M	doc/ep_flux/math-doc/document/img52.png
+M	doc/ep_flux/math-doc/document/img53.png
+M	doc/ep_flux/math-doc/document/img54.png
+M	doc/ep_flux/math-doc/document/img55.png
+M	doc/ep_flux/math-doc/document/img56.png
+M	doc/ep_flux/math-doc/document/img57.png
+M	doc/ep_flux/math-doc/document/img58.png
+M	doc/ep_flux/math-doc/document/img59.png
+M	doc/ep_flux/math-doc/document/img6.png
+M	doc/ep_flux/math-doc/document/img60.png
+M	doc/ep_flux/math-doc/document/img61.png
+M	doc/ep_flux/math-doc/document/img62.png
+M	doc/ep_flux/math-doc/document/img63.png
+M	doc/ep_flux/math-doc/document/img64.png
+M	doc/ep_flux/math-doc/document/img65.png
+M	doc/ep_flux/math-doc/document/img66.png
+M	doc/ep_flux/math-doc/document/img67.png
+M	doc/ep_flux/math-doc/document/img68.png
+M	doc/ep_flux/math-doc/document/img69.png
+M	doc/ep_flux/math-doc/document/img7.png
+M	doc/ep_flux/math-doc/document/img70.png
+M	doc/ep_flux/math-doc/document/img71.png
+M	doc/ep_flux/math-doc/document/img72.png
+M	doc/ep_flux/math-doc/document/img73.png
+M	doc/ep_flux/math-doc/document/img74.png
+M	doc/ep_flux/math-doc/document/img75.png
+M	doc/ep_flux/math-doc/document/img76.png
+M	doc/ep_flux/math-doc/document/img77.png
+M	doc/ep_flux/math-doc/document/img78.png
+M	doc/ep_flux/math-doc/document/img79.png
+M	doc/ep_flux/math-doc/document/img8.png
+M	doc/ep_flux/math-doc/document/img80.png
+M	doc/ep_flux/math-doc/document/img81.png
+M	doc/ep_flux/math-doc/document/img82.png
+M	doc/ep_flux/math-doc/document/img83.png
+M	doc/ep_flux/math-doc/document/img84.png
+M	doc/ep_flux/math-doc/document/img85.png
+M	doc/ep_flux/math-doc/document/img86.png
+M	doc/ep_flux/math-doc/document/img87.png
+M	doc/ep_flux/math-doc/document/img88.png
+M	doc/ep_flux/math-doc/document/img89.png
+M	doc/ep_flux/math-doc/document/img9.png
+M	doc/ep_flux/math-doc/document/img90.png
+M	doc/ep_flux/math-doc/document/img91.png
+M	doc/ep_flux/math-doc/document/img92.png
+M	doc/ep_flux/math-doc/document/img93.png
+M	doc/ep_flux/math-doc/document/img94.png
+M	doc/ep_flux/math-doc/document/img95.png
+M	doc/ep_flux/math-doc/document/img96.png
+M	doc/ep_flux/math-doc/document/img97.png
+M	doc/ep_flux/math-doc/document/img98.png
+M	doc/ep_flux/math-doc/document/img99.png
+M	doc/ep_flux/math-doc/document/index.html
+M	doc/ep_flux/math-doc/document/internals.pl
+M	doc/ep_flux/math-doc/document/labels.pl
+A	doc/ep_flux/math-doc/document/next.png
+A	doc/ep_flux/math-doc/document/next_g.png
+M	doc/ep_flux/math-doc/document/node1.html
+M	doc/ep_flux/math-doc/document/node10.html
+A	doc/ep_flux/math-doc/document/node11.html
+A	doc/ep_flux/math-doc/document/node12.html
+A	doc/ep_flux/math-doc/document/node13.html
+A	doc/ep_flux/math-doc/document/node14.html
+A	doc/ep_flux/math-doc/document/node15.html
+A	doc/ep_flux/math-doc/document/node16.html
+M	doc/ep_flux/math-doc/document/node2.html
+M	doc/ep_flux/math-doc/document/node3.html
+M	doc/ep_flux/math-doc/document/node4.html
+M	doc/ep_flux/math-doc/document/node5.html
+M	doc/ep_flux/math-doc/document/node6.html
+M	doc/ep_flux/math-doc/document/node7.html
+M	doc/ep_flux/math-doc/document/node8.html
+M	doc/ep_flux/math-doc/document/node9.html
+A	doc/ep_flux/math-doc/document/prev.png
+A	doc/ep_flux/math-doc/document/prev_g.png
+A	doc/ep_flux/math-doc/document/up.png
+A	doc/ep_flux/math-doc/document/up_g.png
+
+2005-02-19  daktu32 
+Thu Feb 19   2005   D Tsukahara
+	* doc/ep_flux/math-doc/*: fix and amend a text(Thanks to M Ishiwatari)
+
+M	doc/ep_flux/math-doc/document.pdf
+M	doc/ep_flux/math-doc/document.tex
+
+2005-02-16  daktu32 
+Thu Feb 16   2005   D Tsukahara
+	* ep_flux.rb: fix EP_Flux::strm_rmean( change integrate method ),
+	  delete EP_Flux::prepare_for_divergence_on_merdional_section.
+	* test/test_ep_flux.rb: add test for strm_rmean( looks succesfully )
+	* doc/ep_flux/ep_flux.html: regenerated
+
+M	ChangeLog
+M	TODO_ep_flux
+M	doc/ep_flux/ep_flux.html
+M	lib/numru/gphys/ep_flux.rb
+M	test/test_ep_flux.rb
+
+2005-02-10  daktu32 
+Thu Feb 10   2005   D Tsukahara
+        * bin/gpview: add option --map, --m, --reverse, -Gr.
+	  change option parser (getopts => getoptlong) because
+	  getopts would be obsolute.
+	* doc/gpview.html: regenerated.
+
+M	ChangeLog
+
+2005-02-10  daktu32 
+Thu Feb 10   2005   D Tsukahara
+        * bin/gpview: add option --map, --m, --reverse, -Gr.
+	  change option parser (getopts => getoptlong) because
+	  getopts would be obsolute.
+	* doc/gpview.html: regenerated.
+
+M	doc/gpview.html
+
+2005-02-10  daktu32 
+Thu Feb 10   2005   D Tsukahara
+	* bin/gpview: add option --map, --m, --reverse, -Gr.
+	  change option parser (getopts => getoptlong) because
+	  getopts would be obsolute.
+
+M	bin/gpview
+
+2005-02-03  horinout 
+Thu Feb 3   2005   T Horinouchi
+	* gphys_io_common.rb: IO_common::each_along_dims_write: modified
+	  to accept GPhys'es that do not have the same shape ---
+	  It's now ok as long as the dimensions to loop are shared.
+	* gphys_netcdf_io.rb: Added a test for the new feature of
+	  each_long_dims_write. Plus, documentation updated.
+	* doc/gphys_netcdf_io.html: regenerated.
+
+M	ChangeLog
+M	doc/gphys_netcdf_io.html
+M	lib/numru/gphys/gphys_io_common.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2005-02-02  daktu32 
+Wed Feb 02  2005   D Tsukahara < M Nakano
+	* bin/gpview: debug about looopsense_flag(each_along_dims)
+
+M	ChangeLog
+M	bin/gpview
+
+2005-01-26  takepiro 
+options --map_axis and --similar are added to gpview.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-01-25  horinout 
+Tue Jan 25  2005   T Horinouchi < S Takehiro
+	* numru/ggraph.rb: support tranformation number 5 (polar
+	  coorodnate) by S Takeshiro (with a modification by Horinouchi).
+	  Added: GGraph::polar_coordinate_boundaries
+	         GGraph::sim_trn? (currently not used)
+          Modified: GGraph::fig, GGraph::contour, GGraph::tone
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-01-25  horinout 
+Tue Jan 25  2005   T Horinouchi
+	* gphys.rb: GPhys#cyclic_ext debug
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2005-01-20  horinout 
+Thu Jan 20  2005   T Horinouchi < T Koshiro
+	* numru/ggraph.rb: DCLExt::color_bar -- always lclip=false in
+	  the method.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-01-17  horinout 
+Mon Jan 17  2005   T Horinouchi
+	* numru/ggraph.rb: added contour test under map projection
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-01-17  horinout 
+Mon Jan 17  2005   T Horinouchi
+	* gphys.rb: debug in GPhys::cyclic_ext
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+
+2005-01-17  horinout 
+Mon Jan 17  2005   T Horinouchi
+	* varray.rb,gphys.rb: Added methods VArray#long_name,
+          VArray#long_name=, GPhys#long_name, GPhys#long_name=.
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/varray.rb
+
+2005-01-14  horinout  (gphys-0_3_5)
+Fri Jan 14  2005   T Horinouchi
+	* gphys-0.3.5 released (cvs tag gphys-0_3_5)
+
+M	ChangeLog
+
+2005-01-14  horinout 
+Fri Jan 14  2005   T Horinouchi
+	* bin/gpview: l.202 'itr'=>($OPT_itr) --> 'itr'=>($OPT_itr.to_i)
+	  --mean and --animate are changed to accpet integers as well as
+	  dimension names.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-01-14  daktu32 
+   * bin/gpview: delete --map, -m(don't redef GGraph's method)
+
+M	ChangeLog
+
+2005-01-14  daktu32 
+	* bin/gpview: delete --map, -m(don't redef GGraph's method)
+
+M	bin/gpview
+
+2005-01-14  daktu32 
+  * bin/gpview: delete --map, -m(don't redef GGraph's method)
+
+M	doc/gpview.html
+
+2005-01-14  mizuta 
+numru/gphys/grads_gridded.rb: disuse Date.parse (for Ruby 1.6)
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2005-01-14  horinout 
+Fri Jan 14  2005   T Horinouchi < S Takehiro
+	* install.rb: editied help messaging
+
+M	ChangeLog
+M	install.rb
+
+2005-01-13  horinout 
+Thu Jan 13  2005   T Horinouchi
+	* numru/ggraph.rb: DCLExt::color_bar: bug fix in the calculation
+	  of offs_(tick|label) under the uniform tone level interval
+	  (independent of Mizuta-kun's revision).
+	  Added 3 sample graphics for map projection (graph 22-24).
+	  Added contour to graph 11.
+	* doc/ggraph.html: regenerated
+
+M	ChangeLog
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-13  mizuta 
+DCLExt::color_bar: added options (constwidth,index).
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2005-01-12  daktu32 
+  * bin/gpview: a bit fix
+
+M	bin/gpview
+
+2005-01-12  horinout 
+*** empty log message ***
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-12  horinout 
+Sorry! again!
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-12  horinout 
+fig's option documentation was a bit modified.
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-12  horinout 
+a bit changed
+
+M	lib/numru/ggraph.rb
+
+2005-01-12  horinout 
+*** empty log message ***
+
+M	sample/map_projection.rb
+
+2005-01-12  horinout 
+a bit changed
+
+M	sample/map_projection.rb
+
+2005-01-12  horinout 
+Wed Jan 12  2005   T Horinouchi
+	* numru/ggraph.rb: Support map projection:
+	  new methods: map, set_map, next_map, map_trn?
+	  modified methods: fig, title, annotate, contour, tone, vector
+	* numru/ggraph.rb: documents updated.
+	* grid.rb: set_axis: modified to return self.
+	* gphys.rb: added new method cyclic_ext.
+	* varray.rb: [], []=: modified to accept false (rubber dim)
+	  Unbelievable that it was not yet.
+	* sample/map_projection.rb: created. (sample program to demonstrate
+ 	  map projection with GGraph)
+        * doc/gpprint.html,doc/gpview.html,doc/grads2nc_with_gphys.html:
+	  created using rd2.
+	* doc/index.(rd|html): modified to include the commands.
+
+M	ChangeLog
+M	bin/gpprint
+M	doc/ggraph.html
+A	doc/gpprint.html
+A	doc/gpview.html
+A	doc/grads2nc_with_gphys.html
+M	doc/index.html
+M	doc/index.rd
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+A	sample/map_projection.rb
+
+2005-01-12  daktu32 
+* bin/gpview: fix document( SAMPLE )
+
+M	ChangeLog
+
+2005-01-12  daktu32 
+* bin/gpview: fix document (SAMPLE).
+
+M	bin/gpview
+
+2005-01-12  daktu32 
+* bin/gpview: use GGraph::margin_info and GGraph::color_bar. Add many
+  options(ex. s/cint, s/crange, aspect...), and write options document.
+
+M	ChangeLog
+M	bin/gpview
+
+2005-01-10  horinout 
+minor debug in DCLExt.color_bar
+
+M	lib/numru/ggraph.rb
+
+2005-01-10  horinout 
+margin_info changed a bit
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-10  horinout 
+just a typo correction.
+
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2005-01-10  horinout 
+Mon Jan 10  2005   T Horinouchi (partly < D Tsukahara)
+	* install.rb: changed to install files in bin/
+	* bin/install.rb: removed
+	* bin/grads2nc_with_gphys: renamed grads2nc.rb to grads2nc_with_gphys
+	* bin/gpprint: added
+	* bin/gpview: added -- This program was written by D Tsukahara
+	  and imported from [dennou-ruby:001970]
+
+M	ChangeLog
+A	bin/gpprint
+A	bin/gpview
+D	bin/grads2nc.rb
+A	bin/grads2nc_with_gphys
+D	bin/install.rb
+M	install.rb
+
+2005-01-10  horinout 
+Mon Jan 10  2005   T Horinouchi
+        * numru/ggraph.rb: Added GGraph::margin_info, which shows
+	  strings in the bottom margin (representing program name, date,
+	  and data source)
+	* numru/ggraph.rb: DCLExt::color_bar: improved the algorithm used
+	  to define levels to label.
+
+M	ChangeLog
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2004-12-14  horinout 
+Tue Dec  7  2004   T Horinouchi
+        * numru/ggraph.rb: DCLExt::color_bar: changed the default to portrait
+        (which looks nicer). Labelling is improved to chose good levels.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2004-12-06  horinout 
+Mon Dec  6  2004   T Horinouchi
+	* grid.rb: Grid#transpose modified to preserve @lost_axes
+Fri Dec  3  2004   T Horinouchi
+	* varray.rb: VArray#coerse: added NArrayMiss support
+
+M	ChangeLog
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+
+2004-12-01  horinout 
+Wed Dec  1  2004   T Horinouchi
+	* numru/ggraph.rb:
+	  * GGraph::tone: changed the default value of 'tonc'
+	    and 'tonf' to false. (there seems a bug in uetonf, while a bug in
+	    uetone must have eliminated in dcl5.3. Also, I think it was my
+	    careless mistake to set the default val of 'tonc' to true.)
+	    Changed the timing to call DCL.ueitlv -- this is to leave
+	    tone levels for color bars.
+          * DCLExt::color_bar: Created. General program to draw COLOR BARS.
+
+M	ChangeLog
+M	doc/ggraph.html
+M	lib/numru/ggraph.rb
+
+2004-11-29  mizuta 
+* numru/gphys/grads_gridded.rb: changed the basis of time axis
+  from the first Julian period to the date of the first data record.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2004-11-24  mizuta 
+support GrADS data containing missing value, 2-byte signed integers,
+and 1-byte unsigned integers.
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2004-11-12  daktu32 
+Tue Nov 12  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb: fix document (RD syntax error...)
+
+M	lib/numru/gphys/ep_flux.rb
+
+2004-11-12  daktu32 
+Tue Nov 12  2004   D Tsukahara
+	* doc/ep_flux/ep_flux.html: reflect adjustment numru/gphys/ep_flux.rb
+
+M	doc/ep_flux/ep_flux.html
+
+2004-11-12  daktu32 
+Tue Nov 12  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb:
+	* test/test_ep_flux.rb:
+
+M	ChangeLog
+
+2004-11-12  daktu32 
+Tue Nov 12  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb:
+	  1. add accesor method p00 and modified set||get constants
+	  2. undef C_p and R; instead def @@cp, @@gas_const and accesor method.
+	  3. fix document: ep_full_sphere(about argument xfzdims)
+	* test/test_ep_flux.rb: reflect adjustment of ep_flux.rb
+
+M	test/test_ep_flux.rb
+
+2004-11-12  daktu32 
+Tue Nov 12  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb:
+	  1. add accesor method p00 and modified set||get constants
+	  2. undef C_p and R; instead def @@cp, @@gas_const and accesor method.
+             @@cp and @@gas_const is UNumeric. (C_p and R was Numeric)
+	  3. fix document: ep_full_sphere(about argument xfzdims)
+
+M	lib/numru/gphys/ep_flux.rb
+
+2004-11-09  horinout  (gphys-0_3_4)
+Tue Nov 09  2004   T Horinouchi
+	* gphys-0.3.4 released (cvs tag gphys-0_3_4)
+	* varray.rb: coerce: changed the assumptions of the units of
+	  Numeric etc (to assume the same units instead of non-dim, for
+	  consistency between numeric+varray and varray+numeric).
+	  Refactoring regarding attribute copying.
+Mon Nov 08  2004   T Horinouchi
+	* numru/gphys.rb: to require numru/gphys/ep_flux
+	  (which requires numru/gphys/derivative etc)
+
+M	ChangeLog
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/varray.rb
+
+2004-11-08  daktu32 
+Mon Nov 08  2004   D Tsukahara
+	* Changelog: fixed
+
+M	ChangeLog
+
+2004-11-08  daktu32 
+Mon Nov 08  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb: fixed strm_rmean: fix v_rmean overwritten
+	  by stream function.
+
+M	lib/numru/gphys/ep_flux.rb
+
+2004-11-08  daktu32 
+Mon Nov 08  2004   D Tsukahara
+	* sample/ep_flux/demo_NCEP_1.rb,demo_NCEP_2.rb,demo_NCEP_3.rb:
+	  write testdata's URL and simple description.
+
+M	sample/ep_flux/demo_NCEP_1.rb
+M	sample/ep_flux/demo_NCEP_2.rb
+M	sample/ep_flux/demo_NCEP_3.rb
+
+2004-11-08  daktu32 
+Mon Nov 08  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb: modified
+	  1. add accesor method g_forces
+	  2. delete "require numru/gphys"
+	  3. fixed strm_rmean : change int_v (VArray => GPhys) and not setting units.
+
+M	lib/numru/gphys/ep_flux.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* Changelog: updated
+
+M	ChangeLog
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux/ggraph_on_merdional_section.html:
+	  delete GGraph::divergence_on_merdional_section
+
+M	doc/ep_flux/ggraph_on_merdional_section.html
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* numru/ggraph_on_merdional_section.rb:
+	  delete GGraph::divergence_on_merdional_section
+
+M	lib/numru/ggraph_on_merdional_section.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux.rd,ep_flux.html: updated for Tutrial.
+
+M	doc/ep_flux/index.html
+M	doc/ep_flux/index.rd
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux.html: fixed dead link
+
+M	doc/ep_flux/index.html
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux.rd: fixed dead link
+
+M	doc/ep_flux/index.rd
+
+2004-11-02  horinout 
+Thu Nov 02  2004   T Horinouchi
+	* doc/index.(rd|html)  updated for ep_flux and derivative.
+
+M	ChangeLog
+M	doc/index.html
+M	doc/index.rd
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* update
+
+M	ChangeLog
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux/math-doc/document/*: many mathmatical document files created (html version)
+
+A	doc/ep_flux/math-doc/document/WARNINGS
+A	doc/ep_flux/math-doc/document/document.css
+A	doc/ep_flux/math-doc/document/document.html
+A	doc/ep_flux/math-doc/document/images.aux
+A	doc/ep_flux/math-doc/document/images.log
+A	doc/ep_flux/math-doc/document/images.pl
+A	doc/ep_flux/math-doc/document/images.tex
+A	doc/ep_flux/math-doc/document/img1.png
+A	doc/ep_flux/math-doc/document/img10.png
+A	doc/ep_flux/math-doc/document/img100.png
+A	doc/ep_flux/math-doc/document/img101.png
+A	doc/ep_flux/math-doc/document/img102.png
+A	doc/ep_flux/math-doc/document/img103.png
+A	doc/ep_flux/math-doc/document/img104.png
+A	doc/ep_flux/math-doc/document/img105.png
+A	doc/ep_flux/math-doc/document/img106.png
+A	doc/ep_flux/math-doc/document/img107.png
+A	doc/ep_flux/math-doc/document/img108.png
+A	doc/ep_flux/math-doc/document/img109.png
+A	doc/ep_flux/math-doc/document/img11.png
+A	doc/ep_flux/math-doc/document/img110.png
+A	doc/ep_flux/math-doc/document/img111.png
+A	doc/ep_flux/math-doc/document/img112.png
+A	doc/ep_flux/math-doc/document/img113.png
+A	doc/ep_flux/math-doc/document/img114.png
+A	doc/ep_flux/math-doc/document/img115.png
+A	doc/ep_flux/math-doc/document/img116.png
+A	doc/ep_flux/math-doc/document/img117.png
+A	doc/ep_flux/math-doc/document/img118.png
+A	doc/ep_flux/math-doc/document/img119.png
+A	doc/ep_flux/math-doc/document/img12.png
+A	doc/ep_flux/math-doc/document/img120.png
+A	doc/ep_flux/math-doc/document/img121.png
+A	doc/ep_flux/math-doc/document/img122.png
+A	doc/ep_flux/math-doc/document/img123.png
+A	doc/ep_flux/math-doc/document/img124.png
+A	doc/ep_flux/math-doc/document/img13.png
+A	doc/ep_flux/math-doc/document/img14.png
+A	doc/ep_flux/math-doc/document/img15.png
+A	doc/ep_flux/math-doc/document/img16.png
+A	doc/ep_flux/math-doc/document/img17.png
+A	doc/ep_flux/math-doc/document/img18.png
+A	doc/ep_flux/math-doc/document/img19.png
+A	doc/ep_flux/math-doc/document/img2.png
+A	doc/ep_flux/math-doc/document/img20.png
+A	doc/ep_flux/math-doc/document/img21.png
+A	doc/ep_flux/math-doc/document/img22.png
+A	doc/ep_flux/math-doc/document/img23.png
+A	doc/ep_flux/math-doc/document/img24.png
+A	doc/ep_flux/math-doc/document/img25.png
+A	doc/ep_flux/math-doc/document/img26.png
+A	doc/ep_flux/math-doc/document/img27.png
+A	doc/ep_flux/math-doc/document/img28.png
+A	doc/ep_flux/math-doc/document/img29.png
+A	doc/ep_flux/math-doc/document/img3.png
+A	doc/ep_flux/math-doc/document/img30.png
+A	doc/ep_flux/math-doc/document/img31.png
+A	doc/ep_flux/math-doc/document/img32.png
+A	doc/ep_flux/math-doc/document/img33.png
+A	doc/ep_flux/math-doc/document/img34.png
+A	doc/ep_flux/math-doc/document/img35.png
+A	doc/ep_flux/math-doc/document/img36.png
+A	doc/ep_flux/math-doc/document/img37.png
+A	doc/ep_flux/math-doc/document/img38.png
+A	doc/ep_flux/math-doc/document/img39.png
+A	doc/ep_flux/math-doc/document/img4.png
+A	doc/ep_flux/math-doc/document/img40.png
+A	doc/ep_flux/math-doc/document/img41.png
+A	doc/ep_flux/math-doc/document/img42.png
+A	doc/ep_flux/math-doc/document/img43.png
+A	doc/ep_flux/math-doc/document/img44.png
+A	doc/ep_flux/math-doc/document/img45.png
+A	doc/ep_flux/math-doc/document/img46.png
+A	doc/ep_flux/math-doc/document/img47.png
+A	doc/ep_flux/math-doc/document/img48.png
+A	doc/ep_flux/math-doc/document/img49.png
+A	doc/ep_flux/math-doc/document/img5.png
+A	doc/ep_flux/math-doc/document/img50.png
+A	doc/ep_flux/math-doc/document/img51.png
+A	doc/ep_flux/math-doc/document/img52.png
+A	doc/ep_flux/math-doc/document/img53.png
+A	doc/ep_flux/math-doc/document/img54.png
+A	doc/ep_flux/math-doc/document/img55.png
+A	doc/ep_flux/math-doc/document/img56.png
+A	doc/ep_flux/math-doc/document/img57.png
+A	doc/ep_flux/math-doc/document/img58.png
+A	doc/ep_flux/math-doc/document/img59.png
+A	doc/ep_flux/math-doc/document/img6.png
+A	doc/ep_flux/math-doc/document/img60.png
+A	doc/ep_flux/math-doc/document/img61.png
+A	doc/ep_flux/math-doc/document/img62.png
+A	doc/ep_flux/math-doc/document/img63.png
+A	doc/ep_flux/math-doc/document/img64.png
+A	doc/ep_flux/math-doc/document/img65.png
+A	doc/ep_flux/math-doc/document/img66.png
+A	doc/ep_flux/math-doc/document/img67.png
+A	doc/ep_flux/math-doc/document/img68.png
+A	doc/ep_flux/math-doc/document/img69.png
+A	doc/ep_flux/math-doc/document/img7.png
+A	doc/ep_flux/math-doc/document/img70.png
+A	doc/ep_flux/math-doc/document/img71.png
+A	doc/ep_flux/math-doc/document/img72.png
+A	doc/ep_flux/math-doc/document/img73.png
+A	doc/ep_flux/math-doc/document/img74.png
+A	doc/ep_flux/math-doc/document/img75.png
+A	doc/ep_flux/math-doc/document/img76.png
+A	doc/ep_flux/math-doc/document/img77.png
+A	doc/ep_flux/math-doc/document/img78.png
+A	doc/ep_flux/math-doc/document/img79.png
+A	doc/ep_flux/math-doc/document/img8.png
+A	doc/ep_flux/math-doc/document/img80.png
+A	doc/ep_flux/math-doc/document/img81.png
+A	doc/ep_flux/math-doc/document/img82.png
+A	doc/ep_flux/math-doc/document/img83.png
+A	doc/ep_flux/math-doc/document/img84.png
+A	doc/ep_flux/math-doc/document/img85.png
+A	doc/ep_flux/math-doc/document/img86.png
+A	doc/ep_flux/math-doc/document/img87.png
+A	doc/ep_flux/math-doc/document/img88.png
+A	doc/ep_flux/math-doc/document/img89.png
+A	doc/ep_flux/math-doc/document/img9.png
+A	doc/ep_flux/math-doc/document/img90.png
+A	doc/ep_flux/math-doc/document/img91.png
+A	doc/ep_flux/math-doc/document/img92.png
+A	doc/ep_flux/math-doc/document/img93.png
+A	doc/ep_flux/math-doc/document/img94.png
+A	doc/ep_flux/math-doc/document/img95.png
+A	doc/ep_flux/math-doc/document/img96.png
+A	doc/ep_flux/math-doc/document/img97.png
+A	doc/ep_flux/math-doc/document/img98.png
+A	doc/ep_flux/math-doc/document/img99.png
+A	doc/ep_flux/math-doc/document/index.html
+A	doc/ep_flux/math-doc/document/internals.pl
+A	doc/ep_flux/math-doc/document/labels.pl
+A	doc/ep_flux/math-doc/document/node1.html
+A	doc/ep_flux/math-doc/document/node10.html
+A	doc/ep_flux/math-doc/document/node2.html
+A	doc/ep_flux/math-doc/document/node3.html
+A	doc/ep_flux/math-doc/document/node4.html
+A	doc/ep_flux/math-doc/document/node5.html
+A	doc/ep_flux/math-doc/document/node6.html
+A	doc/ep_flux/math-doc/document/node7.html
+A	doc/ep_flux/math-doc/document/node8.html
+A	doc/ep_flux/math-doc/document/node9.html
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux/math-doc/document.tex,document.pdf: created
+
+A	doc/ep_flux/math-doc/document.pdf
+A	doc/ep_flux/math-doc/document.tex
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux/index.rd,index.html,ep_flux.html,ggraph_on_merdional_section.html: created
+
+A	doc/ep_flux/ep_flux.html
+A	doc/ep_flux/ggraph_on_merdional_section.html
+A	doc/ep_flux/index.html
+A	doc/ep_flux/index.rd
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/derivative/math-doc/document/*: many mathmatical document files created (html version)
+
+A	doc/derivative/math-doc/document/document.css
+A	doc/derivative/math-doc/document/document.html
+A	doc/derivative/math-doc/document/images.aux
+A	doc/derivative/math-doc/document/images.log
+A	doc/derivative/math-doc/document/images.pl
+A	doc/derivative/math-doc/document/images.tex
+A	doc/derivative/math-doc/document/img1.png
+A	doc/derivative/math-doc/document/img10.png
+A	doc/derivative/math-doc/document/img11.png
+A	doc/derivative/math-doc/document/img12.png
+A	doc/derivative/math-doc/document/img13.png
+A	doc/derivative/math-doc/document/img14.png
+A	doc/derivative/math-doc/document/img15.png
+A	doc/derivative/math-doc/document/img16.png
+A	doc/derivative/math-doc/document/img17.png
+A	doc/derivative/math-doc/document/img18.png
+A	doc/derivative/math-doc/document/img19.png
+A	doc/derivative/math-doc/document/img2.png
+A	doc/derivative/math-doc/document/img20.png
+A	doc/derivative/math-doc/document/img21.png
+A	doc/derivative/math-doc/document/img22.png
+A	doc/derivative/math-doc/document/img23.png
+A	doc/derivative/math-doc/document/img24.png
+A	doc/derivative/math-doc/document/img25.png
+A	doc/derivative/math-doc/document/img26.png
+A	doc/derivative/math-doc/document/img27.png
+A	doc/derivative/math-doc/document/img28.png
+A	doc/derivative/math-doc/document/img29.png
+A	doc/derivative/math-doc/document/img3.png
+A	doc/derivative/math-doc/document/img30.png
+A	doc/derivative/math-doc/document/img4.png
+A	doc/derivative/math-doc/document/img5.png
+A	doc/derivative/math-doc/document/img6.png
+A	doc/derivative/math-doc/document/img7.png
+A	doc/derivative/math-doc/document/img8.png
+A	doc/derivative/math-doc/document/img9.png
+A	doc/derivative/math-doc/document/index.html
+A	doc/derivative/math-doc/document/labels.pl
+A	doc/derivative/math-doc/document/node1.html
+A	doc/derivative/math-doc/document/node2.html
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/derivative/math-doc/document.tex,document.pdf: created
+
+A	doc/derivative/math-doc/document.pdf
+A	doc/derivative/math-doc/document.tex
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* doc/ep_flux/index.rd,index.html,ep_flux.html,ggraph_on_merdional_section.html: created
+
+A	doc/derivative/gphys-derivative.html
+A	doc/derivative/index.html
+A	doc/derivative/index.rd
+A	doc/derivative/numru-derivative.html
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* numru/gphys/derivative.rb: created
+
+A	lib/numru/gphys/derivative.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* numru/gphys/ep_flux.rb: created
+
+A	lib/numru/gphys/ep_flux.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* numru/ggraph_on_merdional_section.rb: created
+
+A	lib/numru/ggraph_on_merdional_section.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* numru/derivative.rb: created
+
+A	lib/numru/derivative.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* sample/ep_flux/demo_NCEP_1.rb,demo_NCEP_2.rb,demo_NCEP_3.rb: created (require demo-data)
+
+A	sample/ep_flux/demo_NCEP_1.rb
+A	sample/ep_flux/demo_NCEP_2.rb
+A	sample/ep_flux/demo_NCEP_3.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* test/test_ep_flux.rb:created
+
+A	test/test_ep_flux.rb
+
+2004-11-02  daktu32 
+Tue Nov 02  2004   D Tsukahara
+	* TODO_ep_flux: created
+
+A	TODO_ep_flux
+
+2004-08-26  horinout 
+Thu Aug 26  2004   T Horinouchi
+	* gphys_io_common.rb: debug in each_along_dims_write
+Fri Aug 18  2004   T Horinouchi
+	* ggraph.rb: Added options 'tonf', 'tonc' to GGraph.tone
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_io_common.rb
+
+2004-08-12  horinout 
+	* gphys.rb: added att_names, get_att, set_att,
+	  put_att(aliased to set_att), del_att.
+        * ggraph.rb: minor improvement
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+
+2004-08-12  horinout 
+*** empty log message ***
+
+M	lib/numru/ggraph.rb
+
+2004-08-12  horinout 
+
+Fri Aug 12  2004   T Horinouchi
+        * ggraph.rb: Added GGraph::vector. Renamed DCLExt::ug_flow_vect
+	  to DCLExt::flow_vect and revised. Added DCLExt::unit_vect;
+	  DCLExt::set_unit_vect_options, and DCLExt::next_unit_vect_options.
+	* varray.rb: added VArray#attr_copy
+	* netcdf_convention.rb: _op_attr_edit: not to delete 'long_name'
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/netcdf_convention.rb
+M	lib/numru/gphys/varray.rb
+
+2004-08-10  horinout 
+Fri Aug 10  2004   T Horinouchi
+	* varray.rb,gphys.rb: added method convert_units
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/varray.rb
+
+2004-08-09  horinout 
+Fri Aug  9  2004   T Horinouchi
+        * ggraph.rb: added DCLExt::ug_flow_vect
+	* removed ggraph_old.rb (to be deleted in the next release)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+D	lib/numru/ggraph_old.rb
+
+2004-08-09  horinout  (gphys-0_3_3)
+	* gphys-0.3.3 released (cvs tag gphys-0_3_3)
+
+M	ChangeLog
+
+2004-08-09  horinout 
+Fri Aug  9  2004   T Horinouchi
+	* grid.rb: delete_axes: to allow dimension specification by name(s)
+	* axis.rb(,gphys.rb): added Axis#to_gphys(datavary1d=nil), which
+	  makes a 1D GPhys object using the axis. By default, the axis's
+	  coordinate variable is used as the data.
+	  Its test program was added to gphys.rb.
+	* ggraph.rb: contour,tone: added transpose option to exchange x&y axes.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2004-08-09  horinout 
+Fri Aug  9  2004   T Horinouchi
+	* ggraph.rb: contour,tone: added transpose option to exchange x&y axes.
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2004-08-09  horinout 
+Fri Aug  9  2004   T Horinouchi
+        * grid.rb,varray.rb,gphys.rb: added transpose method.
+	* varray.rb: added VArray#del_att. VArray#coerce: support UNumeric.
+          asin, atan etc: units of the return value set to 'rad' (it was '1')
+	* unumeric.rb: debug in expection messaging in UNumeric#convert2
+          Math funcs such as log&sin: to return UNumeric (instead of Numeric).
+          Added atan2.
+          asin, atan etc: units of the return value set to 'rad' (it was '1')
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/unumeric.rb
+M	lib/numru/gphys/varray.rb
+
+2004-08-08  horinout 
+Fri Aug  9  2004   T Horinouchi
+	* varray.rb: added VArray#del_att
+Fri Jul 16  2004   T Horinouchi
+	* ggraph.rb:
+	  axes -- to set the uz parameter 'roffxt', when units of the left
+	  y axis is to be written to avoid the overlay with the title.
+	  line -- added a new parameter 'label'
+Thu Jul 15  2004   T Horinouchi
+	* gphys_fft.rb: added GPhys#detrend, GPhys#cos_taper,
+	  and GPhys::COS_TAPER_SP_FACTOR (==1/0.875)
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/varray.rb
+
+2004-07-15  horinout 
+Thu Jul 15  2004   T Horinouchi
+	* gphys_fft.rb: added GPhys#detrend, GPhys#cos_taper,
+	  and GPhys::COS_TAPER_SP_FACTOR (==1/0.875)
+
+M	ChangeLog
+M	doc/gphys_fft.html
+M	lib/numru/gphys/gphys_fft.rb
+
+2004-07-15  mizuta 
+
+Thu Jul 15  2004   R Mizuta
+	* grads_gridded.rb: created natts, get_att, and att_names
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2004-06-10  horinout 
+
+Thu Jun 10  2004   T Horinouchi
+	* grads_gridded.rb: treat cray_32bit_ieee as bigendian
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2004-05-27  mizuta 
+Thu May 24  2004   R Mizuta
+        * coordtransform.rb: bug fixed
+
+M	ChangeLog
+M	lib/numru/gphys/coordtransform.rb
+
+2004-05-21  horinout  (gphys-0_3_2)
+Just an update of ChangeLog
+
+M	ChangeLog
+
+2004-05-21  horinout 
+
+Fri May 21  2004   T Horinouchi
+	* gphys_io_common.rb: debug in each_along_dims_write -- the previous
+	  version did not work with the unlimited dimension.
+	* coordtransform.rb: minor change (HAVE_SSL2 -> HAVE_NUMRU_SSL2)
+
+M	ChangeLog
+M	lib/numru/gphys/coordtransform.rb
+M	lib/numru/gphys/gphys_io_common.rb
+
+2004-05-10  mizuta 
+
+Mon May 10  2004   R Mizuta
+	* grads_gridded.rb,gphys_grads_io.rb,varraygrads.rb:
+	  supported GrADS output
+	* coordtransform.rb: linear interpolation without SSL2
+
+M	ChangeLog
+M	lib/numru/gphys/coordtransform.rb
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2004-05-08  horinout 
+*** empty log message ***
+
+M	lib/numru/gphys/gphys.rb
+
+2004-05-05  horinout 
+
+Wed May  5  2004   T Horinouchi
+	* gphys.rb: [],[]=: minor debug (handling of specification by dim name)
+	* ggraph.rb: _set_tone_levels_ (used in tone): improved --
+	  it is ok now to to specify 'patters'.
+	  tone: added options 'clr_min', 'clr_max' (just for convenience
+	  and consitstency with contour --- one can instead directly
+	  specify the uepack parameter icolor[12])
+Tue May  4  2004   T Horinouchi
+	* gphys_fft.rb: debug & improve coordinate handling in GPhys#fft
+Sun May  2  2004   T Horinouchi
+	* gphys_fft.rb: added units handling in rawspect2powerspect
+	* unumeric.rb: debug in "/"; added the "**"
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/unumeric.rb
+
+2004-04-02  horinout 
+Fri Apr  2  2004   T Horinouchi
+	* netcdf_convention.rb: NetCDF_Conventions::find -> not to raise an
+	  exception when gtool4
+
+M	ChangeLog
+M	lib/numru/gphys/netcdf_convention.rb
+
+2004-03-21  horinout  (gphys-0_3_1)
+
+Just added a line to ChangeLog (for the next release)
+
+M	ChangeLog
+
+2004-03-21  horinout 
+
+Sun Mar 21  2004   T Horinouchi
+	* ggraph.rb,gphys.rb: Moved GPhys#first1D & GPhys#first1D from the
+	  former to the latter.
+        * gphys_io.rb: very minor change
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_io.rb
+
+2004-03-20  horinout 
+
+	* grads_gridded.rb: GrADS_Gridded: added reader to @ctlfile
+
+M	ChangeLog
+M	lib/numru/gphys/grads_gridded.rb
+
+2004-03-20  horinout 
+
+Sat Mar 20  2004   T Horinouchi
+	* lib/numru/gphys.rb: changed required files accordingly
+	* gphys_io.rb: Created (module GPhys::IO).
+	  Consolidates specific IO modules such as GrADS_IO and NetCDF_IO.
+	  Figures out file type internally and forward messages to
+	  appropriate modules.
+	* gphys_io_common.rb: Created by separating from
+	  gphys_netcdf_io.rb. Internal usage only (to be used by IO,
+	  NetCDF_IO, GrADS_IO etc.)
+	* gphys_netcdf_io.rb: Separated module IO_Common into
+	  gphys_io_common.rb.
+Fri Mar 19  2004   T Horinouchi
+	* ggraph.rb: Do not check class of a VArray (for dRuby)
+	* varray.rb: NMath --> Misc::EMath, debug: VArray#** (units treatment)
+	* unumeric.rb: scale-offset conversion --> to warn regardress $VERBOSE
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys.rb
+A	lib/numru/gphys/gphys_io.rb
+A	lib/numru/gphys/gphys_io_common.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/unumeric.rb
+M	lib/numru/gphys/varray.rb
+
+2004-03-04  horinout 
+minor changes
+
+M	ChangeLog
+M	lib/numru/gphys/netcdf_convention.rb
+M	lib/numru/gphys/varray.rb
+
+2004-03-02  horinout  (gphys-0_3_0)
+
+gphys-0.3.0 will be relased
+
+M	ChangeLog
+
+2004-03-02  horinout 
+
+Tue Mar  2  2004   T Horinouchi
+	* doc/index.rd: created (separated from lib/numru/gphys.rb)
+	* netcdf_convention.rb: CREATED. To hold NetCDF convensions
+	  --- better support of the User's Guide convention.
+	  Supported the Wind Profiler convention.
+	* unumeric.rb: added documentation.
+	* gphys_netcdf_io.rb,varraynetcdf.rb,varraycomposite.rb: changed
+	  according to the introduction of netcdf_convention.rb
+	* varray.rb,gphys.rb: supported atan2
+	* attributenetcdf.rb: AttributeNetCDF.new: to accept a NetCDF in
+	  addition to NetCDFVar (this is to support global attributes).
+
+M	ChangeLog
+M	doc/gphys_fft.html
+M	doc/index.html
+A	doc/index.rd
+A	doc/netcdf_convention.html
+A	doc/unumeric.html
+M	doc/varray.html
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/attributenetcdf.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+A	lib/numru/gphys/netcdf_convention.rb
+M	lib/numru/gphys/unumeric.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2004-03-01  horinout 
+
+Mon Mar  1  2004   T Horinouchi
+	* varraycomposite.rb: val: to support NArraMiss; added convention
+	* varraynetcdf.rb: convention module moved in from gphys_netcdf_io.rb.
+	  NetCDFVar#get/put re-aliasesed to (get|put)_with_miss_and_scaling
+          (by default, they are aliased to simple_(get|put)).
+	  (CAUTION: Need NArrayMiss newer THAN 1.0.1, which has a bug)
+	* gphys_netcdf_io.rb: convention module moved out to varraynetcdf.rb
+Sun Feb 29  2004   T Horinouchi
+	* unumeric.rb: added to_f, to_i
+Sat Feb 28  2004   T Horinouchi
+	* gphys_fft.rb: change to use a NumRu::Units operation in wavenum calc
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/unumeric.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2004-02-28  horinout 
+
+Sat Feb 28  2004   T Horinouchi
+	* gphys_fft.rb: change to use a NumRu::Units operation in wavenum calc
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+
+2004-02-27  horinout 
+
+GPhys now supports Units!
+
+  Fri Feb 27  2004   T Horinouchi
+	* unumeric.rb: created.
+	* varray.rb: Modified to use NumRu::Units
+	  - added methods units and units=
+	  - modified Math funcs, binary operators, and
+	    type3_methods (mean,max,etc).
+	* gphys.rb: added methods units and units= (forwarded to @data)
+	* axis.rb,grid.rb: minor change in response to the change in varray.rb
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+A	lib/numru/gphys/unumeric.rb
+M	lib/numru/gphys/varray.rb
+
+2004-02-27  horinout 
+Fri Feb 27  2004   T Horinouchi
+	* varray.rb: improved binary operators (to coerce unknown objects).
+	  VArray#coerce: debug.
+	  VArray#val: changed to return @ary.dup instead of @ary for
+	  consistency with other VArray subclasses and the mapping case.
+	* gphys.rb: added GPhys#coerce,
+	  binary&math operators: changed to copy the grid
+Thu Feb  5  2004   T Horinouchi
+	* gphys_fft.rb: Debuged spect_zero_centering and spect_one_sided.
+	  Made a test part. Added rawspect2powerspect.
+
+M	ChangeLog
+M	doc/gphys_fft.html
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/varray.rb
+
+2004-02-04  horinout 
+Some enhancement
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/varray.rb
+
+2004-01-29  horinout 
+minor debug in NetCDF_IO
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2004-01-29  horinout  (gphys-0_2_3)
+0.2.3
+
+M	ChangeLog
+
+2004-01-29  horinout 
+enhancement suggested by Nishizawa-kun.
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/varray.rb
+
+2004-01-27  horinout 
+varraycomposite.rb: redefined methods ntype and typecode
+
+M	ChangeLog
+M	lib/numru/gphys/varraycomposite.rb
+
+2004-01-06  horinout 
+GPhys::NetCDF_IO: added an iterator to process GPhys objects too big to read
+on memory at once.  Others are minor debugs and enhancement.
+
+M	ChangeLog
+M	doc/gphys_netcdf_io.html
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2004-01-04  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/grid.rb
+
+2003-11-17  horinout 
+added FFT etc. (First-time commit to dennou-k)
+
+M	ChangeLog
+M	doc/coordtransform.html
+A	doc/gphys_fft.html
+M	doc/index.html
+M	doc/varray.html
+M	doc/varraycomposite.html
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/gphys.rb
+A	lib/numru/gphys/gphys_fft.rb
+M	lib/numru/gphys/varray.rb
+
+2003-11-10  mizuta 
+ggraph.rb debug etc
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+
+2003-11-09  horinout 
+minor debug
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_netcdf_io.rb
+
+2003-11-07  horinout  (gphys-0_2_2)
+just a change in ChangeLog
+
+M	ChangeLog
+
+2003-11-07  horinout 
+updates incl. doc in gphys_grads_io.rb
+
+M	ChangeLog
+A	bin/grads2nc.rb
+A	bin/install.rb
+M	doc/gphys.html
+A	doc/gphys_grads_io.html
+M	doc/index.html
+M	doc/varray.html
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/gphys_grads_io.rb
+
+2003-11-05  horinout 
+further minor enhancement in varray.rb
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+
+2003-11-05  horinout 
+minor enhancement in varray.rb
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+
+2003-10-28  mizuta 
+grads_gridded.rb bug fixed
+
+M	ChangeLog
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2003-10-28  horinout 
+improved VArrayNetCDFVar#val= for unlim dim
+
+M	ChangeLog
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-10-28  horinout 
+gomen gomen gomen (nisizawakun ni kekkawo siraseru tame commit wo isoidemasu)
+
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-10-28  horinout 
+Mizuta-kun, nandomo gomen-nasai.
+
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-10-28  horinout 
+debug VArrayNetCDF#write - unlim-dim treatment
+
+M	ChangeLog
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-10-28  horinout 
+minor debug
+
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-10-24  horinout 
+minor modifications (esp for Nishizawa-kun)
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2003-10-23  horinout 
+mostly minor debugs
+
+M	ChangeLog
+M	install.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/varray.rb
+
+2003-10-01  horinout 
+subsetmapping.rb: debug for the irregular mapping
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/subsetmapping.rb
+
+2003-10-01  horinout 
+axis.rb: Axis[] was modified to accept NArray and Array
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+
+2003-09-26  horinout 
+debug
+
+M	sample/cira86_to_nc.rb
+
+2003-09-26  horinout  (gphys-0_2_1)
+*** empty log message ***
+
+M	ChangeLog
+
+2003-09-26  horinout 
+Added a sample to handle CIRA86 / collected minor modifications
+
+M	ChangeLog
+M	doc/gphys_netcdf_io.html
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+A	sample/cira86_to_nc.rb
+A	testdata/cira86.dat
+
+2003-09-22  horinout 
+NetCDF_IO.open: support multiple files -- etc.
+
+M	ChangeLog
+M	doc/gphys.html
+A	doc/gphys_netcdf_io.html
+M	doc/index.html
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/varraycomposite.rb
+
+2003-09-18  horinout 
+Updated gphys doc index etc.
+
+M	doc/gphys.html
+M	doc/grads_gridded.html
+M	doc/index.html
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/grads_gridded.rb
+
+2003-09-18  horinout  (gphys-0_2_0)
+added args to eval for backtrace
+
+M	ChangeLog
+A	doc/grads_gridded.html
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+
+2003-09-18  mizuta 
+modified comments and documents
+
+M	lib/numru/gphys/gphys_grads_io.rb
+M	lib/numru/gphys/grads_gridded.rb
+M	lib/numru/gphys/varraygrads.rb
+
+2003-09-16  mizuta 
+created files for reading GrADS files
+
+M	ChangeLog
+A	lib/numru/gphys/gphys_grads_io.rb
+A	lib/numru/gphys/grads_gridded.rb
+A	lib/numru/gphys/varraygrads.rb
+A	testdata/T.jan.ctl
+A	testdata/T.jan.dat
+
+2003-09-05  horinout 
+*** empty log message ***
+
+M	ChangeLog
+
+2003-09-05  horinout 
+*** empty log message ***
+
+M	ChangeLog
+
+2003-09-03  horinout 
+*** empty log message ***
+
+M	doc/varray.html
+M	lib/numru/gphys/varray.rb
+
+2003-09-03  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-09-03  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-09-02  horinout  (gphys-0_1_0)
+*** empty log message ***
+
+M	ChangeLog
+
+2003-09-02  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/ggraph_old.rb
+M	lib/numru/gphys/attribute.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/coordtransform.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	lib/numru/gphys/varraynetcdf.rb
+M	sample/druby_cli2.rb
+M	sample/druby_serv2.rb
+
+2003-08-27  horinout  (gphys-0_0_6)
+*** empty log message ***
+
+M	ChangeLog
+A	doc/index.html
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys.rb
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	testdata/T.jan.nc
+
+2003-08-27  horinout 
+*** empty log message ***
+
+M	doc/ggraph.html
+A	doc/gphys.html
+M	doc/varray.html
+M	doc/varraycomposite.html
+
+2003-08-27  horinout 
+*** empty log message ***
+
+M	ChangeLog
+A	doc/ggraph.html
+M	doc/varray.html
+M	lib/numru/ggraph.rb
+
+2003-08-26  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+
+2003-08-25  horinout  (gphys-0_0_5)
+*** empty log message ***
+
+M	ChangeLog
+
+2003-08-25  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/ggraph.rb
+M	lib/numru/ggraph_old.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/varray.rb
+
+2003-08-19  horinout 
+*** empty log message ***
+
+M	sample/druby_serv2.rb
+
+2003-08-19  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	doc/coordtransform.html
+M	doc/varray.html
+M	doc/varraycomposite.html
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	sample/druby_cli1.rb
+A	sample/druby_cli2.rb
+M	sample/druby_serv1.rb
+A	sample/druby_serv2.rb
+
+2003-08-12  horinout  (gphys-0_0_4)
+*** empty log message ***
+
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/gphys_netcdf_io.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-08-11  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	doc/coordtransform.html
+A	doc/varray.html
+M	doc/varraycomposite.html
+M	lib/numru/gphys/varray.rb
+M	lib/numru/gphys/varraycomposite.rb
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-08-10  horinout 
+*** empty log message ***
+
+A	doc/varraycomposite.html
+M	lib/numru/gphys/varray.rb
+A	lib/numru/gphys/varraycomposite.rb
+
+2003-08-08  horinout 
+*** empty log message ***
+
+M	ChangeLog
+M	lib/numru/gphys/axis.rb
+M	lib/numru/gphys/gphys.rb
+M	lib/numru/gphys/grid.rb
+M	lib/numru/gphys/subsetmapping.rb
+M	lib/numru/gphys/varray.rb
+
+2003-06-23  horinout 
+*** empty log message ***
+
+M	lib/numru/gphys/varraynetcdf.rb
+
+2003-06-23  horinout 
+Initial revision
+
+A	ChangeLog
+A	README
+A	doc/coordtransform.html
+A	install.rb
+A	lib/numru/ggraph.rb
+A	lib/numru/ggraph_old.rb
+A	lib/numru/gphys.rb
+A	lib/numru/gphys/attribute.rb
+A	lib/numru/gphys/attributenetcdf.rb
+A	lib/numru/gphys/axis.rb
+A	lib/numru/gphys/coordmapping.rb
+A	lib/numru/gphys/coordtransform.rb
+A	lib/numru/gphys/gphys.rb
+A	lib/numru/gphys/gphys_netcdf_io.rb
+A	lib/numru/gphys/grid.rb
+A	lib/numru/gphys/subsetmapping.rb
+A	lib/numru/gphys/varray.rb
+A	lib/numru/gphys/varraynetcdf.rb
+A	sample/druby_cli1.rb
+A	sample/druby_serv1.rb
+A	testdata/T.jan.nc
