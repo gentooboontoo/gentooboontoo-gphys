@@ -8,10 +8,10 @@ Gem::Specification.new do |gem|
   gem.version       = GPhys::VERSION
   gem.authors           = ["Takeshi Horinouchi", "Ryo Mizuta",\
     "Daisuke Tsukahara", "Seiya Nishizawa", "Shin-ichi Takehiro"]
-  gem.email         = ["eriko@gfd-dennou.org"]
-  gem.description      = %q{comprehensive library for self-descriptive gridded physical data (in NetCDF, GrADS, or on memory) with graphicsgraphicsgraphicsgraphics.}
-  gem.summary          = %q{a multi-purpose class to handle Gridded Physical quantities}
-  gem.homepage         = 'http://www.gfd-dennou.org/arch/ruby/products/gphys/'
+  gem.email         = ["julien.sanchez@gmail.com"]
+  gem.description      = %q{a multi-purpose class to handle Gridded Physical quantities.}
+  gem.summary          = %q{GPhys fork compatible with Rubygems}
+  gem.homepage         = 'https://github.com/gentooboontoo/gentooboontoo-gphys'
 
   gem.files         = Dir["lib/**/*",
                           "bin/*",
