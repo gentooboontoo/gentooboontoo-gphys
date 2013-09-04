@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency(%q<numru-units>, [">= 1.7"])
   gem.add_runtime_dependency(%q<narray_miss>, [">= 1.2.4"])
   gem.add_runtime_dependency(%q<ruby-netcdf>, [">= 0.6.6"])
-  gem.add_runtime_dependency(%q<ruby-fftw3>, [">= 0.3"])
+  gem.add_runtime_dependency(%q<gentooboontoo-ruby-fftw3>, [">= 0.4"])
   gem.add_runtime_dependency(%q<ruby-lapack>, [">= 1.5"])
   gem.add_development_dependency(%q<rb-grib>, [">= 0.2.0"])
 end
