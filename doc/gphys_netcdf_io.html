@@ -1,0 +1,283 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys_netcdf_io.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GPhys::NetCDF_Convention_Users_Guide</a></h1><!-- RDLabel: "module NumRu::GPhys::NetCDF_Convention_Users_Guide" -->
+<p>(To be written.)</p>
+<h1><a name="label:1" id="label:1">module NumRu::GPhys::NetCDF_IO</a></h1><!-- RDLabel: "module NumRu::GPhys::NetCDF_IO" -->
+<p>a NetCDF read/write helper by automatically interpreting conventions</p>
+<h2><a name="label:2" id="label:2">Module functions</a></h2><!-- RDLabel: "Module functions" -->
+<dl>
+<dt><h4><a name="label:3" id="label:3"><code>is_a_NetCDF?(<var>filename</var>)</code></a></h4></dt><!-- RDLabel: "is_a_NetCDF?" -->
+<dd>
+<p>test whether the file is a NetCDF file.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>filename (String): filename to test.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>true/false</li>
+</ul></dd>
+<dt><h4><a name="label:4" id="label:4"><code>open(<var>files</var>, <var>varname</var>)</code></a></h4></dt><!-- RDLabel: "open" -->
+<dd>
+<p>a GPhys constructor from a NetCDF file (or multiple NetCDF files).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>files (String, NetCDF, NArray, or Regexp): file specifier.
+      A single file is specified by a String (containing the path),
+      of a NetCDF. Multiple files can be specified by a NArray of
+      String or NetCDF or by a Regexp to match paths. In that case,
+      data and axes are represented by VArrayComposite.</li>
+<li>varname (String): name of the variable.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>From a single file:</p>
+<pre>file = NetCDF.open('hogehoge.nc')
+gphys = GPhys::NetCDF_IO(file, 'temp')
+
+file = NetCDF.open('hogehoge.nc', 'a')     # writable
+gphys = GPhys::NetCDF_IO(file, 'temp')</pre></li>
+<li><p>From a single file:</p>
+<pre>gphys = GPhys::NetCDF_IO('hogehoge.nc', 'temp')
+
+gphys = GPhys::NetCDF_IO('/data/netcdf/hogehoge.nc', 'temp')</pre>
+<p>If you use a String to specify a file path, the file is opened as 
+read-only.</p></li>
+<li><p>To use data separated into multiple files. Suppose that you have
+      hoge_yr2000.nc, hoge_yr2001.nc, and hoge_yr2002.nc in the current
+      directory. You can open it by using a regular expression as follows:</p>
+<pre>gphys = GPhys::NetCDF_IO(/hoge_yr(\d\d\d\d).nc/, 'temp')</pre>
+<p>Here, the parentheses to enclose \d\d\d\d is NEEDED. </p>
+<p>The same thing can be done as follows by using Array or NArray:</p>
+<pre>files = ['hoge_yr2000.nc', 'hoge_yr2001.nc', 'hoge_yr2002.nc']
+gphys = GPhys::NetCDF_IO(files, 'temp')
+
+files = NArray['hoge_yr2000.nc', 'hoge_yr2001.nc', 'hoge_yr2002.nc']
+gphys = GPhys::NetCDF_IO(files, 'temp')</pre></li>
+<li><p>Same as above but to use the full path:</p>
+<pre>gphys = GPhys::NetCDF_IO(/\/data\/nc\/hoge_yr(\d\d\d\d).nc/, 'temp')</pre>
+<p>Here, the directory separator '/' is escaped as '\/'.</p></li>
+<li><p>To use data separated into multiple files. Suppose that you have
+      hoge_x0y0.nc, hoge_x1y0.nc, hoge_x0y1.nc, hoge_x1y1.nc, where
+      the data is separated 2 dimensionally into 2*2 = 4 files.</p>
+<pre>gphys = GPhys::NetCDF_IO(/hoge_x(\d)y(\d).nc/, 'temp')</pre>
+<p>Note that 2 pairs of parentheses are needed here. Alternatively,
+you can also do it like this:</p>
+<pre>files = NArray[ ['hoge_x0y0.nc', 'hoge_x1y0.nc'],
+                ['hoge_x0y1.nc', 'hoge_x1y1.nc'] ]
+gphys = GPhys::NetCDF_IO(files, 'temp')</pre></li>
+</ul></dd>
+<dt><h4><a name="label:5" id="label:5"><code>write(<var>file</var>, <var>gphys</var>, <var>name</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "write" -->
+<dd>
+<p>Write a GPhys into a NetCDF file. The whole data under the GPhys 
+(such as coordinate vars) are written self-descriptively.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (NetCDF): the NetCDF file to write in. Must be writable of course.</li>
+<li>gphys (GPhys): the GPhys to write.</li>
+<li>name (String): (optional) name in the new file -- if you want to save
+      with a different variable name than that of gphys.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:6" id="label:6"><code>write_grid(<var>file</var>, <var>grid_or_gphys</var>)</code></a></h4></dt><!-- RDLabel: "write_grid" -->
+<dd>
+<p>Same as <a href="#label:5">write</a> but for writing only the contents of the grid.
+(Used in <a href="#label:5">write</a>.)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (NetCDF): the NetCDF file to write in. Must be writable of course.</li>
+<li>grid_or_gphys (Grid or GPhys):</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid, in which all VArrays in the original grid are replaced 
+      with the new ones in the file.</li>
+</ul></dd>
+<dt><h4><a name="label:7" id="label:7"><code>each_along_dims_write(<var>gphyses</var>, <var>files</var>, *<var>loopdims</var>){...}  # <var>a</var> <var>block</var> <var>is</var> <var>expected</var></code></a></h4></dt><!-- RDLabel: "each_along_dims_write" -->
+<dd>
+<p>Iterator to process GPhys objects too big to read on memory at once.
+Makes a loop (loops) by dividing the GPhys object(s) (<var>gphyses</var>)
+with the dimension(s) specified by <var>loopdims</var>, and the results
+(which is the return value of the block) are written in <var>files</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphyses (GPhys or Array of GPhys): GPhys object(s) to be processed.
+      All of them must have dimensions spcified with <var>loopdims</var>,
+      and their lengths must not vary among files. Other dimensions
+      are aribtary, so, for example,  <var>gphyses</var> could be 
+      [a(lon,lat,time), b(lat,time)] as long as loopdims==["time"].</li>
+<li>files (NetCDF or Array of NetCDF): the file in which the results are
+      written. The number of the file must be smaller than or equalt to 
+      the number of resultant GPhys objects (following the multiple assignment
+      rule of Ruby).</li>
+<li>loopdims (Array of String or Integer) : name (when String) or
+      count starting from zero (when Integer) </li>
+<li>expected block : Number of arguments == number of GPhys objects in
+      <var>gphyses</var>. Expected return value is an Array of GPhys objects
+      to be written <var>files</var>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>GPhys objects in which the results are written</li>
+</ul>
+<p>ERRORS</p>
+<p>The following raise exceptions (in adition to errors in arguments).</p>
+<ul>
+<li>Dimensions specified by <var>loopdims</var> are not shared among
+      GPhys objects in <var>gphyses</var>.</li>
+<li>Return value of the block is not an Array of GPhys.</li>
+<li>Dimension(s) used for looping (<var>loopdims</var>) is(are) eliminated
+      from the retunred GPhys objects.</li>
+</ul>
+<p>USAGE</p>
+<ul>
+<li><p>EXAMPLE 1</p>
+<p>Suppose that you want to do the following:</p>
+<pre>in = GPhys::NetCDF_IO.open(infile, varname)
+ofile = NetCDF.create(ofilename)
+out = in.mean(0)
+GPhys::NetCDF_IO.write( ofile, out )
+ofile.close</pre>
+<p>The data object (<var>in</var>) is read on memory and an averagin is made.
+If the size of the data is too big to read on memory at once, you can
+divid this process by using this iterator. The following gives the 
+same result as above, but the processing is made for each subset
+divided at the last dimension (represented by -1, as in the negative
+indexing of Array).</p>
+<pre>in = GPhys::NetCDF_IO.open(infile, varname)
+ofile = NetCDF.create(ofilename)
+out = GPhys::NetCDF_IO.each_along_dims_write(in, ofile, -1){|in_sub|
+  [ in_sub.mean(0) ]
+}
+ofile.close</pre>
+<p>In this case, each_along_dims_write makes a loop by substituting
+<var>in[false,0..0]</var>, <var>in[false,1..1]</var>, <var>in[false,2..2]</var>,.. 
+into the argument of the block (<var>in_sub</var>). Thus, the return
+value of the block (here, <var>[ in_sub.mean(0) ]</var>) consists of
+<var>in[false,0..0].mean(0)</var>, <var>in[false,1..1].mean(0)</var>,.. .
+This iterator creates a GPhys object in <var>out</var> that 
+represents the whole part of the results (here, <var>in.mean(0)</var>), and 
+write the resultant subsets in it one by one. Therefore, the output file
+is filled correctly when exiting the iterator.</p>
+<p>Note that the subset (<var>in_sub</var>) retains the last dimension
+but the length is 1 becasue of the slicing by Range (0..0, 1..1,..).
+Therefore, the subset has the same rank as the original.
+The output GPhys objects, as given by the return value of the block,
+must have the dimension retained, since the dimension (whose length 
+is one) is replaced by the original one when written in the file.
+Therefore, THE FOLLOWING CAUSE AN ERROR (an exception is raised):</p>
+<pre>out = GPhys::NetCDF_IO.each_along_dims_write(in, ofile, 0){|in_sub|
+  [ in_sub.mean(0) ]
+}</pre>
+<p>Here, looping is made by the first dimension (0), but it is eliminated 
+from the result by averaging with the same dimension. (Also, note
+that this averaging is non-sense, since the length of the first
+dimension of the subset is 1).</p></li>
+<li><p>EXAMPLE 2</p>
+<p>You can specify mutiple dimensions for looping to further
+decrease the size of data to read on memory:</p>
+<pre>GPhys::NetCDF_IO.each_along_dims_write(in, ofile, -2, -1){|in_sub|
+  ...
+}</pre>
+<p>Also, you can specify the loop dimension(s) by name(s):</p>
+<pre>GPhys::NetCDF_IO.each_along_dims_write(in, ofile, "y"){|in_sub|
+  ...
+}
+
+GPhys::NetCDF_IO.each_along_dims_write(in, ofile, "y", "z"){|in_sub|
+  ...
+}</pre></li>
+<li><p>EXAMPLE 3</p>
+<p>You can give multiple objects in the iterotor if they
+have the same shape (in future, this restriction may been loosened),
+as follows:</p>
+<pre>in1 = GPhys::NetCDF_IO.open(infile1, varname1)
+in2 = GPhys::NetCDF_IO.open(infile2, varname2)
+in3 = GPhys::NetCDF_IO.open(infile3, varname3)
+ofile = NetCDF.create(ofilename)
+outA, outB = \
+  GPhys::NetCDF_IO.each_along_dims_write([in1,in2,in3], ofile, -1){
+    |isub1,isub2,isub3|
+    osubA = (isub1*isub2).mean(0)
+    osubB = (isub2*isub3).mean(1)
+    [ osubA, osubB ]
+  }
+ofile.close</pre>
+<p>In this case, two output objects (outA and outB) are made 
+from the three input objects (in1,in2,in3) and written in a
+single file (ofile). If you want to separate into two files, 
+you can do it like this: </p>
+<pre>in1 = GPhys::NetCDF_IO.open(infile1, varname1)
+in2 = GPhys::NetCDF_IO.open(infile2, varname2)
+in3 = GPhys::NetCDF_IO.open(infile3, varname3)
+ofile1 = NetCDF.create(ofilename1)
+ofile2 = NetCDF.create(ofilename2)
+outA, outB = \
+  GPhys::NetCDF_IO.each_along_dims_write([in1,in2,in3], [ofile1,ofile2], -1){
+    |isub1,isub2,isub3|
+    osubA = (isub1*isub2).mean(0)
+    osubB = (isub2*isub3).mean(1)
+    [ osubA, osubB ]
+  }
+ofile.close</pre></li>
+</ul></dd>
+<dt><h4><a name="label:8" id="label:8"><code>set_convention(<var>convention</var>)</code></a></h4></dt><!-- RDLabel: "set_convention" -->
+<dd>
+<p>Set a NetCDF convention to be interpreted.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>convention (Module): the convention</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>convention (Module)</li>
+</ul></dd>
+<dt><h4><a name="label:9" id="label:9"><code>convention</code></a></h4></dt><!-- RDLabel: "convention" -->
+<dd>
+<p>Returns the current NetCDF convention to be interpreted.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>convention (Module)</li>
+</ul></dd>
+<dt><h4><a name="label:10" id="label:10"><code>var_names(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names" -->
+<dd>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (NetCDF or String): if string,
+      it must be the name (path) of a NetCDF file.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>names of variables (Array): this return the names of variables
+      which the file has.</li>
+</ul></dd>
+<dt><h4><a name="label:11" id="label:11"><code>var_names_except_coordinate(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names_except_coordinate" -->
+<dd>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (NetCDF or String): if string,
+      it must be the name (path) of a NetCDF file.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>names of variables (Array): this return the names of variables
+      which the file has, except variables for coordinate.</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

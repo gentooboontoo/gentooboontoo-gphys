@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys_grib_io.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GPhys::Grib_IO</a></h1><!-- RDLabel: "module NumRu::GPhys::Grib_IO" -->
+<p>helps read Grib-formatted data</p>
+<h2><a name="label:1" id="label:1">Module functions</a></h2><!-- RDLabel: "Module functions" -->
+<dl>
+<dt><h4><a name="label:2" id="label:2"><code>is_a_Grib? <var>filename</var>)</code></a></h4></dt><!-- RDLabel: "is_a_Grib? filename)" -->
+<dd>
+<p>test whether the file is a Grib file.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>filename (String): filename to test.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>true/false</li>
+</ul></dd>
+<dt><h4><a name="label:3" id="label:3"><code>open(<var>file</var>, <var>varname</var>)</code></a></h4></dt><!-- RDLabel: "open" -->
+<dd>
+<p>GPhys constructor from Grib.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (Grib or String): file to read. If string,
+      it must be the name (path) of a Grib file. </li>
+<li>varname (String): name of the varible in the file, for which
+      a GPhys object is constructed.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul>
+<p>EXAMPLE</p>
+<ul>
+<li><p>Suppose that you have a file temp in the currentdirectly,
+      and it contains a variable "T". The following creates a GPhys
+      object representing the variable in the file.</p>
+<pre>require "numru/gphys"
+include GPhys
+temp = GPhys::Grib_IO.open("temp","T")</pre></li>
+</ul></dd>
+<dt><h4><a name="label:4" id="label:4"><code>write(<var>file</var>, <var>gphys</var>, <var>name_dummy</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "write" -->
+<dd>
+<p>Write a GPhys into a Grib file. The whole data under the GPhys 
+(such as coordinate vars) are written self-descriptively.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (Grib): the Grib file to write in. Must be writable of course.</li>
+<li>gphys (GPhys): the GPhys to write.</li>
+<li>name_dummy (nil) : Unused in this module; Just for consistency with others.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:5" id="label:5"><code>var_names(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names" -->
+<dd>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (Grib or String): if string,
+      it must be the name (path) of a Grib file.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>names of variables (Array): this return the names of variables
+      which the file has.</li>
+</ul></dd>
+<dt><h4><a name="label:6" id="label:6"><code>var_names_except_coordinates(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names_except_coordinates" -->
+<dd>
+<ul>
+<li>same as var_names</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/netcdf_convention.rb</title>
+</head>
+<body>
+<h2><a name="label:0" id="label:0">INDEX</a></h2><!-- RDLabel: "INDEX" -->
+<ul>
+<li><a href="#label:1">module NumRu::NetCDF_Conventions</a></li>
+<li><a href="#label:6">module NumRu::NetCDF_Convention_Users_Guide</a>
+<ul>
+<li><a href="#label:15">module NumRu::NetCDF_Convention_Users_Guide::Attribute_Mixin</a></li>
+<li><a href="#label:18">module NumRu::NetCDF_Convention_Users_Guide::VArray_Mixin</a></li>
+</ul></li>
+<li><a href="#label:20">module NumRu::NetCDF_Convention_Wind_Profiler</a></li>
+</ul>
+<h1><a name="label:1" id="label:1">module NumRu::NetCDF_Conventions</a></h1><!-- RDLabel: "module NumRu::NetCDF_Conventions" -->
+<p>NetCDF_Conventions is the general handler of NetCDF conventions for the 
+GPhys library.</p>
+<h2><a name="label:2" id="label:2">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<dl>
+<dt><h4><a name="label:3" id="label:3"><code>find( <var>netcdf</var> )</code></a></h4></dt><!-- RDLabel: "find" -->
+<dd>
+<p>Figures out what NetCDF convention a netcdf file is following.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>netcdf</var> (NetCDF): the file</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Module (NumRu::NetCDF_Convention_Users_Guide etc.)</li>
+</ul>
+<p>REMARK</p>
+<ul>
+<li>The convention is figured out from the 'Conventions' global attribute.
+      You can instead fix the convention by using <a href="#label:4">fix_to</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:4" id="label:4"><code>fix_to( <var>convention</var> )</code></a></h4></dt><!-- RDLabel: "fix_to" -->
+<dd>
+<p>Fix the convention to be returned by <a href="#label:3">find</a> regardless the value
+of the 'Conventions' attribute.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>convention</var> (Module): NumRu::NetCDF_Convention_Users_Guide etc.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>convention</li>
+</ul></dd>
+<dt><h4><a name="label:5" id="label:5"><code>add_history(<var>netcdf</var>, <var>str</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "add_history" -->
+<dd>
+<p>Adds a line to the 'history' global convention of <var>netcdf</var>.
+The line consists of date, time, user name, and <var>str</var> 
+if present (e.g., '2004-03-02 17:52:25 JST horinout&gt; '+str).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>netcdf</var> (NetCDF): the file in which the history is updated</li>
+<li><var>str</var> (nil or String): if present, added to the end of the line.</li>
+</ul></dd>
+</dl>
+<h1><a name="label:6" id="label:6">module NumRu::NetCDF_Convention_Users_Guide</a></h1><!-- RDLabel: "module NumRu::NetCDF_Convention_Users_Guide" -->
+<p>The NetCDF Users Guide Convention 
+(http://www.unidata.ucar.edu/packages/netcdf/docs.html).</p>
+<h2><a name="label:7" id="label:7">Constants</a></h2><!-- RDLabel: "Constants" -->
+<dl>
+<dt><h4><a name="label:8" id="label:8"><code>Attribute_Mixin</code></a><!-- RDLabel: "Attribute_Mixin" -->
+</dl>
+<p>See below: <a href="#label:15">module NumRu::NetCDF_Convention_Users_Guide::Attribute_Mixin</a>.</p>
+<dl>
+<dt><h4><a name="label:9" id="label:9"><code>VArray_Mixin</code></a><!-- RDLabel: "VArray_Mixin" -->
+</dl>
+<p>See below: <a href="#label:18">module NumRu::NetCDF_Convention_Users_Guide::VArray_Mixin</a>.</p>
+<h2><a name="label:10" id="label:10">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<dl>
+<dt><h4><a name="label:11" id="label:11"><code>to_s</code></a></h4></dt><!-- RDLabel: "to_s" -->
+<dd>
+<p>Returns a string to be used as representing the convention.
+The Users Guide Convention does not have one, so a string 
+was tentatively assigned by Horinouchi.</p></dd>
+<dt><h4><a name="label:12" id="label:12"><code>coord_var_names(<var>ncvar</var>)</code></a></h4></dt><!-- RDLabel: "coord_var_names" -->
+<dd>
+<p>Returns the names of coordinate variables for all the dimensions
+of <var>ncvar</var>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><var>ncvar</var> (NetCDFVar)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>Array of strings, whose length is the rank of <var>ncvar</var>.</li>
+</ul></dd>
+<dt><h4><a name="label:13" id="label:13"><code>cell_bounds?(<var>coord_var</var>)</code></a></h4></dt><!-- RDLabel: "cell_bounds?" -->
+<dd>
+<p>Document to be written. (returns false&amp;nil in this convention.)
+Might be reorganized in future when the gtool4 convention is supported.</p></dd>
+<dt><h4><a name="label:14" id="label:14"><code>cell_center?(<var>coord_var</var>)</code></a></h4></dt><!-- RDLabel: "cell_center?" -->
+<dd>
+<p>Document to be written. (returns false&amp;nil in this convention.)
+Might be reorganized in future when the gtool4 convention is supported.</p></dd>
+</dl>
+<p>--------------------------------------------------</p>
+<h2><a name="label:15" id="label:15">module NumRu::NetCDF_Convention_Users_Guide::Attribute_Mixin</a></h2><!-- RDLabel: "module NumRu::NetCDF_Convention_Users_Guide::Attribute_Mixin" -->
+<p>The module to be mixed in NumRu::AttributeNetCDF.</p>
+<h3><a name="label:16" id="label:16">Instance Methods </a></h3><!-- RDLabel: "Instance Methods " -->
+<p>Methods below will become sigular methods of NumRu::AttributeNetCDF.</p>
+<dl>
+<dt><h4><a name="label:17" id="label:17"><code>copy(<var>to</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "copy" -->
+<dd>
+<p>Same as super (the one overridden by this method), 
+but edits some standard attributes if to is nil (copy onto memory)):</p>
+<ul>
+<li>scale_factor, add_offset: removed, since data copying includes 
+      "unpaking" by interpreting them</li>
+<li>valid_*, missing_value: unpacked if packed.</li>
+<li>_FillValue, FORTRAN_format, C_format: eliminated</li>
+</ul></dd>
+</dl>
+<p>---------------------------------------------------</p>
+<h2><a name="label:18" id="label:18">module NumRu::NetCDF_Convention_Users_Guide::VArray_Mixin</a></h2><!-- RDLabel: "module NumRu::NetCDF_Convention_Users_Guide::VArray_Mixin" -->
+<p>The module to be mixed in NumRu::VArrayNetCDF.</p>
+<h3><a name="label:19" id="label:19">Instance Methods</a></h3><!-- RDLabel: "Instance Methods" -->
+<p>Currently none, meaning is that no modification is made 
+in VArrayNetCDF.</p>
+<p>---------------------------------------------------------------------</p>
+<h1><a name="label:20" id="label:20">module NumRu::NetCDF_Convention_Wind_Profiler</a></h1><!-- RDLabel: "module NumRu::NetCDF_Convention_Wind_Profiler" -->
+<p>The Wind Profiler convention 
+(http://www.kurasc.kyoto-u.ac.jp/radar-group/wind_profiler_conventions/).</p>
+<p>Inherits NetCDF_Convention_Users_Guide and makes appropriate redefinitions.
+See <a href="#label:6">module NumRu::NetCDF_Convention_Users_Guide</a> for the description 
+of constants and module functions.</p>
+
+</body>
+</html>

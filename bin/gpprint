@@ -1,0 +1,57 @@
+#!/usr/bin/env ruby
+
+##################################################
+=begin
+=gpprint
+
+A command to print the values of a variable specified by
+a gtool4-type URL. 
+
+Outputs are comma-separated ascii texts with line feeding
+to avoid long lines and are made to stdout.
+
+==USAGE
+
+     % gpprint url
+ 
+where the format of the url is
+ 
+     path@varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+==EXAMPLES
+
+    % gpprint data.nc@temp
+    % gpprint data.nc@temp,lon=135.0
+    % gpprint data.nc@temp,lon=130:150,lat=0
+    % gpprint data.nc@temp,lon=130:150,lat=0:90:2
+
+==HISTORY
+
+  2004/12/14  T Horinouchi (created)
+  2005/01/12  T Horinouchi (document -> in rd)
+  2005/06/15  S Takehiro (set first_dim_length 1 when gp.shape[0] returns nil)
+  2005/08/10  S Takehiro (utilize internal function for printing help message)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+
+=end
+##################################################
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+#------------------------ print help message ------------------------
+
+help  if ARGV.length != 1 or /^-+h/ =~ ARGV[0]
+gturl = ARGV[0]
+gp = GPhys::IO.open_gturl(gturl)
+
+new_line_int = 6
+first_dim_len = (gp.shape[0]||1)
+fmt = " %g,"
+i = 1
+gp.val.each do |v| 
+  printf(fmt,v)
+  print "\n" if (i % new_line_int) == 0 or (i % first_dim_len) == 0
+  i += 1
+end

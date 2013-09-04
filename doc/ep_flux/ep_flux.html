@@ -1,0 +1,469 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../../lib/numru/gphys/ep_flux.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GPhys::EP_Flux in ep_flux.</a></h1><!-- RDLabel: "module NumRu::GPhys::EP_Flux in ep_flux." -->
+<h2><a name="label:1" id="label:1">Testprogram</a></h2><!-- RDLabel: "Testprogram" -->
+<p>Test script path is 'test/test_ep_flux.rb' in expand dir of gphys.tar.gz.</p>
+<h2><a name="label:2" id="label:2">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li><a href="#label:3">module NumRu::GPhys::EP_Flux</a>
+<ul>
+<li><a href="#label:4">Functions:</a>
+<ul>
+<li><a href="#label:5">ep_full_sphere</a>
+<ul>
+<li>calculate EP Flux with full set equations on spherical coordinate.</li>
+</ul></li>
+<li><a href="#label:6">div_sphere</a>
+<ul>
+<li>calculate divergence on spherical coordinate, Not only for EP Flux!</li>
+</ul></li>
+<li><a href="#label:34">strm_rmean</a>
+<ul>
+<li>calculate residual mass stream function in spherical coordinate
+        (it might be good precision, but enough test has not done yet.)</li>
+</ul></li>
+<li><a href="#label:9">scale_height</a> 
+<ul>
+<li>get the scale height.</li>
+</ul></li>
+<li><a href="#label:10">scale_height=</a>
+<ul>
+<li>set the scale height.</li>
+</ul></li>
+<li><a href="#label:11">radius</a>
+<ul>
+<li>get the radus of planet.</li>
+</ul></li>
+<li><a href="#label:12">radius=</a>
+<ul>
+<li>set the radus of planet.</li>
+</ul></li>
+<li><a href="#label:13">rot_period</a>
+<ul>
+<li>get the rotation period of planet.</li>
+</ul></li>
+<li><a href="#label:14">rot_period=</a>
+<ul>
+<li>set the rotation period of planet.</li>
+</ul></li>
+<li><a href="#label:15">g_forces</a>
+<ul>
+<li>get the gravitational acceleration in surface.</li>
+</ul></li>
+<li><a href="#label:16">g_forces=</a>
+<ul>
+<li>set the gravitational acceleration in surface.</li>
+</ul></li>
+<li><a href="#label:17">p00</a>
+<ul>
+<li>get the reference surface pressure.</li>
+</ul></li>
+<li><a href="#label:18">p00=</a>
+<ul>
+<li>set the reference surface pressure.</li>
+</ul></li>
+<li><a href="#label:19">cp</a>
+<ul>
+<li>get the the specific heat at constant pressure of the atmosphere.</li>
+</ul></li>
+<li><a href="#label:20">cp=</a>
+<ul>
+<li>set the the specific heat at constant pressure of the atmosphere.</li>
+</ul></li>
+<li><a href="#label:21">gas_const</a>
+<ul>
+<li>get the specific heat at constant pressure of the atmosphere.</li>
+</ul></li>
+<li><a href="#label:22">gas_const=</a>
+<ul>
+<li>set the specific heat at constant pressure of the atmosphere.</li>
+</ul></li>
+<li><a href="#label:23">get_constants</a>
+<ul>
+<li>get the module variables</li>
+</ul></li>
+<li><a href="#label:24">set_constants</a>
+<ul>
+<li>set the module variables</li>
+</ul></li>
+<li><a href="#label:25">make_gphys</a>
+<ul>
+<li>convert <!-- Reference, RDLabel "Axis" doesn't exist --><em class="label-not-found">Axis</em><!-- Reference end --> to <!-- Reference, RDLabel "GPhys" doesn't exist --><em class="label-not-found">GPhys</em><!-- Reference end -->.</li>
+</ul></li>
+<li><a href="#label:26">to_w_if_omega</a>
+<ul>
+<li>convert to velocity if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is pressure velocity.</li>
+</ul></li>
+<li><a href="#label:27">to_z_if_pressure</a>
+<ul>
+<li>convert to altitude if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is pressure.</li>
+</ul></li>
+<li><a href="#label:28">to_p_if_altitude</a>
+<ul>
+<li>convert to pressure if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is altitude.</li>
+</ul></li>
+<li><a href="#label:29">to_theta_if_temperature</a>
+<ul>
+<li>convert to potential temperature of temperature if <!-- Reference, RDLabel "flag" doesn't exist --><em class="label-not-found">flag</em><!-- Reference end --> is true.</li>
+</ul></li>
+<li><a href="#label:30">to_rad_if_deg</a>
+<ul>
+<li>convert to radian if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is degrees.</li>
+</ul></li>
+<li><a href="#label:31">eddy_products</a>
+<ul>
+<li>calculate eddy flux respect to <!-- Reference, RDLabel "dimname" doesn't exist --><em class="label-not-found">dimname</em><!-- Reference end -->.</li>
+</ul></li>
+<li><a href="#label:32">remove_0_at_poles</a>
+<ul>
+<li>set value if the cos(phi) is 0 at poles (phi is latitude).</li>
+</ul></li>
+<li><a href="#label:33">preparate_for_vector_on_merdional_section</a>
+<ul>
+<li>preparate for <!-- Reference, RDLabel "GGraph::vector_on_merdional_section" doesn't exist --><em class="label-not-found">GGraph::vector_on_merdional_section</em><!-- Reference end --> 
+        in vector_on_merdional_section.rb</li>
+</ul></li>
+</ul></li>
+<li><a href="#label:35">Constants:</a>
+<ul>
+<li><a href="#label:36">Deriv_methods</a>
+<ul>
+<li>derivative method names.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h1><a name="label:3" id="label:3">module NumRu::GPhys::EP_Flux</a></h1><!-- RDLabel: "module NumRu::GPhys::EP_Flux" -->
+<p>Module functions of EP_Flux Operater for GPhys.</p>
+<h2><a name="label:4" id="label:4">Functions:</a></h2><!-- RDLabel: "Functions:" -->
+<dl>
+<dt><a name="label:5" id="label:5"><code>ep_full_sphere(<var>gp_u</var>, <var>gp_v</var>, <var>gp_w_or_omega</var>, <var>gp_temp_or_theta</var>, <var>flag_temp_or_theta</var>, <var>xyzdims</var>=[<var>0</var>,<var>1</var>,<var>2</var>])</code></a></dt><!-- RDLabel: "ep_full_sphere" -->
+<dd>
+<p>Calculate Eliassen-Palm Flux(EP-Flux) from full set equations on the 
+spherical coordinate. this method calculates EP-Flux from 4 GPhys objects,
+zonal-wind velocity(U), merdional-wind velocity(V), vertical-wind velocity(W)
+or pressure velocity(Omega), and temperature(T) or potential(Theta) 
+temperature. check the equations on documents.     </p>
+<p>Furthermore, Residual mean merdional circulation (0, v*, w*) can be calculated.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp_u (GPhys): a GPhys which data is U.</li>
+<li>gp_v (GPhys): a GPhys which data is V.</li>
+<li>gp_w_or_omega (GPhys): a GPhys which data is W or Omega. if you give 
+      gp_omega, convert to W in this method and calculate EP-Flux.</li>
+<li>gp_temp_or_theta (GPhys): a GPhys which data is T or Theta.</li>
+<li><p>xyzdims (Array): an Array which represents location of upper gphyses's </p>
+<pre>coordinate. if coordinate configuration is 
+(longitude, latitude, z), then xyzdims = [0, 1, 2].
+else if coordinate configuration is 
+(z, latitude, longitude), then xyzdims = [2, 1, 0].</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>epflx_y (GPhys): EP-Flux y-component. it is on the merdional hoge.</li>
+<li>epflx_z (GPhys): EP-Flux z-component.</li>
+<li>v_rmean (GPhys): residual zonal mean V.</li>
+<li>w_rmean (GPhys): residual zonal mean W.</li>
+<li>gp_lat (GPhys): latitude (its units is radian)</li>
+<li>gp_z (GPhys): from vertical axis (z)</li>
+<li>u_mean (GPhys): zonal-mean U.</li>
+<li>theta_mean (GPhys): zonal-mean Theta.</li>
+<li>uv_dash (GPhys): zonal mean of zonal-eddy products U and V.</li>
+<li>vt_dash (GPhys): zonal mean of zonal-eddy products V and Theta.</li>
+<li>uw_dash (GPhys): zonal mean of zonal-eddy products U and W.</li>
+<li>dtheta_dz (GPhys): zonal mean Theta derivate with z.</li>
+</ul></dd>
+<dt><a name="label:6" id="label:6"><code>div_sphere(<var>gp_y</var>, <var>gp_z</var>)</code></a></dt><!-- RDLabel: "div_sphere" -->
+<dd>
+<p>Calculate divergence on the spherical coordinate. it is exclusive to in 
+merdional cross section.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>gp_y (GPhys): a GPhys which is merdional component you want to calculate</p>
+<pre>divergence.</pre></li>
+<li><p>gp_z (GPhys): a GPhys which is vertical component you want to calculate </p>
+<pre>divergence.</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_div (GPhys): a GPhys which is divergence on the spherical coordinate.</li>
+</ul></dd>
+<dt><a name="label:7" id="label:7"><code>set_deriv_method( <var>method_name</var> )</code></a></dt><!-- RDLabel: "set_deriv_method" -->
+<dd>
+<p>Set derivative method. methods are defined in <!-- Reference, RDLabel "GPhys::derivative" doesn't exist --><em class="label-not-found">GPhys::derivative</em><!-- Reference end -->.
+Now <!-- Reference, RDLabel "cderiv" doesn't exist --><em class="label-not-found">cderiv</em><!-- Reference end --> and <!-- Reference, RDLabel "threepoint_O2nd_deriv" doesn't exist --><em class="label-not-found">threepoint_O2nd_deriv</em><!-- Reference end --> supported</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>method_name (String): derivative method name.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><a name="label:8" id="label:8"><code>deriv( *<var>args</var> )</code></a></dt><!-- RDLabel: "deriv" -->
+<dd>
+<p>Call derivative method defined in <!-- Reference, RDLabel "GPhys::Derivative" doesn't exist --><em class="label-not-found">GPhys::Derivative</em><!-- Reference end --> refer to
+<!-- Reference, RDLabel "@@deriv_method" doesn't exist --><em class="label-not-found">@@deriv_method</em><!-- Reference end -->. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>args : Option for derivative method. Pleaase see <!-- Reference, RDLabel "GPhys::Derivative" doesn't exist --><em class="label-not-found">GPhys::Derivative</em><!-- Reference end -->.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><a name="label:9" id="label:9"><code>scale_height</code></a></dt><!-- RDLabel: "scale_height" -->
+<dd>
+<p>return a value of the scale height on the log-pressure coordinate.
+default value is "7000 m".</p>
+<pre>RETURN VALUE
+* scale height (UNumeric)</pre></dd>
+<dt><a name="label:10" id="label:10"><code>scale_height=(<var>h</var>)</code></a></dt><!-- RDLabel: "scale_height=" -->
+<dd>
+<p>set a value of the scale height on the log-pressure coordinate.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:11" id="label:11"><code>radius</code></a></dt><!-- RDLabel: "radius" -->
+<dd>
+<p>return a value of the radius of the planet. default value is "6.37E6 m".</p>
+<pre>RETURN VALUE
+* radius (UNumeric)</pre></dd>
+<dt><a name="label:12" id="label:12"><code>radius=(<var>a</var>)</code></a></dt><!-- RDLabel: "radius=" -->
+<dd>
+<p>set a value of the radius of the planet.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:13" id="label:13"><code>rot_period</code></a></dt><!-- RDLabel: "rot_period" -->
+<dd>
+<p>return a value of the rotation period of the planet. 
+default value is "8.64E4 s".</p>
+<pre>RETURN VALUE
+* rotation period (UNumeric)</pre></dd>
+<dt><a name="label:14" id="label:14"><code>rot_period=(<var>rp</var>)</code></a></dt><!-- RDLabel: "rot_period=" -->
+<dd>
+<p>set a value of the rotation period of the planet.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:15" id="label:15"><code>g_forces</code></a></dt><!-- RDLabel: "g_forces" -->
+<dd>
+<p>return a value of the gravitational acceleration on the surface.
+default value is "9.81 m/s2".</p>
+<pre>RETURN VALUE
+* rotation period (UNumeric)</pre></dd>
+<dt><a name="label:16" id="label:16"><code>g_forces=(<var>g</var>)</code></a></dt><!-- RDLabel: "g_forces=" -->
+<dd>
+<p>set a value of the gravitational acceleration on the surface.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:17" id="label:17"><code>p00</code></a></dt><!-- RDLabel: "p00" -->
+<dd>
+<p>return a value of the reference surface pressure.
+default value is "1.0E5 Pa".</p>
+<pre>RETURN VALUE
+* reference surface pressure (UNumeric)</pre></dd>
+<dt><a name="label:18" id="label:18"><code>p00=(<var>p00</var>)</code></a></dt><!-- RDLabel: "p00=" -->
+<dd>
+<p>set a value of the reference surface pressure.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:19" id="label:19"><code>cp</code></a></dt><!-- RDLabel: "cp" -->
+<dd>
+<p>return a value of the specific heat at constant pressure of the atmosphere.
+default value is "1004.0[J.K-1.kg-1]"</p>
+<pre>RETURN VALUE
+* reference surface pressure (UNumeric)</pre></dd>
+<dt><a name="label:20" id="label:20"><code>cp=(<var>cp</var>)</code></a></dt><!-- RDLabel: "cp=" -->
+<dd>
+<p>set a value of the specific heat at constant pressure of the atmosphere.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:21" id="label:21"><code>gas_const</code></a></dt><!-- RDLabel: "gas_const" -->
+<dd>
+<p>return a value of the gas constant divided by molecular mass.
+default value is "287.0[J.K-1.kg-1]".</p>
+<pre>RETURN VALUE
+* reference surface pressure (UNumeric)</pre></dd>
+<dt><a name="label:22" id="label:22"><code>gas_const=(<var>r</var>)</code></a></dt><!-- RDLabel: "gas_const=" -->
+<dd>
+<p>set a value of the gas constant divided by molecular mass.</p>
+<pre>RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:23" id="label:23"><code>get_constants</code></a></dt><!-- RDLabel: "get_constants" -->
+<dd>
+<p>return  values of the scale height, radius, rotation period, 
+gravitational acceleration, reference surface pressure, specific heat,
+gas constant.</p>
+<pre>RETURN VALUE
+* scale height (UNumeric)
+* radius (UNumeric)
+* rotation period (UNumeric)
+* gravitational acceleration (UNumeric)
+* reference surface pressure (UNumeric)
+* specific heat at constant pressure of the atmosphere (UNumeric)
+* gas constant divided by molecular mass (UNumeric)</pre></dd>
+<dt><a name="label:24" id="label:24"><code>set_constants(<var>scale_height</var>, <var>radius</var>, <var>rot_period</var>, <var>g_forces</var>, <var>p00</var>, <var>cp</var>, <var>gas_const</var>)</code></a></dt><!-- RDLabel: "set_constants" -->
+<dd>
+<p>set values of the scale height, radius, rotation period, and gravitational 
+acceleration.</p>
+<pre>ARGUMENTS
+* scale height (UNumeric)
+* radius (UNumeric)
+* rotation period (UNumeric)
+* gravitational acceleration (UNumeric)
+* reference surface pressure (UNumeric)
+* specific heat at constant pressure of the atmosphere (UNumeric)
+* gas constant divided by molecular mass (UNumeric)
+
+RETURN VALUE
+* nil</pre></dd>
+<dt><a name="label:25" id="label:25"><code>make_gphys(*<var>ax_ary</var>)</code></a></dt><!-- RDLabel: "make_gphys" -->
+<dd>
+<p>make GPhys objects from Axis or VArray. data components is VArray of 
+<!-- Reference, RDLabel "Axis.pos" doesn't exist --><em class="label-not-found">Axis.pos</em><!-- Reference end -->.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>ax_ary (Array): an Array each objects are <!-- Reference, RDLabel "Axis" doesn't exist --><em class="label-not-found">Axis</em><!-- Reference end --> or <!-- Reference, RDLabel "VArray" doesn't exist --><em class="label-not-found">VArray</em><!-- Reference end -->.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_ary (Array): an Array each objects are <!-- Reference, RDLabel "GPhys" doesn't exist --><em class="label-not-found">GPhys</em><!-- Reference end -->.</li>
+</ul></dd>
+<dt><a name="label:26" id="label:26"><code>to_w_if_omega(<var>gp</var>, <var>z</var>)</code></a></dt><!-- RDLabel: "to_w_if_omega" -->
+<dd>
+<p>convert to velocity(W) if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is pressure velocity(Omega). 
+decide from units <!-- Reference, RDLabel "gp.data.units" doesn't exist --><em class="label-not-found">gp.data.units</em><!-- Reference end -->. if it compatible with "m/s" then 
+deem it <!-- Reference, RDLabel "W" doesn't exist --><em class="label-not-found">W</em><!-- Reference end -->, else if "Pa/s" then deem it <!-- Reference, RDLabel "Omega" doesn't exist --><em class="label-not-found">Omega</em><!-- Reference end -->.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp(GPhys): a GPhys which data represents velocity or pressure velocity.</li>
+<li>z(GPhys): a GPhys which data represents z-coordinate.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_w(GPhys):  a GPhys which data represents velocity or pressure velocity</li>
+</ul></dd>
+<dt><a name="label:27" id="label:27"><code>to_z_if_pressure(<var>gp</var>)</code></a></dt><!-- RDLabel: "to_z_if_pressure" -->
+<dd>
+<p>convert to altitude(z) if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is pressure coordinate (p). 
+decide from units <!-- Reference, RDLabel "gp.data.units" doesn't exist --><em class="label-not-found">gp.data.units</em><!-- Reference end -->. if it compatible with "Pa" then 
+deem it (p).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp(GPhys): a GPhys which data represents z or pressure coordinate.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_z(GPhys): a GPhys which data represents z-coordinate.</li>
+</ul></dd>
+<dt><a name="label:28" id="label:28"><code>to_p_if_altitude(<var>gp</var>)</code></a></dt><!-- RDLabel: "to_p_if_altitude" -->
+<dd>
+<p>convert to pressure(p) if <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> is altitude(z). 
+decide from units <!-- Reference, RDLabel "gp.data.units" doesn't exist --><em class="label-not-found">gp.data.units</em><!-- Reference end -->. if it compatible with "m" then 
+deem it (z).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp(GPhys): a GPhys which data represents z or pressure coordinate.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_p(GPhys): a GPhys which data represents p-coordinate.</li>
+</ul></dd>
+<dt><a name="label:29" id="label:29"><code>to_theta_if_temperature(<var>gp_t</var>, <var>z</var>, <var>flag_temp_or_theta</var>=<var>true</var>)</code></a></dt><!-- RDLabel: "to_theta_if_temperature" -->
+<dd>
+<p>convert <!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> to potential temperature(\theta) if 
+<!-- Reference, RDLabel "flag_temp_or_theta" doesn't exist --><em class="label-not-found">flag_temp_or_theta</em><!-- Reference end --> is true. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>gp_t(GPhys): a GPhys which data represents potential temperature or </p>
+<pre>temperature.</pre></li>
+<li>z(GPhys)   : a GPhys which data represents z-coordinate.</li>
+<li>flag_temp_or_theta(True or False): a flagment if <!-- Reference, RDLabel "gp_t" doesn't exist --><em class="label-not-found">gp_t</em><!-- Reference end --> convert to.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_theta(GPhys): a GPhys which data represents potential temperature.</li>
+</ul></dd>
+<dt><a name="label:30" id="label:30"><code>to_rad_if_deg(<var>gp</var>)</code></a></dt><!-- RDLabel: "to_rad_if_deg" -->
+<dd>
+<p>convert  to radian if <!-- Reference, RDLabel "gp.data.units" doesn't exist --><em class="label-not-found">gp.data.units</em><!-- Reference end --> is degrees. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp(GPhys): a GPhys which represents angle (radian or degree).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_rad(GPhys): a GPhys which units is radian.</li>
+</ul></dd>
+<dt><a name="label:31" id="label:31"><code>eddy_products(<var>gp_u</var>, <var>gp_v</var>, <var>gp_w</var>, <var>gp_t</var>, <var>dimname</var>)</code></a></dt><!-- RDLabel: "eddy_products" -->
+<dd>
+<p>calculate eddy products along "dimname" dimension. now in this documents,
+' means eddy from zonal mean, and () means zonal mean.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp_u(GPhys): a GPhys which data represents zonal-wind velocity(m/s).</li>
+<li>gp_v(GPhys): a GPhys which data represents merdional-wind velocity(m/s).</li>
+<li>gp_w(GPhys): a GPhys which data represents vertical-wind velocity(m/s).</li>
+<li>gp_t(GPhys): a GPhys which data represents temperature(K).</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>uv_dash(GPhys): a GPhys which represents (gp_u'*gp_v').</li>
+<li>vt_dash(GPhys): a GPhys which represents (gp_v'*gp_t').</li>
+<li>uw_dash(GPhys): a GPhys which represents (gp_u'*gp_w').</li>
+</ul></dd>
+<dt><a name="label:32" id="label:32"><code>remove_0_at_poles(<var>cos_gp</var>)</code></a></dt><!-- RDLabel: "remove_0_at_poles" -->
+<dd>
+<p>set value if the cos(latitude) is nearly equal to 0 (|x|&lt; 1e-6) at poles.
+at North pole, new value is <a href="(a_cos_lat.val[0] + a_cos_lat.val[1])">2</a>
+and at South pole <a href="(a_cos_lat.val[-1] + a_cos_lat.val[-2])">2</a></p>
+<pre>ARGUMENTS
+* cos_gp(GPhys): a GPhys which represents latitude.
+
+RETURN VALUE
+* new_cos_gp(GPhys): a GPhys which value at poles displaceed.</pre></dd>
+<dt><a name="label:33" id="label:33"><code>preparate_for_vector_on_merdional_section(<var>xax</var>, <var>yax</var>)</code></a></dt><!-- RDLabel: "preparate_for_vector_on_merdional_section" -->
+<dd>
+<p>preparate for <!-- Reference, RDLabel "GGraph::vector_on_merdional_section" doesn't exist --><em class="label-not-found">GGraph::vector_on_merdional_section</em><!-- Reference end --> in 
+vector_on_merdional_section. </p>
+<ol>
+<li>check <!-- Reference, RDLabel "yax" doesn't exist --><em class="label-not-found">yax</em><!-- Reference end --> if it is proportional to p </li>
+<li>get axis ( a*phi, z ) </li>
+</ol>
+<pre>ARGUMENTS
+* xax(VArray): a VArray which represents x axis.
+* yax(VArray): a VArray which represents y axis.
+
+RETURN VALUE
+* va_aphi(VArray): a VArray which represents x-coordinate(radius * phi).
+* va_z(VArray): a VArray which represents z-coordinate.
+* was_proportional_to_p(True or False): flag original axis proportional to 
+                                        pressure or z.</pre></dd>
+<dt><a name="label:34" id="label:34"><code>strm_rmean(<var>v_rmean</var>, <var>yzdims</var>=[<var>0</var>,<var>1</var>])</code></a></dt><!-- RDLabel: "strm_rmean" -->
+<dd>
+<p>Calculate mass stream function for residual zonal mean circulation. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>v_rmean (GPhys): a GPhys which is residual zonal mean V.</li>
+<li>yzdims  (Array): an Array which represents axis.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>gp_strm (GPhys): a GPhys which is mass stream function on merdional section.</li>
+</ul></dd>
+</dl>
+<h2><a name="label:35" id="label:35">Constants:</a></h2><!-- RDLabel: "Constants:" -->
+<dl>
+<dt><a name="label:36" id="label:36"><code>Deriv_methods</code></a></dt><!-- RDLabel: "Deriv_methods" -->
+<dd>
+<p>derivative method name [ 'cderiv', 'threepoint_O2nd_deriv' ]</p></dd>
+</dl>
+
+</body>
+</html>

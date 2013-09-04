@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../bin/gdir_server</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">Command gdir_server </a></h1><!-- RDLabel: "Command gdir_server " -->
+<p>A stand-alone server program to provide a directory service of GPHys
+objects by using GDir.</p>
+<h2><a name="label:1" id="label:1">Usage</a></h2><!-- RDLabel: "Usage" -->
+<p>At the  command line,</p>
+<pre>% gdir_server top_dir [[host:]port] [-a allowed_address]..</pre>
+<p>where </p>
+<ul>
+<li>top_dir: can be ".", "/", or whatever directory in your files system.</li>
+<li>host: host address (name or ip) -- use it if you want to specify
+  explicitly, such as "localhost", which is useful for ssh port forwarding.</li>
+<li>port: the port number you want to assign (internally determined
+  if not specified). A complete URI is printed if the server is started.</li>
+<li>-a: limits accesses from remote hosts only to the ones specified.
+  Can be repeated multiple times. (Need the space between '-a' and the rest)</li>
+</ul>
+<h2><a name="label:2" id="label:2">Examples</a></h2><!-- RDLabel: "Examples" -->
+<pre>% gdir_server . 12345
+% gdir_server . localhost:12345 -a all
+% gdir_server . -a hoge.hero.org -a localhost
+% gdir_server . 12345 -a '192.168.1.*' -a localhost</pre>
+
+</body>
+</html>

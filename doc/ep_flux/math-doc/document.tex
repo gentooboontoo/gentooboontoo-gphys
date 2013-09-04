@@ -1,0 +1,2018 @@
+% TITLE     NumRu::GPhys::EP_Flux
+%
+% HISTORY   2004/08/09 塚原大輔
+%           2004/11/12 塚原大輔 ( 最新改定 )
+%           2005/02/13 石渡正樹
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Style  Setting             %%%%%%%%
+\documentclass[a4j,12pt,openbib]{jreport}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Package Include            %%%%%%%%
+\usepackage{ascmac}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{Dennou6}
+%%%%%%%%            PageStyle Setting           %%%%%%%%
+\pagestyle{Dmyheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%            Title Setting               %%%%%%%%
+\Dtitle[NumRu::GPhys::EP\_Flux]{NumRu::GPhys::EP\_Flux \\数理ドキュメント}
+\Dauthor[地球流体電脳倶楽部]{地球流体電脳倶楽部}
+\Dfile{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%   Set Counter (chapter, section etc. ) %%%%%%%%
+%\setcounter{chapter}{1}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{page}{1}
+\setcounter{figure}{0}
+\setcounter{footnote}{0}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%        Counter Output Format           %%%%%%%%
+
+\def\thesection{\arabic{chapter}.\arabic{section}}
+%\def\theequation{\arabic{chapter}.\arabic{section}.\arabic{equation}}
+%\def\thepage{\arabic{page}}
+%\def\thefigure{\arabic{section}.\arabic{figure}}
+%\def\thetable{\arabic{section}.\arabic{table}}
+%\def\thefootnote{\arabic{footnote}}
+%\def\thesection{\arabic{section}}
+%\def\theequation{\arabic{section}.\arabic{equation}}
+\def\thepage{\arabic{page}}
+\def\thefigure{\arabic{section}.\arabic{figure}}
+\def\thetable{\arabic{section}.\arabic{table}}
+\def\thefootnote{\arabic{footnote}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%        Dennou-Style Definition         %%%%%%%%
+\Dparskip
+%\Dnoparskip
+%\Dparindent
+\Dnoparindent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%            Local Definition            %%%%%%%%
+\def\dfrac#1#2{{\displaystyle\frac{#1}{#2}}}
+\def\minicaption#1#2{\begin{quote} \caption{\footnotesize #1} \Dfiglab{#2} \end{quote}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Text Start                 %%%%%%%%
+\begin{document}
+
+%%% タイトルページ作成
+\maketitle
+
+%%% 目次ページ作成
+\tableofcontents
+
+\chapter{はじめに}
+
+NumRu::GPhys::EP\_Flux は Eliassen-Palm フラックス(EP フラックス)
+および残差循環を計算するメソッドを集めたモジュールである. 
+現状では, 鉛直座標として対数圧力座標を用いた
+球座標系におけるプリミティブ方程式(準地衡風近似をしない) 
+EP フラックスのためのメソッドだけが用意されている.
+将来的には Plumb フラックスや Takaya-Nakamura フラックスを計算する
+メソッドもサポートする予定である. 
+本ドキュメントでは NumRu::GPhys::EP\_Flux で使用される
+数式の解説と各メソッドの概説を行う. 
+なお, NumRu::GPhys::EP\_Flux では, 微分演算のために, 
+別モジュール NumRu::Derivative および NumRu::GPhys::Derivative で
+定義されるメソッドを使用している.
+微分演算メソッドに関する詳細はそれぞれのモジュールのドキュメントを
+参照されたい.
+
+
+\chapter{NumRu::GPhys::EP\_Flux で計算される緒量}
+
+本章では NumRu::GPhys::EP\_Flux で定義される緒量の解説を行う.
+数理モデルは Andrews {\it et al}.(1987) の第 3 章に基づく.
+
+\section{系の設定}
+\Dseclab{設定}
+
+球面上の大気を考える.
+大気の厚さは水平方向の広がりに比べ薄く, 
+鉛直方向に静水圧平衡が成り立つものとする. 
+緯度経度座標系を用い, 経度 $\lambda$ 軸を東向き, 
+緯度 $\phi$ 軸を北向きに正をとる. 
+鉛直座標には対数圧力座標$z^*$
+\begin{eqnarray}\Deqlab{logp}
+  z^* &=& -H \ln(p/p_s),\ \ \ \ H = \frac{R_{d} T_s}{g_0}
+\end{eqnarray}
+を用いる. 
+ここで $H$ はスケールハイト, 
+$R_{d}$ は乾燥空気の気体定数
+(普遍気体定数を $R$, 乾燥空気の分子量を $w$ とすると
+ $R_{d} = R/w$), 
+$T_s$ は標準参照温度(定数), 
+$g_0$は地表面における重力加速度(定数), 
+$p$は圧力, $p_s$ は参照圧力である.
+$p_s$ として地表面圧力の代表値(定数)を用いる. 
+
+\section{EP フラックス}
+\Dseclab{EP フラックス}
+
+本モジュールでは惑星半径と後述の $\rho_s$ で規格化した EP フラックス
+(以降, 規格化した EP フラックス)を計算, 出力する.
+規格化した EP フラックスは
+  \begin{subequations}\Deqlab{normalized_F}
+  \begin{align}
+      \Deqlab{normalized_epflx_phi}
+      \hat{F}_\phi  &\equiv \sigma
+      \cos \phi \left(
+        \DP{\overline{u}}{z^*}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}
+      \right), \\
+      \Deqlab{normalized_epflx_z^*}
+      \hat{F}_{z^*} &\equiv \sigma 
+      \cos \phi \left(
+         \left[ f - \Dinv{a\cos\phi}{\DP{\overline{u}\cos \phi}{\phi}} \right]
+         \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}
+      \right)
+  \end{align}
+\end{subequations}
+と定義される. 
+ここで$\hat{F}_\phi$, $\hat{F}_{z^*}$ はそれぞれ
+規格化された EP フラックスの $\phi$ 成分, $z^*$ 成分である.
+$\overline{\bullet}$ は東西オイラー平均量, 
+$\bullet'$ は東西オイラー平均量からのずれを表す. 
+$u, v, w$ はそれぞれ東西風速, 南北風速, 対数圧力速度で
+\begin{eqnarray*}
+  (u, v, w) &\equiv& \left(a\cos\phi\DD{\lambda}{t}, a\DD{\phi}{t}, \DD{z^*}{t}\right)
+\end{eqnarray*}
+と定義される. 
+$\theta$ は温位, $a$ は惑星半径(定数)である.
+$\sigma$ は
+\begin{align}
+  \sigma \equiv \frac{\rho_0}{\rho_s} = \exp\left(\frac{-z^*}{H}\right),
+\end{align}
+である. 
+ただし, $\rho_0$ は基本場の密度で
+\begin{eqnarray*} \Deqlab{basic_density}
+  \rho_0(z^*) &\equiv& \rho_s e^{-z^*/H}, \hspace{2em} \rho_s \equiv p_s/RT_s
+\end{eqnarray*}
+である. 
+$f$はコリオリパラメータで
+\begin{eqnarray} \Deqlab{colioli}
+  f = 2 \Omega \sin \phi = \frac{4 \pi}{T_{rot}} \sin \phi
+\end{eqnarray}
+と定義される. 
+$\Omega$ は自転角速度, $T_{rot}$は自転周期である.
+本モジュールでは, 自転角速度を変更するためには
+$T_{rot}$ の値を与える仕様になっている.
+
+
+一方, Andrews {\it et al}. (1987) で示されている
+EP フラックスは次のように定義される 
+%%%%%%%%%%%%%%%%%%%%%%
+%    \item EP フラックス
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{subequations}
+  \begin{align}
+      \Deqlab{epflx_phi}
+        {F_\phi} =& \rho_0 a
+        \cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}\right)\\
+      \Deqlab{epflx_z^*}
+        {F_z^*} =& \rho_0 a
+        \cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]
+       \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}\right).
+  \end{align}
+\end{subequations}
+ここで$F_\phi$, $F_{z^*}$はそれぞれ EP フラックスの$\phi$成分, $z^*$成分である.
+$F_y, F_z^*$ と $\hat{F_y}, \hat{F_z^*}$ は以下のように関係付けられる.
+\begin{align}
+  \Deqlab{relation_F_vs_F^}
+  (F_y, F_z^*) = a\rho_s(\hat{F_y}, \hat{F_{z^*}})
+\end{align}
+
+\section{残差循環}
+
+残差循環$(0, \overline{v}^*, \overline{w}^*)$は以下の形で定義される.
+\begin{subequations}\Deqlab{residual}
+  \begin{align}
+  \Deqlab{residual_v}
+  \overline{v}^* &\equiv \overline{v} 
+   - \Dinv{\rho_0}\DP{}{z^*}\left(\rho_0\frac{\overline{v'\theta'}}
+                   {\DP{\overline{\theta}}{z^*}}\right)\notag\\
+                 &= \overline{v} 
+   - \Dinv{\sigma}\DP{}{z^*}\left(\sigma\frac{\overline{v'\theta'}}
+                   {\DP{\overline{\theta}}{z^*}}\right)\\
+  \Deqlab{residual_w}
+  \overline{w}^* &\equiv \overline{w} 
+   + \Dinv{a \cos\phi}\DP{}{\phi}\left(\cos\phi\frac{\overline{v'\theta'}}
+                   {\DP{\overline{\theta}}{z^*}}\right)
+  \end{align}
+\end{subequations}
+
+\section{平均東西流の式}
+
+規格化した EP フラックスを用いると, TEM 系における $u$ の式は
+以下のようになる.
+\begin{eqnarray}
+      \Deqlab{transformed_euler_mean_pe_momentum_x_with_F^}& &
+      \DP{\overline{u}}{t}
+        + \overline{v}^*\left[\Dinv{a\cos\phi}\DP{}{\phi}(\overline{u}\cos\phi) - f\right]
+        + \overline{w}^*\DP{\overline{u}}{z^*}
+        - \overline{X} =
+        \Dinv{\sigma \cos\phi}\Ddiv\Dvect{\hat{F}}.
+\end{eqnarray}
+
+
+\section{子午面上の発散演算子}
+
+子午面における発散演算子は, $\Dvect{F}$ を任意のベクトルした時に
+以下の形で定義される.
+\begin{align}
+  \Deqlab{div}
+  \Ddiv{} \Dvect{F}= \Dinv{a \cos \phi} \DP{(\cos \phi F_{\phi})}{\phi} 
+                    + \DP{F_{z^{*}}}{z^*}
+\end{align}
+
+
+\section{質量流線関数}
+
+残差循環の質量流線関数 $\Psi^*$ を
+\begin{subequations}
+  \begin{align}
+    \sigma \overline{v}^* &= -g\Dinv{2\pi a \cos\phi }\DP{\Psi^*}{z^{*}}, \\
+    \sigma \overline{w}^* &= g\Dinv{2\pi a^2\cos\phi}\DP{\Psi^*}{\phi}
+  \end{align}
+\end{subequations}
+と定義する. 
+上式を積分して $\Psi^*$ を求めるために, 
+本モジュールでは \Deqref{logp} を使用して
+対数圧力座標 ($z^*$) 系から圧力座標($p$)系へ
+\begin{align}
+  \DP{}{z^*}\Psi^* &= -\frac{p}{H}\DP{}{p}\Psi^*
+\end{align}
+と変換し, 大気上端($p=0$)において $\Psi^* = 0$ として積分し
+\begin{align}
+  \Psi^*(\theta, p) = \frac{2\pi a \cos\phi}{g} \int_{0}^{p}\overline{v}^*\Dd p
+\end{align}
+と質量流線関数を導いている.
+%\footnote{   (2005/1/27 石渡) で良いんだっけ?\\
+%             (2005/1/27 塚原) 良いんです}
+
+
+\section{変数変換}
+
+EP\_Flux モジュールでは与えられたデータに応じて
+変数変換を施す場合がある. その変換は以下のように行う.
+
+\vspace{5mm}
+
+入力されるデータの鉛直軸が気圧軸であった場合, 
+以下の関係式を用いて高度軸に変換し, 計算を行う.
+\begin{subequations}
+\begin{align}
+    z^* &= -H \log \left( \frac{p}{p_{00}} \right),\\
+    p &= p_{00} \exp \left( -\frac{z^*}{H} \right) \Deqlab{p-henkan}
+\end{align}
+\end{subequations}
+ここで$p$は圧力, $p_{00}$は地表面参考気圧(定数)である.
+
+\vspace{5mm}
+
+入力が$\theta$や$w$ でなく, 気温$T$, 圧力「速度」$\omega \equiv Dp/Dt$
+の場合はそれぞれを元に$w$, $\theta$を求める必要がある. 本モジュールでは以下の式
+を用いて$w, \theta$を求める.
+\begin{align}
+  w &= -\omega H / p\\
+  \theta &= T \left(\frac{p_{00}}{p}\right)^\kappa, \kappa = R/C_p
+\end{align}
+ここで$R$, $C_p$はそれぞれ乾燥空気の気体定数および定圧比熱である. 
+%$\theta$ は \Deqref{p-henkan} を用いると
+%\begin{align}
+%  \theta = T\exp \left( \frac{\kappa z^*}{H} \right )
+%\end{align}
+%と書くこともできる
+%\footnotemark.
+%\footnotetext{ (2005/2/13 石渡) この式は必要なのでしょうか?
+%               (2005/2/17 石渡) この式も使ってるんですよ. 場所を移動し
+%て
+%}
+
+
+%\chapter{メソッドのリファレンスマニュアル}
+% メモ: 将来的にはメソッドリファレンス(日本語)を入れる???
+
+
+
+\appendix
+
+\chapter{プリミティブ方程式系と変形オイラー平均の復習}
+\Dchaplab{導出}
+
+本章では変形オイラー平均方程式系とEP フラックス および残差循環の関係を確
+認する. まず対数圧力座標系を用いた球面上の３次元プリミティブ方程式を提示
+する. 次いでそのオイラー平均および変形オイラー平均方程式系を導出する. 最
+後に変形オイラー平均方程式に基づき EP フラックスおよび残差循環を定義する.
+
+
+\section{球面上の対数圧力座標系におけるプリミティブ方程式}
+
+球面上の対数圧力座標系におけるプリミティブ方程式は以下の通りである.
+ここでは Andrews {\it et al.} (1987) の (3.1.3) 式を参考にした.
+\begin{subequations}\Deqlab{pe}
+    \begin{align}
+      \Deqlab{pe_momentum_x}
+         \DD{u}{t}       &-  \left(f + \frac{u\tan\phi}{a}\right)v
+                                        + \Dinv{a\cos\phi}\DP{\Phi}{\lambda} = X,\\
+      \Deqlab{pe_momentum_y}
+         \DD{v}{t}       &+  \left(f + \frac{u\tan\phi}{a}\right)u 
+                                                   + \Dinv{a}\DP{\Phi}{\phi} = Y,
+\end{align}
+
+\begin{align}
+\Deqlab{pe_momentum_z^*}
+   \DP{\Phi}{z^*} & = \frac{R\theta e^{-\kappa z^*/H}}{H},
+\end{align}
+
+\begin{align}
+\Deqlab{pe_continuity}
+     \Dinv{a\cos\phi} &
+     \left[
+             \DP{u}{\lambda} + \left( \DP{v\cos\phi}{\phi} \right)
+     \right]                                  
+   + \Dinv{\rho_0}\DP{}{z^*}\left(\rho_0 w\right)
+ =   0,
+\end{align}
+
+\begin{align}
+      \Deqlab{pe_thermal}
+         \DD{\theta}{t}  &=  Q, 
+\end{align}
+\end{subequations}
+ここで $\Phi$ はジオポテンシャルハイト, 
+$X, Y$ はそれぞれ外力の $\lambda$成分 と $\phi$成分, 
+$\kappa=R_{d}/c_p$ ($c_p$ は等圧比熱)である. 
+$Q$は非断熱加熱項で,
+\begin{eqnarray*} \Deqlab{adiabatic_heating_term}
+  Q &=& \frac{J}{C_p}e^{\kappa z^*/H}
+\end{eqnarray*}
+である. 
+$J$ は単位質量あたりの非断熱加熱率である. 
+ここで明記した以外の変数の定義については 
+\Dsecref{設定}, \Dsecref{EP フラックス} を
+を参照のこと.
+
+
+\section{オイラー平均方程式系}
+
+ある物理量 $A$ について, $\phi, z^*, t$ を固定して
+東西方向にとった平均
+\begin{eqnarray} \Deqlab{euler_mean}
+  \overline{A}(\phi, z^*, t) \equiv \Dinv{2\pi}\int_0^{2\pi} A(\lambda, \phi, z^*, t) \Dd \lambda
+\end{eqnarray}
+をオイラー平均と呼ぶ.
+オイラー平均からのずれを $A'$ とすると
+\begin{eqnarray} \Deqlab{euler_eddy}
+  A' = A - \overline{A}
+\end{eqnarray}
+である. 
+定義により, 
+$\overline{A'}=0$, $\partial \overline{A}/\partial\lambda = 0$
+となる.
+
+\Deqref{pe} 中の各量をオイラー平均とそこからのずれに分けて書くと
+\begin{subequations}\Deqlab{exp_pe}
+%  \def\theequation{\arabic{section}.\arabic{parentequation}.\arabic{equation}}
+  \begin{align}
+  \Deqlab{exp_pe_momentum_x}
+   & \DP{}{t}(\overline{u} + u') 
+          + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{u} + u')
+          + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{u} + u')
+          + (\overline{w} + w')\DP{}{z^*}(\overline{u} + u') \notag\\
+   &  \qquad - \left[f + \frac{\tan\phi}{a}(\overline{u} + u')\right](\overline{v} + v')
+       + \Dinv{a\cos\phi}\DP{}{\lambda}(\overline{\Phi} + \Phi') = \overline{X} + X',\\
+  \Deqlab{exp_pe_momentum_y}
+  &  \DP{}{t}(\overline{v} + v') 
+          + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{v} + v')
+          + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{v} + v')
+          + (\overline{w} + w')\DP{}{z^*}(\overline{v} + v')\notag\\
+  &  \qquad  + \left[f + \frac{\tan\phi}{a}(\overline{u} + u')\right](\overline{u} + u')
+       + \Dinv{a}\DP{}{\phi}(\overline{\Phi} + \Phi') = \overline{Y} +
+   Y',
+   \\
+  \Deqlab{exp_pe_momentum_z^*}
+  &  \DP{}{z^*}(\overline{\Phi} + \Phi') 
+       =  \frac{Re^{-\kappa z^*/H}}{H}(\overline{\theta} + \theta'),\\
+  \Deqlab{exp_pe_continuity}
+  & \Dinv{a\cos\phi} \left[\DP{}{\lambda}(\overline{u} + u')
+       + \DP{}{\phi}\{(\overline{v} + v')\cos\phi\}\right]
+       + \Dinv{\rho_0}\DP{}{z^*}[\rho_0 (\overline{w} + w')] = 0,\\
+  \Deqlab{exp_pe_thermal}
+   & \DP{}{t}(\overline{\theta} + \theta') 
+          + \frac{\overline{u} + u'}{a\cos\phi}\DP{}{\lambda}(\overline{\theta} + \theta')
+          + \frac{\overline{v} + v'}{a}\DP{}{\phi}(\overline{\theta} + \theta')
+          + (\overline{w} + w')\DP{}{z^*}(\overline{\theta} + \theta')\notag\\
+   &  \qquad = \overline{Q} + Q'
+  \end{align}
+\end{subequations}
+となる. 
+上記を変形して, 左辺に平均量と平均量同士の積の項を, 
+右辺にそれ以外の項をまとめると
+\begin{subequations}\Deqlab{exp2_pe}
+%  \def\theequation{\arabic{section}.\arabic{parentequation}.\arabic{equation}}
+  \begin{align}
+  \Deqlab{exp2_pe_momentum_x}
+  &  \DP{\overline{u}}{t}
+        + \frac{\overline{u}}{a\cos\phi}\DP{\overline{u}}{\lambda}
+        + \frac{\overline{v}}{a}\DP{\overline{u}}{\phi}
+        + \overline{w}\DP{\overline{u}}{z^*}
+        - f\overline{v} 
+        - \frac{\tan\phi}{a} \overline{u} \ \overline{v}
+        + \Dinv{a\cos\phi}\DP{\overline{\Phi}}{\lambda}
+        - \overline{X} 
+ \notag\\
+  & \qquad
+      =    - \DP{u'}{t}
+          - \frac{\overline{u}}{a\cos\phi}\DP{u'}{\lambda}
+          - \frac{u'}{a\cos\phi}\DP{\overline{u}}{\lambda}
+          - \frac{u'}{a\cos\phi}\DP{u'}{\lambda} \notag\\
+    & \qquad \qquad
+          - \frac{\overline{v}}{a}\DP{u'}{\phi}
+          - \frac{v'}{a}\DP{\overline{u}}{\phi}
+          - \frac{v'}{a}\DP{u'}{\phi}
+          - \overline{w}\DP{u'}{z^*}
+          - w'\DP{\overline{u}}{z^*}
+          - w'\DP{u'}{z^*}
+          + fv'\notag\\
+   & \qquad \qquad
+          + \frac{\tan\phi}{a} \overline{u} v'
+          + \frac{\tan\phi}{a} u' \overline{v}
+          + \frac{\tan\phi}{a} u'v'
+%\notag\\
+%    & \qquad
+          - \Dinv{a\cos\phi}\DP{\Phi'}{\lambda}
+          + X',\\
+%
+  \Deqlab{exp2_pe_momentum_y}
+  &  \DP{\overline{v}}{t} 
+        + \frac{\overline{u}}{a\cos\phi}\DP{\overline{v}}{\lambda}
+        + \frac{\overline{v}}{a}\DP{\overline{v}}{\phi}
+        + \overline{w}\DP{\overline{v}}{z^*}
+        + f\overline{u}
+        + \frac{\tan\phi}{a}(\overline{u})^2
+        + \Dinv{a}\DP{\overline{\Phi}}{\phi}
+        - \overline{Y} 
+    \notag\\
+  & \qquad 
+       =   - \DP{v'}{t}
+          - \frac{\overline{u}}{a\cos\phi}\DP{v'}{\lambda}
+          - \frac{u'}{a\cos\phi}\DP{\overline{v}}{\lambda}
+          - \frac{u'}{a\cos\phi}\DP{v'}{\lambda}\notag\\
+  & \qquad \qquad
+          - \frac{\overline{v}}{a}\DP{v'}{\phi}
+          - \frac{v'}{a}\DP{\overline{v}}{\phi}
+          - \frac{v'}{a}\DP{v'}{\phi}
+%\notag\\
+%  & \qquad \qquad
+          - \overline{w}\DP{v'}{z^*}
+          - w'\DP{\overline{v}}{z^*}
+          - w'\DP{v'}{z^*}
+%\notag\\
+%  & \qquad
+          - fu'\notag\\
+  & \qquad \qquad
+          - 2\frac{\tan\phi}{a}\overline{u}u'
+          - \frac{\tan\phi}{a}(u')^2
+%\notag\\
+%  & \qquad
+          - \Dinv{a\cos\phi}\DP{\Phi'}{\phi}
+          + Y',\\
+%
+  \Deqlab{exp2_pe_momentum_z^*}
+  &  \DP{\overline{\Phi}}{z^*} - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta}
+       = - \DP{\Phi'}{z^*} + \frac{Re^{-\kappa z^*/H}}{H}\theta',\\
+  \Deqlab{exp2_pe_continuity}
+  &  \Dinv{a\cos\phi} \left[\DP{\overline{u}}{\lambda}
+       + \DP{}{\phi}(\overline{v}\cos\phi)\right]
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}) 
+      \notag\\
+  & \qquad
+     =  - \Dinv{a\cos\phi}\left[
+           \DP{u'}{\lambda}
+         + \DP{}{\phi}(v'\cos\phi)
+       \right]
+       - \Dinv{\rho_0}\DP{}{z^*}(\rho_0 w') ,\\
+  \Deqlab{exp2_pe_thermal}
+  &  \DP{\overline{\theta}}{t}
+   + \frac{\overline{u}}{a\cos\phi}\DP{\overline{\theta}}{\lambda}
+   + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}
+   + \overline{w}\DP{\overline{\theta}}{z^*}
+  - \overline{Q} 
+ \notag\\
+ & \qquad
+   =  - \DP{\theta'}{t}
+      - \frac{\overline{u}}{a\cos\phi}\DP{\theta'}{\lambda}
+      - \frac{u'}{a\cos\phi}\DP{\overline{\theta}}{\lambda}
+      - \frac{u'}{a\cos\phi}\DP{\theta'}{\lambda}
+ \notag \\
+ & \qquad \qquad
+          - \frac{\overline{v}}{a}\DP{\theta'}{\phi}
+          - \frac{v'}{a}\DP{\overline{\theta}}{\phi}
+          - \frac{v'}{a}\DP{\theta'}{\phi}
+          - \overline{w}\DP{\theta'}{z^*}
+          - w'\DP{\overline{\theta}}{z^*}
+          - w'\DP{\theta'}{z^*}
+          + Q'
+  \end{align}
+\end{subequations}
+と書ける. 
+\Deqref{exp2_pe} をオイラー平均すると, 
+\begin{subequations}\Deqlab{euler_mean_pe}
+%  \def\theequation{\arabic{section}.\arabic{parentequation}.\arabic{equation}}
+  \begin{align}
+  \Deqlab{euler_mean_pe_momentum_x}
+  &  \DP{\overline{u}}{t}
+        + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}
+        + \overline{w}\DP{\overline{u}}{z^*}
+        - f\overline{v} 
+        - \frac{\tan\phi}{a} \overline{u} \ \overline{v}
+        - \overline{X} 
+      \notag\\
+  & \qquad
+    =    - \Dinv{a\cos\phi}\overline{u'\DP{u'}{\lambda}}
+          - \Dinv{a}\overline{v'\DP{u'}{\phi}}
+          - \overline{w'\DP{u'}{z^*}}
+          + \frac{\tan\phi}{a}\overline{u'v'},\\
+%
+\Deqlab{euler_mean_pe_momentum_y}
+  &   \DP{\overline{v}}{t}
+    + \frac{\overline{v}}{a}\DP{\overline{v}}{\phi}
+    + \overline{w} \DP{\overline{v}}{z^*}
+    + f \overline{u}
+    + \frac{\tan \phi}{a} (\overline{u})^2
+    + \Dinv{a}\DP{\overline{\Phi}}{\phi}
+    - \overline{Y}
+     \notag\\
+  & \qquad
+  = - \Dinv{a \cos \phi} \overline{ u' \DP{v'}{\lambda} }
+    - \Dinv{a} \overline{{v'}\DP{v'}{\phi}}
+    - \overline{w'\DP{v'}{z^*}}
+    - \frac{\tan \phi}{a} \overline{u'^2},\\
+%
+\Deqlab{euler_mean_pe_momentum_z^*}
+  &  \DP{\overline{\Phi}}{z^*} 
+     - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta} = 0,\\
+  \Deqlab{euler_mean_pe_continuity}
+  &  \Dinv{a\cos\phi}
+     \left[
+       \DP{}{\phi}(\overline{v}\cos\phi)
+     \right]
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}) 
+       = 0,\\
+%
+  \Deqlab{euler_mean_pe_thermal}
+  &  \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}\DP{\overline{\theta}}{z^*}
+        - \overline{Q} =
+          - \Dinv{a\cos\phi}\overline{u'\DP{\theta'}{\lambda}}
+          - \Dinv{a}\overline{v'\DP{\theta'}{\phi}}
+          - \overline{w'\DP{\theta'}{z^*}}
+  \end{align}
+\end{subequations}
+となる. 
+ここで \Deqref{exp2_pe_continuity}, \Deqref{euler_mean_pe_continuity}
+から東西平均からのずれに関する連続の式
+\begin{eqnarray} \Deqlab{euler_eddy_pe_continuity}
+    \Dinv{a\cos\phi}\left[\DP{u'}{\lambda}
+       + \DP{}{\phi}(v'\cos\phi)\right]
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 w') 
+       = 0
+\end{eqnarray}
+が得られる. 
+
+\vspace{5mm}
+
+\Deqref{euler_eddy_pe_continuity} を使って
+\Deqref{euler_mean_pe_momentum_x} を変形する.
+\Deqref{euler_eddy_pe_continuity} に $u'$ をかけて
+オイラー平均をとると
+\begin{eqnarray}
+     \Dinv{a \cos \phi} \overline{u'  \DP{u'}{\lambda}}
+   + \Dinv{a} \overline{ u'  \DP{v'}{\phi} }
+   - \frac{\tan \phi}{a} \overline{ u'  v' }
+   + \overline{ u'  \DP{w'}{z^*} }
+   + \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ u' w' } 
+       = 0
+\end{eqnarray}
+これを \Deqref{euler_mean_pe_momentum_x} に加えると
+\begin{align*}
+    \DP{\overline{u}}{t}&
+        + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}
+        + \overline{w}\DP{\overline{u}}{z^*}
+        - f\overline{v} 
+        - \frac{\tan\phi}{a}\overline{u}\overline{v}
+        - \overline{X} \notag\\
+& =     - \frac{2}{a\cos\phi} \overline{u'\DP{u'}{\lambda}}
+        - \Dinv{a}\overline{v'\DP{u'}{\phi}}
+        - \overline{w'\DP{u'}{z^*}}
+%\notag\\
+%    & 
+        - \Dinv{a}\overline{u'\DP{v'}{\phi}}
+        + \frac{2\tan\phi}{a}\overline{u'v'}
+        - \overline{u'\DP{w'}{z^*}}
+        - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{u'w'}
+\end{align*}
+ここで
+\begin{align*}
+     - \frac{2}{a\cos\phi} \overline{ u' \DP{u'}{\lambda} }
+ & = - \Dinv{a\cos\phi}\overline{\DP{(u')^2}{\lambda}}
+   = 0,\\
+%
+     - \Dinv{a}\overline{v'\DP{u'}{\phi}}
+     - \Dinv{a}\overline{u'\DP{v'}{\phi}}
+     + \frac{2\tan\phi}{a}\overline{u'v'}
+ & = - \Dinv{a\cos^2\phi}\DP{}{\phi}(\overline{v'u'}\cos^2\phi), \\
+%
+     - \overline{w'\DP{u'}{z^*}}
+     - \overline{u'\DP{w'}{z^*}}
+     - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{u'w'}
+ & = - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'u'})
+\end{align*}
+を用いると,
+\begin{align*}
+ &  \DP{\overline{u}}{t}
+   + \Dinv{a}\overline{v}\DP{\overline{u}}{\phi}
+   + \overline{w}\DP{\overline{u}}{z^*}
+   - f\overline{v} 
+   - \frac{\tan\phi}{a} \overline{u} \ \overline{v}
+   - \overline{X}
+      \notag \\
+ & \qquad
+  =  - \Dinv{a\cos^2\phi}\DP{}{\phi}(\overline{v'u'}\cos^2\phi)
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'u'})
+\end{align*}
+と書くことができる.  
+\Deqref{euler_mean_pe_momentum_y} に関しても同様に, 
+\Deqref{euler_eddy_pe_continuity} に $v'$ をかけて
+オイラー平均をとった式
+\begin{eqnarray}
+     \Dinv{a \cos \phi} \overline{ v' \DP{u'}{\lambda} }
+   + \Dinv{a} \overline{ v' \DP{v'}{\phi} }
+   + \frac{\tan \phi}{a} \overline{ v'^2 }
+   + \overline{ v'  \DP{w'}{z^*} }
+   + \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' } 
+ =   0
+\end{eqnarray}
+を \Deqref{euler_mean_pe_momentum_y} に加えると
+\begin{align*}
+ &     \DP{\overline{v}}{t}
+     + \frac{\overline{v}}{a} \DP{\overline{v}}{\phi}
+     + \overline{w} \DP{\overline{v}}{z^*}
+     + f \overline{u}
+     + \frac{\tan\phi}{a} (\overline{u})^2
+     + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+     - \overline{Y}
+     \notag\\
+ & \qquad
+   = - \Dinv{a\cos\phi}\overline{u'\DP{v'}{\lambda}}
+     - \Dinv{a}\overline{{v'}\DP{v'}{\phi}}
+     - \overline{w'\DP{v'}{z^*}}
+     - \frac{\tan\phi}{a} \overline{u'^2}
+     \notag\\
+ & \qquad \qquad
+     -  \Dinv{a \cos \phi} \overline{v'  \DP{u'}{\lambda}}
+     - \Dinv{a} \overline{ v'  \DP{v'}{\phi} }
+     + \frac{\tan \phi}{a} \overline{ v'^2 }
+     - \overline{ v'  \DP{w'}{z^*} }
+     - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' }
+\end{align*}
+が得られる. 
+ここで
+\begin{eqnarray}
+       - \Dinv{a\cos\phi}\overline{u'\DP{v'}{\lambda}}
+       - \Dinv{a \cos \phi} \overline{v'  \DP{u'}{\lambda}}
+& = & - \Dinv{a\cos\phi}\overline{\DP{(u' v')}{\lambda}}
+  = 0, \nonumber \\
+%
+      - \Dinv{a} \overline{ v' \DP{v'}{\phi} }
+      - \Dinv{a} \overline{ v' \DP{v'}{\phi} }
+      + \frac{\tan \phi}{a} \overline{ v'^2 }
+& = & 
+      - \Dinv{a \cos \phi} 
+        \DP{}{\phi} \left( \cos \phi \overline{v'^2} \right)
+   \nonumber \\
+%
+   - \overline{w'\DP{v'}{z^*}}
+   - \overline{ v'  \DP{w'}{z^*} }
+   - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ v' w' }
+& = & 
+   - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ v' w' } \right)
+\end{eqnarray}
+を用いると
+\begin{align*}
+ &      \DP{\overline{v}}{t}
+      + \frac{\overline{v}}{a} \DP{\overline{v}}{\phi}
+      + \overline{w}\ DP{\overline{v}}{z^*}
+      + f \overline{u}
+      + \frac{\tan\phi}{a}(\overline{u})^2
+      + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+      - \overline{Y}
+     \notag\\
+ & \qquad 
+   =  - \Dinv{a \cos \phi} 
+        \DP{}{\phi} \left( \cos \phi \overline{v'^2} \right)
+      - \frac{\tan\phi}{a} \overline{u'^2}
+      - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ v' w' } \right)
+\end{align*}
+と書くことができる.
+\Deqref{euler_mean_pe_thermal} についても同様に, 
+\Deqref{euler_eddy_pe_continuity} に $\theta'$ をかけて
+オイラー平均をとった式
+\begin{eqnarray}
+     \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}
+   + \Dinv{a} \overline{ \theta'  \DP{v'}{\phi} }
+   - \frac{\tan \phi}{a} \overline{ \theta' v' }
+   + \overline{ \theta'  \DP{w'}{z^*} }
+   + \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ \theta' w' } 
+       = 0
+\end{eqnarray}
+を \Deqref{euler_mean_pe_thermal} に加えると
+\begin{align*}
+   &  \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}\DP{\overline{\theta}}{z^*}
+        - \overline{Q} 
+     \notag\\
+  & \qquad = 
+          - \Dinv{a\cos\phi}\overline{u'\DP{\theta'}{\lambda}}
+          - \Dinv{a}\overline{v'\DP{\theta'}{\phi}}
+          - \overline{w'\DP{\theta'}{z^*}}
+     \notag\\
+  & \qquad \qquad
+   -  \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}
+   - \Dinv{a} \overline{ \theta'  \DP{v'}{\phi} }
+   + \frac{\tan \phi}{a} \overline{ \theta' v' }
+   - \overline{ \theta'  \DP{w'}{z^*} }
+   - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{ \theta' w' } 
+\end{align*}
+が得られる.
+ここで
+\begin{eqnarray}
+       - \Dinv{a \cos \phi}\overline{u' \DP{\theta'}{\lambda}}
+       - \Dinv{a \cos \phi} \overline{\theta'  \DP{u'}{\lambda}}
+& = & - \Dinv{a\cos\phi}\overline{\DP{(u' \theta')}{\lambda}}
+  = 0, \nonumber \\
+%
+      - \Dinv{a} \overline{ v' \DP{\theta'}{\phi} }
+      - \Dinv{a} \overline{ \theta' \DP{v'}{\phi} }
+      + \frac{\tan \phi}{a} \overline{ \theta' v' }
+& = & 
+      - \Dinv{a \cos \phi} 
+        \DP{}{\phi} \left( \cos \phi \overline{v' \theta'} \right)
+   \nonumber \\
+%
+   - \overline{w'\DP{\theta'}{z^*}}
+   - \overline{ \theta'  \DP{w'}{z^*} }
+   - \Dinv{\rho_0} \DP{\rho_0}{z^*} \overline{  \theta' w'  }
+& = & 
+   - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ w' \theta' } \right) 
+             \nonumber
+\end{eqnarray}
+を用いると
+\begin{align*}
+   &  \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}\DP{\overline{\theta}}{z^*}
+        - \overline{Q} 
+ =     - \Dinv{a \cos \phi} 
+        \DP{}{\phi} \left( \cos \phi \overline{v' \theta'} \right)
+      - \Dinv{\rho_0} \DP{}{z^*} \left( \rho_0 \overline{ w' \theta' } \right) 
+\end{align*}
+となる.
+
+\vspace{5mm}
+
+以上をまとめると, 以下の{\bfseries オイラー平均方程式}が得られる.
+\begin{screen}
+\begin{subequations}
+\Deqlab{new_euler_mean_pe}
+%\setcounter{equation}{0} 
+%\begin{itemize}
+%%%%%%%%%%%%%%%%
+%\item 運動方程式
+%%%%%%%%%%%%%%%%
+\begin{align}
+\Deqlab{new_euler_mean_pe_momentum_x}
+       \DP{\overline{u}}{t}
+ &   + \Dinv{a}\overline{v} \DP{\overline{u}}{\phi}
+     + \overline{w} \DP{\overline{u}}{z^*}
+     - f\overline{v} 
+     - \frac{\tan\phi}{a} \overline{u} \ \overline{v}
+     - \overline{X} 
+             \notag\\ 
+ & \qquad
+   = - \Dinv{a\cos^2\phi} 
+       \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)
+     - \Dinv{\rho_0} \DP{}{z^*}(\rho_0\overline{w'u'}),\\
+%
+\Deqlab{new_euler_mean_pe_momentum_y}
+       \DP{\overline{v}}{t}
+ &   + \frac{\overline{v}}{a} \DP{\overline{v}}{\phi}
+     + \overline{w} \DP{\overline{v}}{z^*}
+     + f \overline{u}
+     + \frac{\tan\phi}{a} (\overline{u})^2
+     + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+     - \overline{Y}
+      \notag\\
+ & \qquad
+   = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'^2} \cos\phi)
+     - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{v' w'})
+     - \overline{u'^2}\frac{\tan\phi}{a},
+\end{align}
+%%%%%%%%%%%%%%%%
+%\item 静水圧平衡の式
+%%%%%%%%%%%%%%%% 
+\begin{align}
+\Deqlab{new_euler_mean_pe_momentum_z^*}
+        \DP{\overline{\Phi}}{z^*} - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta} = 0,
+    \end{align}
+%%%%%%%%%%%%%%%%
+%\item 連続の式
+%%%%%%%%%%%%%%%% 
+\begin{align}    
+      \Deqlab{new_euler_mean_pe_continuity}
+        \Dinv{a\cos\phi}&
+       \DP{}{\phi}(\overline{v}\cos\phi)
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}) 
+       = 0,
+\end{align}
+%%%%%%%%%%%%%%%%
+%\item 熱力学の式
+%%%%%%%%%%%%%%%% 
+\begin{align}
+      \Deqlab{new_euler_mean_pe_thermal}
+       \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}\DP{\overline{\theta}}{z^*}
+        - \overline{Q} =
+		- \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)
+		- \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}).
+\end{align}
+%\end{itemize}
+ \end{subequations}
+\end{screen}
+
+
+\section{変形オイラー平均方程式系}
+
+\Deqref{new_euler_mean_pe} を EP フラックス, 残差循環を用いて書き直す.
+EP フラックス, 残差循環は以下のように定義する.
+\begin{subequations}
+%  \begin{itemize}
+    %%%%%%%%%%%%%%%%
+ %   \item 残差循環
+    %%%%%%%%%%%%%%%%
+    \begin{align}
+       \Deqlab{residual_v_app}
+	\overline{v}^* 
+	& =
+     \overline{v} 
+	- \Dinv{\rho_0} \DP{}{z^*}
+	\left( \rho_0 
+	 \frac{\overline{v'\theta'}}
+	 {\overline{\DP{\theta}{z^*}}}
+	\right)
+	\\
+       \Deqlab{residual_w_app} 
+                  \overline{w}^* 
+     & =    \overline{w} 
+                + \Dinv{a \cos\phi} 
+                  \DP{}{\phi}
+                  \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+                  \right)
+    \end{align}
+ \end{subequations}
+    %%%%%%%%%%%%%%%%
+%    \item EP フラックス
+    %%%%%%%%%%%%%%%%
+    \begin{eqnarray*}
+        {F_\phi} &=& \rho_0 a
+        \cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+     \overline{u'v'}\right) \\
+        {F_z^*} &=& \rho_0 a
+        \cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]
+       \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} -
+     \overline{u'w'}\right) 
+    \end{eqnarray*}
+%  \end{itemize}
+
+
+\vspace{5mm}
+
+まず連続の式を書き換える.
+\Deqref{new_euler_mean_pe_continuity} に
+\Deqref{residual_v_app}, \Deqref{residual_w_app} を代入すると
+\begin{align*}    
+&    \Dinv{a \cos \phi}
+     \DP{}{\phi}\left[
+     \left\{ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+     \right\}
+     \cos\phi \right] \\
+& \qquad
+   + \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left[ \rho_0 
+         \left\{
+              \overline{w}^* 
+            - \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+       \right\}
+     \right]
+       = 0, \\
+%
+& 
+     \Dinv{a \cos \phi}
+     \DP{}{\phi}
+     \left(
+             \overline{v}^* \cos\phi
+     \right)
+   + \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left( \rho_0  \overline{w}^*  \right) 
+            \\
+& \qquad
+   + \Dinv{a \cos \phi}
+     \DP{}{\phi}
+     \left\{ 
+            \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right) \cos\phi
+     \right\}
+   - \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left\{
+             \rho_0  \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+       \right\}
+       = 0.
+\end{align*}
+この第三項と第四項だけを取り出すと
+\begin{align*}
+& \qquad 
+     \Dinv{a \cos \phi}
+     \DP{}{\phi}
+     \left\{ 
+            \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right) \cos\phi
+     \right\}
+   - \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left\{
+             \rho_0  \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+       \right\} \\
+& = 
+     \Dinv{a \cos \phi}
+     \left[
+        \DP{}{\phi}
+        \left\{ 
+            \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+              \right) \cos\phi
+         \right\}
+       - \Dinv{\rho_0}
+         \DP{}{z^*} 
+         \left\{
+             \rho_0 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+         \right\}
+     \right]
+ \\
+& = 
+     \Dinv{a \cos \phi}
+     \left[
+        \Dinv{\rho_0}
+        \DP{}{\phi}
+        \left\{ 
+             \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+                    \cos\phi
+              \right) 
+         \right\}
+       - \Dinv{\rho_0}
+         \DP{}{z^*} 
+         \left\{
+              \DP{}{\phi}
+              \left(\rho_0  \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+         \right\}
+     \right]
+ \\
+& = 0.
+\end{align*}
+したがって, 連続の式は以下のようになる.
+\begin{eqnarray}
+      \Dinv{a \cos \phi}
+     \DP{}{\phi}
+     \left(
+             \overline{v}^* \cos\phi
+     \right)
+   + \Dinv{\rho_0}
+     \DP{}{z^*} 
+     \left( \rho_0  \overline{w}^*  \right) = 0.
+\end{eqnarray}
+
+
+\vspace{5mm}
+
+
+次に $u$ の式を書き換える.
+\Deqref{new_euler_mean_pe_momentum_x} に
+\Deqref{residual_v_app}, \Deqref{residual_w_app} を代入すると
+\begin{align}
+     \DP{\overline{u}}{t}&
+   + \Dinv{a}
+     \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+     \right]
+     \DP{\overline{u}}{\phi}
+   + \left[
+              \overline{w}^* 
+            - \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+     \right]
+     \DP{\overline{u}}{z^*} \nonumber  \\
+& \qquad \qquad
+   - f 
+          \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+     \right]
+   - \frac{\tan \phi}{a} \overline{u} 
+     \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+     \right]
+   - \overline{X} 
+             \nonumber \\ & \qquad
+ = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)
+   - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'}),\nonumber \\
+%
+     \DP{\overline{u}}{t}&
+   + \frac{\overline{v}^*}{a} \DP{\overline{u}}{\phi}
+   + \overline{w}^* \DP{\overline{u}}{z^*}
+   - f \overline{v}^* 
+   - \frac{\tan \phi}{a} \overline{u} \  \overline{v}^* 
+   - \overline{X}   \nonumber \\ 
+  & \qquad
+ = - \Dinv{a\cos^2\phi} \DP{}{\phi} (\overline{v'u'} \cos^2 \phi)
+   + \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right) \DP{\overline{u}}{z^*} \nonumber \\
+ & \qquad \qquad
+   + f \Dinv{\rho_0} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+     \right)
+   - \Dinv{\rho_0} \DP{}{z^*} (\rho_0\overline{w'u'})
+  \nonumber \\
+ & \qquad \qquad
+   - \Dinv{\rho_0 a} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+     \right)
+     \DP{\overline{u}}{\phi}
+   + \frac{\tan \phi}{a} \overline{u}  \Dinv{\rho_0} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+     \right), \nonumber \\
+%
+     \DP{\overline{u}}{t}&
+   + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi} 
+     \left(  \overline{u} \cos \phi \right)
+   + \overline{w}^* \DP{\overline{u}}{z^*}
+   - f \overline{v}^* 
+   - \overline{X} 
+             \nonumber \\ & \qquad
+ = - \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+   + \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right) \DP{\overline{u}}{z^*}
+    \nonumber \\
+ & \qquad \qquad
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left( f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right)
+   - \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*} (\rho_0 a \cos \phi  \overline{w'u'})
+  \nonumber \\
+ & \qquad \qquad
+   - \Dinv{\rho_0 a} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+     \right)
+     \DP{\overline{u}}{\phi}
+   + \frac{\tan \phi}{a} \overline{u}  \Dinv{\rho_0} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+     \right) \Deqlab{tem-u-tochuu}
+\end{align}
+\Deqref{tem-u-tochuu} の右辺を以下のように変形する.
+\begin{align}
+&   - \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \rho_0 a \cos \phi
+     \DP{\overline{u}}{z^*}
+     \DP{}{\phi}
+     \left( \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right) 
+                     \nonumber \\
+ & \qquad \qquad
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left( f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right)
+   - \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*} (\rho_0 a \cos \phi  \overline{w'u'})
+                     \nonumber  \\
+ & \qquad \qquad
+   - \Dinv{\rho_0 a} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+            \DP{\overline{u}}{\phi}     
+     \right)
+   + \Dinv{\rho_0 a} 
+     \rho_0 
+     \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+     \DP{}{z^*}
+     \left( 
+            \DP{\overline{u}}{\phi}
+     \right)   \nonumber \\
+& \qquad \qquad
+   + \frac{\tan \phi}{\rho_0 a}
+     \DP{}{z^*}
+     \left( \overline{u} \rho_0 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right)
+   - \frac{\tan \phi}{\rho_0 a}
+     \rho_0 
+     \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+     \DP{}{z^*}
+     \left( \overline{u}
+     \right)         \nonumber  \\
+%
+& =
+     \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+      +  \rho_0 a \cos \phi
+     \DP{\overline{u}}{z^*}
+     \DP{}{\phi}
+     \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+          \right) 
+     \right]                 \nonumber     \\
+ & \qquad
+   + \Dinv{\rho_0 a} 
+     \rho_0 
+     \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+     \DP{}{z^*}
+     \left( 
+            \DP{\overline{u}}{\phi}
+     \right) 
+   - \frac{\tan \phi}{\rho_0 a}
+     \rho_0 
+     \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+     \DP{\overline{u}}{z^*}             \nonumber  \\
+ & \qquad
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+         \left( f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+         \right)
+       - \rho_0 a \cos \phi  \overline{w'u'}
+     \right]                \nonumber   \\
+ & \qquad
+   - \Dinv{\rho_0 a} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+            \DP{\overline{u}}{\phi}     
+     \right)
+   + \frac{\tan \phi}{\rho_0 a}
+     \DP{}{z^*}
+     \left( \overline{u} \rho_0 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right)          \nonumber      \\
+%
+& =
+     \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+      +  \rho_0 a \cos \phi
+     \DP{\overline{u}}{z^*}
+     \DP{}{\phi}
+     \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+          \right) 
+     \right]                  \nonumber     \\
+ & \qquad
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+        \rho_0 a \cos^2 \phi
+        \frac{\overline{v'\theta'}}
+             {\overline{\DP{\theta}{z^*}}}
+        \DP{}{z^*}
+        \left( 
+             \DP{\overline{u}}{\phi}
+        \right) 
+      - \rho_0 a \cos^2 \phi \tan \phi
+        \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+        \DP{\overline{u}}{z^*}
+     \right]                \nonumber   \\
+ & \qquad
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+         \left( f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+         \right)
+       - \rho_0 a \cos \phi  \overline{w'u'}
+     \right]                \nonumber   \\
+ & \qquad
+   + \Dinv{\rho_0 a \cos \phi} 
+     \left[
+       - \cos \phi
+         \DP{}{z^*}
+         \left( \rho_0 
+                \frac{\overline{v'\theta'}}
+                     {\overline{\DP{\theta}{z^*}}}
+                \DP{\overline{u}}{\phi}     
+          \right)
+       + \cos \phi \tan \phi
+         \DP{}{z^*}
+         \left( \overline{u} \rho_0 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+         \right)
+     \right]                   \nonumber      \\
+%
+& =  \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+      +  \rho_0 a \cos \phi
+     \DP{\overline{u}}{z^*}
+     \DP{}{\phi}
+     \left( \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+     \right) 
+     \right]              \nonumber     \\
+ & \qquad
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+        \rho_0 a \cos^2 \phi
+        \frac{\overline{v'\theta'}}
+             {\overline{\DP{\theta}{z^*}}}
+        \DP{}{\phi}
+        \left( 
+             \DP{\overline{u}}{z^*}
+        \right) 
+      + \cos \phi \DP{}{\phi} \left( \rho_0 a \cos \phi \right)
+        \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+        \DP{\overline{u}}{z^*}
+     \right]          \nonumber     \\
+ & \qquad
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+         f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+       - \rho_0 a \cos \phi  \overline{w'u'}
+     \right]                   \nonumber   \\
+ & \qquad
+   + \Dinv{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+       - \rho_0 \cos \phi
+         \frac{\overline{v'\theta'}}
+              {\overline{\DP{\theta}{z^*}}}
+         \DP{\overline{u}}{\phi}     
+       + \sin \phi \overline{u} \rho_0 
+         \frac{\overline{v'\theta'}}
+              {\overline{\DP{\theta}{z^*}}}
+     \right]
+    \Deqlab{tem-u-uhen}
+\end{align}
+\Deqref{tem-u-uhen} の第一項と第二項だけ取り出すと
+\begin{align*}
+%
+&   \Dinv{\rho_0 a^2 \cos^2 \phi} 
+    \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+      +  \rho_0 a \cos \phi
+     \DP{\overline{u}}{z^*}
+     \DP{}{\phi}
+     \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+          \right) 
+     \right] 
+    \\
+ & \qquad
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+        \rho_0 a \cos^2 \phi
+        \frac{\overline{v'\theta'}}
+             {\overline{\DP{\theta}{z^*}}}
+        \DP{}{\phi}
+        \left( 
+             \DP{\overline{u}}{z^*}
+        \right) 
+      + \cos \phi \DP{}{\phi} \left( \rho_0 a \cos \phi \right)
+        \frac{\overline{v'\theta'}}
+          {\overline{\DP{\theta}{z^*}}}
+        \DP{\overline{u}}{z^*}
+     \right]
+    \\
+%
+& =
+     \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+     \right] 
+    \\
+ & \qquad
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+        \rho_0 a \cos^2 \phi
+        \frac{\overline{v'\theta'}}
+             {\overline{\DP{\theta}{z^*}}}
+        \DP{}{\phi}
+        \left( 
+             \DP{\overline{u}}{z^*}
+        \right) 
+      +  \DP{\overline{u}}{z^*}
+         \DP{}{\phi}
+         \left(\rho_0 a \cos^2 \phi
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+          \right) 
+     \right]
+    \\
+%
+& =
+     \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+      -  \DP{}{\phi} (\rho_0 a \overline{v'u'} \cos^2 \phi)
+     \right] 
+   + \Dinv{\rho_0 a^2 \cos^2 \phi} 
+     \left[
+         \DP{}{\phi}
+         \left(\rho_0 a \cos^2 \phi
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+               \DP{\overline{u}}{z^*}
+          \right) 
+     \right]
+    \\
+%
+& = \Dinv{\rho_0 a^2 \cos^2 \phi} 
+    \DP{}{\phi}
+    \left[
+         -  \rho_0 a \overline{v'u'} \cos^2 \phi
+         +  \rho_0 a \cos^2 \phi
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+               \DP{\overline{u}}{z^*}
+     \right] 
+    \\
+%
+& = \Dinv{\rho_0 a^2 \cos^2 \phi} 
+    \DP{}{\phi}
+    \left[
+           \rho_0 a \cos^2 \phi
+            \left\{
+                 \DP{\overline{u}}{z^*}
+                 \frac{\overline{v'\theta'}}
+                      {\overline{\DP{\theta}{z^*}}}
+              -  \overline{v'u'}
+            \right\}
+     \right] 
+    \\
+%
+& = \Dinv{\rho_0 a^2 \cos^2 \phi} 
+    \DP{}{\phi}
+    \left(
+           \cos \phi F^{*}_{\phi}
+    \right)
+\end{align*}
+\Deqref{tem-u-uhen} の第三項と第四項だけ取り出すと
+\begin{align*}
+ &
+    \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+         f \rho_0  a \cos \phi 
+            \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+       - \rho_0 a \cos \phi  \overline{w'u'}
+     \right]
+%  \\
+% & \qquad
+   + \Dinv{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+       - \rho_0 \cos \phi
+         \frac{\overline{v'\theta'}}
+              {\overline{\DP{\theta}{z^*}}}
+         \DP{\overline{u}}{\phi}     
+       + \sin \phi \overline{u} \rho_0 
+         \frac{\overline{v'\theta'}}
+              {\overline{\DP{\theta}{z^*}}}
+     \right]
+     \\
+& = 
+    \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+        \rho_0  a \cos \phi 
+        \left\{
+             f \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+          -  \overline{w'u'}
+          -  \frac{\overline{v'\theta'}}
+              {a \overline{\DP{\theta}{z^*}}}
+             \DP{\overline{u}}{\phi}     
+          + \sin \phi \overline{u} 
+            \frac{\overline{v'\theta'}}
+              {a \cos \phi \overline{\DP{\theta}{z^*}}}
+        \right\}
+     \right]
+  \\
+& = 
+    \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+        \rho_0  a \cos \phi 
+        \left\{
+             f \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+          - \left( 
+                \cos \phi
+                \DP{\overline{u}}{\phi}     
+              - \sin \phi \overline{u} 
+            \right) 
+            \frac{\overline{v'\theta'}}
+                 {a  \cos \phi \overline{\DP{\theta}{z^*}}}
+          -  \overline{w'u'}
+        \right\}
+     \right]
+  \\
+& = 
+    \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+        \rho_0  a \cos \phi 
+        \left\{
+             f \frac{\overline{v'\theta'}}
+                 {\overline{\DP{\theta}{z^*}}}
+          - \DP{(\overline{u} \cos \phi)}{\phi}
+            \frac{\overline{v'\theta'}}
+                 {a  \cos \phi \overline{\DP{\theta}{z^*}}}
+          -  \overline{w'u'}
+        \right\}
+     \right]
+  \\
+& = 
+    \frac{1}{\rho_0 a \cos \phi} 
+     \DP{}{z^*}
+     \left[
+        \rho_0  a \cos \phi 
+        \left\{
+             \left(     f 
+                     -  \frac{\DP{(\overline{u} \cos \phi)}{\phi}}
+                             {a  \cos \phi}
+             \right)
+             \frac{\overline{v'\theta'}}
+                  {\overline{\DP{\theta}{z^*}}}
+          -  \overline{w'u'}
+        \right\}
+     \right]
+  \\
+& =  \frac{1}{\rho_0 a \cos \phi} 
+     \DP{F^{*}_{z}}{z^*}
+\end{align*}
+以上より, \Deqref{tem-u-tochuu} は次のようになる.
+\begin{align*}
+&     \DP{\overline{u}}{t}
+   + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi} 
+     \left(  \overline{u} \cos \phi \right)
+   + \overline{w}^* \DP{\overline{u}}{z^*}
+   - f \overline{v}^* 
+   - \overline{X} 
+ =  \Dinv{\rho_0 a^2 \cos^2 \phi} 
+    \DP{}{\phi}
+    \left(
+           \cos \phi F^{*}_{\phi}
+    \right)
+   + \frac{1}{\rho_0 a \cos \phi} 
+     \DP{F^{*}_{z}}{z^*}, 
+  \nonumber \\ 
+%
+&     \DP{\overline{u}}{t}
+   + \frac{\overline{v}^*}{a \cos \phi} \DP{}{\phi} 
+     \left(  \overline{u} \cos \phi \right)
+   + \overline{w}^* \DP{\overline{u}}{z^*}
+   - f \overline{v}^* 
+   - \overline{X} 
+ =  \Dinv{\rho_0 a \cos \phi} \Ddiv{\Dvect{F}}.
+\end{align*}
+ここで, 子午面内の発散を以下のように表した.
+\begin{align}
+      \Ddiv{\Dvect{F}} 
+    = \Dinv{a \cos \phi } \DP{(\cos \phi F_{\phi})}{\phi} + \DP{F_{z^{*}}}{z^*}
+\end{align}
+
+\vspace{5mm}
+
+次に熱力学の式を書き換える.
+\Deqref{new_euler_mean_pe_thermal} に
+\Deqref{residual_v_app}, \Deqref{residual_w_app} を代入すると
+\begin{align*}
+&    \DP{\overline{\theta}}{t}
+   + \frac{1}{a} 
+     \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+     \right]
+     \DP{\overline{\theta}}{\phi}
+   + \left[
+              \overline{w}^* 
+            - \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+     \right]
+     \DP{\overline{\theta}}{z^*}
+   - \overline{Q} \\
+        & \qquad  
+ =
+   - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}), \\
+%
+&    \DP{\overline{\theta}}{t}
+   + \frac{\overline{v}^*}{a}  \DP{\overline{\theta}}{\phi}
+   + \overline{w}^* \DP{\overline{\theta}}{z^*}
+   - \overline{Q} \\
+        & \qquad  
+ = - \Dinv{\rho_0 a} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right) \DP{\overline{\theta}}{\phi}
+   + \Dinv{a \cos\phi} 
+     \DP{}{\phi}
+     \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+     \right) \DP{\overline{\theta}}{z^*} \\
+& \qquad \qquad
+   - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}) \\
+\end{align*}
+となる.
+この右辺を更に変形すると
+\begin{align*}
+&  - \Dinv{\rho_0} \DP{}{z^*}
+     \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {a \overline{\DP{\theta}{z^*}}}
+             \right) \DP{\overline{\theta}}{\phi}
+   + \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right) \DP{\overline{\theta}}{z^*} \\
+& \qquad
+   - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}) \\
+%
+ = &
+  - \Dinv{\rho_0} \DP{}{z^*}
+     \left(  \rho_0 
+             \frac{\overline{v'\theta'}}
+                  {a \overline{\DP{\theta}{z^*}}}
+             \DP{\overline{\theta}}{\phi}
+     \right) 
+  +  \frac{\overline{v'\theta'}}
+          {a \overline{\DP{\theta}{z^*}}}
+     \DP{}{z^*}\DP{\overline{\theta}}{\phi} \\
+ & \qquad 
+   + \Dinv{a \cos\phi} 
+     \left[  
+                \DP{}{\phi} \left( \cos \phi  \overline{v'\theta'} \right)  
+                \frac{1}{\overline{\DP{\theta}{z^*}}}
+            +  \cos \phi \overline{v'\theta'}
+               \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}
+     \right] \DP{\overline{\theta}}{z^*} \\
+& \qquad 
+   - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'\theta'}\cos\phi)
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}) \\
+%
+ = &
+  - \Dinv{\rho_0} \DP{}{z^*}
+     \left(  \rho_0 
+             \frac{\overline{v'\theta'}}
+                  {a \overline{\DP{\theta}{z^*}}}
+             \DP{\overline{\theta}}{\phi}
+     \right) 
+  +  \frac{\overline{v'\theta'}}
+          {a \overline{\DP{\theta}{z^*}}}
+     \DP{}{z^*}\DP{\overline{\theta}}{\phi}
+  +  \Dinv{a}  
+     \overline{v'\theta'}
+     \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}
+     \DP{\overline{\theta}}{z^*}
+   - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{w'\theta'}) \\
+%
+ = &
+  - \Dinv{\rho_0} \DP{}{z^*}
+    \left[ \rho_0 
+             \frac{\overline{v'\theta'}}
+                  {a \overline{\DP{\theta}{z^*}}}
+             \DP{\overline{\theta}}{\phi}
+            + \rho_0\overline{w'\theta'}
+    \right]
+  + \frac{\overline{v'\theta'}}{a}
+    \left[
+             \frac{1}
+                  {\overline{\DP{\theta}{z^*}}}
+             \DP{}{z^*}\DP{\overline{\theta}}{\phi}
+        +    \DP{}{\phi} \left( \overline{\DP{\theta}{z^*}} \right)^{-1}
+             \DP{\overline{\theta}}{z^*}
+     \right] \\
+%
+ = &
+  - \Dinv{\rho_0} \DP{}{z^*}
+    \left[ \rho_0 
+           \left(
+                \frac{\overline{v'\theta'}}
+                     {a \overline{\DP{\theta}{z^*}}}
+                \DP{\overline{\theta}}{\phi}
+              + \overline{w'\theta'}
+           \right)  
+    \right]
+  + \frac{\overline{v'\theta'}}{a}
+    \DP{}{\phi}
+    \left(
+         \frac{ \DP{\overline{\theta}}{z^*} }
+                  { \overline{\DP{\theta}{z^*}} }
+    \right)     \\
+%
+ = &
+  - \Dinv{\rho_0} \DP{}{z^*}
+    \left[ \rho_0 
+           \left(
+                \frac{\overline{v'\theta'}}
+                     {a \overline{\DP{\theta}{z^*}}}
+                \DP{\overline{\theta}}{\phi}
+              + \overline{w'\theta'}
+           \right)  
+    \right].
+\end{align*}
+これより, 熱力学の式は以下のようになる.
+\begin{align*}
+   \DP{\overline{\theta}}{t}
+   + \frac{\overline{v}^*}{a}  \DP{\overline{\theta}}{\phi}
+   + \overline{w}^* \DP{\overline{\theta}}{z^*}
+   - \overline{Q}
+ = 
+  - \Dinv{\rho_0} \DP{}{z^*}
+    \left[ \rho_0 
+           \left(
+                \frac{\overline{v'\theta'}}
+                     {a \overline{\DP{\theta}{z^*}}}
+                \DP{\overline{\theta}}{\phi}
+              + \overline{w'\theta'}
+           \right)  
+    \right].
+\end{align*}
+
+\vspace{5mm}
+
+最後に $v$ の式について考える.
+\Deqref{new_euler_mean_pe_momentum_y} に
+\Deqref{residual_v_app}, \Deqref{residual_w_app} を代入すると
+\begin{align*}
+ &     \DP{}{t}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+     + \frac{1}{a} 
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+       \DP{}{\phi}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]  
+                     \\
+ &       \qquad    \qquad
+     + \left[
+              \overline{w}^* 
+            - \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+       \right]
+       \DP{}{z^*}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+                     \\
+ &    \qquad       \qquad
+     + f \overline{u}
+     + \frac{\tan\phi}{a} (\overline{u})^2
+     + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+     - \overline{Y}     \\
+ & \qquad
+   = - \Dinv{a\cos\phi}\DP{}{\phi}(\overline{v'^2} \cos\phi)
+     - \Dinv{\rho_0}\DP{}{z^*}(\rho_0\overline{v' w'})
+     - \overline{u'^2}\frac{\tan\phi}{a}, \\
+%
+ &     f \overline{u}
+     + \frac{\tan\phi}{a} (\overline{u})^2
+     + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+         \\
+ & \qquad
+   = -  \DP{}{t}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+     - \frac{1}{a} 
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+       \DP{}{\phi}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]  
+                     \\
+ &       \qquad    \qquad
+     - \left[
+              \overline{w}^* 
+            - \Dinv{a \cos\phi} 
+              \DP{}{\phi}
+              \left( \cos \phi 
+                         \frac{\overline{v'\theta'}}
+                              {\overline{\DP{\theta}{z^*}}}
+              \right)
+       \right]
+       \DP{}{z^*}
+       \left[ 
+             \overline{v}^* 
+           + \Dinv{\rho_0} \DP{}{z^*}
+             \left( \rho_0 
+                    \frac{\overline{v'\theta'}}
+                         {\overline{\DP{\theta}{z^*}}}
+             \right)
+       \right]
+                     \\
+ &    \qquad       \qquad
+   - \Dinv{a\cos\phi} \DP{}{\phi}(\overline{v'^2} \cos \phi)
+   - \Dinv{\rho_0} \DP{}{z^*}(\rho_0\overline{v' w'})
+   - \overline{u'^2} \frac{\tan\phi}{a}
+   + \overline{Y}
+\end{align*}
+Andrews {\it et al.} (1987) によれば, この式の右辺の量は
+左辺に比べれば小さい. 右辺の項を全てまとめて $G$ と書くと
+$v$ の式は次のようになる.
+\begin{align*}
+     \overline{u} 
+     \left( f + \frac{\tan\phi}{a} \overline{u} \right) 
+   + \Dinv{a} \DP{\overline{\Phi}}{\phi}
+ =   G.
+\end{align*}
+
+\vspace{5mm}
+
+以上をまとめると, 以下の{\bfseries 変形オイラー平均方程式}が得られる.
+\begin{screen}
+\begin{subequations}\Deqlab{transformed_euler_mean_pe}
+%\def\theequation{\arabic{section}.\arabic{parentequation}\alph{equation}}
+%\begin{itemize}
+%%%%%%%%%%%%%%%%
+%\item 運動方程式
+%%%%%%%%%%%%%%%%
+\begin{align}
+\Deqlab{transformed_euler_mean_pe_momentum_x}&
+      \DP{\overline{u}}{t}
+    + \overline{v}^*
+      \left[
+             \Dinv{a\cos\phi}\DP{}{\phi}(\overline{u}\cos\phi) - f
+      \right]
+    + \overline{w}^*\DP{\overline{u}}{z^*}
+    - \overline{X} 
+ =    \Dinv{\rho_0 a \cos\phi}\Ddiv\Dvect{F},    \\
+\Deqlab{transformed_euler_mean_pe_momentum_y}&
+      \overline{u}
+      \left( f + \overline{u}\frac{\tan\phi}{a} \right) 
+    + \Dinv{a}\DP{\overline{\Phi}}{\phi}
+ = G.
+\end{align}
+%%%%%%%%%%%%%%%%
+%\item 静水圧平衡の式
+%%%%%%%%%%%%%%%% 
+\begin{align}
+\Deqlab{transformed_euler_mean_pe_momentum_z^*}
+     \DP{\overline{\Phi}}{z^*} 
+   - \frac{Re^{-\kappa z^*/H}}{H}\overline{\theta}
+ =   0.
+\end{align}
+%%%%%%%%%%%%%%%%
+%\item 連続の式
+%%%%%%%%%%%%%%%% 
+\begin{align}    
+      \Deqlab{transformed_euler_mean_pe_continuity}
+        \Dinv{a\cos\phi}&\left[
+       \DP{}{\phi}(\overline{v}^*\cos\phi)\right]
+       + \Dinv{\rho_0}\DP{}{z^*}(\rho_0 \overline{w}^*) 
+       = 0.
+\end{align}
+%%%%%%%%%%%%%%%%
+%\item 熱力学の式
+%%%%%%%%%%%%%%%% 
+\begin{align}
+      \Deqlab{transformed_euler_mean_pe_thermal}
+       \DP{\overline{\theta}}{t}
+        + \frac{\overline{v}^*}{a}\DP{\overline{\theta}}{\phi}
+        + \overline{w}^*\DP{\overline{\theta}}{z^*}
+        - \overline{Q} =
+		- \Dinv{\rho_0}\DP{}{z^*}
+                \left[\rho_0
+                      \left(
+                        \overline{v'\theta'}\frac{\DP{\overline{\theta}}{\phi}}
+                                 {a\DP{\overline{\theta}}{z^*}} + \overline{w'\theta'}
+                      \right)
+                \right].
+\end{align}
+%\end{itemize}
+\end{subequations}
+\end{screen}
+
+
+
+\clearpage
+
+\begin{thebibliography}{1}
+\bibitem{AHL1987} D.G. Andrews, J.R. Holton, and C.B. Leovy. 
+                  Middle atmosphere dynamics, International Geophysics Series. 
+                  Academic Press, 1987
+\bibitem{H1975}   J.R. Holton. 
+                  The Dynamic Meteorology of the Stratosphere and Mesosphere, 
+                  American Meteorological Society, 1975
+\end{thebibliography}
+
+
+\end{document}

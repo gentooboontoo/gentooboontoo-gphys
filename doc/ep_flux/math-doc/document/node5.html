@@ -1,0 +1,330 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with jLaTeX2HTML 2K.1beta (1.48) JA patch-1.4
+patched version by:  Kenshi Muto, Debian Project.
+LaTeX2HTML 2K.1beta (1.48),
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>EP フラックス</TITLE>
+<META NAME="description" CONTENT="EP フラックス">
+<META NAME="keywords" CONTENT="document">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-2022-jp">
+<META NAME="Generator" CONTENT="jLaTeX2HTML v2K.1beta JA patch-1.4">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="document.css">
+
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="node3.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html99"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html95"
+  HREF="node3.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html89"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html97"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html100"
+  HREF="node6.html">残差循環</A>
+<B> :</B> <A NAME="tex2html96"
+  HREF="node3.html">NumRu::GPhys::EP_Flux で計算される緒量</A>
+<B> :</B> <A NAME="tex2html90"
+  HREF="node4.html">系の設定</A>
+ &nbsp <B>  <A NAME="tex2html98"
+  HREF="node1.html">目次</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION003200000000000000000">
+EP フラックス</A>
+</H1>
+<A NAME="sec:EP フラックス"></A>
+
+本モジュールでは惑星半径と後述の <IMG
+ WIDTH="21" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img16.png"
+ ALT="$ \rho_s$"> で規格化した EP フラックス
+(以降, 規格化した EP フラックス)を計算, 出力する.
+規格化した EP フラックスは
+  
+<DIV ALIGN="CENTER"><A NAME="eq:normalized_F"></A><A NAME="eq:normalized_epflx_phi"></A><A NAME="eq:normalized_epflx_z^*"></A><!-- MATH
+ \begin{subequations}
+\begin{align}
+      \hat{F}_\phi  &\equiv \sigma
+      \cos \phi \left(
+        \DP{\overline{u}}{z^*}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}
+      \right), \\
+      \hat{F}_{z^*} &\equiv \sigma 
+      \cos \phi \left(
+         \left[ f - \Dinv{a\cos\phi}{\DP{\overline{u}\cos \phi}{\phi}} \right]
+         \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}
+      \right)
+  \end{align}
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="128" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="\begin{subequations}\begin{align} \hat{F}_\phi &amp;\equiv \sigma \cos \phi \left(...
+...verline{\theta}}{z^*}} - \overline{u'w'} \right) \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+と定義される. 
+ここで<!-- MATH
+ $\hat{F}_\phi$
+ -->
+<IMG
+ WIDTH="26" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img18.png"
+ ALT="$ \hat{F}_\phi$">, <!-- MATH
+ $\hat{F}_{z^*}$
+ -->
+<IMG
+ WIDTH="31" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img19.png"
+ ALT="$ \hat{F}_{z^*}$"> はそれぞれ
+規格化された EP フラックスの <IMG
+ WIDTH="16" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$ \phi$"> 成分, <IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ z^*$"> 成分である.
+<!-- MATH
+ $\overline{\bullet}$
+ -->
+<IMG
+ WIDTH="14" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img20.png"
+ ALT="$ \overline{\bullet}$"> は東西オイラー平均量, 
+<IMG
+ WIDTH="19" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img21.png"
+ ALT="$ \bullet'$"> は東西オイラー平均量からのずれを表す. 
+<IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$ u, v, w$"> はそれぞれ東西風速, 南北風速, 対数圧力速度で
+<BR>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+(u, v, w) &\equiv& \left(a\cos\phi\DD{\lambda}{t}, a\DD{\phi}{t}, \DD{z^*}{t}\right)
+\end{eqnarray*}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="70" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$\displaystyle (u, v, w)$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="20" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$\displaystyle \equiv$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="194" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="$\displaystyle \left(a\cos\phi\DD{\lambda}{t}, a\DD{\phi}{t}, \DD{z^*}{t}\right)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+と定義される. 
+<IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img26.png"
+ ALT="$ \theta$"> は温位, <IMG
+ WIDTH="15" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img27.png"
+ ALT="$ a$"> は惑星半径(定数)である.
+<IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img28.png"
+ ALT="$ \sigma$"> は
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="192" HEIGHT="63" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$\displaystyle \sigma \equiv \frac{\rho_0}{\rho_s} = \exp\left(\frac{-z^*}{H}\right),$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+(2.3)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+である. 
+ただし, <IMG
+ WIDTH="22" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$ \rho_0$"> は基本場の密度で
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eq:basic_density"></A><!-- MATH
+ \begin{eqnarray*}
+\rho_0(z^*) &\equiv& \rho_s e^{-z^*/H}, \hspace{2em} \rho_s \equiv p_s/RT_s
+\end{eqnarray*}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="53" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img31.png"
+ ALT="$\displaystyle \rho_0(z^*)$"></TD>
+<TD WIDTH="10" ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="20" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img24.png"
+ ALT="$\displaystyle \equiv$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="220" HEIGHT="43" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="$\displaystyle \rho_s e^{-z^*/H}, \hspace{2em} \rho_s \equiv p_s/RT_s$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+である. 
+<IMG
+ WIDTH="16" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$ f$">はコリオリパラメータで
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eq:colioli"></A><!-- MATH
+ \begin{eqnarray}
+f = 2 \Omega \sin \phi = \frac{4 \pi}{T_{rot}} \sin \phi
+\end{eqnarray}
+ -->
+<TABLE CELLPADDING="0" ALIGN="CENTER" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="203" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.png"
+ ALT="$\displaystyle f = 2 \Omega \sin \phi = \frac{4 \pi}{T_{rot}} \sin \phi$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2.4)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+と定義される. 
+<IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img35.png"
+ ALT="$ \Omega$"> は自転角速度, <IMG
+ WIDTH="34" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$ T_{rot}$">は自転周期である.
+本モジュールでは, 自転角速度を変更するためには
+<IMG
+ WIDTH="34" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$ T_{rot}$"> の値を与える仕様になっている.
+
+一方, Andrews <I>et al</I>. (1987) で示されている
+EP フラックスは次のように定義される 
+
+<DIV ALIGN="CENTER"><A NAME="eq:epflx_phi"></A><A NAME="eq:epflx_z^*"></A><!-- MATH
+ \begin{subequations}
+\begin{align}
+        {F_\phi} =& \rho_0 a
+        \cos \phi \left(\DP{\overline{u}}{\overline{z^*}}
+        \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'v'}\right)\\
+        {F_z^*} =& \rho_0 a
+        \cos \phi \left(\left[ f - \frac{\DP{\overline{u}\cos \phi}{\phi}}{a\cos\phi} \right]
+       \frac{\overline{v'\theta'}}{\DP{\overline{\theta}}{z^*}} - \overline{u'w'}\right).
+  \end{align}
+\end{subequations}
+ -->
+<TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="555" HEIGHT="128" ALIGN="BOTTOM" BORDER="0"
+ SRC="img37.png"
+ ALT="\begin{subequations}\begin{align} {F_\phi} =&amp; \rho_0 a \cos \phi \left(\DP{\ov...
+...overline{\theta}}{z^*}} - \overline{u'w'}\right). \end{align}\end{subequations}"></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL">
+ここで<IMG
+ WIDTH="26" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$ F_\phi$">, <IMG
+ WIDTH="31" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img39.png"
+ ALT="$ F_{z^*}$">はそれぞれ EP フラックスの<IMG
+ WIDTH="16" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$ \phi$">成分, <IMG
+ WIDTH="22" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$ z^*$">成分である.
+<!-- MATH
+ $F_y, F_z^*$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img40.png"
+ ALT="$ F_y, F_z^*$"> と <!-- MATH
+ $\hat{F_y}, \hat{F_z^*}$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img41.png"
+ ALT="$ \hat{F_y}, \hat{F_z^*}$"> は以下のように関係付けられる.
+<P></P>
+<DIV ALIGN="CENTER"><TABLE CELLPADDING="0" WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE">
+<TD NOWRAP ALIGN="CENTER"><IMG
+ WIDTH="191" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$\displaystyle (F_y, F_z^*) = a\rho_s(\hat{F_y}, \hat{F_{z^*}})$"></TD>
+<TD NOWRAP WIDTH="10" ALIGN="RIGHT">
+<A NAME="eq:relation_F_vs_F^">(2.6)</A></TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html99"
+  HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html95"
+  HREF="node3.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html89"
+  HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html97"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> :</B> <A NAME="tex2html100"
+  HREF="node6.html">残差循環</A>
+<B> :</B> <A NAME="tex2html96"
+  HREF="node3.html">NumRu::GPhys::EP_Flux で計算される緒量</A>
+<B> :</B> <A NAME="tex2html90"
+  HREF="node4.html">系の設定</A>
+ &nbsp <B>  <A NAME="tex2html98"
+  HREF="node1.html">目次</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+Tsukahara Daisuke
+平成17年2月19日
+</ADDRESS>
+</BODY>
+</HTML>

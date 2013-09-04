@@ -1,0 +1,158 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Style  Setting             %%%%%%%%
+\documentclass[a4j,12pt,openbib]{jarticle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Package Include            %%%%%%%%
+\usepackage{ascmac}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{Dennou6}
+%%%%%%%%            PageStyle Setting           %%%%%%%%
+\pagestyle{Dmyheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%            Title Setting               %%%%%%%%
+\Dtitle{NumRu::Derivative}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%   Set Counter (chapter, section etc. ) %%%%%%%%
+%\setcounter{chapter}{1}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{page}{1}
+\setcounter{figure}{0}
+\setcounter{footnote}{0}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%        Counter Output Format           %%%%%%%%
+
+%\def\thesection{\arabic{chapter}.\arabic{section}}
+%\def\theequation{\arabic{chapter}.\arabic{section}.\arabic{equation}}
+%\def\thepage{\arabic{page}}
+%\def\thefigure{\arabic{section}.\arabic{figure}}
+%\def\thetable{\arabic{section}.\arabic{table}}
+%\def\thefootnote{\arabic{footnote}}
+\def\thesection{\arabic{section}}
+\def\theequation{\arabic{section}.\arabic{equation}}
+\def\thepage{\arabic{page}}
+\def\thefigure{\arabic{section}.\arabic{figure}}
+\def\thetable{\arabic{section}.\arabic{table}}
+\def\thefootnote{\arabic{footnote}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%        Dennou-Style Definition         %%%%%%%%
+\Dparskip
+%\Dnoparskip
+\Dparindent
+%\Dnoparindent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%            Local Definition            %%%%%%%%
+\def\dfrac#1#2{{\displaystyle\frac{#1}{#2}}}
+\def\minicaption#1#2{\begin{quote} \caption{\footnotesize #1} \Dfiglab{#2} \end{quote}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%             Text Start                 %%%%%%%%
+\begin{document}
+\section{不等間隔格子の二次精度差分}
+本ドキュメントでは, NumRu::Derivative で定義される threepoints\_O2nd\_deriv で用いる
+不等間隔格子の二次精度差分についてまとめる. この差分は極端に不等間隔ではないデータに
+対して二次精度の差分を与えるものである.
+
+今, 関数$f(x)$を, 数列 $x_n (x_0, x_1, ..., x_{i}, ..., x_{n})$ 上に離散化する.
+%
+\begin{align}
+  f_i &\equiv f(x_i)\\
+  t   &\equiv (x_{i+1} - x_{i})\\
+  s   &\equiv (x_{i}   - x_{i-1})
+\end{align}
+%
+ここで, $s$と$t$はほぼ同じオーダーの値である場合を想定して議論を進める.
+
+ここで, $f(x)$を各格子点近傍にてテイラー展開する.
+%
+\begin{align}
+  f(x_{i+1}) - f(x_{i}) &= tf'(x_i) + \frac{t^2}{2}f''(x_i) + O(t^3)\\
+  f(x_{i-1}) - f(x_{i}) &= -sf'(x_i) + \frac{s^2}{2}f''(x_i) + O(s^3)
+\end{align}
+%
+ここで, $f'(x_i), f''(x_i)$はそれぞれ$x_i$における$f$の$x$に関する一階および二階の微分項, $O(t^3)$は$t^3$のオーダーの値を表す. 両式から$f''$の項を消去するために, $s^2\times$(1.4) - $t^2\times$(1.5) を計算すると,
+%
+\begin{align}
+  s^2f_{i+1} + (t^2 -s^2)f_i - t^2f_{i-1} &= (s^2 + st^2)f'(x_i) + s^2O(t^3) + t^2O(s^3)
+\end{align}
+%
+となる. 上式を変形して
+%
+\begin{align}
+  \frac{s^2f_{i+1} + (t^2 -s^2)f_i - t^2f_{i-1}}{st(s + t)} 
+         &= f'(x_i) + \frac{O(s^2t^3) + O(t^2s^3)}{st(s + t)}\\
+         &= O(t^2).
+\end{align}
+%
+これより, 2次精度差分の公式は
+\begin{align}
+  f'(x_i) &= \frac{s^2f_{i+1} + (t^2 -s^2)f_i - t^2f_{i-1}}{st(s + t)} 
+\end{align}
+%
+と書くことができる.
+
+\end{document}
+%%%%%%%%              Text End                  %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%              Sample                    %%%%%%%%
+
+%%%%%%%%            数式 (ラベル付き)           %%%%%%%%
+%
+%\begin{eqnarray}
+% \Deqlab{1.1} % 教科書での式番号を入れる.
+%  \DP{\rho}{t} + \Ddiv (\rho \Dvect{V}) = 0.
+%\end{eqnarray}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%  数式 (式番号を独立して書きたい場合)   %%%%%%%%
+%
+%$$
+% \DP{p}{z} = \rho g.
+% \eqno \textrm{(1.11)}
+%$$
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%         参考文献 (本文に書く場合)      %%%%%%%%
+%
+%{\bfseries 参考文献}
+%\vspace{-7mm}
+%\begin{description}
+% \item	著者名, 2000:
+%	書籍名, (章, 節).
+%	出版社, 319pp.
+%\end{description}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%             図の貼込み                 %%%%%%%%
+%
+%\begin{figure}[hbtp]
+% \begin{center}
+%  \Depsf[][]{./SEC01/images/fig0101.eps}
+% \end{center}
+% \caption{
+%  見出し
+% }
+% \Dfiglab{fig0101} % 教科書の図の番号を入れる,
+%                   % table の図の場合は tab0101
+%\end{figure}
+%

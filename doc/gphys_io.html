@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/gphys_io.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GPhys::IO</a></h1><!-- RDLabel: "module NumRu::GPhys::IO" -->
+<p>A module to handle file IO regarding GPhys. </p>
+<p>Many of the functionality of this module is implemented in the modules
+for specific file types such as NumRu::GPhys::NetCDF_IO, to which this
+module directs operations.</p>
+<p>For example, GPhys::IO.open(file, name) simply calls
+GPhys::*_IO.open(file, name), where '*' is
+NetCDF, GrADS, or grib.</p>
+<h2><a name="label:1" id="label:1">Module functions</a></h2><!-- RDLabel: "Module functions" -->
+<dl>
+<dt><h4><a name="label:2" id="label:2"><code>open(<var>files</var>, <var>varname</var>)</code></a><!-- RDLabel: "open" -->
+<dt><h4><a name="label:3" id="label:3"><code>write(<var>file</var>, <var>gphys</var>, <var>name</var>=<var>nil</var>)</code></a><!-- RDLabel: "write" -->
+<dt><h4><a name="label:4" id="label:4"><code>write_grid(<var>file</var>, <var>grid_or_gphys</var>)</code></a><!-- RDLabel: "write_grid" -->
+<dt><h4><a name="label:5" id="label:5"><code>each_along_dims_write(<var>gphyses</var>, <var>files</var>, *<var>loopdims</var>){...}  # <var>a</var> <var>block</var> <var>is</var> <var>expected</var></code></a><!-- RDLabel: "each_along_dims_write" -->
+<dt><h4><a name="label:6" id="label:6"><code>var_names(<var>file</var>)</code></a><!-- RDLabel: "var_names" -->
+<dt><h4><a name="label:7" id="label:7"><code>var_names_except_coordinates(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "var_names_except_coordinates" -->
+<dd>
+<p>See the manual of NumRu::GPhys::NetCDF_IO for the methods listed above.</p></dd>
+<dt><h4><a name="label:8" id="label:8"><code>file2type(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2type" -->
+<dd>
+<p>Figures out the file type supported in this module.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>file (String, Regexp, NetCDF, Grib, or GrADS_Gridded) :
+      What to return is of course obvious if it is 
+      NetCDF, Grib, or GrADS_Gridded. If it is a String,
+      it is assumed to be a path of a file, and the file type      
+      is determined by its suffix when 'nc', 'ctl', or 'grib';
+      In other cases, the type is figured out by reading in 
+      a few bytes from the beginning. If Regexp, currently,
+      a NetCDF is assumed, since only NetCDF_IO.open supports
+      Regexp.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>GPhys::IO::NETCDF, GPhys::IO::GRIB, or GPhys::IO::GRADS, 
+      which are string constants.</li>
+</ul></dd>
+<dt><h4><a name="label:9" id="label:9"><code>file2specific_module(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2specific_module" -->
+<dd>
+<p>Same as <a href="#label:8">file2type</a>, but returns GPhys::NetCDF_IO,
+GPhys::GrADS_IO, or GPhys::Grib_IO.</p></dd>
+<dt><h4><a name="label:10" id="label:10"><code>file2file_class(<var>file</var>)</code></a></h4></dt><!-- RDLabel: "file2file_class" -->
+<dd>
+<p>Same as <a href="#label:8">file2type</a>, but returns NetCDF,
+GrADS_Gridded, or Grib.</p></dd>
+<dt><h4><a name="label:11" id="label:11"><code>parse_gturl(<var>gturl</var>)</code></a></h4></dt><!-- RDLabel: "parse_gturl" -->
+<dd>
+<p>Parses GTOOL4-type URLs to specify path, variable name,
+and optionally subsets, whose format is 
+path@varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gturl (String) GTOOL4 URL, whose format is
+      path@varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]</li>
+</ul>
+<p>RETURN VALUES</p>
+<ul>
+<li>An Array consisting of [file, var, slice, thinning], where
+<ul>
+<li>file (String) : path</li>
+<li>var (String) : variable name</li>
+<li>slice (Array) : subset specifier in physical coordinate
+        to be used as GPhys#cut[slice].</li>
+<li>thinning (Array) : additional subset specifier for thinning
+        with uniform intervals if needed to be used GPhys#[thinning]
+        after appling GPhys#cut.</li>
+</ul></li>
+</ul></dd>
+<dt><h4><a name="label:12" id="label:12"><code>open_gturl(<var>gturl</var>)</code></a></h4></dt><!-- RDLabel: "open_gturl" -->
+<dd>
+<p>a GPhys constructor from a Gtool4-type URL.
+See <a href="#label:11">parse_gturl</a> for its format.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+</dl>
+<h2><a name="label:13" id="label:13">Module constants</a></h2><!-- RDLabel: "Module constants" -->
+<dl>
+<dt><h4><a name="label:14" id="label:14"><code>GTURLfmt</code></a></h4></dt><!-- RDLabel: "GTURLfmt" -->
+<dd>
+<p>The format of Gtool4URL.</p></dd>
+</dl>
+
+</body>
+</html>

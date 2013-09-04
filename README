@@ -1,0 +1,32 @@
+
+GPhys -- a class of multi-dimensional Gridded Physical quantities
+
+by T Horinouchi
+2003/05/14
+
+* DESCRIPTION
+
+To be written. 
+See http://ruby.gfd-dennou.org/workshop200303/horinout/ (in Japanese).
+
+* INSTALL
+
+# ruby ./install.rb
+
+* SAMPLE PROGRAMS
+
+Each library file has a sample program part, which is invoked by
+directly feeding the file to Ruby. For example
+
+% cd lib
+% ruby ggraph.rb
+
+% cd lib/gphys
+% ruby gphys.rb
+% ruby gphys_netcdf_io.rb
+
+Sample programs are also found in the
+
+   ./sample
+
+diredtory.

@@ -1,0 +1,94 @@
+#!/usr/bin/env ruby
+=begin
+=gpcut
+
+Extract, slicing and thinning a GPhys variable.
+
+==USAGE 
+
+   % gpcut [options] path@varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]
+
+==OPTIONS
+
+   -h,      --help         : print this message. 
+   -m dim,  --mean dim     : average along dim axis (optional).
+   -o file, --output file  : output filename (optional). 
+                           : Default output filename is 'gphys.nc'.
+
+==HISTORY
+
+  2005/05/17  S Takehiro (created)
+  2005/07/15  S Takehiro (open_gturl method is used for opening gphys variable)
+  2005/08/10  S Takehiro (utilize internal function for printing help message)
+  2005/08/21  S Takehiro (global attributes copied to the output file)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+#------------------------ Default Settings ------------------------
+Output_default = 'gphys.nc'
+URLfmt = "path@varname[,dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--mean",     "-m", GetoptLong::REQUIRED_ARGUMENT],
+  ["--output",   "-o", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ])
+begin
+  parser.each{|opt, arg|
+    case opt
+    when "--mean" then eval "$OPT_mean='#{arg}'"
+    when "--output" then eval "$OPT_output='#{arg}'"
+    when "--help" then eval "$OPT_help=true"
+    else
+      raise "must not happen"
+    end
+  }
+  rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+          GetoptLong::MissingArgument, 
+          GetoptLong::NeedlessArgument => err
+    help
+    $srderr.puts err.message
+    exit 1
+end
+
+#------------------------ Help message ------------------------
+if $OPT_help then
+  help
+  exit(0)
+end  
+
+#------------------------ Option check ------------------------
+$OPT_output = Output_default unless $OPT_output
+
+#------------------------ Output file check  --------------------------
+raise "#{$OPT_output} already exists." if FileTest.exist?($OPT_output) 
+outncfile=NetCDF.create($OPT_output)
+
+#------------------------ Open gphys variable ------------------------
+gturl = ARGV[0]
+gphys = GPhys::IO.open_gturl(gturl)
+outncfile.copy_global_att(gphys) # Copy global attributes (only for NetCDF)
+
+#----------------------- mean along any axis -------------------------
+if ($OPT_mean)
+  dims = ($OPT_mean).split(/\s*,\s*/)
+  dims.each{|dim|
+    dim = dim.to_i if dim.to_i.to_s == dim
+    gphys = gphys.mean(dim)
+  }
+end
+
+
+#---------------------- Output GPhys variable  ------------------------
+GPhys::IO.write( outncfile, gphys )
+NetCDF_Conventions.add_history(outncfile, File.basename($0)+" "+ARGV[0])
+outncfile.close
+
+print File.basename($0) +": "+ARGV[0]+ " is written to #{$OPT_output}.\n"

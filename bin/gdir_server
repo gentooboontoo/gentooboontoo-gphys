@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+
+=begin
+=Command gdir_server 
+
+A stand-alone server program to provide a directory service of GPHys
+objects by using GDir.
+
+==Usage
+
+At the  command line,
+
+   % gdir_server top_dir [[host:]port] [-a allowed_address]..
+
+where 
+* top_dir: can be ".", "/", or whatever directory in your files system.
+* host: host address (name or ip) -- use it if you want to specify
+  explicitly, such as "localhost", which is useful for ssh port forwarding.
+* port: the port number you want to assign (internally determined
+  if not specified). A complete URI is printed if the server is started.
+* -a: limits accesses from remote hosts only to the ones specified.
+  Can be repeated multiple times. (Need the space between '-a' and the rest)
+
+==Examples
+    % gdir_server . 12345
+    % gdir_server . localhost:12345 -a all
+    % gdir_server . -a hoge.hero.org -a localhost
+    % gdir_server . 12345 -a '192.168.1.*' -a localhost
+=end
+
+require "drb/drb"
+require "drb/timeridconv"
+require "drb/acl"
+require "numru/gdir"
+
+DRb.install_id_conv(DRb::TimerIdConv.new(1200))
+
+module NumRu
+  class GDir
+    include DRbUndumped
+  end
+end
+
+class NArray
+  def self._load(o) to_na(*Marshal::load(o)).ntoh end
+  def _dump(limit) 
+    Marshal::dump([hton.to_s, typecode, *shape]) 
+  end
+end
+
+include NumRu
+
+usage = <<EOS
+
+
+USAGE: % #{$0} top_dir [[host:]port] [-a allowed_address]..
+
+where
+* top_dir: can be ".", "/", or whatever directory in your files system.
+* host: host address (name or ip) -- use it if you want to specify
+  explicitly, such as "localhost", which is useful for ssh port forwarding.
+* port: the port number you want to assign (internally determined
+  if not specified). A complete URI is printed if the server is started.
+* -a: Allows accesses from those hosts specified with this option.
+  Can be repeated multiple times. (Need the space between '-a' and the rest)
+  By default, only connections from the localhost is allowed.
+  If you use this option, you need to specify localhost explicitly
+  if connection from the localhost is needed.
+
+EXAMPLES:
+    % #{$0} . 12345
+    % #{$0} . localhost:12345 -a all
+    % #{$0} . -a hoge.hero.org -a localhost
+    % #{$0} . 12345 -a '192.168.1.*' -a localhost
+EOS
+
+# <interpret comman-line arguments>
+
+if ARGV.include?('-a')
+  # Access control
+  list = ['deny', 'all']
+  while(idx=ARGV.index('-a'))
+    ARGV.delete_at(idx) 
+    begin
+      list.push( 'allow', ARGV.delete_at(idx) )
+    rescue
+      raise usage
+    end
+  end
+  acl = ACL.new(list)
+  DRb.install_acl(acl)
+else
+  list = %W!deny all allow localhost allow 127.0.0.1 allow #{Socket.gethostname}!
+  acl = ACL.new(list)
+  DRb.install_acl(acl)
+end
+
+top = ARGV.shift || raise(usage)
+host_port = ARGV.shift
+
+# <set the top & direcotry>
+begin
+  GDir.top = top
+  rootdir = GDir.new('/')
+rescue
+  print "\n",usage,"\n"
+  raise
+end
+
+# <start the server>
+if !host_port
+  uri_seed = nil
+elsif /:/ =~ host_port
+  uri_seed = 'druby://'+host_port
+else
+  port = host_port     # port number only
+  print usage if port && port.to_i.to_s != port   # make sure it is an integer
+  uri_seed = 'druby://:'+port
+end
+DRb.start_service(uri_seed, rootdir)
+puts 'URI: '+DRb.uri
+puts '[return] to exit'
+gets

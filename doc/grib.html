@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/grib.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">Status</a></h1><!-- RDLabel: "Status" -->
+<ul>
+<li>only a Lon-Lat coordinate is supported</li>
+<li>only simple pakking is supported</li>
+<li>variable list is not complete for NCEP and ECMWF</li>
+</ul>
+<h1><a name="label:1" id="label:1">NumRu::Grib  -- a class for Grib datasets</a></h1><!-- RDLabel: "NumRu::Grib  &shy;&shy; a class for Grib datasets" -->
+<h2><a name="label:2" id="label:2">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label:3" id="label:3"><code>Grib.new(<var>filename</var>, <var>mode</var>="<var>r</var>")</code></a></h4></dt><!-- RDLabel: "Grib.new" -->
+<dd>
+<p>make a new Grib object.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>filename (String): name of the file to open</li>
+<li>mode (String): IO mode. "r" (read only) or "w" (write only).</li>
+</ul></dd>
+<dt><h4><a name="label:4" id="label:4"><code>Grib.open(<var>filename</var>)</code></a></h4></dt><!-- RDLabel: "Grib.open" -->
+<dd>
+<p>open a Grib file.</p></dd>
+<dt><h4><a name="label:5" id="label:5"><code>Grib.create(<var>filename</var>)</code></a></h4></dt><!-- RDLabel: "Grib.create" -->
+<dd>
+<p>create a Grib file.</p></dd>
+<dt><h4><a name="label:6" id="label:6"><code>Grib.is_aGrib?(<var>filename</var>)</code></a></h4></dt><!-- RDLabel: "Grib.is_aGrib?" -->
+<dd>
+<p>return true when file is a Grib dataset</p></dd>
+</dl>
+<h2><a name="label:7" id="label:7">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label:8" id="label:8"><code>close</code></a><!-- RDLabel: "close" -->
+<dt><h4><a name="label:9" id="label:9"><code>parse</code></a><!-- RDLabel: "parse" -->
+<dt><h4><a name="label:10" id="label:10"><code>path</code></a><!-- RDLabel: "path" -->
+<dt><h4><a name="label:11" id="label:11"><code>var_names</code></a><!-- RDLabel: "var_names" -->
+<dt><h4><a name="label:12" id="label:12"><code>var( <var>name</var> )</code></a><!-- RDLabel: "var" -->
+<dt><h4><a name="label:13" id="label:13"><code>def_var( <var>name</var> )</code></a><!-- RDLabel: "def_var" -->
+<dt><h4><a name="label:14" id="label:14"><code>enddef</code></a><!-- RDLabel: "enddef" -->
+<dt><h4><a name="label:15" id="label:15"><code>write</code></a><!-- RDLabel: "write" -->
+</dl>
+<h1><a name="label:16" id="label:16">NumRu::GribDim</a></h1><!-- RDLabel: "NumRu::GribDim" -->
+<h2><a name="label:17" id="label:17">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label:18" id="label:18"><code>new( <var>vat</var>, <var>name</var>, <var>length</var> )</code></a><!-- RDLabel: "new" -->
+</dl>
+<h2><a name="label:19" id="label:19">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label:20" id="label:20"><code>var</code></a><!-- RDLabel: "var" -->
+<dt><h4><a name="label:21" id="label:21"><code>length</code></a><!-- RDLabel: "length" -->
+<dt><h4><a name="label:22" id="label:22"><code>name</code></a><!-- RDLabel: "name" -->
+<dt><h4><a name="label:23" id="label:23"><code>typecode</code></a><!-- RDLabel: "typecode" -->
+<dt><h4><a name="label:24" id="label:24"><code>get</code></a><!-- RDLabel: "get" -->
+<dt><h4><a name="label:25" id="label:25"><code>[<var>indices</var>]</code></a><!-- RDLabel: "[]" -->
+<dt><h4><a name="label:26" id="label:26"><code>put_att(<var>key</var>,<var>val</var>)</code></a><!-- RDLabel: "put_att" -->
+<dt><h4><a name="label:27" id="label:27"><code>set_att(<var>key</var>,<var>val</var>)</code></a><!-- RDLabel: "set_att" -->
+<dt><h4><a name="label:28" id="label:28"><code>att(<var>key</var>)</code></a><!-- RDLabel: "att" -->
+<dt><h4><a name="label:29" id="label:29"><code>att_names</code></a><!-- RDLabel: "att_names" -->
+<dt><h4><a name="label:30" id="label:30"><code>inspect</code></a><!-- RDLabel: "inspect" -->
+</dl>
+<h1><a name="label:31" id="label:31">NumRu::GribVar</a></h1><!-- RDLabel: "NumRu::GribVar" -->
+<h2><a name="label:32" id="label:32">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label:33" id="label:33"><code>new( <var>file</var>, <var>name</var>, <var>obj</var>, <var>dims</var> )</code></a><!-- RDLabel: "new" -->
+</dl>
+<h2><a name="label:34" id="label:34">Methods</a></h2><!-- RDLabel: "Methods" -->
+<dl>
+<dt><h4><a name="label:35" id="label:35"><code>file</code></a><!-- RDLabel: "file" -->
+<dt><h4><a name="label:36" id="label:36"><code>name</code></a><!-- RDLabel: "name" -->
+<dt><h4><a name="label:37" id="label:37"><code>rank</code></a><!-- RDLabel: "rank" -->
+<dt><h4><a name="label:38" id="label:38"><code>total</code></a><!-- RDLabel: "total" -->
+<dt><h4><a name="label:39" id="label:39"><code>set_var</code></a><!-- RDLabel: "set_var" -->
+<dt><h4><a name="label:40" id="label:40"><code>set_miss</code></a><!-- RDLabel: "set_miss" -->
+<dt><h4><a name="label:41" id="label:41"><code>dim_names</code></a><!-- RDLabel: "dim_names" -->
+<dt><h4><a name="label:42" id="label:42"><code>dim( <var>index</var> )</code></a><!-- RDLabel: "dim" -->
+<dt><h4><a name="label:43" id="label:43"><code>ndims</code></a><!-- RDLabel: "ndims" -->
+<dt><h4><a name="label:44" id="label:44"><code>def_dim(<var>name</var>,<var>index</var>)</code></a><!-- RDLabel: "def_dim" -->
+<dt><h4><a name="label:45" id="label:45"><code>put_att( <var>key</var>, <var>value</var> )</code></a><!-- RDLabel: "put_att" -->
+<dt><h4><a name="label:46" id="label:46"><code>set_att( <var>key</var>, <var>value</var> )</code></a><!-- RDLabel: "set_att" -->
+<dt><h4><a name="label:47" id="label:47"><code>att( <var>key</var> )</code></a><!-- RDLabel: "att" -->
+<dt><h4><a name="label:48" id="label:48"><code>att_names</code></a><!-- RDLabel: "att_names" -->
+<dt><h4><a name="label:49" id="label:49"><code>shape</code></a><!-- RDLabel: "shape" -->
+<dt><h4><a name="label:50" id="label:50"><code>typecode</code></a><!-- RDLabel: "typecode" -->
+<dt><h4><a name="label:51" id="label:51"><code>get( <var>indics</var> )</code></a><!-- RDLabel: "get" -->
+<dt><h4><a name="label:52" id="label:52"><code>[ <var>indics</var> ]</code></a><!-- RDLabel: "[]" -->
+<dt><h4><a name="label:53" id="label:53"><code>inspect</code></a><!-- RDLabel: "inspect" -->
+</dl>
+<pre>if pds1.time_range!=pds2.time_range
+  $stderr.printf("time range is not same: #{pds1.time_range} != #{pds2.time_range}\n")
+  return true
+
+end</pre>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+#!/usr/bin/env ruby
+=begin
+
+=gpcat
+
+Read a variable in multiple NetCDF files, concatenate and write them to a single netcdf file. 
+
+==USAGE
+
+  % gpcat -v VAR [options] FILE1 FILE2...
+
+
+==OPTIONS
+
+      -h,      --help         : print this message. 
+      -v var,  --variable var : variable name (required).
+      -s sfmt, --slice  sfmt  : slice,thinnng  (optional).
+      -o file, --output file  : output filename (optional).
+                              : Default output filename is 'gphys.nc'.
+
+==HISTORY
+
+  2005/05/17  S Takehiro (created)
+  2005/08/10  S Takehiro (utilize internal function for printing help message)
+  2005/08/21  S Takehiro (global attributes copied to the output file)
+  2005/08/23  S Takehiro (common methods to gp* command moved to gpcommon.rb)
+
+=end
+
+require "numru/gphys"
+require "numru/gphys/gpcommon"
+include NumRu
+
+require "getoptlong"
+
+
+#-------------------- Slice parameter analysis --------------------
+def parse_slice(arg_slice)
+
+  slice = Hash.new
+  thinning = Hash.new
+  arg_slice_descr = arg_slice.split(/,/)
+#  arg_slice = arg_slice_descr.shift
+  arg_slice_descr.each do |s|
+    if /(.*)=(.*)/ =~ s
+      dimname = $1
+      subset = $2
+      case subset
+      when /(.*):(.*):(.*)/
+        slice[dimname] = ($1.to_f)..($2.to_f)
+        thinning[dimname] = {0..-1,$3.to_i}
+      when /(.*):(.*)/
+        slice[dimname] = ($1.to_f)..($2.to_f)
+      else
+        slice[dimname] = subset.to_f
+      end
+    else
+      raise "invalid slice format\n\n"
+      "slice format: " + SliceFMT
+    end
+  end
+  thinning = nil if thinning.length == 0
+  [slice, thinning]
+end
+
+#------------------------ Default Settings ------------------------
+Output_default = 'gphys.nc'
+SliceFMT = "dimname=pos1[:pos2[:thinning_intv]][,dimname=...]]"
+
+#---------------------- Option Configuration ----------------------
+parser = GetoptLong.new(
+  ["--variable", "-v", GetoptLong::REQUIRED_ARGUMENT],
+  ["--output",   "-o", GetoptLong::REQUIRED_ARGUMENT],
+  ["--slice",    "-s", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help",     "-h", GetoptLong::NO_ARGUMENT      ])
+begin
+  parser.each{|opt, arg|
+    case opt
+    when "--variable" then eval "$OPT_var='#{arg}'"
+    when "--output" then eval "$OPT_output='#{arg}'"
+    when "--slice" then eval "$OPT_slice='#{arg}'"
+    when "--help" then eval "$HELP=true"
+    else
+      raise "must not happen"
+    end
+  }
+  rescue GetoptLong::AmbigousOption, GetoptLong::InvalidOption,
+          GetoptLong::MissingArgument, 
+          GetoptLong::NeedlessArgument => err
+    help
+    $srderr.puts err.message
+    exit 1
+end
+
+#------------------------ Help message ------------------------
+if $HELP then
+  help
+  exit(0)
+end  
+
+#------------------------ Option check ------------------------
+unless $OPT_var then 
+  raise "Variable must be set with '-v' or '--var' option."
+end
+
+unless $OPT_output then 
+  $OPT_output = Output_default
+end
+
+slice, thinning = parse_slice($OPT_slice) if $OPT_slice
+
+#------------------------ Output file check  --------------------------
+raise "#{$OPT_output} already exists." if FileTest.exist?($OPT_output) 
+outncfile=NetCDF.create($OPT_output)
+
+#------------------------ Open gphys variable ------------------------
+# Copy global attributes (only for NetCDF file)
+gphys = GPhys::IO.open(ARGV[0],$OPT_var)
+outncfile.copy_global_att(gphys) # Copy global attributes (only for NetCDF)
+
+case ARGV.length
+when 1 then
+  gphys = GPhys::IO.open(ARGV[0],$OPT_var)
+  print "#{$0}: Gphys variable '#{$OPT_var}' in NetCDF file, " + ARGV[0] +", was opened successfully.\n"
+else
+  gphys = GPhys::IO.open(ARGV, $OPT_var)
+  print "#{$0}: GPhys variable '#{$OPT_var}' in NetCDF files, " + ARGV.join(', ') +", was opened successfully.\n"
+end
+
+
+#------------------- Slice/thinning gphys variable --------------------
+gphys = gphys.cut(slice) if slice
+gphys = gphys[thinning]  if thinning
+
+#---------------------- Output GPhys variable  ------------------------
+GPhys::IO.write( outncfile, gphys )
+NetCDF_Conventions.add_history(outncfile, File.basename($0)+" "+ARGV[0])
+outncfile.close
+
+print File.basename($0)+": GPhys variable '#{$OPT_var}' in " + ARGV.join(', ') + ", is written to #{$OPT_output}.\n"

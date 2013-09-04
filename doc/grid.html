@@ -1,0 +1,240 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/gphys/grid.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">class NumRU::Grid</a></h1><!-- RDLabel: "class NumRU::Grid" -->
+<p>A class to handle discretized grids of physical quantities.</p>
+<h2><a name="label:1" id="label:1">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><h4><a name="label:2" id="label:2"><code>Grid.new( *<var>axes</var> )</code></a></h4></dt><!-- RDLabel: "Grid.new" -->
+<dd>
+<p>Constructor.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+</dl>
+<h2><a name="label:3" id="label:3">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><h4><a name="label:4" id="label:4"><code>axnames</code></a></h4></dt><!-- RDLabel: "axnames" -->
+<dd>
+<p>Returns the names of the axes</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label:5" id="label:5"><code>lost_axes</code></a></h4></dt><!-- RDLabel: "lost_axes" -->
+<dd>
+<p>Returns info on axes eliminated during operations.</p>
+<p>Useful for annotation in plots, for example (See the code of GGraph
+for an application).</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of String</li>
+</ul></dd>
+<dt><h4><a name="label:6" id="label:6"><code>axis(<var>dim_or_dimname</var>)</code></a></h4></dt><!-- RDLabel: "axis" -->
+<dd>
+<p>Returns an Axis</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Axis</li>
+</ul></dd>
+<dt><h4><a name="label:7" id="label:7"><code>dim_index(<var>dimname</var>)</code></a></h4></dt><!-- RDLabel: "dim_index" -->
+<dd>
+<p>Returns the integer id (count from zero) of the dimension</p>
+<p>ARGUMENT</p>
+<ul>
+<li>dimname (String or Integer) : this method is trivial if is is an integer</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Integer</li>
+</ul></dd>
+<dt><h4><a name="label:8" id="label:8"><code>set_axis(<var>dim_or_dimname</var>,<var>ax</var>)</code></a></h4></dt><!-- RDLabel: "set_axis" -->
+<dd>
+<p>Sets an axis.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+<li>ax (Axis) the axis</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label:9" id="label:9"><code>set_lost_axes( <var>lost</var> )</code></a></h4></dt><!-- RDLabel: "set_lost_axes" -->
+<dd>
+<p>Sets info on axes eliminated.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label:10" id="label:10"><code>add_lost_axes( <var>lost</var> )</code></a></h4></dt><!-- RDLabel: "add_lost_axes" -->
+<dd>
+<p>Adds info on axes eliminated to existing ones.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label:11" id="label:11"><code>delete_axes( <var>at</var>, <var>deleted_by</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "delete_axes" -->
+<dd>
+<p>Delete an axis.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>at (String or Integer) to specify an axis.</li>
+<li>deleted_by (String or nil) if non-nil, it is written in
+      the internal lost-axis info. Best if you put the name of the
+      method, in which this method is called.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:12" id="label:12"><code>copy</code></a></h4></dt><!-- RDLabel: "copy" -->
+<dd>
+<p>Makes a deep clone onto memory.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:13" id="label:13"><code>merge(<var>other</var>)</code></a></h4></dt><!-- RDLabel: "merge" -->
+<dd>
+<p>merge two grids by basically using copies of self's axes but
+using the other's if the length in self is 1 and 
+the length in the other is longer</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>other (Grid)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:14" id="label:14"><code>shape</code></a></h4></dt><!-- RDLabel: "shape" -->
+<dd>
+<p>Returns the shape of self.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array of Integer</li>
+</ul></dd>
+<dt><h4><a name="label:15" id="label:15"><code>[*<var>slicer</var>]</code></a></h4></dt><!-- RDLabel: "[]" -->
+<dd>
+<p>Returns a subset.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>Same as those for NArray#[], NetCDFVar#[], etc.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:16" id="label:16"><code>cut(*<var>args</var>)</code></a></h4></dt><!-- RDLabel: "cut" -->
+<dd>
+<p>Similar to <a href="#label:15">[]</a>, but the subset is specified by physical coordinate.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>pattern 1: similar to those for <a href="#label:15">[]</a>, where the first
+      argument specifies a subset for the first dimension.</li>
+<li>pattern 2: by a Hash, in which keys are axis names.</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>Pattern 1</p>
+<pre>gphys.cut(135.5,0..20.5,false)</pre></li>
+<li><p>Pattern 2</p>
+<pre>gphys.cut({'lon'=&gt;135.5,'lat'=&gt;0..20})</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>an Array : [a Grid, slicer], where slicer is an array
+      to be used to make a subset of an corresponding varray
+      (to be used in GPhys#cut).</li>
+</ul></dd>
+<dt><h4><a name="label:17" id="label:17"><code>cut_rank_conserving(*<var>args</var>)</code></a></h4></dt><!-- RDLabel: "cut_rank_conserving" -->
+<dd>
+<p>Similar to <a href="#label:16">cut</a>, but the rank is conserved by not eliminating
+any dimension (whose length could be one).</p></dd>
+<dt><h4><a name="label:18" id="label:18"><code>exclude(<var>dim_or_dimname</var>)</code></a></h4></dt><!-- RDLabel: "exclude" -->
+<dd>
+<p>Returns a Grid in which an axis is eliminated from self.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:19" id="label:19"><code>change_axis(<var>dim</var>, <var>axis</var>)</code></a></h4></dt><!-- RDLabel: "change_axis" -->
+<dd>
+<p>Replaces an axis. (Returns a new object)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+<li>axis (Axis)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:20" id="label:20"><code>change_axis!(<var>dim_or_dimname</var>, <var>axis</var>)</code></a></h4></dt><!-- RDLabel: "change_axis!" -->
+<dd>
+<p>Replaces an axis. (overwrites self)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+<li>axis (Axis)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label:21" id="label:21"><code>insert_axis(<var>dim_or_dimname</var>, <var>axis</var>)</code></a></h4></dt><!-- RDLabel: "insert_axis" -->
+<dd>
+<p>Inserts an axis. (Returns a new object)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+<li>axis (Axis)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+<dt><h4><a name="label:22" id="label:22"><code>insert_axis!(<var>dim_or_dimname</var>, <var>axis</var>)</code></a></h4></dt><!-- RDLabel: "insert_axis!" -->
+<dd>
+<p>Inserts an axis. (overwrites self)</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dim_or_dimname (String or Integer) to specify an axis.</li>
+<li>axis (Axis)</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>self</li>
+</ul></dd>
+<dt><h4><a name="label:23" id="label:23"><code>transpose( *<var>dims</var> )</code></a></h4></dt><!-- RDLabel: "transpose" -->
+<dd>
+<p>Transpose.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>dims (integers) : for example, [1,0] to transpose a 2D object.
+      For 3D objects, [1,0,2], [2,1,0], etc.etc.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Grid</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

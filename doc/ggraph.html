@@ -1,0 +1,1332 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../lib/numru/ggraph.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GGraph and others in ggraph.rb</a></h1><!-- RDLabel: "module NumRu::GGraph and others in ggraph.rb" -->
+<h2><a name="label:1" id="label:1">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li><a href="#label:2">module NumRu::GGraph</a>
+<ul>
+<li><a href="#label:4">margin_info</a>
+    Sets the strings to appear in the bottom margin.</li>
+<li><a href="#label:5">title</a>
+    Shows title by <code>DCL.uxmttl('t',string,0.0)</code>.
+    Graphic methods such as <a href="#label:22">contour</a> calls this by default.</li>
+<li><a href="#label:6">annotate</a>
+    Show texts on the right margin of the viewport.
+    Graphic methods such as <a href="#label:22">contour</a> calls this by default.</li>
+<li><a href="#label:7">fig</a>
+    Define a figure by setting viewport, window, and coordinate transform 
+    id (itr) from two 1D VArrays <code>xax</code> and <code>yax</code>. </li>
+<li><a href="#label:8">set_fig</a>
+    Change the default option values for <a href="#label:7">fig</a>.</li>
+<li><a href="#label:9">next_fig</a>
+    Set the option values effective only in the next call of <a href="#label:7">fig</a>
+    (cleared then).</li>
+<li><a href="#label:10">axes</a>
+    Draw axes using (by default) info in <code>xax</code> and <code>yax</code> if non-nil.</li>
+<li><a href="#label:11">set_axes</a>
+    Change the default option values for <a href="#label:10">axes</a>.</li>
+<li><a href="#label:12">next_axes</a>
+    Set the option values effective only in the next call of <a href="#label:10">axes</a>
+    (cleared then).</li>
+<li><a href="#label:15">map_trn?</a>
+    Returns whether the current coordinate transformation is a map projection.</li>
+<li><a href="#label:16">map</a>
+    (For map projection) Draws map grid and/or lim and/or coast lines etc.</li>
+<li><a href="#label:17">set_map</a>
+    Change the default option values for <a href="#label:16">map</a>.</li>
+<li><a href="#label:18">next_map</a>
+    Set the option values effective only in the next call of <a href="#label:16">map</a></li>
+<li><a href="#label:19">line</a>
+    Plot a poly-line by selecting the first dimension (with GPhys#first1D)
+    if <code>gphys</code> is more than 2D.</li>
+<li><a href="#label:20">mark</a>
+    Similar to <a href="#label:19">line</a> but plots marks instead of drawing a poly-line.</li>
+<li><a href="#label:22">contour</a>
+    Contour plot by selecting the first 2 dimensions (with GPhys#first2D)
+    if <code>gphys</code> is more than 3D.</li>
+<li><!-- Reference, RDLabel "set_contour" doesn't exist --><em class="label-not-found">set_contour</em><!-- Reference end -->
+    Set options for contour in general.</li>
+<li><!-- Reference, RDLabel "next_contour" doesn't exist --><em class="label-not-found">next_contour</em><!-- Reference end -->
+    Set options for contour in general, which is applied only to the next call.</li>
+<li><a href="#label:23">set_contour_levels</a>
+    Set contour levels for <a href="#label:22">contour</a> explicitly by values with the option <code>levels</code>.</li>
+<li><a href="#label:24">clear_contour_levels</a>
+    Clear contour levels set by <a href="#label:23">set_contour_levels</a>.</li>
+<li><a href="#label:25">set_linear_contour_options</a>
+    Change the default option values regarding linear contour level
+    setting in <a href="#label:22">contour</a>.</li>
+<li><a href="#label:26">next_linear_contour_options</a>
+    Similar to <a href="#label:25">set_linear_contour_options</a> but the setting
+    is effective only for the next call of <a href="#label:22">contour</a>.</li>
+<li><a href="#label:27">tone</a>
+    Color tone or shading by selecting the first 2 dimensions 
+    (with GPhys#first2D) if <code>gphys</code> is more than 3D.</li>
+<li><a href="#label:28">color_bar </a> Color bar</li>
+<li><a href="#label:29">set_tone_levels</a>
+    Set tone levels for <a href="#label:27">tone</a> explicitly by values.</li>
+<li><!-- Reference, RDLabel "set_tone" doesn't exist --><em class="label-not-found">set_tone</em><!-- Reference end -->
+    Set options for tone in general.</li>
+<li><!-- Reference, RDLabel "next_tone" doesn't exist --><em class="label-not-found">next_tone</em><!-- Reference end -->
+    Set options for tone in general, which is applied only to the next call.</li>
+<li><a href="#label:30">clear_tone_levels</a>
+    Clear tone levels set by <a href="#label:29">set_tone_levels</a>.</li>
+<li><a href="#label:31">set_linear_tone_options</a>
+    Change the default option values regarding linear tone level
+    setting in <a href="#label:27">tone</a>.</li>
+<li><a href="#label:32">next_linear_tone_options</a>
+    Similar to <a href="#label:31">set_linear_tone_options</a> but the setting
+    is effective only for the next call of <a href="#label:27">tone</a>.</li>
+<li><a href="#label:33">vector</a> 2-D vector plot using DCL_Ext::<a href="#label:77">flow_vect</a></li>
+</ul></li>
+<li><a href="#label:34">module NumRu::DCLExt</a>
+<ul>
+<li><a href="#label:38">gl_set_params</a>
+    Calls <code>DCL.glpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:40">sg_set_params</a>
+    Calls <code>DCL.sgpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:42">sl_set_params</a>
+    Calls <code>DCL.slpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:44">sw_set_params</a>
+    Calls <code>DCL.swpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:46">uz_set_params</a>
+    Calls <code>DCL.uzpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:48">ul_set_params</a>
+    Calls <code>DCL.ulpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:50">uc_set_params</a>
+    Calls <code>DCL.ucpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:52">uu_set_params</a>
+    Calls <code>DCL.uupset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:54">us_set_params</a>
+    Calls <code>DCL.uspset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:56">ud_set_params</a>
+    Calls <code>DCL.udpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:57">ud_set_linear_levs</a>
+    Set contour levels with a constant interval</li>
+<li><a href="#label:58">ud_set_contour</a>
+    Set contours of at specified levels.</li>
+<li><a href="#label:59">ud_add_contour</a>
+    Same as <a href="#label:58">ud_set_contour</a>, but does not clear the contour levels that have
+    been set.</li>
+<li><a href="#label:61">ue_set_params</a>
+    Calls <code>DCL.uepset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:62">ue_set_linear_levs</a>
+    Set tone levels with a constant interval</li>
+<li><a href="#label:63">ue_set_tone</a>
+    Set tone levels and patterns.</li>
+<li><a href="#label:64">ue_add_tone</a>
+    Same as <a href="#label:63">ue_set_tone</a>, but does not clear the tone levels that have
+    been set.</li>
+<li><a href="#label:66">ug_set_params</a>
+    Calls <code>DCL.ugpset</code> multiple times (for each key and val of <code>hash</code>).
+    See <a href="#label:38">gl_set_params</a> for usage.</li>
+<li><a href="#label:68">um_set_params</a>
+    Calls <code>DCL.umpset</code> multiple times (for each key and val of <code>hash</code>).</li>
+<li><a href="#label:75">set_unit_vect_options</a></li>
+<li><a href="#label:76">next_unit_vect_options</a></li>
+<li><a href="#label:74">unit_vect</a> Show the "unit vector", which indicate the vector scaling.</li>
+<li><a href="#label:77">flow_vect</a> 2D Vector plot. Unlike <code>DCL::ugvect</code>, scaling are made in term of the physical (or "U") coordinate.</li>
+<li><a href="#label:78">flow_itr5</a> 2D Vector plot on the 2-dim polar coodinate. </li>
+<li><a href="#label:28">color_bar</a> Color Bar</li>
+</ul></li>
+</ul>
+<h1><a name="label:2" id="label:2">module NumRu::GGraph</a></h1><!-- RDLabel: "module NumRu::GGraph" -->
+<p>A graphic library for GPhys using RubyDCL.</p>
+<p>This module uses GPhys but is not a part of it.
+More specifically, even though this module is included in
+the GPhys distribution, the class NumRu::GPhys knows nothing about it,
+and GGraph accesses GPhys only though public methods.
+So GGraph is not an insider, and you can make another graphic 
+library if you like.</p>
+<h2><a name="label:3" id="label:3">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<dl>
+<dt><h4><a name="label:4" id="label:4"><code>margin_info(<var>program</var>=<var>nil</var>, <var>data_source</var>=<var>nil</var>, <var>char_height</var>=<var>nil</var>, <var>date</var>=<var>nil</var>, <var>xl</var>=<var>0</var>.<var>0</var>, <var>xr</var>=<var>0</var>.<var>0</var>, <var>yb</var>=<var>nil</var>, <var>yt</var>=<var>0</var>.<var>0</var>)</code></a></h4></dt><!-- RDLabel: "margin_info" -->
+<dd>
+<p>Sets the strings to appear in the bottom margin.</p>
+<p>This method sets margin widths as DCL.slmgn(xl, xr, yb, yt),
+and sets the 1st and 2nd margin strings as <code>program</code>
+and <code>data</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>program (String or nil) : String to be put on the left side in
+      the bottom margin. This is meant to represent the name of the
+      execution program. Therefore, if it is nil, the full path of 
+      $0 is used.</li>
+<li>data_source (String or nil) : String to be put on the right side in
+      the bottom margin. This is meant to represent the data file name or the
+      directory in which the data are situated.
+      If nil, the full path of the current directory is used
+      (but nothing is shown if it is equal to the directory of the program).</li>
+<li>date (true, false, nil) : whether to put todays date --
+      true: always, nil: if program.length is short enough, false: never</li>
+<li>char_height (Float or nil) : height of the string to appear
+      in the V coordinate. If nil, internally defined.</li>
+<li>xl, xr, yb, yl (Float --- nil is available for yb) : margin
+      size in the V coordinate. The margin is set as
+      DCL.slmgn(xl, xr, yb, yt). If <code>yb</code> is nil, it is determined
+      internally as <code>2.0 * char_height</code>.</li>
+</ul></dd>
+<dt><h4><a name="label:5" id="label:5"><code>title(<var>string</var>)</code></a></h4></dt><!-- RDLabel: "title" -->
+<dd>
+<p>Shows title by <code>DCL.uxmttl('t',string,0.0)</code>.
+Graphic methods such as <a href="#label:22">contour</a> calls this by default.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:6" id="label:6"><code>annotate(<var>str_ary</var>)</code></a></h4></dt><!-- RDLabel: "annotate" -->
+<dd>
+<p>Show texts on the right margin of the viewport.
+Graphic methods such as <a href="#label:22">contour</a> calls this by default.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>str_ary (Array of String) : </li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:7" id="label:7"><code>fig(<var>xax</var>=<var>nil</var>, <var>yax</var>=<var>nil</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "fig" -->
+<dd>
+<p>Define a figure by setting viewport, window, and coordinate transform 
+id (itr) from two 1D VArrays <code>xax</code> and <code>yax</code> (which are
+not needed if a map projection is specified with the optional 
+parameter 'itr'). </p>
+<p><code>DCL.grfrm</code> or <code>DCL.grfig</code> is called depending options provided.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (VArray): (Used only if not map projection)
+      A VArray representing the x (horizontal) coordinate
+      of the figure.
+      The x range of the window (UXMIN &amp; UYMAX in DCL) are determined
+      with the max and min of <code>xax.val</code>. By default, 
+      the min and max values are assigned to the left and right
+      boundaries, respectively, but it is reversed if <code>xax</code> has
+      a 'positive' attribute and its value is 'down' etc (see <code>options</code>).</li>
+<li>yax (VArray): (Used only if not map projection)
+      Similar to <code>xax</code> but for the y (vertical) coordinate
+      of the figure.</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"new_frame"   true    # whether to define a new frame by DCL.grfrm
+                      # (otherwise, DCL.grfig is called)
+"no_new_fig"  false   # If true, neither DCL.grfrm nor DCL.grfig</pre></li>
+</ul></dd>
+</dl>
+<pre># is called (overrides new_frame) -- Then, you need
+# to call one of them in advance. Convenient to set
+# DCL parameters that are reset by grfrm or grfig.</pre>
+<pre>"itr"         1       # coordinate transformation number
+"viewport"    [0.2, 0.8, 0.2, 0.8]    # [vxmin, vxmax, vymin, vymax]
+"window"      nil     # (for itr&lt;10,&gt;50) [uxmin, uxmax, uymin, uymax],
+                      # each element allowed nil (only for itr&lt;5,&gt;50)
+"xreverse"    "positive:down,units:hPa"       # (for itr&lt;10,&gt;50) Assign
+                      # max value to UXMIN and min value to UXMAX if
+                      # condition is satisfied (nil:never, true:always,
+                      # String: when an attibute has the value specified
+                      # ("key:value,key:value,..")
+"yreverse"    "positive:down,units:hPa"       # (for itr&lt;10,&gt;50) Assign
+                      # max value to UYMIN and min value to UYMAX if
+                      # condition is satisfied (nil:never, true:always,
+                      # String: when an attibute has the value specified
+                      # ("key:value,key:value,..")
+"similar"     nil     # (for rectangular curvilinear coordinate only)
+                      # 3-element float array for similar transformation
+                      # in a rectangular curvilinear coordinate, which 
+                      # is fed in DCL:grssim:[simfac,vxoff,vyoff],where 
+                      # simfac and [vxoff,vyoff] represent scaling 
+                      # factor and origin shift, respectively.
+"map_axis"    nil     # (for all map projections) 3-element float
+                      # array to be fed in DCL::umscnt: [uxc, uxy, rot],
+                      # where [uxc, uyc] represents the tangential point
+                      # (or the pole at top side for cylindrical
+                      # projections), and rot represents the rotation
+                      # angle. If nil, internally determined. (units:
+                      # degrees)
+"map_radius"  nil     # (for itr&gt;=20: conical/azimuhal map
+                      # projections) raidus around the tangential point.
+                      # (units: degrees)
+"map_fit"     nil     # (Only for itr=10(cylindrical) and 11 (Mercator))
+                      # true: fit the plot to the data window
+                      # (overrides map_window and map_axis); false: do
+                      # not fit (then map_window and map_axis are used);
+                      # nil: true if itr==10, false if itr==11
+"map_window"  [-180, 180, -75, 75]    # (for itr&lt;20: cylindrical
+                      # map projections) lon-lat window [lon_min,
+                      # lon_max, lat_min, lat_max ] to draw the map
+                      # (units: degres)
+"help"        false   # show help message if true</pre>
+<pre>RETURN VALUE
+* nil
+
+POSSIBLE EXCEPTIONS
+* those from NumRu::DCL if any / TypeError if any
+* options has a key that does not match any of the option names.
+* options has a key that is ambiguous</pre>
+<dl>
+<dt><h4><a name="label:8" id="label:8"><code>set_fig(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_fig" -->
+<dd>
+<p>Change the default option values for <a href="#label:7">fig</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:7">fig</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:7">fig</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:9" id="label:9"><code>next_fig(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_fig" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label:7">fig</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label:7">fig</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:7">fig</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:7">fig</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:10" id="label:10"><code>axes(<var>xax</var>=<var>nil</var>, <var>yax</var>=<var>nil</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "axes" -->
+<dd>
+<p>Draw axes using (by default) info in <code>xax</code> and <code>yax</code> if non-nil.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (nil or VArray): if non-nil, attributes 'long_name' and 'units' 
+      are read to define <code>xtitle</code> and <code>xunits</code> (see below).
+      These are overwritten by explicitly specifying <code>xtitle</code> and 
+      <code>xunits</code>.</li>
+<li>yax (nil or VArray): if non-nil, attributes 'long_name' and 'units' 
+      are read to define <code>ytitle</code> and <code>yunits</code> (see below).
+      These are overwritten by explicitly specifying <code>ytitle</code> and 
+      <code>yunits</code>.</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"xside"       "tb"    # Where to draw xaxes (combination of t, b and u)
+"yside"       "lr"    # Where to draw yaxes (combination of l, r and u)
+"xtitle"      nil     # Title of x axis (if nil, internally determined)
+"ytitle"      nil     # Title of y axis (if nil, internally determined)
+"xunits"      nil     # Units of x axis (if nil, internally determined)
+"yunits"      nil     # Units of y axis (if nil, internally determined)
+"xtickint"    nil     # Interval of x axis tickmark
+                      #                 (if nil, internally determined)
+"ytickint"    nil     # Interval of y axis tickmark
+                      #                 (if nil, internally determined)
+"xlabelint"   nil     # Interval of x axis label
+                      #                 (if nil, internally determined)
+"ylabelint"   nil     # Interval of y axis label
+                      #                 (if nil, internally determined)
+"xmaplabel"   false   # If "lon"("lat"), use
+                      # DCLExt::lon_ax(DCLExt::lat_ax) to draw xaxes;
+                      # otherwise, DCL::usxaxs is used.
+"ymaplabel"   false   # If "lon"("lat"), use
+                      # DCLExt::lon_ax(DCLExt::lat_ax) to draw yaxes;
+                      # otherwise, DCL::usyaxs is used.
+"time_ax"     nil     # Type of calendar-type time axis: nil (=&gt; auto
+                      # slection), false (do not use the time axis even
+                      # if the units of the axis is a time one with since
+                      # field), "h" (=&gt; like nil, but always use the
+                      # hour-resolving datetime_ax method in
+                      # dclext_datetime_ax.rb), or "ymd" (=&gt; like "h" but
+                      # for y-m-d type using DCL.uc[xy]acl)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>those from NumRu::DCL if any / TypeError if any</li>
+<li>options has a key that does not match any of the option names.</li>
+<li>options has a key that is ambiguous</li>
+</ul></dd>
+<dt><h4><a name="label:11" id="label:11"><code>set_axes(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_axes" -->
+<dd>
+<p>Change the default option values for <a href="#label:10">axes</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:10">axes</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:10">axes</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:12" id="label:12"><code>next_axes(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_axes" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label:10">axes</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label:10">axes</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:10">axes</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:10">axes</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:13" id="label:13"><code>sim_trn?</code></a></h4></dt><!-- RDLabel: "sim_trn?" -->
+<dd>
+<p>Returns whether the current coordinate transformation is a rectangular 
+curvelinear coordinate. A coordinate transformation must have been 
+established with <a href="#label:7">fig</a> or <code>DCL::grstrf</code>.
+Mainly for internal usage, but a user can use it too.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+<dt><h4><a name="label:14" id="label:14"><code>polar_coordinate_boundaries(<var>xax</var>=<var>nil</var>,<var>yax</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "polar_coordinate_boundaries" -->
+<dd>
+<p>Draw boundaries in a polar coordinate. </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>xax (VArray): Grid points of the radial coordinate.</li>
+<li>yax (VArray): Grid points of the azimuthal coordinate.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:15" id="label:15"><code>map_trn?</code></a></h4></dt><!-- RDLabel: "map_trn?" -->
+<dd>
+<p>Returns whether the current coordinate transformation is a map projection.</p>
+<p>A coordinate transformation must have been established
+with <a href="#label:7">fig</a> or <code>DCL::grstrf</code>.
+Mainly for internal usage, but a user can use it too.</p>
+<p>RETURN VALUE</p>
+<ul>
+<li>true or false</li>
+</ul></dd>
+<dt><h4><a name="label:16" id="label:16"><code>map(<var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "map" -->
+<dd>
+<p>(For map projection) Draws map grid and/or lim and/or coast lines etc.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"lim"         true    # draw map lim (t or f)
+"grid"        true    # draw map grid (t or f)
+"vpt_boundary" false  # draw viewport boundaries (f, t or
+                      # 1,2,3.., representing the line width)
+"wwd_boundary" false  # draw worksation window boundaries (f, t
+                      # or 1,2,3.., representing the line width)
+"fill"        false   # fill the map if coast_world or coast_japan is
+                      # true (t or f)
+"coast_world" false   # draw world coast lines (t or f)
+"border_world" false  # draw nation borders (t or f)
+"plate_world" false   # draw plate boundaries (t or f)
+"state_usa"   false   # draw state boundaries of US (t or f)
+"coast_japan" false   # draw japanese coast lines (t or f)
+"pref_japan"  false   # draw japanese prefecture boundaries (t or
+                      # f)
+"dgridmj"     nil     # the interval between the major lines of
+                      # latitudes and longitudes. If nil, internally
+                      # determined. (units: degrees) (this is a UMPACK
+                      # parameter, which is nullified when uminit or
+                      # grfrm is called)
+"dgridmn"     nil     # the interval between the minor lines of
+                      # latitudes and longitudes. If nil, internally
+                      # determined. (units: degrees) (this is a UMPACK
+                      # parameter, which is nullified when uminit or
+                      # grfrm is called)
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>if called when the coordinate tansformation has not been established or
+      the transformation is not a map projection.</li>
+<li>those from NumRu::DCL if any / TypeError if any</li>
+<li>options has a key that does not match any of the option names.</li>
+<li>options has a key that is ambiguous</li>
+</ul></dd>
+<dt><h4><a name="label:17" id="label:17"><code>set_map(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_map" -->
+<dd>
+<p>Change the default option values for <a href="#label:16">map</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:16">map</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:16">map</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:18" id="label:18"><code>next_map(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_map" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label:16">map</a>
+(cleared then).</p>
+<p>These value are overwritten if specified explicitly in the next
+call of <a href="#label:16">map</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> for <a href="#label:16">map</a>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul>
+<p>POSSIBLE EXCEPTIONS</p>
+<ul>
+<li>see <a href="#label:16">map</a>.</li>
+</ul></dd>
+<dt><h4><a name="label:19" id="label:19"><code>line(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "line" -->
+<dd>
+<p>Plot a poly-line by selecting the first dimension (with GPhys#first1D)
+if <code>gphys</code> is more than 2D.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label:7">fig</a>, <a href="#label:10">axes</a>,
+      <a href="#label:5">title</a>, and <a href="#label:6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"exchange"    false   # whether to exchange x and y axes
+"index"       1       # line/mark index
+"type"        1       # line type
+"label"       nil     # if a String is given, it is shown as the label
+"max"         nil     # maximum data value
+"min"         nil     # minimum data value
+"legend"      nil     # legend to annotate the line type and index. nil</pre></li>
+</ul></dd>
+</dl>
+<pre># (defalut -- do not show); a String as the legend;
+# true to use the name of the GPhys as the legend</pre>
+<pre>"legend_vx"   nil     # (effective if legend) viewport x values of</pre>
+<pre># the lhs of the legend line (positive float); or
+# nil for automatic settting (shown to the right of
+# vpt); or move it to the left relatively (negtive
+# float)</pre>
+<pre>"legend_dx"   nil     # (effective if legend) length of the legend</pre>
+<pre># line</pre>
+<pre>"legend_vy"   nil     # (effective if legend) viewport y value of the</pre>
+<pre># legend (Float; or nil for automatic settting)</pre>
+<pre>"legend_size" nil     # (effective if legend) character size of the</pre>
+<pre># legend</pre>
+<pre>"help"        false   # show help message if true</pre>
+<pre>RETURN VALUE
+* nil</pre>
+<dl>
+<dt><h4><a name="label:20" id="label:20"><code>mark(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "mark" -->
+<dd>
+<p>Similar to <a href="#label:19">line</a> but plots marks instead of drawing a poly-line.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label:7">fig</a>, <a href="#label:10">axes</a>,
+      <a href="#label:5">title</a>, and <a href="#label:6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"exchange"    false   # whether to exchange x and y axes
+"index"       1       # mark index
+"type"        2       # mark type
+"size"        0.01    # marks size
+"max"         nil     # maximum data value
+"min"         nil     # minimum data value
+"legend"      nil     # legend to annotate the mark type, index, and</pre></li>
+</ul></dd>
+</dl>
+<pre># size. nil (defalut -- do not to show); a String
+# as the legend; true to use the name of the GPhys
+# as the legend</pre>
+<pre>"legend_vx"   nil     # (effective if legend) viewport x values of</pre>
+<pre># the lhs of the legend line (positive float); or
+# nil for automatic settting (shown to the right of
+# vpt); or move it to the left relatively (negtive
+# float)</pre>
+<pre>"legend_vy"   nil     # (effective if legend) viewport y value of the</pre>
+<pre># legend (Float; or nil for automatic settting)</pre>
+<pre>"legend_size" nil     # (effective if legend) character size of the</pre>
+<pre># legend</pre>
+<pre>"help"        false   # show help message if true</pre>
+<pre>RETURN VALUE
+* nil</pre>
+<dl>
+<dt><h4><a name="label:21" id="label:21"><code>tone_and_contour(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "tone_and_contour" -->
+<dd>
+<p>Calls <a href="#label:27">tone</a> and <a href="#label:22">contour</a> successively. You can
+specify the options for any of these. </p>
+<p>NOTE: </p>
+<ul>
+<li>The option keys that are not existent in these methods
+      are simply neglected -- thus no spell-check-like feedback
+      is made, contrary to the indivisual call of contour or tone.
+      Also, only the help menu of <a href="#label:27">tone</a> can be shown.</li>
+<li>Requires numru-misc-0.0.6 or later.</li>
+</ul></dd>
+<dt><h4><a name="label:22" id="label:22"><code>contour(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "contour" -->
+<dd>
+<p>Contour plot by selecting the first 2 dimensions (with GPhys#first2D)
+if <code>gphys</code> is more than 3D.</p>
+<p>Contour levels are determined as follows:</p>
+<ul>
+<li>contour levels are set in this method if not set by
+      <a href="#label:23">set_contour_levels</a> or the option <code>"levels"</code> is specified 
+      explicitly.</li>
+<li>When contour levels are set in this method, the option <code>"levels"</code> 
+      has the highest precedence. If it is specified, options
+      <code>"index"</code>, <code>"line_type"</code>, <code>"label"</code>, and <code>"label_height"</code>
+      are used.
+      If <code>"levels"</code> are not specified, contour levels with a linear
+      increment are set by using the options <code>"min"</code>, <code>"max"</code>,
+      <code>"nlev"</code>, <code>"interval"</code>, <code>"nozero"</code>, <code>"coloring"</code>, 
+      <code>"clr_min"</code>, and <code>"clr_max"</code>, which are interpreted by
+      DCLExt::<a href="#label:57">ud_set_linear_levs</a>. The default values 
+      of the linear level setting can be changed with
+      <a href="#label:25">set_linear_contour_options</a>.</li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label:7">fig</a>, <a href="#label:10">axes</a> (or <a href="#label:16">map</a>),
+      <a href="#label:5">title</a>, and <a href="#label:6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"keep"        false   # Use the contour levels used previously
+"min"         nil     # minimum contour level
+"max"         nil     # maximum contour level
+"nlev"        nil     # number of levels
+"interval"    nil     # contour interval
+"nozero"      nil     # delete zero contour
+"coloring"    false   # set color contours with ud_coloring
+"clr_min"     13      # (if coloring) minimum color number for the
+                      # minimum data values
+"clr_max"     99      # (if coloring) maximum color number for the
+                      # maximum data values
+"help"        false   # show help message if true
+"levels"      nil     # contour levels (Array/NArray of Numeric)
+"index"       nil     # (if levels) line index(es) (Array/NArray of
+                      # integers, Integer, or nil)
+"line_type"   nil     # (if levels) line type(s) (Array/NArray of
+                      # integers, Integer, or nil)
+"label"       nil     # (if levels) contour label(s) (Array/NArray of
+                      # String, String, true, false, nil). nil is
+                      # recommended.
+"label_height"  nil   # (if levels) label height(s) 
+                      # (Array/NArray of Numeric, Numeric, or nil).
+                      #  nil is recommended.</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:23" id="label:23"><code>set_contour_levels(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_contour_levels" -->
+<dd>
+<p>Set contour levels for <a href="#label:22">contour</a> explicitly by values with the option <code>levels</code>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : options to change the default behavior.
+      The option <code>"levels"</code> is mandatory (so it is not optional!).
+      Supported options are <code>"levels"</code>, <code>"index"</code>, 
+      <code>"line_type"</code>, <code>"label"</code>, and <code>"label_height"</code>.
+      See <a href="#label:22">contour</a> for their description.</li>
+</ul></dd>
+<dt><h4><a name="label:24" id="label:24"><code>clear_contour_levels</code></a></h4></dt><!-- RDLabel: "clear_contour_levels" -->
+<dd>
+<p>Clear contour levels set by <a href="#label:23">set_contour_levels</a>.</p></dd>
+<dt><h4><a name="label:25" id="label:25"><code>set_linear_contour_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_linear_contour_options" -->
+<dd>
+<p>Change the default option values regarding linear contour level
+setting in <a href="#label:22">contour</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> 
+      for <a href="#label:22">contour</a> but supported options here are limited to
+      <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, <code>"interval"</code>, 
+      <code>"nozero"</code>, <code>"coloring"</code>, <code>"clr_min"</code>, and <code>"clr_max"</code>. </li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul></dd>
+<dt><h4><a name="label:26" id="label:26"><code>next_linear_contour_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_linear_contour_options" -->
+<dd>
+<p>Similar to <a href="#label:25">set_linear_contour_options</a> but the setting
+is effective only for the next call of <a href="#label:22">contour</a>.</p></dd>
+<dt><h4><a name="label:27" id="label:27"><code>tone(<var>gphys</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "tone" -->
+<dd>
+<p>Color tone or shading by selecting the first 2 dimensions 
+(with GPhys#first2D) if <code>gphys</code> is more than 3D.</p>
+<p>Tone levels are determined as follows:</p>
+<ul>
+<li>Tone levels are set in this method if not set by
+      <a href="#label:29">set_tone_levels</a> or the option <code>"levels"</code> (and
+      optionally, <code>"patterns"</code>) is (are) specified explicitly.</li>
+<li>When contour levels &amp; patterns are set in this method, 
+<ul>
+<li><code>"levels"</code> has the highest precedence. If it is specified,
+         tone levels and patterns are determined by DCLExt::<a href="#label:63">ue_set_tone</a>.
+         Here, tone patterns can be specified with the option <code>"patterns"</code>.</li>
+<li>Currently, option <code>"patterns"</code> is effective only if <code>"levels"</code>
+         is specified. Otherwise, it is ignored and patterns are
+         determined internally (by using DCL.uegtlb).</li>
+<li>If not, a linear tone levels are set if <code>"ltone"=true</code>
+         (this is the default), or shading is made if <code>"ltone"=false</code>.
+         Shading is determined by following the parameters in the UDPACK
+         in DCL. Therefore, coloring is made if DCL.udpget('ltone')==true
+         regardless the option <code>"ltone"=false</code> here.
+         When linear levels are set in this method, options
+         <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, and <code>"interval"</code>
+         are used if specified, which are interpreted by 
+         DCLExt::<a href="#label:62">ue_set_linear_levs</a>. 
+         Their default values can be changed by
+         <a href="#label:31">set_linear_tone_options</a>.</li>
+</ul></li>
+</ul>
+<p>ARGUMENTS</p>
+<ul>
+<li>gphys (GPhys) : a GPhys whose data is plotted.</li>
+<li>newframe (true/false) : if true, calls <a href="#label:7">fig</a>, <a href="#label:10">axes</a> (or <a href="#label:16">map</a>),
+      <a href="#label:5">title</a>, and <a href="#label:6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"ltone"       true    # Same as udpack parameter ltone
+"tonf"        false   # Use DCL.uetonf instead of DCL.uetone
+"tonc"        false   # Use DCL.uetonc instead of DCL.uetone
+"clr_min"     nil     # if an integer (in 10..99) is specified, used as
+                      # the color number for the minimum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor1")
+"clr_max"     nil     # if an integer (in 10..99) is specified, used as
+                      # the color number for the maximum data values.
+                      # (the same can be done by setting the uepack
+                      # parameter "icolor2")
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"keep"        false   # Use the tone levels and patterns used previously
+"min"         nil     # minimum tone level
+"max"         nil     # maximum tone level
+"nlev"        nil     # number of levels
+"interval"    nil     # contour interval
+"help"        false   # show help message if true
+"levels"      nil     # tone levels  (Array/NArray of Numeric). Works
+                      # together with patterns
+"patterns"    nil     # tone patters (Array/NArray of Numeric). Works
+                      # together with levels</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:28" id="label:28"><code>color_bar (<var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "color_bar" -->
+<dd>
+<ul>
+<li>Descroption:
+      Draws color bars. Calls <code>DCLext.color_bar</code>.</li>
+</ul></dd>
+<dt><h4><a name="label:29" id="label:29"><code>set_tone_levels(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_tone_levels" -->
+<dd>
+<p>Set tone levels for <a href="#label:27">tone</a> explicitly by values.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : options to change the default behavior.
+      Supported options are <code>"levels"</code> and <code>"patterns"</code>.
+      Both of them must be specified explicitly (so they are 
+      not optional!).</li>
+</ul></dd>
+<dt><h4><a name="label:30" id="label:30"><code>clear_tone_levels</code></a></h4></dt><!-- RDLabel: "clear_tone_levels" -->
+<dd>
+<p>Clear tone levels set by <a href="#label:29">set_tone_levels</a>.</p></dd>
+<dt><h4><a name="label:31" id="label:31"><code>set_linear_tone_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_linear_tone_options" -->
+<dd>
+<p>Change the default option values regarding linear tone level
+setting in <a href="#label:27">tone</a>.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>options (Hash) : The usage is the same as <code>options</code> 
+      for <a href="#label:27">tone</a> but supported options here are limited to
+      <code>"min"</code>, <code>"max"</code>, <code>"nlev"</code>, and <code>"interval"</code>.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the values replaced (the ones before calling this
+      method)</li>
+</ul></dd>
+<dt><h4><a name="label:32" id="label:32"><code>next_linear_tone_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_linear_tone_options" -->
+<dd>
+<p>Similar to <a href="#label:31">set_linear_tone_options</a> but the setting
+is effective only for the next call of <a href="#label:27">tone</a>.</p></dd>
+<dt><h4><a name="label:33" id="label:33"><code>vector(<var>fx</var>, <var>fy</var>, <var>newframe</var>=<var>true</var>, <var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "vector" -->
+<dd>
+<p>2-D vector plot using DCL_Ext::<a href="#label:77">flow_vect</a>,
+which scales vectors in physical ("U") coordinates.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (GPhys) : represent vectors</li>
+<li>newframe (true/false) : if true, calls <a href="#label:7">fig</a>, <a href="#label:10">axes</a> (or <a href="#label:16">map</a>),
+      <a href="#label:5">title</a>, and <a href="#label:6">annotate</a> internally; if false, only
+      the poly-line is drawn (overlaid to the exiting figure).</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"title"       nil     # Title of the figure(if nil, internally
+                      # determined)
+"annotate"    true    # if false, do not put texts on the right
+                      # margin even when newframe==true
+"transpose"   false   # if true, exchange x and y axes
+"exchange"    false   # same as the option transpose
+"map_axes"    false   # [USE IT ONLY WHEN itr=10 (cylindrical)] If
+                      # true, draws axes by temprarilly switching to
+                      # itr=1 and calling GGraph::axes.
+"flow_vect"   true    # If true, use DCLExt::flow_vect to draw
+                      # vectors; otherwise, DCL::ugvect is used.
+"flow_itr5"   false   # If true, use DCLExt::flow_itr5 to draw
+                      # vectors; otherwise, DCLExt::flow_vect or 
+                      # DCL::ugvect is used.
+"keep"        false   # Use the same vector scaling as in the previous
+                      # call. -- Currently, works only when "flow_vect"
+                      # is true
+"xintv"       1       # (Effective only if flow_vect) interval of data
+                      # sampling in x
+"yintv"       1       # (Effective only if flow_vect) interval of data
+                      # sampling in y
+"factor"      1.0     # (Effective only if flow_vect) scaling factor to
+                      # strech/reduce the arrow lengths
+"unit_vect"   false   # Show the unit vector
+"max_unit_vect"       false   # (Effective only if flow_vect &amp;&amp;
+                      # unit_vect) If true, use the maximum arrows to
+                      # scale the unit vector; otherwise, normalize in V
+                      # coordinate.
+"help"        false   # show help message if true</pre></li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+</dl>
+<h1><a name="label:34" id="label:34">module NumRu::DCLExt</a></h1><!-- RDLabel: "module NumRu::DCLExt" -->
+<p>Collection of various compound DCL functions for convenience.
+This module is to be separated but temporarily included in ggraph.rb
+while it is premature.</p>
+<h2><a name="label:35" id="label:35">Index</a></h2><!-- RDLabel: "Index" -->
+<p>MATH1</p>
+<ul>
+<li><a href="#label:37">glpack</a></li>
+</ul>
+<p>GRPH1</p>
+<ul>
+<li><a href="#label:39">sgpack</a></li>
+<li><a href="#label:41">slpack</a></li>
+<li><a href="#label:43">swpack</a></li>
+</ul>
+<p>GRPH2</p>
+<ul>
+<li><a href="#label:45">uzpack</a></li>
+<li><a href="#label:47">ulpack</a></li>
+<li><a href="#label:49">ucpack</a></li>
+<li><a href="#label:51">uupack</a></li>
+<li><a href="#label:53">uspack</a></li>
+<li><a href="#label:55">udpack</a></li>
+<li><a href="#label:60">uepack</a></li>
+<li><a href="#label:65">ugpack</a></li>
+<li><a href="#label:67">umpack</a></li>
+</ul>
+<h2><a name="label:36" id="label:36">Module Functions</a></h2><!-- RDLabel: "Module Functions" -->
+<h3><a name="label:37" id="label:37">glpack</a></h3><!-- RDLabel: "glpack" -->
+<dl>
+<dt><h4><a name="label:38" id="label:38"><code>gl_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "gl_set_params" -->
+<dd>
+<p>Calls <code>DCL.glpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>hash (Hash) : combinations of parameter names and values for udpset</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the parameter names and their old values that were 
+      replaced.</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>You can modify parameters temporarily as follows.</p>
+<pre>before = DCLExt.gl_set_params({'lmiss'=&gt;true,'rmiss'=&gt;9999.0})
+....
+DCLExt.gl_set_params(before)     # reset the change</pre></li>
+</ul></dd>
+</dl>
+<h3><a name="label:39" id="label:39">sgpack</a></h3><!-- RDLabel: "sgpack" -->
+<dl>
+<dt><h4><a name="label:40" id="label:40"><code>sg_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "sg_set_params" -->
+<dd>
+<p>Calls <code>DCL.sgpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:41" id="label:41">slpack</a></h3><!-- RDLabel: "slpack" -->
+<dl>
+<dt><h4><a name="label:42" id="label:42"><code>sl_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "sl_set_params" -->
+<dd>
+<p>Calls <code>DCL.slpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:43" id="label:43">swpack</a></h3><!-- RDLabel: "swpack" -->
+<dl>
+<dt><h4><a name="label:44" id="label:44"><code>sw_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "sw_set_params" -->
+<dd>
+<p>Calls <code>DCL.swpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:45" id="label:45">uzpack</a></h3><!-- RDLabel: "uzpack" -->
+<dl>
+<dt><h4><a name="label:46" id="label:46"><code>uz_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "uz_set_params" -->
+<dd>
+<p>Calls <code>DCL.uzpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:47" id="label:47">ulpack</a></h3><!-- RDLabel: "ulpack" -->
+<dl>
+<dt><h4><a name="label:48" id="label:48"><code>ul_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "ul_set_params" -->
+<dd>
+<p>Calls <code>DCL.ulpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:49" id="label:49">ucpack</a></h3><!-- RDLabel: "ucpack" -->
+<dl>
+<dt><h4><a name="label:50" id="label:50"><code>uc_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "uc_set_params" -->
+<dd>
+<p>Calls <code>DCL.ucpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:51" id="label:51">uupack</a></h3><!-- RDLabel: "uupack" -->
+<dl>
+<dt><h4><a name="label:52" id="label:52"><code>uu_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "uu_set_params" -->
+<dd>
+<p>Calls <code>DCL.uupset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:53" id="label:53">uspack</a></h3><!-- RDLabel: "uspack" -->
+<dl>
+<dt><h4><a name="label:54" id="label:54"><code>us_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "us_set_params" -->
+<dd>
+<p>Calls <code>DCL.uspset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:55" id="label:55">udpack</a></h3><!-- RDLabel: "udpack" -->
+<dl>
+<dt><h4><a name="label:56" id="label:56"><code>ud_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "ud_set_params" -->
+<dd>
+<p>Calls <code>DCL.udpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>hash (Hash) : combinations of parameter names and values for udpset</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a Hash containing the parameter names and their old values that were 
+      replaced.</li>
+</ul>
+<p>EXAMPLES</p>
+<ul>
+<li><p>You can modify parameters temporarily as follows.</p>
+<pre>before = DCLExt.ud_set_params('indxmj'=&gt;4,'lmsg'=&gt;false)
+DCL.udcntz(data)
+DCLExt.ud_set_params(before)     # reset the change</pre></li>
+</ul></dd>
+<dt><h4><a name="label:57" id="label:57"><code>ud_set_linear_levs(<var>v</var>, <var>options</var>)</code></a></h4></dt><!-- RDLabel: "ud_set_linear_levs" -->
+<dd>
+<p>Set contour levels with a constant interval</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>v : Data values to be fed to udcnt[rz]</li>
+<li><p>options (Hash) : option specification by keys and values. Available
+      options are </p>
+<pre>name   default value   description
+'min'      nil       minimum contour value (Numeric)
+'max'      nil       maximum contour value (Numeric)
+'nlev'     nil       number of levels (Integer)
+'interval' nil       contour interval (Numeric)
+'nozero'   nil       delete zero contour (true/false)
+'coloring' false     set color contours with ud_coloring (true/false)
+'clr_min'  13        (if coloring) minimum color id (Integer)
+'clr_max'  99       (if coloring) maximum color id (Integer)</pre>
+<p>Here, <code>interval</code> has a higher precedence over <code>nlev</code>.
+Since all the default values are nil, only those explicitly specified
+are interpreted. If no option is provided, the levels generated will
+be the default ones set by udcnt[rz] without any level specification.</p></li>
+</ul></dd>
+<dt><h4><a name="label:58" id="label:58"><code>ud_set_contour(<var>levels</var>,<var>index</var>=<var>nil</var>,<var>line_type</var>=<var>nil</var>,<var>label</var>=<var>nil</var>,<var>label_height</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "ud_set_contour" -->
+<dd>
+<p>Set contours of at specified levels.</p>
+<p>Normally you do not have to specify <code>label</code> and <code>label_height</code>.</p>
+<p>It calls DCL.udsclv for each level. So the arguments are basically
+the same as DCL.udsclv, but only levels are mandatory here.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>levels (Array, NArray, or Numeric) : contour levels to be set.
+      If Numeric, a single level is set.</li>
+<li>index (Array of integers, Integer, or nil) : 
+      index(es) of the contours. If it is an Array and its length is
+      shorter than that of <code>levels</code>, the same Array is repeated (so 
+      for instance [1,1,3] is interpreted as [1,1,3,1,1,3,1,1,3,...]).
+      If it is a single Integer, all the contour will have the same index. </li>
+</ul>
+<pre>If nil, the value of 'indxmn' is used.</pre>
+<ul>
+<li>line_type (Array of integers, Integer, or nil) : 
+      line type(s) of the contours. If it is an Array and its length is
+      shorter than that of <code>levels</code>, the same Array is repeated.
+      the length must agree with that of <code>levels</code>.
+      If it is a single Integer, all the contour will have the same type. 
+      If nil, set to be 1.</li>
+<li>label (Array of String, String, true, false, nil) :
+      Label(s) of the contours. If it is an Array and its length is
+      shorter than that of <code>levels</code>, the same Array is repeated.
+      the length must agree with that of <code>levels</code>.
+      If  it is a single String, all the contour will have the same label. 
+      If true, all the contours will have the labels representing the levels.
+      If false, no label will be drawn (set to "").
+      If nil, same as true for the contours whose index is equal to "INDXMJ",
+      and same as false otherwise.</li>
+<li>label_height (Array of Numeric, Numeric, or nil) :
+      Heigh of Labels. Normally you do not have to use this.
+      If it is an Array and its length is
+      shorter than that of <code>levels</code>, the same Array is repeated.
+      If nil, the default value ("RSIZEL") is used for non-empty labels.
+      If a single Numeric, the same value is used for all the contours.
+      Note that it is recommended to not to use this parameter but
+      use DCL.udpset('RZISEL'. label_height), since a positive value
+      here always means to draw labels even when the label is empty.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:59" id="label:59"><code>ud_add_contour(<var>levels</var>,<var>index</var>=<var>nil</var>,<var>line_type</var>=<var>nil</var>,<var>label</var>=<var>nil</var>,<var>label_height</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "ud_add_contour" -->
+<dd>
+<p>Same as <a href="#label:58">ud_set_contour</a>, but does not clear the contour levels that have
+been set.</p></dd>
+</dl>
+<h3><a name="label:60" id="label:60">uepack</a></h3><!-- RDLabel: "uepack" -->
+<dl>
+<dt><h4><a name="label:61" id="label:61"><code>ue_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "ue_set_params" -->
+<dd>
+<p>Calls <code>DCL.uepset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+<dt><h4><a name="label:62" id="label:62"><code>ue_set_linear_levs(<var>v</var>, <var>options</var>)</code></a></h4></dt><!-- RDLabel: "ue_set_linear_levs" -->
+<dd>
+<p>Set tone levels with a constant interval</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>v : Data values to be fed to udcnt[rz]</li>
+<li><p>options (Hash) : option specification by keys and values. Available
+      options are </p>
+<pre>name   default value   description
+'min'      nil         minimum tone level (Numeric)
+'max'      nil         maximum tone level (Numeric)
+'nlev'     nil         number of levels (Integer)
+'interval' nil         tone-level interval (Numeric)</pre>
+<p>Here, <code>interval</code> has a higher precedence over <code>nlev</code>.
+Since all the default values are nil, only those explicitly specified
+are interpreted. If no option is provided, the levels generated will
+be the default ones set by udcnt[rz] without any level specification.</p></li>
+</ul></dd>
+<dt><h4><a name="label:63" id="label:63"><code>ue_set_tone(<var>levels</var>, <var>patterns</var>)</code></a></h4></dt><!-- RDLabel: "ue_set_tone" -->
+<dd>
+<p>Set tone levels and patterns.</p>
+<p>patterns are set between levels as follows:</p>
+<pre>when (levels.length == patterns.length+1)
+
+  levels[0]  |  levels[1]  |  levels[2]  ...  |  levels[-2]  |  levels[-1]
+         patterns[0]   patterns[1]   ...  patterns[-2]   patterns[-1]
+
+when (levels.length == patterns.length)
+
+  levels[0]  |  levels[1]  |  levels[2]  ...  |  levels[-1]  |  +infty
+         patterns[0]   patterns[1]   ...  patterns[-2]   patterns[-1]
+
+when (levels.length == patterns.length-1)
+
+  -infty  |  levels[0]  |  levels[1]  ...  |  levels[-1]  |  +infty
+      patterns[0]   patterns[1]   ...  patterns[-2]   patterns[-1]
+
+else
+  error (exception raised)</pre>
+<p>ARGUMENTS</p>
+<ul>
+<li>levels (Array or NArray of Numeric) : tone levels. Its length must be
+      either 1 larger than, equal to, or 1 smaller than the length of patterns</li>
+<li>patterns (Array or NArray of Numeric) : tone patterns</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>nil</li>
+</ul></dd>
+<dt><h4><a name="label:64" id="label:64"><code>ue_add_tone(<var>levels</var>, <var>patterns</var>)</code></a></h4></dt><!-- RDLabel: "ue_add_tone" -->
+<dd>
+<p>Same as <a href="#label:63">ue_set_tone</a>, but does not clear the tone levels that have
+been set.</p></dd>
+</dl>
+<h3><a name="label:65" id="label:65">ugpack</a></h3><!-- RDLabel: "ugpack" -->
+<dl>
+<dt><h4><a name="label:66" id="label:66"><code>ug_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "ug_set_params" -->
+<dd>
+<p>Calls <code>DCL.ugpset</code> multiple times (for each key and val of <code>hash</code>).
+See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h3><a name="label:67" id="label:67">umpack</a></h3><!-- RDLabel: "umpack" -->
+<dl>
+<dt><h4><a name="label:68" id="label:68"><code>um_set_params(<var>hash</var>)</code></a></h4></dt><!-- RDLabel: "um_set_params" -->
+<dd>
+<p>Calls <code>DCL.umpset</code> multiple times (for each key and val of <code>hash</code>).</p>
+<p>See <a href="#label:38">gl_set_params</a> for usage.</p></dd>
+</dl>
+<h2><a name="label:69" id="label:69">Original methods:</a></h2><!-- RDLabel: "Original methods:" -->
+<h3><a name="label:70" id="label:70">Longitude/Latitude Axes</a></h3><!-- RDLabel: "Longitude/Latitude Axes" -->
+<dl>
+<dt><h4><a name="label:71" id="label:71"><code>lon_ax( <var>options</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "lon_ax" -->
+<dd>
+<p>Draw longitude axis. (label format: degrees + 'E' or 'W')</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"yax"         false   # true =&gt; draw y-axis, false =&gt; draw x-axis
+"cside"       nil     # "b", "t", "l", "r",
+                      # nil (=&gt;left/bottom), or false (=&gt;right/top)
+"dtick1"      nil     # Interval of small tickmark
+                      #             (if nil, internally determined)
+"dtick2"      nil     # Interval of large tickmark with labels
+                      #             (if nil, internally determined)</pre></li>
+</ul></dd>
+<dt><h4><a name="label:72" id="label:72"><code>lat_ax( <var>options</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "lat_ax" -->
+<dd>
+<p>Draw latitude axis. (label format: degrees + 'N' or 'S')</p>
+<p>ARGUMENTS</p>
+<ul>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"xax"         false   # true =&gt; draw x-axis, false =&gt; draw y-axis
+"cside"       nil     # "b", "t", "l", "r",
+                      # nil (=&gt;left/bottom), or false (=&gt;right/top)
+"dtick1"      nil     # Interval of small tickmark
+                      #             (if nil, internally determined)
+"dtick2"      nil     # Interval of large tickmark with labels
+                      #             (if nil, internally determined)</pre></li>
+</ul></dd>
+</dl>
+<h3><a name="label:73" id="label:73">Vectors</a></h3><!-- RDLabel: "Vectors" -->
+<dl>
+<dt><h4><a name="label:74" id="label:74"><code>unit_vect( <var>vxfxratio</var>, <var>vyfyratio</var>, <var>fxunit</var>=<var>nil</var>, <var>fyunit</var>=<var>nil</var>, <var>options</var>=<var>nil</var> )</code></a></h4></dt><!-- RDLabel: "unit_vect" -->
+<dd>
+<p>Show the "unit vector", which indicate the vector scaling.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>vxfxratio (Float) : (V cood length)/(actual length) in x</li>
+<li>vyfyratio (Float) : (V cood length)/(actual length) in y</li>
+<li>fxunit (Float) : If specified, x unit vect len</li>
+<li>fyunit (Float) : If specified, y unit vect len</li>
+<li><p>options (Hash) : options to change the default behavior if specified.
+      It is a Hash with option names (String) as keys and their values.
+      Options are interpreted by a NumRu::Misc::KeywordOptAutoHelp,
+      so you can shorten the keys (by omitting tails) as long as it is 
+      unambiguous.</p>
+<pre>option name   default value   # description:
+"vxunit"      0.05    # x unit vect len in V coord. Used only when
+                      # fxunit is omitted (default)
+"vyunit"      0.05    # y unit vect len in V coord. Used only when
+                      # fyunit is omitted (default)
+"vxuloc"      nil     # Starting x position of unit vect
+"vyuloc"      nil     # Starting y position of unit vect
+"vxuoff"      0.05    # Specify vxuloc by offset from right-bottom
+                      # corner
+"vyuoff"      0.0     # Specify vyuloc by offset from right-bottom
+                      # corner
+"inplace"     true    # Whether to print labels right by the unit
+                      # vector (true) or below the x axis (false)
+"rsizet"      nil     # Label size(default taken from uz-parameter
+                      # 'rsizel1')
+"index"       3       #  Line index of the unit vector
+"help"        false   # show help message if true</pre></li>
+</ul></dd>
+<dt><h4><a name="label:75" id="label:75"><code>set_unit_vect_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_unit_vect_options" -->
+<dd>
+<p>Change the default option values for <a href="#label:74">unit_vect</a>.</p></dd>
+<dt><h4><a name="label:76" id="label:76"><code>next_unit_vect_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "next_unit_vect_options" -->
+<dd>
+<p>Set the option values effective only in the next call of <a href="#label:74">unit_vect</a></p></dd>
+<dt><h4><a name="label:77" id="label:77"><code>flow_vect( <var>fx</var>, <var>fy</var>, <var>factor</var>=<var>1</var>.<var>0</var>, <var>xintv</var>=<var>1</var>, <var>yintv</var>=<var>1</var>)</code></a></h4></dt><!-- RDLabel: "flow_vect" -->
+<dd>
+<p>2D Vector plot. Unlike <code>DCL::ugvect</code>, scaling are made in term of the physical (or "U") coordinate.</p>
+<p>This method is meant to substitute <code>DCL::ugvect</code>. The scaling 
+is made in terms of the U coordinate. This method is suitable to
+show vectors such as velocity, since the arrow direction represets
+the direction in the U coordinate. Also, one can re-scale the
+vector length easily by using the argument <code>factor</code>.</p>
+<p>Currently, this method is not compatible with map projection, 
+since it calls <code>DCL::ugvect</code> internally.</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (2D NArray or Array) : the vector field.</li>
+<li>factor (Integer) : factor to change the arrow length.
+      By default, arrows are scaled so that the longest one
+      match the grid interval.</li>
+<li>xintv, yintv (Interger) : interval to thin out <code>fx</code> and <code>fy</code>,
+      respectively. Useful if the grid points are too many.</li>
+</ul></dd>
+<dt><h4><a name="label:78" id="label:78"><code>flow_itr5( <var>fx</var>, <var>fy</var>, <var>factor</var>=<var>1</var>.<var>0</var>, <var>unit_vect</var>=<var>false</var> )</code></a></h4></dt><!-- RDLabel: "flow_itr5" -->
+<dd>
+<p>2D Vector plot on the polar coodinate. </p>
+<p>This method just perform rotatation of the vector in U-coordinate
+to N-coordinate and passed to DCL.ugvect. 				      </p>
+<p>ARGUMENTS</p>
+<ul>
+<li>fx, fy (2D GPhys) : the vector field.</li>
+<li>factor (Integer)  : factor for scaling in ugvect. When it equals 1,
+      vector field will be scaled in DCL.ugvect automatically. </li>
+<li>unit_vect()       : Show the unit vector</li>
+</ul></dd>
+</dl>
+<h3><a name="label:79" id="label:79">Color bars</a></h3><!-- RDLabel: "Color bars" -->
+<dl>
+<dt><h4><a name="label:80" id="label:80"><code>set_color_bar_options(<var>options</var>)</code></a></h4></dt><!-- RDLabel: "set_color_bar_options" -->
+<dd>
+<p>To set options of <a href="#label:28">color_bar</a> effective in the rest.</p></dd>
+<dt><h4><a name="label:81" id="label:81"><code>color_bar(<var>options</var>=<var>nil</var>)</code></a></h4></dt><!-- RDLabel: "color_bar" -->
+<dd>
+<ul>
+<li>Descroption:
+      Draws color bars</li>
+<li><p>Example
+      Here is the simplest case, where no argument is given to color_bar.</p>
+<pre>DCL.uetone(hoge)
+DCL.usdaxs
+...
+DCL.color_bar</pre>
+<p>This draws a color bar by using the levels and tone patterns(colors)
+set previously. There are many parameters you can set manually,
+as introduced below:</p></li>
+<li><p>Description of options</p>
+<pre>option name   default value   # description:
+"levels"      nil     # tone levels (if omitted, latest ones are used)
+"patterns"    nil     # tone patterns (~colors) (if omitted, latest
+                      # ones are used)
+"voff"        nil     # how far is the bar from the viewport in the V
+                      # coordinate
+"vcent"       nil     # center position of the bar in the V coordinate
+                      # (VX or VY)
+"vlength"     0.3     # bar length in the V coordinate
+"vwidth"      0.02    # bar width in the V coordinate
+"landscape"   false   # if true, horizonlly long (along x axes)
+"portrait"    true    # if true, vertically long (along y axes)
+"left"        false   # place the bar in the left (effective if
+                      # portrait)
+"top"         false   # place the bar at the top (effective if portrait)
+"tickintv"    1       # 0,1,2,3,.. to specify how frequently the
+                      # dividing tick lines are drawn (0: no tick lines,
+                      # 1:every time, 2:ever other:,...)
+"labelintv"   nil     # 1,2,3,.. to specify how frequently labels are
+                      # drawn (1:every time, 2:ever other:,... default:
+                      # internally determined)
+"charfact"    0.9     # factor to change the label character size
+                      # (relative to 'rsizel1')
+"log"         false   # 
+"constwidth"  false   # if true, each color is drawn with the same width
+"index"       nil     # line index of bar frame
+                      # (so far, valid only when "constwidth")
+"help"        false   # show help message if true</pre></li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

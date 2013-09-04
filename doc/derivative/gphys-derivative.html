@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>../../lib/numru/gphys/derivative.rb</title>
+</head>
+<body>
+<h1><a name="label:0" id="label:0">module NumRu::GPhys::Derivative in derivative.rb</a></h1><!-- RDLabel: "module NumRu::GPhys::Derivative in derivative.rb" -->
+<h2><a name="label:1" id="label:1">Index</a></h2><!-- RDLabel: "Index" -->
+<ul>
+<li><a href="#label:2">module NumRu::GPhys::Derivative</a>
+<ul>
+<li><a href="#label:3">threepoint_O2nd_deriv</a>
+<ul>
+<li>First derivative (2nd Order difference use three point.)</li>
+</ul></li>
+<li><a href="#label:4">cderiv</a>
+<ul>
+<li>First derivative (using center difference method)</li>
+</ul></li>
+</ul></li>
+</ul>
+<h1><a name="label:2" id="label:2">module NumRu::GPhys::Derivative</a></h1><!-- RDLabel: "module NumRu::GPhys::Derivative" -->
+<p>Module functions of Derivative Operater for GPhys.</p>
+<dl>
+<dt><a name="label:3" id="label:3"><code>threepoint_O2nd_deriv(<var>gp</var>, <var>dim_or_dimname</var>, <var>bc</var>=<var>NumRu</var>::<var>Derivative</var>::<var>LINEAR_EXT</var>))</code></a></dt><!-- RDLabel: "threepoint_O2nd_deriv" -->
+<dd>
+<p>Derivate <code>z</code> respect to <code>dim</code> th dimension with 2nd Order difference. 
+return an NArray which result of the difference <!-- Reference, RDLabel "z" doesn't exist --><em class="label-not-found">z</em><!-- Reference end --> divided difference
+<code>x</code> (in other wards, </p>
+<pre>(s**2*z_{i+1} + (t**2 - s**2)*f_{i} - t**2*f_{i-1}) / (s*t*(s + t)):
+now s represents (x_{i} - x_{i-1}) ,t represents (x_{i+1} - x_{i})
+and _{i} represents the suffix of {i} th element in the ((&lt;dim&gt;)) th 
+dimension of array. ).</pre>
+<p>ARGUMENTS</p>
+<ul>
+<li>z (NArray): a NArray which you want to derivative.</li>
+<li>x (NArray): a NArray represents the dimension which derivative respect 
+      to. z.rank must be 1.</li>
+<li>dim (Numeric): a Numeric represents the dimention which derivative 
+      respect to. you can give number count backward (<!-- Reference, RDLabel "dim" doesn't exist --><em class="label-not-found">dim</em><!-- Reference end -->&lt;0), but 
+      <!-- Reference, RDLabel "z.rank ¡Üdim" doesn't exist --><em class="label-not-found">z.rank ¡Üdim</em><!-- Reference end --> must be &gt; 0. </li>
+<li>bc (Numeric) : a Numeric which represent boundary condition.
+      now only LINEAR_EXT(=1) supported. LINEAR_EXT load <!-- Reference, RDLabel "b_expand_linear_ext" doesn't exist --><em class="label-not-found">b_expand_linear_ext</em><!-- Reference end --> 
+      which extend boundary with lenear value.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>O2nd_deriv_data (NArray): 
+      (s**2*z_{i+1} + (t**2 - s**2)*f_{i} - t**2*f_{i-1}) / (s*t*(s + t))</li>
+</ul></dd>
+<dt><a name="label:4" id="label:4"><code>cderiv(<var>gp</var>, <var>dim_or_dimname</var>, <var>bc</var>=<var>NumRu</var>::<var>Derivative</var>::<var>LINEAR_EXT</var>)</code></a></dt><!-- RDLabel: "cderiv" -->
+<dd>
+<p>Derivate <code>gp</code> respect to <code>dim</code> th or <code>dimname</code> dimension 
+with center difference. return a GPhys which result of the difference 
+<!-- Reference, RDLabel "gp" doesn't exist --><em class="label-not-found">gp</em><!-- Reference end --> divided difference axis. 
+( in other wards,  (z_{i+1} - z_{i-1}) / (x_{i+1} - x_{i-1}): now x is 
+axis array which you wants to respects to, _{i} represents the suffix 
+of {i} th element in the <!-- Reference, RDLabel "dim" doesn't exist --><em class="label-not-found">dim</em><!-- Reference end --> th dimension of array. ).</p>
+<p>ARGUMENTS</p>
+<ul>
+<li>gp (GPhys): a GPhys which you want to derivative.</li>
+<li>dim_or_dimname (Numeric or String): a Numeric or String represents
+      the dimension which derivate respect to. you can give number count 
+      backward (<!-- Reference, RDLabel "dim" doesn't exist --><em class="label-not-found">dim</em><!-- Reference end -->&lt;0), but <!-- Reference, RDLabel "z.rank ¡Üdim" doesn't exist --><em class="label-not-found">z.rank ¡Üdim</em><!-- Reference end --> must be &gt; 0. </li>
+<li>bc (Numeric) : a Numeric which represent boundary condition.
+      now only NumRu::Derivative::LINEAR_EXT(=1) supported. LINEAR_EXT load 
+      <!-- Reference, RDLabel "NumRu::Derivative::b_expand_linear_ext" doesn't exist --><em class="label-not-found">NumRu::Derivative::b_expand_linear_ext</em><!-- Reference end --> which extend boundary 
+      with linear value.</li>
+</ul>
+<p>RETURN VALUE</p>
+<ul>
+<li>a GPhys</li>
+</ul></dd>
+</dl>
+
+</body>
+</html>

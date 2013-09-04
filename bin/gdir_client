@@ -1,0 +1,9 @@
+irb -r numru/gdir_connect_ftp-like
+
+# =begin
+# =gdir_client
+# A client of gdir_server using irb.
+# 
+# This command is just equal to
+#    irb -r numru/gdir_connect_ftp-like
+# =end
