@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.description      = %q{a multi-purpose class to handle Gridded Physical quantities.}
   gem.summary          = %q{GPhys fork compatible with Rubygems}
   gem.homepage         = 'https://github.com/gentooboontoo/gentooboontoo-gphys'
+  gem.license       = "Ruby"
 
   gem.files         = Dir["lib/**/*",
                           "bin/*",
